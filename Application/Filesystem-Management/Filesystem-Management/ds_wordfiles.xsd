@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ds_wordfiles" targetNamespace="http://tempuri.org/ds_wordfiles.xsd" xmlns:mstns="http://tempuri.org/ds_wordfiles.xsd" xmlns="http://tempuri.org/ds_wordfiles.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="MySettings" AppSettingsPropertyName="sem_db_system_filesystem_managerConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="sem_db_system_filesystem_managerConnectionString (MySettings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Filesystem_Management.My.MySettings.GlobalReference.Default.sem_db_system_filesystem_managerConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="Files_Of_DocsTableAdapter" GeneratorDataComponentClassName="Files_Of_DocsTableAdapter" Name="Files_Of_Docs" UserDataComponentName="Files_Of_DocsTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="sem_db_system_filesystem_managerConnectionString (MySettings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        BatGUID_File, Bat_Name_File, ClassGUID_File, Path, BatGUID_Server, Bat_Name_Server, ClassGUID_Server
+FROM            bat_db_home.dbo.tmptbl_Files_On_Server</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="BatGUID_File" DataSetColumn="BatGUID_File" />
+              <Mapping SourceColumn="Bat_Name_File" DataSetColumn="Bat_Name_File" />
+              <Mapping SourceColumn="ClassGUID_File" DataSetColumn="ClassGUID_File" />
+              <Mapping SourceColumn="Path" DataSetColumn="Path" />
+              <Mapping SourceColumn="BatGUID_Server" DataSetColumn="BatGUID_Server" />
+              <Mapping SourceColumn="Bat_Name_Server" DataSetColumn="Bat_Name_Server" />
+              <Mapping SourceColumn="ClassGUID_Server" DataSetColumn="ClassGUID_Server" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="ds_wordfiles" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="ds_wordfiles" msprop:Generator_UserDSName="ds_wordfiles">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Files_Of_Docs" msprop:Generator_TableClassName="Files_Of_DocsDataTable" msprop:Generator_TableVarName="tableFiles_Of_Docs" msprop:Generator_TablePropName="Files_Of_Docs" msprop:Generator_RowDeletingName="Files_Of_DocsRowDeleting" msprop:Generator_UserTableName="Files_Of_Docs" msprop:Generator_RowChangingName="Files_Of_DocsRowChanging" msprop:Generator_RowEvHandlerName="Files_Of_DocsRowChangeEventHandler" msprop:Generator_RowDeletedName="Files_Of_DocsRowDeleted" msprop:Generator_RowEvArgName="Files_Of_DocsRowChangeEvent" msprop:Generator_RowChangedName="Files_Of_DocsRowChanged" msprop:Generator_RowClassName="Files_Of_DocsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="BatGUID_File" msprop:Generator_ColumnVarNameInTable="columnBatGUID_File" msprop:Generator_ColumnPropNameInRow="BatGUID_File" msprop:Generator_ColumnPropNameInTable="BatGUID_FileColumn" msprop:Generator_UserColumnName="BatGUID_File">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="36" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Bat_Name_File" msprop:Generator_ColumnVarNameInTable="columnBat_Name_File" msprop:Generator_ColumnPropNameInRow="Bat_Name_File" msprop:Generator_ColumnPropNameInTable="Bat_Name_FileColumn" msprop:Generator_UserColumnName="Bat_Name_File">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ClassGUID_File" msprop:Generator_ColumnVarNameInTable="columnClassGUID_File" msprop:Generator_ColumnPropNameInRow="ClassGUID_File" msprop:Generator_ColumnPropNameInTable="ClassGUID_FileColumn" msprop:Generator_UserColumnName="ClassGUID_File">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="36" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Path" msprop:Generator_ColumnVarNameInTable="columnPath" msprop:Generator_ColumnPropNameInRow="Path" msprop:Generator_ColumnPropNameInTable="PathColumn" msprop:Generator_UserColumnName="Path" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BatGUID_Server" msprop:Generator_ColumnVarNameInTable="columnBatGUID_Server" msprop:Generator_ColumnPropNameInRow="BatGUID_Server" msprop:Generator_ColumnPropNameInTable="BatGUID_ServerColumn" msprop:Generator_UserColumnName="BatGUID_Server" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="36" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Bat_Name_Server" msprop:Generator_ColumnVarNameInTable="columnBat_Name_Server" msprop:Generator_ColumnPropNameInRow="Bat_Name_Server" msprop:Generator_ColumnPropNameInTable="Bat_Name_ServerColumn" msprop:Generator_UserColumnName="Bat_Name_Server" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ClassGUID_Server" msprop:Generator_ColumnVarNameInTable="columnClassGUID_Server" msprop:Generator_ColumnPropNameInRow="ClassGUID_Server" msprop:Generator_ColumnPropNameInTable="ClassGUID_ServerColumn" msprop:Generator_UserColumnName="ClassGUID_Server" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="36" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
