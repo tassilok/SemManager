@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ds_WIKI" targetNamespace="http://tempuri.org/ds_WIKI.xsd" xmlns:mstns="http://tempuri.org/ds_WIKI.xsd" xmlns="http://tempuri.org/ds_WIKI.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="MySettings" AppSettingsPropertyName="sem_db_system_wiki_managerConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="sem_db_system_wiki_managerConnectionString (MySettings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Schema_Manager.My.MySettings.GlobalReference.Default.sem_db_system_wiki_managerConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="ds_WIKI" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="ds_WIKI" msprop:Generator_DataSetName="ds_WIKI" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataTable_BaseData" msprop:Generator_UserTableName="DataTable_BaseData" msprop:Generator_RowDeletedName="DataTable_BaseDataRowDeleted" msprop:Generator_RowChangedName="DataTable_BaseDataRowChanged" msprop:Generator_RowClassName="DataTable_BaseDataRow" msprop:Generator_RowChangingName="DataTable_BaseDataRowChanging" msprop:Generator_RowEvArgName="DataTable_BaseDataRowChangeEvent" msprop:Generator_RowEvHandlerName="DataTable_BaseDataRowChangeEventHandler" msprop:Generator_TableClassName="DataTable_BaseDataDataTable" msprop:Generator_TableVarName="tableDataTable_BaseData" msprop:Generator_RowDeletingName="DataTable_BaseDataRowDeleting" msprop:Generator_TablePropName="DataTable_BaseData">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Row1" msprop:Generator_UserColumnName="Row1" msprop:Generator_ColumnPropNameInRow="Row1" msprop:Generator_ColumnVarNameInTable="columnRow1" msprop:Generator_ColumnPropNameInTable="Row1Column" type="xs:string" minOccurs="0" />
+              <xs:element name="Row2" msprop:Generator_UserColumnName="Row2" msprop:Generator_ColumnPropNameInRow="Row2" msprop:Generator_ColumnVarNameInTable="columnRow2" msprop:Generator_ColumnPropNameInTable="Row2Column" type="xs:string" minOccurs="0" />
+              <xs:element name="Row3" msprop:Generator_UserColumnName="Row3" msprop:Generator_ColumnPropNameInRow="Row3" msprop:Generator_ColumnVarNameInTable="columnRow3" msprop:Generator_ColumnPropNameInTable="Row3Column" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
