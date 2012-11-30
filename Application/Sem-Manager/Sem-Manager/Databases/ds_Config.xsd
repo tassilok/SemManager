@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ds_Config" targetNamespace="http://tempuri.org/ds_Config.xsd" xmlns:mstns="http://tempuri.org/ds_Config.xsd" xmlns="http://tempuri.org/ds_Config.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="MySettings" AppSettingsPropertyName="sem_db_systemConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="sem_db_systemConnectionString (MySettings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Sem_Manager.My.MySettings.GlobalReference.Default.sem_db_systemConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="ds_Config" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="ds_Config" msprop:Generator_DataSetName="ds_Config" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtbl_BaseConfig" msprop:Generator_UserTableName="dtbl_BaseConfig" msprop:Generator_RowDeletedName="dtbl_BaseConfigRowDeleted" msprop:Generator_RowChangedName="dtbl_BaseConfigRowChanged" msprop:Generator_RowClassName="dtbl_BaseConfigRow" msprop:Generator_RowChangingName="dtbl_BaseConfigRowChanging" msprop:Generator_RowEvArgName="dtbl_BaseConfigRowChangeEvent" msprop:Generator_RowEvHandlerName="dtbl_BaseConfigRowChangeEventHandler" msprop:Generator_TableClassName="dtbl_BaseConfigDataTable" msprop:Generator_TableVarName="tabledtbl_BaseConfig" msprop:Generator_RowDeletingName="dtbl_BaseConfigRowDeleting" msprop:Generator_TablePropName="dtbl_BaseConfig">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ConfigItem_Name" msprop:Generator_UserColumnName="ConfigItem_Name" msprop:Generator_ColumnVarNameInTable="columnConfigItem_Name" msprop:Generator_ColumnPropNameInRow="ConfigItem_Name" msprop:Generator_ColumnPropNameInTable="ConfigItem_NameColumn" type="xs:string" />
+              <xs:element name="ConfigItem_Value" msprop:Generator_UserColumnName="ConfigItem_Value" msprop:Generator_ColumnVarNameInTable="columnConfigItem_Value" msprop:Generator_ColumnPropNameInRow="ConfigItem_Value" msprop:Generator_ColumnPropNameInTable="ConfigItem_ValueColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:dtbl_BaseConfig" />
+      <xs:field xpath="mstns:ConfigItem_Name" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

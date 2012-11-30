@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ds_SemItems" targetNamespace="http://tempuri.org/ds_SemItems.xsd" xmlns:mstns="http://tempuri.org/ds_SemItems.xsd" xmlns="http://tempuri.org/ds_SemItems.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="ds_SemItems" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="ds_SemItems" msprop:Generator_UserDSName="ds_SemItems">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataTable_SemItem" msprop:Generator_UserTableName="DataTable_SemItem" msprop:Generator_RowEvArgName="DataTable_SemItemRowChangeEvent" msprop:Generator_TableVarName="tableDataTable_SemItem" msprop:Generator_TablePropName="DataTable_SemItem" msprop:Generator_RowDeletingName="DataTable_SemItemRowDeleting" msprop:Generator_RowChangingName="DataTable_SemItemRowChanging" msprop:Generator_RowDeletedName="DataTable_SemItemRowDeleted" msprop:Generator_TableClassName="DataTable_SemItemDataTable" msprop:Generator_RowChangedName="DataTable_SemItemRowChanged" msprop:Generator_RowEvHandlerName="DataTable_SemItemRowChangeEventHandler" msprop:Generator_RowClassName="DataTable_SemItemRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="GUID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnGUID" msprop:Generator_ColumnPropNameInRow="GUID" msprop:Generator_ColumnPropNameInTable="GUIDColumn" msprop:Generator_UserColumnName="GUID" type="xs:string" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
+              <xs:element name="GUID_Parent" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnGUID_Parent" msprop:Generator_ColumnPropNameInRow="GUID_Parent" msprop:Generator_ColumnPropNameInTable="GUID_ParentColumn" msprop:Generator_UserColumnName="GUID_Parent" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_Parent" msprop:Generator_ColumnVarNameInTable="columnName_Parent" msprop:Generator_ColumnPropNameInRow="Name_Parent" msprop:Generator_ColumnPropNameInTable="Name_ParentColumn" msprop:Generator_UserColumnName="Name_Parent" type="xs:string" minOccurs="0" />
+              <xs:element name="GUID_Type" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnGUID_Type" msprop:Generator_ColumnPropNameInRow="GUID_Type" msprop:Generator_ColumnPropNameInTable="GUID_TypeColumn" msprop:Generator_UserColumnName="GUID_Type" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_Type" msprop:Generator_ColumnVarNameInTable="columnName_Type" msprop:Generator_ColumnPropNameInRow="Name_Type" msprop:Generator_ColumnPropNameInTable="Name_TypeColumn" msprop:Generator_UserColumnName="Name_Type" type="xs:string" minOccurs="0" />
+              <xs:element name="GUID_Related" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnGUID_Related" msprop:Generator_ColumnPropNameInRow="GUID_Related" msprop:Generator_ColumnPropNameInTable="GUID_RelatedColumn" msprop:Generator_UserColumnName="GUID_Related" type="xs:string" minOccurs="0" />
+              <xs:element name="Caption" msprop:Generator_ColumnVarNameInTable="columnCaption" msprop:Generator_ColumnPropNameInRow="Caption" msprop:Generator_ColumnPropNameInTable="CaptionColumn" msprop:Generator_UserColumnName="Caption" type="xs:string" minOccurs="0" />
+              <xs:element name="Additional1" msprop:Generator_ColumnVarNameInTable="columnAdditional1" msprop:Generator_ColumnPropNameInRow="Additional1" msprop:Generator_ColumnPropNameInTable="Additional1Column" msprop:Generator_UserColumnName="Additional1" type="xs:string" minOccurs="0" />
+              <xs:element name="Additional2" msprop:Generator_ColumnVarNameInTable="columnAdditional2" msprop:Generator_ColumnPropNameInRow="Additional2" msprop:Generator_ColumnPropNameInTable="Additional2Column" msprop:Generator_UserColumnName="Additional2" type="xs:string" minOccurs="0" />
+              <xs:element name="Filter" msprop:Generator_ColumnVarNameInTable="columnFilter" msprop:Generator_ColumnPropNameInRow="Filter" msprop:Generator_ColumnPropNameInTable="FilterColumn" msprop:Generator_UserColumnName="Filter" type="xs:string" minOccurs="0" />
+              <xs:element name="ImageID" msprop:Generator_ColumnVarNameInTable="columnImageID" msprop:Generator_ColumnPropNameInRow="ImageID" msprop:Generator_ColumnPropNameInTable="ImageIDColumn" msprop:Generator_UserColumnName="ImageID" type="xs:int" minOccurs="0" />
+              <xs:element name="Version" msprop:Generator_ColumnVarNameInTable="columnVersion" msprop:Generator_ColumnPropNameInRow="Version" msprop:Generator_ColumnPropNameInTable="VersionColumn" msprop:Generator_UserColumnName="Version" type="xs:int" minOccurs="0" />
+              <xs:element name="Level" msprop:Generator_ColumnVarNameInTable="columnLevel" msprop:Generator_ColumnPropNameInRow="Level" msprop:Generator_ColumnPropNameInTable="LevelColumn" msprop:Generator_UserColumnName="Level" type="xs:int" minOccurs="0" />
+              <xs:element name="New" msprop:Generator_ColumnVarNameInTable="columnNew" msprop:Generator_ColumnPropNameInRow="_New" msprop:Generator_ColumnPropNameInTable="NewColumn" msprop:Generator_UserColumnName="New" type="xs:boolean" minOccurs="0" />
+              <xs:element name="Delete" msprop:Generator_ColumnVarNameInTable="columnDelete" msprop:Generator_ColumnPropNameInRow="Delete" msprop:Generator_ColumnPropNameInTable="DeleteColumn" msprop:Generator_UserColumnName="Delete" type="xs:boolean" minOccurs="0" />
+              <xs:element name="Mark" msprop:Generator_ColumnVarNameInTable="columnMark" msprop:Generator_ColumnPropNameInRow="Mark" msprop:Generator_ColumnPropNameInTable="MarkColumn" msprop:Generator_UserColumnName="Mark" type="xs:boolean" minOccurs="0" />
+              <xs:element name="ObjectReferenceType" msprop:Generator_ColumnVarNameInTable="columnObjectReferenceType" msprop:Generator_ColumnPropNameInRow="ObjectReferenceType" msprop:Generator_ColumnPropNameInTable="ObjectReferenceTypeColumn" msprop:Generator_UserColumnName="ObjectReferenceType" type="xs:boolean" minOccurs="0" />
+              <xs:element name="Direction" msprop:Generator_ColumnVarNameInTable="columnDirection" msprop:Generator_ColumnPropNameInRow="Direction" msprop:Generator_ColumnPropNameInTable="DirectionColumn" msprop:Generator_UserColumnName="Direction" type="xs:int" minOccurs="0" />
+              <xs:element name="Min" msprop:Generator_ColumnVarNameInTable="columnMin" msprop:Generator_ColumnPropNameInRow="Min" msprop:Generator_ColumnPropNameInTable="MinColumn" msprop:Generator_UserColumnName="Min" type="xs:int" minOccurs="0" />
+              <xs:element name="Max1" msprop:Generator_ColumnVarNameInTable="columnMax1" msprop:Generator_ColumnPropNameInRow="Max1" msprop:Generator_ColumnPropNameInTable="Max1Column" msprop:Generator_UserColumnName="Max1" type="xs:int" minOccurs="0" />
+              <xs:element name="Max2" msprop:Generator_ColumnVarNameInTable="columnMax2" msprop:Generator_ColumnPropNameInRow="Max2" msprop:Generator_ColumnPropNameInTable="Max2Column" msprop:Generator_UserColumnName="Max2" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:DataTable_SemItem" />
+      <xs:field xpath="mstns:GUID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

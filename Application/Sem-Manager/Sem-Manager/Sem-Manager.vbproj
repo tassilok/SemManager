@@ -1,0 +1,788 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9DE51BF6-938A-45A1-BE86-AE82CE79CB7B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>Sem_Manager.My.MyApplication</StartupObject>
+    <RootNamespace>Sem_Manager</RootNamespace>
+    <AssemblyName>Sem-Manager</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Sem-Manager.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Sem-Manager.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Vogelschwarm%2520klein.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\clsDBParameter.vb" />
+    <Compile Include="Classes\clsDBWork.vb" />
+    <Compile Include="Classes\clsFilter.vb" />
+    <Compile Include="Classes\clsLocalConfig_AttributeEdit.vb" />
+    <Compile Include="Classes\clsLocalConfig_AttributeRelations.vb" />
+    <Compile Include="Classes\clsLocalConfig_AttributeTypeSell.vb" />
+    <Compile Include="Classes\clsLocalConfig_RelationTypeEdit.vb" />
+    <Compile Include="Classes\clsLocalConfig_SemWork.vb" />
+    <Compile Include="Classes\clsLocalConfig_TypeTree.vb" />
+    <Compile Include="Classes\clsLocalConfig_TokenEdit.vb" />
+    <Compile Include="Classes\clsModule.vb" />
+    <Compile Include="Classes\clsSemClipboard.vb" />
+    <Compile Include="Classes\clsSemWork.vb" />
+    <Compile Include="Classes\clsTokenEdit_Navigation.vb" />
+    <Compile Include="Classes\clsSemItem.vb" />
+    <Compile Include="Classes\clsDataPos.vb" />
+    <Compile Include="Classes\clsLocalConfig_AttributeVARCHAR255.vb" />
+    <Compile Include="Classes\clsLocalConfig_SemList.vb" />
+    <Compile Include="Classes\clsLocalConfig_TokenTree.vb" />
+    <Compile Include="Classes\clsGlobals.vb" />
+    <Compile Include="Classes\clsLocalConfig_SemManager.vb" />
+    <Compile Include="Classes\clsLocalConfig_TypeEdit.vb" />
+    <Compile Include="Classes\clsTransaction_TokenAttribute.vb" />
+    <Compile Include="Classes\clsTransaction_TokenRel.vb" />
+    <Compile Include="Classes\clsTransaction_TreeOfToken.vb" />
+    <Compile Include="Classes\clsTransaction_Types.vb" />
+    <Compile Include="Databases\ds_Attribute.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_Attribute.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_Change.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_Change.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_Change.vb">
+      <DependentUpon>ds_Change.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_Config.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_Config.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_DBWork.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_DBWork.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_DevelopmentConfig.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_DevelopmentConfig.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_log.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_log.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_ModuleManagement.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_ModuleManagement.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_ObjectReference.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_ObjectReference.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_SemDB.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_SemDB.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_SemDB.vb">
+      <DependentUpon>ds_SemDB.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_SemItems.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_SemItems.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_SemItems.vb">
+      <DependentUpon>ds_SemItems.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_Token.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_Token.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_Token.vb">
+      <DependentUpon>ds_Token.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_TokenAttribute.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_TokenAttribute.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_TokenAttribute.vb">
+      <DependentUpon>ds_TokenAttribute.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Databases\ds_Type.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_Type.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\dlgAttribute_Bool.Designer.vb">
+      <DependentUpon>dlgAttribute_Bool.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\dlgAttribute_Bool.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\dlgAttribute_Datetime.Designer.vb">
+      <DependentUpon>dlgAttribute_Datetime.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\dlgAttribute_Datetime.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\dlgAttribute_Int.Designer.vb">
+      <DependentUpon>dlgAttribute_Int.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\dlgAttribute_Int.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\dlgAttribute_Real.Designer.vb">
+      <DependentUpon>dlgAttribute_Real.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\dlgAttribute_Real.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\dlgAttribute_Varchar255.Designer.vb">
+      <DependentUpon>dlgAttribute_Varchar255.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\dlgAttribute_Varchar255.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\dlgAttribute_VarcharMax.Designer.vb">
+      <DependentUpon>dlgAttribute_VarcharMax.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\dlgAttribute_VarcharMax.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAttributeEdit.Designer.vb">
+      <DependentUpon>frmAttributeEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAttributeEdit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDateTimePicker.Designer.vb">
+      <DependentUpon>frmDateTimePicker.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDateTimePicker.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmFilter_Advanced.Designer.vb">
+      <DependentUpon>frmFilter_Advanced.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmFilter_Advanced.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmModule.Designer.vb">
+      <DependentUpon>frmModule.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmModule.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmRelationChoose.Designer.vb">
+      <DependentUpon>frmRelationChoose.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmRelationChoose.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmRelationTypeEdit.Designer.vb">
+      <DependentUpon>frmRelationTypeEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmRelationTypeEdit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSearchResult.Designer.vb">
+      <DependentUpon>frmSearchResult.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSearchResult.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSelect_Items.Designer.vb">
+      <DependentUpon>frmSelect_Items.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSelect_Items.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSemManager.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSemManager.Designer.vb">
+      <DependentUpon>frmSemManager.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSemManager_BU.Designer.vb">
+      <DependentUpon>frmSemManager_BU.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSemManager_BU.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmTokenEdit.Designer.vb">
+      <DependentUpon>frmTokenEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmTokenEdit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmTypeEdit.Designer.vb">
+      <DependentUpon>frmTypeEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmTypeEdit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SplashScreen_Main.Designer.vb">
+      <DependentUpon>SplashScreen_Main.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SplashScreen_Main.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_AttributeRelations.Designer.vb">
+      <DependentUpon>UserControl_AttributeRelations.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_AttributeRelations.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_AttributeTypeSel.Designer.vb">
+      <DependentUpon>UserControl_AttributeTypeSel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_AttributeTypeSel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_Bool.Designer.vb">
+      <DependentUpon>UserControl_Attribute_Bool.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_Bool.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_Int.Designer.vb">
+      <DependentUpon>UserControl_Attribute_Int.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_Int.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_VARCHAR255.Designer.vb">
+      <DependentUpon>UserControl_Attribute_VARCHAR255.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_VARCHAR255.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_Datetime.Designer.vb">
+      <DependentUpon>UserControl_Attribute_Datetime.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_Datetime.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_Real.Designer.vb">
+      <DependentUpon>UserControl_Attribute_Real.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_Real.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_DBSelection.Designer.vb">
+      <DependentUpon>UserControl_DBSelection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_DBSelection.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_ModuleEdit.Designer.vb">
+      <DependentUpon>UserControl_ModuleEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_ModuleEdit.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_SearchResult.Designer.vb">
+      <DependentUpon>UserControl_SearchResult.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_SearchResult.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_SemItemList.Designer.vb">
+      <DependentUpon>UserControl_SemItemList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_SemItemList.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_TokenTree.Designer.vb">
+      <DependentUpon>UserControl_TokenTree.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_TokenTree.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_VarcharMax.Designer.vb">
+      <DependentUpon>UserControl_Attribute_VarcharMax.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_VarcharMax.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_TreeOfToken.Designer.vb">
+      <DependentUpon>UserControl_TreeOfToken.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_TreeOfToken.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDBSelection.Designer.vb">
+      <DependentUpon>frmDBSelection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDBSelection.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="modGlobals.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Forms\UserControl_TypeTree.Designer.vb">
+      <DependentUpon>UserControl_TypeTree.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_TypeTree.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\dlgAttribute_Bool.resx">
+      <DependentUpon>dlgAttribute_Bool.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\dlgAttribute_Datetime.resx">
+      <DependentUpon>dlgAttribute_Datetime.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\dlgAttribute_Int.resx">
+      <DependentUpon>dlgAttribute_Int.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\dlgAttribute_Real.resx">
+      <DependentUpon>dlgAttribute_Real.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\dlgAttribute_Varchar255.resx">
+      <DependentUpon>dlgAttribute_Varchar255.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\dlgAttribute_VarcharMax.resx">
+      <DependentUpon>dlgAttribute_VarcharMax.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmAttributeEdit.resx">
+      <DependentUpon>frmAttributeEdit.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDateTimePicker.resx">
+      <DependentUpon>frmDateTimePicker.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmFilter_Advanced.resx">
+      <DependentUpon>frmFilter_Advanced.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmModule.resx">
+      <DependentUpon>frmModule.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmRelationChoose.resx">
+      <DependentUpon>frmRelationChoose.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmRelationTypeEdit.resx">
+      <DependentUpon>frmRelationTypeEdit.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSearchResult.resx">
+      <DependentUpon>frmSearchResult.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSelect_Items.resx">
+      <DependentUpon>frmSelect_Items.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSemManager.resx">
+      <DependentUpon>frmSemManager.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSemManager_BU.resx">
+      <DependentUpon>frmSemManager_BU.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmTokenEdit.resx">
+      <DependentUpon>frmTokenEdit.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmTypeEdit.resx">
+      <DependentUpon>frmTypeEdit.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SplashScreen_Main.resx">
+      <DependentUpon>SplashScreen_Main.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_AttributeRelations.resx">
+      <DependentUpon>UserControl_AttributeRelations.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_AttributeTypeSel.resx">
+      <DependentUpon>UserControl_AttributeTypeSel.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_Attribute_Bool.resx">
+      <DependentUpon>UserControl_Attribute_Bool.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_Attribute_Int.resx">
+      <DependentUpon>UserControl_Attribute_Int.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_Attribute_VARCHAR255.resx">
+      <DependentUpon>UserControl_Attribute_VARCHAR255.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_Attribute_Datetime.resx">
+      <DependentUpon>UserControl_Attribute_Datetime.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_Attribute_Real.resx">
+      <DependentUpon>UserControl_Attribute_Real.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_DBSelection.resx">
+      <DependentUpon>UserControl_DBSelection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_ModuleEdit.resx">
+      <DependentUpon>UserControl_ModuleEdit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_SearchResult.resx">
+      <DependentUpon>UserControl_SearchResult.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_SemItemList.resx">
+      <DependentUpon>UserControl_SemItemList.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_TokenTree.resx">
+      <DependentUpon>UserControl_TokenTree.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_Attribute_VarcharMax.resx">
+      <DependentUpon>UserControl_Attribute_VarcharMax.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_TreeOfToken.resx">
+      <DependentUpon>UserControl_TreeOfToken.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDBSelection.resx">
+      <DependentUpon>frmDBSelection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_TypeTree.resx">
+      <DependentUpon>UserControl_TypeTree.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Databases\ds_Config.xsc">
+      <DependentUpon>ds_Config.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_Config.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_Config.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Databases\ds_Config.xss">
+      <DependentUpon>ds_Config.xsd</DependentUpon>
+    </None>
+    <None Include="My Project\app.manifest" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config_sem.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Resources\bb_reload_.png" />
+    <None Include="Resources\Attributes bamboo_danny_allen_r.png" />
+    <None Include="Resources\Types_Closed.png" />
+    <None Include="Resources\RelationTypes gpride_jean_victor_balin_.png" />
+    <None Include="Resources\Procedures.png" />
+    <Content Include="Vogelschwarm%2520klein.ico" />
+    <None Include="Resources\saveHS.png" />
+    <None Include="Resources\Export_to_DB.png" />
+    <None Include="Databases\ds_SemItems.xsc">
+      <DependentUpon>ds_SemItems.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_SemItems.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_SemItems.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Databases\ds_SemItems.xss">
+      <DependentUpon>ds_SemItems.xsd</DependentUpon>
+    </None>
+    <None Include="Resources\Vogelschwarm.png" />
+    <None Include="Databases\ds_Attribute.xsc">
+      <DependentUpon>ds_Attribute.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_Attribute.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_Attribute.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Databases\ds_Attribute.xss">
+      <DependentUpon>ds_Attribute.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_Change.xsc">
+      <DependentUpon>ds_Change.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_Change.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_Change.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Databases\ds_Change.xss">
+      <DependentUpon>ds_Change.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_DBWork.xsc">
+      <DependentUpon>ds_DBWork.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_DBWork.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_DBWork.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Databases\ds_DBWork.xss">
+      <DependentUpon>ds_DBWork.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_DevelopmentConfig.xsc">
+      <DependentUpon>ds_DevelopmentConfig.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_DevelopmentConfig.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_DevelopmentConfig.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Databases\ds_DevelopmentConfig.xss">
+      <DependentUpon>ds_DevelopmentConfig.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_log.xsc">
+      <DependentUpon>ds_log.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_log.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_log.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Databases\ds_log.xss">
+      <DependentUpon>ds_log.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_ModuleManagement.xsc">
+      <DependentUpon>ds_ModuleManagement.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_ModuleManagement.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_ModuleManagement.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Databases\ds_ModuleManagement.xss">
+      <DependentUpon>ds_ModuleManagement.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_ObjectReference.xsc">
+      <DependentUpon>ds_ObjectReference.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_ObjectReference.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_ObjectReference.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Databases\ds_ObjectReference.xss">
+      <DependentUpon>ds_ObjectReference.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_TokenAttribute.xsc">
+      <DependentUpon>ds_TokenAttribute.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_TokenAttribute.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_TokenAttribute.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Databases\ds_TokenAttribute.xss">
+      <DependentUpon>ds_TokenAttribute.xsd</DependentUpon>
+    </None>
+    <None Include="Resources\b_up_plus.png" />
+    <None Include="Resources\b_up_Infinite.png" />
+    <None Include="Resources\b_down_minus.png" />
+    <None Include="Resources\b_down_0.png" />
+    <None Include="Resources\tasto_8_architetto_franc_01.png" />
+    <None Include="Databases\ds_Type.xsc">
+      <DependentUpon>ds_Type.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_Type.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_Type.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Databases\ds_Type.xss">
+      <DependentUpon>ds_Type.xsd</DependentUpon>
+    </None>
+    <None Include="Resources\pulsante_02_architetto_f_01 Last.png" />
+    <None Include="Resources\pulsante_02_architetto_f_01.png" />
+    <None Include="Resources\pulsante_01_architetto_f_01 First1.png" />
+    <None Include="Resources\pulsante_01_architetto_f_01.png" />
+    <None Include="Resources\bb_home_.png" />
+    <None Include="Resources\slim_cd_drive_frederic_m_01.png" />
+    <None Include="Databases\ds_SemDB.xsc">
+      <DependentUpon>ds_SemDB.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_SemDB.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_SemDB.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Databases\ds_SemDB.xss">
+      <DependentUpon>ds_SemDB.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_Token.xsc">
+      <DependentUpon>ds_Token.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_Token.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_Token.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Databases\ds_Token.xss">
+      <DependentUpon>ds_Token.xsd</DependentUpon>
+    </None>
+    <None Include="Resources\appunti_architetto_franc_01.png" />
+    <None Include="Resources\tasto_4_architetto_franc_01.png" />
+    <None Include="Resources\tasto_3_architetto_franc_01.png" />
+    <None Include="Resources\bb_sort2.png" />
+    <None Include="Resources\b_minus.png" />
+    <None Include="Resources\b_plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 und x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
