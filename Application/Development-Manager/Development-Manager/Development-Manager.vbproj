@@ -1,0 +1,491 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8F32E7D8-5213-4290-8DFA-571788F868BB}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>Development_Manager.My.MyApplication</StartupObject>
+    <RootNamespace>Development_Manager</RootNamespace>
+    <AssemblyName>Development-Manager</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Development-Manager.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Development-Manager.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>gnome-terminal.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ClassLibrary_ShellWork, Version=0.1.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\bin\Release\ClassLibrary_ShellWork.dll</HintPath>
+    </Reference>
+    <Reference Include="Filesystem-Management, Version=0.1.0.80, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\..\..\GitHub\SemManager\Application\Filesystem-Management\Filesystem-Management\bin\Debug\Filesystem-Management.exe</HintPath>
+    </Reference>
+    <Reference Include="Localizing-Manager, Version=0.0.0.21, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\Localizing-Manager\Localizing-Manager\bin\Debug\Localizing-Manager.exe</HintPath>
+    </Reference>
+    <Reference Include="Log-Manager, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Log-Manager\Log-Manager\bin\Debug\Log-Manager.exe</HintPath>
+    </Reference>
+    <Reference Include="RDF-Module, Version=0.0.0.36, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\RDF-Module\RDF-Module\bin\Debug\RDF-Module.exe</HintPath>
+    </Reference>
+    <Reference Include="Schema-Manager">
+      <HintPath>..\..\..\..\GitHub\SemManager\Application\Schema-Manager\Schema-Manager\bin\Debug\Schema-Manager.exe</HintPath>
+    </Reference>
+    <Reference Include="Sem-Manager">
+      <HintPath>..\..\..\..\GitHub\SemManager\Application\Schema-Manager\Schema-Manager\bin\Debug\Sem-Manager.exe</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Version-Module, Version=0.0.0.20, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\..\..\GitHub\SemManager\Application\Version-Module\Version-Module\bin\Debug\Version-Module.exe</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsModule.vb" />
+    <Compile Include="clsTransactionSemConfig.vb" />
+    <Compile Include="clsTransaction_DBSchemForApplications.vb" />
+    <Compile Include="clsTransaction_DevelopmentStructure.vb" />
+    <Compile Include="clsLanguage.vb" />
+    <Compile Include="clsLocalConfig.vb" />
+    <Compile Include="clsLogWork_Local.vb" />
+    <Compile Include="clsParameter.vb" />
+    <Compile Include="ds_BaseData.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_BaseData.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ds_DBSchema.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_DBSchema.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ds_DevStructures.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_DevStructures.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ds_DevStructures.vb">
+      <DependentUpon>ds_DevStructures.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ds_GUIEntries.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_GUIEntries.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ds_Localize.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_Localize.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ds_Logentries.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_Logentries.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ds_Messages.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_Messages.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ds_Plugin.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_Plugin.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ds_SemanticConfig.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_SemanticConfig.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ds_SemanticConfig.vb">
+      <DependentUpon>ds_SemanticConfig.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="frmCodeGenerator.Designer.vb">
+      <DependentUpon>frmCodeGenerator.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmCodeGenerator.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDevelopmentManager.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDevelopmentManager.Designer.vb">
+      <DependentUpon>frmDevelopmentManager.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDevelopmentStructure.Designer.vb">
+      <DependentUpon>frmDevelopmentStructure.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmDevelopmentStructure.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewDevelopment.Designer.vb">
+      <DependentUpon>frmNewDevelopment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmNewDevelopment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="modGlobals.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="UserControl_BaseData.Designer.vb">
+      <DependentUpon>UserControl_BaseData.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_BaseData.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_DBSchema_For_Applications.Designer.vb">
+      <DependentUpon>UserControl_DBSchema_For_Applications.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_DBSchema_For_Applications.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_DevelopmentStructure.Designer.vb">
+      <DependentUpon>UserControl_DevelopmentStructure.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_DevelopmentStructure.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_DevelopmentTree.Designer.vb">
+      <DependentUpon>UserControl_DevelopmentTree.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_DevelopmentTree.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_GUIEntries.Designer.vb">
+      <DependentUpon>UserControl_GUIEntries.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_GUIEntries.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_Localized.Designer.vb">
+      <DependentUpon>UserControl_Localized.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_Localized.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_Logentries.Designer.vb">
+      <DependentUpon>UserControl_Logentries.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_Logentries.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_Messages.Designer.vb">
+      <DependentUpon>UserControl_Messages.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_Messages.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_Requests.Designer.vb">
+      <DependentUpon>UserControl_Requests.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_Requests.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_Scenarios.Designer.vb">
+      <DependentUpon>UserControl_Scenarios.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_Scenarios.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_SemanticConfig.Designer.vb">
+      <DependentUpon>UserControl_SemanticConfig.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_SemanticConfig.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="frmCodeGenerator.resx">
+      <DependentUpon>frmCodeGenerator.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDevelopmentManager.resx">
+      <DependentUpon>frmDevelopmentManager.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDevelopmentStructure.resx">
+      <DependentUpon>frmDevelopmentStructure.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewDevelopment.resx">
+      <DependentUpon>frmNewDevelopment.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_BaseData.resx">
+      <DependentUpon>UserControl_BaseData.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_DBSchema_For_Applications.resx">
+      <DependentUpon>UserControl_DBSchema_For_Applications.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_DevelopmentStructure.resx">
+      <DependentUpon>UserControl_DevelopmentStructure.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_DevelopmentTree.resx">
+      <DependentUpon>UserControl_DevelopmentTree.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_GUIEntries.resx">
+      <DependentUpon>UserControl_GUIEntries.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_Localized.resx">
+      <DependentUpon>UserControl_Localized.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_Logentries.resx">
+      <DependentUpon>UserControl_Logentries.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_Messages.resx">
+      <DependentUpon>UserControl_Messages.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_Requests.resx">
+      <DependentUpon>UserControl_Requests.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_Scenarios.resx">
+      <DependentUpon>UserControl_Scenarios.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_SemanticConfig.resx">
+      <DependentUpon>UserControl_SemanticConfig.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="ds_BaseData.xsc">
+      <DependentUpon>ds_BaseData.xsd</DependentUpon>
+    </None>
+    <None Include="ds_BaseData.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_BaseData.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="ds_BaseData.xss">
+      <DependentUpon>ds_BaseData.xsd</DependentUpon>
+    </None>
+    <None Include="ds_Logentries.xsc">
+      <DependentUpon>ds_Logentries.xsd</DependentUpon>
+    </None>
+    <None Include="ds_Logentries.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_Logentries.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="ds_Logentries.xss">
+      <DependentUpon>ds_Logentries.xsd</DependentUpon>
+    </None>
+    <None Include="ds_Plugin.xsc">
+      <DependentUpon>ds_Plugin.xsd</DependentUpon>
+    </None>
+    <None Include="ds_Plugin.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_Plugin.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="ds_Plugin.xss">
+      <DependentUpon>ds_Plugin.xsd</DependentUpon>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config_sem.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="gnome-terminal.ico" />
+    <None Include="Resources\button-red_benji_park_01.png" />
+    <None Include="Resources\XSDSchema_AllIcon.png" />
+    <None Include="ds_Messages.xsc">
+      <DependentUpon>ds_Messages.xsd</DependentUpon>
+    </None>
+    <None Include="ds_Messages.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_Messages.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="ds_Messages.xss">
+      <DependentUpon>ds_Messages.xsd</DependentUpon>
+    </None>
+    <None Include="Resources\tasto_3_architetto_franc_01.png" />
+    <None Include="Resources\tasto_7_architetto_franc_01.png" />
+    <None Include="ds_GUIEntries.xsc">
+      <DependentUpon>ds_GUIEntries.xsd</DependentUpon>
+    </None>
+    <None Include="ds_GUIEntries.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_GUIEntries.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="ds_GUIEntries.xss">
+      <DependentUpon>ds_GUIEntries.xsd</DependentUpon>
+    </None>
+    <None Include="Resources\saveHS.png" />
+    <None Include="Resources\Export_to_DB.png" />
+    <None Include="Resources\b_plus1.png" />
+    <None Include="ds_DBSchema.xsc">
+      <DependentUpon>ds_DBSchema.xsd</DependentUpon>
+    </None>
+    <None Include="ds_DBSchema.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_DBSchema.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="ds_DBSchema.xss">
+      <DependentUpon>ds_DBSchema.xsd</DependentUpon>
+    </None>
+    <None Include="ds_DevStructures.xsc">
+      <DependentUpon>ds_DevStructures.xsd</DependentUpon>
+    </None>
+    <None Include="ds_DevStructures.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_DevStructures.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="ds_DevStructures.xss">
+      <DependentUpon>ds_DevStructures.xsd</DependentUpon>
+    </None>
+    <None Include="ds_Localize.xsc">
+      <DependentUpon>ds_Localize.xsd</DependentUpon>
+    </None>
+    <None Include="ds_Localize.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_Localize.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="ds_Localize.xss">
+      <DependentUpon>ds_Localize.xsd</DependentUpon>
+    </None>
+    <None Include="Resources\bb_home_.png" />
+    <None Include="Resources\mycomp.png" />
+    <None Include="Resources\bb_reload_.png" />
+    <None Include="Resources\bb_pckg_.png" />
+    <None Include="Resources\bb_bback_.png" />
+    <None Include="floppy_architetto_france_01.png" />
+    <None Include="ds_SemanticConfig.xsc">
+      <DependentUpon>ds_SemanticConfig.xsd</DependentUpon>
+    </None>
+    <None Include="ds_SemanticConfig.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_SemanticConfig.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="ds_SemanticConfig.xss">
+      <DependentUpon>ds_SemanticConfig.xsd</DependentUpon>
+    </None>
+    <None Include="Resources\appunti_architetto_franc_01.png" />
+    <None Include="Resources\b_plus.png" />
+    <None Include="Resources\b_minus.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
