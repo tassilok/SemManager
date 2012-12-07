@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<DocumentElement>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>WindowsAuth</ConfigItem_Name>
+    <ConfigItem_Value>Yes</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Server_Name</ConfigItem_Name>
+    <ConfigItem_Value>h3d-kolltass-01</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Server_Instance</ConfigItem_Name>
+    <ConfigItem_Value>SQLEXPRESS</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>DB_Name_User</ConfigItem_Name>
+    <ConfigItem_Value>sem_db_work</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Name_User</ConfigItem_Name>
+    <ConfigItem_Value> </ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Name_Password</ConfigItem_Name>
+    <ConfigItem_Value> </ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>DB_Name_System</ConfigItem_Name>
+    <ConfigItem_Value>sem_db_System</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>DB_Name_Change</ConfigItem_Name>
+    <ConfigItem_Value>sem_db_change</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Module-Path</ConfigItem_Name>
+    <ConfigItem_Value>C:\Program Files (x86)\SemModules</ConfigItem_Value>
+  </dtbl_BaseConfig>
+</DocumentElement>
