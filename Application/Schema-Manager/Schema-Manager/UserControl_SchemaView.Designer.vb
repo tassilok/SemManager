@@ -230,25 +230,25 @@ Partial Class UserControl_SchemaView
         '
         Me.ContextMenuStrip_DataGrid.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewSchemaToolStripMenuItem, Me.DocumentationToolStripMenuItem, Me.ExportOtDBToolStripMenuItem, Me.ApplyToolStripMenuItem1})
         Me.ContextMenuStrip_DataGrid.Name = "ContextMenuStrip_DataGrid"
-        Me.ContextMenuStrip_DataGrid.Size = New System.Drawing.Size(177, 114)
+        Me.ContextMenuStrip_DataGrid.Size = New System.Drawing.Size(171, 92)
         '
         'NewSchemaToolStripMenuItem
         '
         Me.NewSchemaToolStripMenuItem.Name = "NewSchemaToolStripMenuItem"
-        Me.NewSchemaToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+        Me.NewSchemaToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.NewSchemaToolStripMenuItem.Text = "x_New Schema"
         '
         'DocumentationToolStripMenuItem
         '
         Me.DocumentationToolStripMenuItem.Name = "DocumentationToolStripMenuItem"
-        Me.DocumentationToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+        Me.DocumentationToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.DocumentationToolStripMenuItem.Text = "x_Documentation..."
         '
         'ExportOtDBToolStripMenuItem
         '
         Me.ExportOtDBToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToSQLFileToolStripMenuItem})
         Me.ExportOtDBToolStripMenuItem.Name = "ExportOtDBToolStripMenuItem"
-        Me.ExportOtDBToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+        Me.ExportOtDBToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.ExportOtDBToolStripMenuItem.Text = "x_Export ot DB..."
         '
         'ToSQLFileToolStripMenuItem
@@ -263,7 +263,7 @@ Partial Class UserControl_SchemaView
         'ApplyToolStripMenuItem1
         '
         Me.ApplyToolStripMenuItem1.Name = "ApplyToolStripMenuItem1"
-        Me.ApplyToolStripMenuItem1.Size = New System.Drawing.Size(176, 22)
+        Me.ApplyToolStripMenuItem1.Size = New System.Drawing.Size(170, 22)
         Me.ApplyToolStripMenuItem1.Text = "x_Apply"
         Me.ApplyToolStripMenuItem1.Visible = False
         '
@@ -657,19 +657,19 @@ Partial Class UserControl_SchemaView
         '
         Me.ContextMenuStrip_DBView.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TestSchemaToolStripMenuItem, Me.ImportexportToolStripMenuItem, Me.CopyDefinitionToolStripMenuItem})
         Me.ContextMenuStrip_DBView.Name = "ContextMenuStrip_DBView"
-        Me.ContextMenuStrip_DBView.Size = New System.Drawing.Size(168, 70)
+        Me.ContextMenuStrip_DBView.Size = New System.Drawing.Size(160, 92)
         '
         'TestSchemaToolStripMenuItem
         '
         Me.TestSchemaToolStripMenuItem.Name = "TestSchemaToolStripMenuItem"
-        Me.TestSchemaToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.TestSchemaToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
         Me.TestSchemaToolStripMenuItem.Text = "x_Test Schema"
         '
         'ImportexportToolStripMenuItem
         '
         Me.ImportexportToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ImportToolStripMenuItem, Me.ExportToolStripMenuItem})
         Me.ImportexportToolStripMenuItem.Name = "ImportexportToolStripMenuItem"
-        Me.ImportexportToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.ImportexportToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
         Me.ImportexportToolStripMenuItem.Text = "x_import/export"
         '
         'ImportToolStripMenuItem
@@ -687,7 +687,7 @@ Partial Class UserControl_SchemaView
         'CopyDefinitionToolStripMenuItem
         '
         Me.CopyDefinitionToolStripMenuItem.Name = "CopyDefinitionToolStripMenuItem"
-        Me.CopyDefinitionToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.CopyDefinitionToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
         Me.CopyDefinitionToolStripMenuItem.Text = "x_Copy Definition"
         '
         'ImageList_DatabasesOfSchema

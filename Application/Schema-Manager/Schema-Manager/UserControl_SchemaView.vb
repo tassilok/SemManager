@@ -1000,6 +1000,8 @@ Public Class UserControl_SchemaView
                     GetFromTemplateToolStripMenuItem.Enabled = True
                     SetDependenciesToolStripMenuItem.Enabled = True
                     SchemaItemsToolStripMenuItem.Enabled = True
+                    SynonymsToolStripMenuItem.Enabled = True
+                    GetSubItemToolStripMenuItem_Synonyms.Enabled = True
                 Case cint_ImageID_Tables
                     GetFromTemplateToolStripMenuItem.Enabled = True
                     
@@ -1011,6 +1013,7 @@ Public Class UserControl_SchemaView
                     GetFromTemplateToolStripMenuItem.Enabled = True
                     SetDependenciesToolStripMenuItem.Enabled = True
                     SchemaItemsToolStripMenuItem.Enabled = True
+
                 Case cint_ImageID_FunctionItem
                     SetDependenciesToolStripMenuItem.Enabled = True
                     SchemaItemsToolStripMenuItem.Enabled = True
@@ -1480,6 +1483,7 @@ Public Class UserControl_SchemaView
 
     Private Sub GetSubItemToolStripMenuItem_Synonyms_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GetSubItemToolStripMenuItem_Synonyms.Click
         Dim objTreeNode As TreeNode
+        Dim objTreeNode_Sub As TreeNode
         Dim objDRC_Item As DataRowCollection
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
@@ -1487,9 +1491,96 @@ Public Class UserControl_SchemaView
         Dim objDRC_Exported As DataRowCollection
         Dim objSemItem_Table As clsSemItem
         Dim objSemItem_UserSchema As clsSemItem
+        Dim intToDo As Integer
+        Dim intDone_Tables As Integer
+        Dim intDone_UserSchemas As Integer
+
 
         objTreeNode = TreeView_SchemaItems.SelectedNode
-        procA_DBItems_In_Schema.Fill(procT_DBItems_In_Schema, _
+        
+        If objTreeNode.ImageIndex = cint_ImageID_Synonyms Then
+            intToDo = objTreeNode.Nodes.Count
+            intDone_Tables = 0
+            intDone_UserSchemas = 0
+            For Each objTreeNode_Sub In objTreeNode.Nodes
+                objSemItem_Table = Nothing
+                objSemItem_UserSchema = Nothing
+                procA_DBItems_In_Schema.Fill(procT_DBItems_In_Schema, _
+                                     objLocalConfig.SemItem_Type_DB_Function.GUID, _
+                                     objLocalConfig.SemItem_Type_DB_Procedure.GUID, _
+                                     objLocalConfig.SemItem_Type_DB_Synonyms.GUID, _
+                                     objLocalConfig.SemItem_Type_DB_Tables.GUID, _
+                                     objLocalConfig.SemItem_Type_DB_Triggers.GUID, _
+                                     objLocalConfig.SemItem_Type_DB_Views.GUID, _
+                                     objLocalConfig.SemItem_Type_Functions_in_Schema.GUID, _
+                                     objLocalConfig.SemItem_Type_Procedures_in_Schemas.GUID, _
+                                     objLocalConfig.SemItem_Type_Synonyms_in_Schemas.GUID, _
+                                     objLocalConfig.SemItem_Type_Tables_in_Schema.GUID, _
+                                     objLocalConfig.SemItem_Type_Triggers_in_Schema.GUID, _
+                                     objLocalConfig.SemItem_Type_Views_in_Schema.GUID, _
+                                     objLocalConfig.SemItem_Type_Database_Schema.GUID, _
+                                     objLocalConfig.SemItem_RelationType_belongsTo.GUID, _
+                                     GUID_DatabaseSchema, _
+                                     New Guid(objTreeNode_Sub.Name))
+
+                objDRC_Item = funcA_TokenToken.GetData_TokenToken_LeftRight(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objLocalConfig.SemItem_RelationType_needs.GUID, objLocalConfig.SemItem_Type_DB_Tables.GUID).Rows
+                If objDRC_Item.Count = 0 Then
+                    objDRC_Item = semtblA_Token.GetData_Token_By_Name_And_GUIDType(objLocalConfig.SemItem_Type_DB_Tables.GUID, _
+                                                                                   objTreeNode_Sub.Text).Rows
+                    If objDRC_Item.Count > 0 Then
+                        objSemItem_Table = New clsSemItem
+                        objSemItem_Table.GUID = objDRC_Item(0).Item("GUID_Token")
+                        objSemItem_Table.Name = objDRC_Item(0).Item("Name_Token")
+                        objSemItem_Table.GUID_Parent = objLocalConfig.SemItem_Type_DB_Tables.GUID
+                        objSemItem_Table.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                    End If
+                Else
+                    intDone_Tables = intDone_Tables + 1
+                End If
+                If Not objSemItem_Table Is Nothing Then
+                    objDRC_LogState = semprocA_DBWork_Save_TokenRel.GetData(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objSemItem_Table.GUID, objLocalConfig.SemItem_RelationType_needs.GUID, 0).Rows
+                    If objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Insert.GUID Then
+                        get_SynonymTreeData(objTreeNode_Sub)
+                        intDone_Tables = intDone_Tables + 1
+
+                    End If
+                End If
+
+                objDRC_Item = funcA_TokenToken.GetData_TokenToken_LeftRight(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objLocalConfig.SemItem_RelationType_needs.GUID, objLocalConfig.SemItem_Type_Userschema.GUID).Rows
+                If objDRC_Item.Count = 0 Then
+                    objDRC_Item = semtblA_Token.GetData_Token_TypeChilds(objLocalConfig.SemItem_Type_Userschema.GUID).Rows
+                    If objDRC_Item.Count = 1 Then
+                        objSemItem_UserSchema = New clsSemItem
+                        objSemItem_UserSchema.GUID = objDRC_Item(0).Item("GUID_Token")
+                        objSemItem_UserSchema.Name = objDRC_Item(0).Item("Name_Token")
+                        objSemItem_UserSchema.GUID_Parent = objLocalConfig.SemItem_Type_Userschema.GUID
+                        objSemItem_UserSchema.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                    End If
+                Else
+                    intDone_UserSchemas = intDone_UserSchemas + 1
+                End If
+
+                If Not objSemItem_UserSchema Is Nothing Then
+                    objDRC_LogState = semprocA_DBWork_Save_TokenRel.GetData(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objSemItem_UserSchema.GUID, objLocalConfig.SemItem_RelationType_needs.GUID, 0).Rows
+                    If objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Insert.GUID Then
+                        get_SynonymTreeData(objTreeNode_Sub)
+                        intDone_UserSchemas = intDone_UserSchemas + 1
+                    End If
+                End If
+
+            Next
+
+            If intDone_Tables < intToDo Then
+                MsgBox("Es konnten nur " & intDone_Tables & " von " & intToDo & " Tabellen verknüpft werden!", MsgBoxStyle.Information)
+            End If
+
+            If intDone_UserSchemas < intToDo Then
+                MsgBox("Es konnten nur " & intDone_UserSchemas & " von " & intToDo & " UserSchemas verknüpft werden!", MsgBoxStyle.Information)
+            End If
+        Else
+
+            procA_DBItems_In_Schema.Fill(procT_DBItems_In_Schema, _
                                      objLocalConfig.SemItem_Type_DB_Function.GUID, _
                                      objLocalConfig.SemItem_Type_DB_Procedure.GUID, _
                                      objLocalConfig.SemItem_Type_DB_Synonyms.GUID, _
@@ -1507,93 +1598,14 @@ Public Class UserControl_SchemaView
                                      GUID_DatabaseSchema, _
                                      New Guid(objTreeNode.Parent.Name))
 
-        If Not objTreeNode Is Nothing Then
+            If Not objTreeNode Is Nothing Then
 
-            Select Case objTreeNode.ImageIndex
-                Case cint_ImageID_Synonym_Databases
-                    objDRC_Item = funcA_TokenToken.GetData_TokenToken_LeftRight(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objLocalConfig.SemItem_RelationType_needs.GUID, objLocalConfig.SemItem_Type_Database.GUID).Rows
-                    If objDRC_Item.Count = 0 Then
+                Select Case objTreeNode.ImageIndex
+                    Case cint_ImageID_Synonym_Databases
+                        objDRC_Item = funcA_TokenToken.GetData_TokenToken_LeftRight(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objLocalConfig.SemItem_RelationType_needs.GUID, objLocalConfig.SemItem_Type_Database.GUID).Rows
+                        If objDRC_Item.Count = 0 Then
 
-                        objFrmSemManager = New frmSemManager(objLocalConfig.SemItem_Type_Database, objLocalConfig.Globals)
-                        objFrmSemManager.Applyabale = True
-                        objFrmSemManager.ShowDialog(Me)
-                        If objFrmSemManager.DialogResult = DialogResult.OK Then
-                            If objFrmSemManager.SelectedItems_TypeGUID = objLocalConfig.Globals.ObjectReferenceType_Token.GUID Then
-                                If objFrmSemManager.SelectedRows_Items.Count = 1 Then
-                                    objDGVR_Selected = objFrmSemManager.SelectedRows_Items(0)
-                                    objDRV_Selected = objDGVR_Selected.DataBoundItem
-                                    If objDRV_Selected.Item("GUID_Type") = objLocalConfig.SemItem_Type_Database.GUID Then
-                                        objDRC_LogState = semprocA_DBWork_Save_TokenRel.GetData(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objDRV_Selected.Item("GUID_Token"), objLocalConfig.SemItem_RelationType_needs.GUID, 0).Rows
-                                        If objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Insert.GUID Then
-                                            objDRC_Exported = procA_TokenAttribute_Bit.GetData_By_GUIDAttribute_And_GUIDToken(procT_DBItems_In_Schema(0).Item("GUID_DBItem"), objLocalConfig.SemItem_Attribute_is_exported.GUID).Rows
-                                            If objDRC_Exported.Count = 0 Then
-                                                semprocA_DBWork_Save_Token_Attribute_Bit.GetData(procT_DBItems_In_Schema(0).Item("GUID_DBItem"), objLocalConfig.SemItem_Attribute_is_exported.GUID, Nothing, False, 0)
-                                            Else
-                                                semprocA_DBWork_Save_Token_Attribute_Bit.GetData(procT_DBItems_In_Schema(0).Item("GUID_DBItem"), objLocalConfig.SemItem_Attribute_is_exported.GUID, objDRC_Exported(0).Item("GUID_TokenAttribute"), False, 0)
-                                            End If
-                                            get_SynonymTreeData(objTreeNode.Parent)
-                                        Else
-                                            MsgBox("Das Database-Item konnte mit dem Synonym nicht verknüpft werden!", MsgBoxStyle.Exclamation)
-                                        End If
-                                    Else
-                                        MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_Database.Name & """ auswählen!", MsgBoxStyle.Exclamation)
-                                    End If
-                                Else
-                                    MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_Database.Name & """ auswählen!", MsgBoxStyle.Exclamation)
-                                End If
-                            Else
-                                MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_Database.Name & """ auswählen!", MsgBoxStyle.Exclamation)
-                            End If
-                        End If
-                    Else
-                        get_SynonymTreeData(objTreeNode.Parent)
-                    End If
-                Case cint_ImageID_Synonym_Servers
-                    objDRC_Item = funcA_TokenToken.GetData_TokenToken_LeftRight(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objLocalConfig.SemItem_RelationType_needs.GUID, objLocalConfig.SemItem_Type_Server.GUID).Rows
-                    If objDRC_Item.Count = 0 Then
-                        objFrmSemManager = New frmSemManager(objLocalConfig.SemItem_Type_Server, objLocalConfig.Globals)
-                        objFrmSemManager.Applyabale = True
-                        objFrmSemManager.ShowDialog(Me)
-                        If objFrmSemManager.DialogResult = DialogResult.OK Then
-                            If objFrmSemManager.SelectedItems_TypeGUID = objLocalConfig.Globals.ObjectReferenceType_Token.GUID Then
-                                If objFrmSemManager.SelectedRows_Items.Count = 1 Then
-                                    objDGVR_Selected = objFrmSemManager.SelectedRows_Items(0)
-                                    objDRV_Selected = objDGVR_Selected.DataBoundItem
-                                    If objDRV_Selected.Item("GUID_Type") = objLocalConfig.SemItem_Type_Server.GUID Then
-                                        objDRC_LogState = semprocA_DBWork_Save_TokenRel.GetData(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objDRV_Selected.Item("GUID_Token"), objLocalConfig.SemItem_RelationType_needs.GUID, 0).Rows
-                                        If objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Insert.GUID Then
-                                            get_SynonymTreeData(objTreeNode.Parent)
-                                        Else
-                                            MsgBox("Das Database-Item konnte mit dem Synonym nicht verknüpft werden!", MsgBoxStyle.Exclamation)
-                                        End If
-                                    Else
-                                        MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_Server.Name & """ auswählen!", MsgBoxStyle.Exclamation)
-                                    End If
-                                Else
-                                    MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_Server.Name & """ auswählen!", MsgBoxStyle.Exclamation)
-                                End If
-                            Else
-                                MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_Server.Name & """ auswählen!", MsgBoxStyle.Exclamation)
-                            End If
-                        End If
-                    Else
-                        get_SynonymTreeData(objTreeNode.Parent)
-                    End If
-                Case cint_ImageID_Synonym_Tables
-                    objSemItem_Table = Nothing
-                    objDRC_Item = funcA_TokenToken.GetData_TokenToken_LeftRight(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objLocalConfig.SemItem_RelationType_needs.GUID, objLocalConfig.SemItem_Type_DB_Tables.GUID).Rows
-                    If objDRC_Item.Count = 0 Then
-                        objDRC_Item = semtblA_Token.GetData_Token_By_Name_And_GUIDType(objLocalConfig.SemItem_Type_DB_Tables.GUID, _
-                                                                                       objTreeNode.Parent.Text).Rows
-                        If objDRC_Item.Count > 0 Then
-                            objSemItem_Table = New clsSemItem
-                            objSemItem_Table.GUID = objDRC_Item(0).Item("GUID_Token")
-                            objSemItem_Table.Name = objDRC_Item(0).Item("Name_Token")
-                            objSemItem_Table.GUID_Parent = objLocalConfig.SemItem_Type_DB_Tables.GUID
-                            objSemItem_Table.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
-                        Else
-                            objSemItem_Table = Nothing
-                            objFrmSemManager = New frmSemManager(objLocalConfig.SemItem_Type_DB_Tables, objLocalConfig.Globals)
+                            objFrmSemManager = New frmSemManager(objLocalConfig.SemItem_Type_Database, objLocalConfig.Globals)
                             objFrmSemManager.Applyabale = True
                             objFrmSemManager.ShowDialog(Me)
                             If objFrmSemManager.DialogResult = DialogResult.OK Then
@@ -1601,12 +1613,95 @@ Public Class UserControl_SchemaView
                                     If objFrmSemManager.SelectedRows_Items.Count = 1 Then
                                         objDGVR_Selected = objFrmSemManager.SelectedRows_Items(0)
                                         objDRV_Selected = objDGVR_Selected.DataBoundItem
-                                        If objDRV_Selected.Item("GUID_Type") = objLocalConfig.SemItem_Type_DB_Tables.GUID Then
-                                            objSemItem_Table = New clsSemItem
-                                            objSemItem_Table.GUID = objDRV_Selected.Item("GUID_Token")
-                                            objSemItem_Table.Name = objDRV_Selected.Item("Name_Token")
-                                            objSemItem_Table.GUID_Parent = objLocalConfig.SemItem_Type_DB_Tables.GUID
-                                            objSemItem_Table.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                                        If objDRV_Selected.Item("GUID_Type") = objLocalConfig.SemItem_Type_Database.GUID Then
+                                            objDRC_LogState = semprocA_DBWork_Save_TokenRel.GetData(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objDRV_Selected.Item("GUID_Token"), objLocalConfig.SemItem_RelationType_needs.GUID, 0).Rows
+                                            If objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Insert.GUID Then
+                                                objDRC_Exported = procA_TokenAttribute_Bit.GetData_By_GUIDAttribute_And_GUIDToken(procT_DBItems_In_Schema(0).Item("GUID_DBItem"), objLocalConfig.SemItem_Attribute_is_exported.GUID).Rows
+                                                If objDRC_Exported.Count = 0 Then
+                                                    semprocA_DBWork_Save_Token_Attribute_Bit.GetData(procT_DBItems_In_Schema(0).Item("GUID_DBItem"), objLocalConfig.SemItem_Attribute_is_exported.GUID, Nothing, False, 0)
+                                                Else
+                                                    semprocA_DBWork_Save_Token_Attribute_Bit.GetData(procT_DBItems_In_Schema(0).Item("GUID_DBItem"), objLocalConfig.SemItem_Attribute_is_exported.GUID, objDRC_Exported(0).Item("GUID_TokenAttribute"), False, 0)
+                                                End If
+                                                get_SynonymTreeData(objTreeNode.Parent)
+                                            Else
+                                                MsgBox("Das Database-Item konnte mit dem Synonym nicht verknüpft werden!", MsgBoxStyle.Exclamation)
+                                            End If
+                                        Else
+                                            MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_Database.Name & """ auswählen!", MsgBoxStyle.Exclamation)
+                                        End If
+                                    Else
+                                        MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_Database.Name & """ auswählen!", MsgBoxStyle.Exclamation)
+                                    End If
+                                Else
+                                    MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_Database.Name & """ auswählen!", MsgBoxStyle.Exclamation)
+                                End If
+                            End If
+                        Else
+                            get_SynonymTreeData(objTreeNode.Parent)
+                        End If
+                    Case cint_ImageID_Synonym_Servers
+                        objDRC_Item = funcA_TokenToken.GetData_TokenToken_LeftRight(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objLocalConfig.SemItem_RelationType_needs.GUID, objLocalConfig.SemItem_Type_Server.GUID).Rows
+                        If objDRC_Item.Count = 0 Then
+                            objFrmSemManager = New frmSemManager(objLocalConfig.SemItem_Type_Server, objLocalConfig.Globals)
+                            objFrmSemManager.Applyabale = True
+                            objFrmSemManager.ShowDialog(Me)
+                            If objFrmSemManager.DialogResult = DialogResult.OK Then
+                                If objFrmSemManager.SelectedItems_TypeGUID = objLocalConfig.Globals.ObjectReferenceType_Token.GUID Then
+                                    If objFrmSemManager.SelectedRows_Items.Count = 1 Then
+                                        objDGVR_Selected = objFrmSemManager.SelectedRows_Items(0)
+                                        objDRV_Selected = objDGVR_Selected.DataBoundItem
+                                        If objDRV_Selected.Item("GUID_Type") = objLocalConfig.SemItem_Type_Server.GUID Then
+                                            objDRC_LogState = semprocA_DBWork_Save_TokenRel.GetData(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objDRV_Selected.Item("GUID_Token"), objLocalConfig.SemItem_RelationType_needs.GUID, 0).Rows
+                                            If objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Insert.GUID Then
+                                                get_SynonymTreeData(objTreeNode.Parent)
+                                            Else
+                                                MsgBox("Das Database-Item konnte mit dem Synonym nicht verknüpft werden!", MsgBoxStyle.Exclamation)
+                                            End If
+                                        Else
+                                            MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_Server.Name & """ auswählen!", MsgBoxStyle.Exclamation)
+                                        End If
+                                    Else
+                                        MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_Server.Name & """ auswählen!", MsgBoxStyle.Exclamation)
+                                    End If
+                                Else
+                                    MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_Server.Name & """ auswählen!", MsgBoxStyle.Exclamation)
+                                End If
+                            End If
+                        Else
+                            get_SynonymTreeData(objTreeNode.Parent)
+                        End If
+                    Case cint_ImageID_Synonym_Tables
+                        objSemItem_Table = Nothing
+                        objDRC_Item = funcA_TokenToken.GetData_TokenToken_LeftRight(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objLocalConfig.SemItem_RelationType_needs.GUID, objLocalConfig.SemItem_Type_DB_Tables.GUID).Rows
+                        If objDRC_Item.Count = 0 Then
+                            objDRC_Item = semtblA_Token.GetData_Token_By_Name_And_GUIDType(objLocalConfig.SemItem_Type_DB_Tables.GUID, _
+                                                                                           objTreeNode.Parent.Text).Rows
+                            If objDRC_Item.Count > 0 Then
+                                objSemItem_Table = New clsSemItem
+                                objSemItem_Table.GUID = objDRC_Item(0).Item("GUID_Token")
+                                objSemItem_Table.Name = objDRC_Item(0).Item("Name_Token")
+                                objSemItem_Table.GUID_Parent = objLocalConfig.SemItem_Type_DB_Tables.GUID
+                                objSemItem_Table.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                            Else
+                                objSemItem_Table = Nothing
+                                objFrmSemManager = New frmSemManager(objLocalConfig.SemItem_Type_DB_Tables, objLocalConfig.Globals)
+                                objFrmSemManager.Applyabale = True
+                                objFrmSemManager.ShowDialog(Me)
+                                If objFrmSemManager.DialogResult = DialogResult.OK Then
+                                    If objFrmSemManager.SelectedItems_TypeGUID = objLocalConfig.Globals.ObjectReferenceType_Token.GUID Then
+                                        If objFrmSemManager.SelectedRows_Items.Count = 1 Then
+                                            objDGVR_Selected = objFrmSemManager.SelectedRows_Items(0)
+                                            objDRV_Selected = objDGVR_Selected.DataBoundItem
+                                            If objDRV_Selected.Item("GUID_Type") = objLocalConfig.SemItem_Type_DB_Tables.GUID Then
+                                                objSemItem_Table = New clsSemItem
+                                                objSemItem_Table.GUID = objDRV_Selected.Item("GUID_Token")
+                                                objSemItem_Table.Name = objDRV_Selected.Item("Name_Token")
+                                                objSemItem_Table.GUID_Parent = objLocalConfig.SemItem_Type_DB_Tables.GUID
+                                                objSemItem_Table.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                                            Else
+
+                                                MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_DB_Tables.Name & """ auswählen!", MsgBoxStyle.Exclamation)
+                                            End If
                                         Else
 
                                             MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_DB_Tables.Name & """ auswählen!", MsgBoxStyle.Exclamation)
@@ -1615,56 +1710,56 @@ Public Class UserControl_SchemaView
 
                                         MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_DB_Tables.Name & """ auswählen!", MsgBoxStyle.Exclamation)
                                     End If
-                                Else
 
-                                    MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_DB_Tables.Name & """ auswählen!", MsgBoxStyle.Exclamation)
                                 End If
-
                             End If
-                        End If
-                        
 
-                        If Not objSemItem_Table Is Nothing Then
-                            objDRC_LogState = semprocA_DBWork_Save_TokenRel.GetData(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objSemItem_Table.GUID, objLocalConfig.SemItem_RelationType_needs.GUID, 0).Rows
-                            If objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Insert.GUID Then
-                                get_SynonymTreeData(objTreeNode.Parent)
-                            Else
-                                MsgBox("Das Database-Item konnte mit dem Synonym nicht verknüpft werden!", MsgBoxStyle.Exclamation)
+
+                            If Not objSemItem_Table Is Nothing Then
+                                objDRC_LogState = semprocA_DBWork_Save_TokenRel.GetData(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objSemItem_Table.GUID, objLocalConfig.SemItem_RelationType_needs.GUID, 0).Rows
+                                If objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Insert.GUID Then
+                                    get_SynonymTreeData(objTreeNode.Parent)
+                                Else
+                                    MsgBox("Das Database-Item konnte mit dem Synonym nicht verknüpft werden!", MsgBoxStyle.Exclamation)
+                                End If
                             End If
-                        End If
 
-                    Else
-                        get_SynonymTreeData(objTreeNode.Parent)
-                    End If
-                Case cint_ImageID_Synonym_Userschemas
-                    objSemItem_UserSchema = Nothing
-                    objDRC_Item = funcA_TokenToken.GetData_TokenToken_LeftRight(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objLocalConfig.SemItem_RelationType_needs.GUID, objLocalConfig.SemItem_Type_Userschema.GUID).Rows
-                    If objDRC_Item.Count = 0 Then
-                        objDRC_Item = semtblA_Token.GetData_Token_TypeChilds(objLocalConfig.SemItem_Type_Userschema.GUID).Rows
-                        If objDRC_Item.Count = 1 Then
-                            objSemItem_UserSchema = New clsSemItem
-                            objSemItem_UserSchema.GUID = objDRC_Item(0).Item("GUID_Token")
-                            objSemItem_UserSchema.Name = objDRC_Item(0).Item("Name_Token")
-                            objSemItem_UserSchema.GUID_Parent = objLocalConfig.SemItem_Type_Userschema.GUID
-                            objSemItem_UserSchema.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
                         Else
-                            objSemItem_UserSchema = Nothing
-                            objFrmSemManager = New frmSemManager(objLocalConfig.SemItem_Type_Userschema, objLocalConfig.Globals)
-                            objFrmSemManager.Applyabale = True
-                            objFrmSemManager.ShowDialog(Me)
-                            If objFrmSemManager.DialogResult = DialogResult.OK Then
-                                If objFrmSemManager.SelectedItems_TypeGUID = objLocalConfig.Globals.ObjectReferenceType_Token.GUID Then
-                                    If objFrmSemManager.SelectedRows_Items.Count = 1 Then
-                                        objDGVR_Selected = objFrmSemManager.SelectedRows_Items(0)
-                                        objDRV_Selected = objDGVR_Selected.DataBoundItem
-                                        If objDRV_Selected.Item("GUID_Type") = objLocalConfig.SemItem_Type_Userschema.GUID Then
-                                            objSemItem_UserSchema = New clsSemItem
-                                            objSemItem_UserSchema.GUID = objDRV_Selected.Item("GUID_Token")
-                                            objSemItem_UserSchema.Name = objDRV_Selected.Item("Name_Token")
-                                            objSemItem_UserSchema.GUID_Parent = objLocalConfig.SemItem_Type_Userschema.GUID
-                                            objSemItem_UserSchema.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                            get_SynonymTreeData(objTreeNode.Parent)
+                        End If
+                    Case cint_ImageID_Synonym_Userschemas
+                        objSemItem_UserSchema = Nothing
+                        objDRC_Item = funcA_TokenToken.GetData_TokenToken_LeftRight(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objLocalConfig.SemItem_RelationType_needs.GUID, objLocalConfig.SemItem_Type_Userschema.GUID).Rows
+                        If objDRC_Item.Count = 0 Then
+                            objDRC_Item = semtblA_Token.GetData_Token_TypeChilds(objLocalConfig.SemItem_Type_Userschema.GUID).Rows
+                            If objDRC_Item.Count = 1 Then
+                                objSemItem_UserSchema = New clsSemItem
+                                objSemItem_UserSchema.GUID = objDRC_Item(0).Item("GUID_Token")
+                                objSemItem_UserSchema.Name = objDRC_Item(0).Item("Name_Token")
+                                objSemItem_UserSchema.GUID_Parent = objLocalConfig.SemItem_Type_Userschema.GUID
+                                objSemItem_UserSchema.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                            Else
+                                objSemItem_UserSchema = Nothing
+                                objFrmSemManager = New frmSemManager(objLocalConfig.SemItem_Type_Userschema, objLocalConfig.Globals)
+                                objFrmSemManager.Applyabale = True
+                                objFrmSemManager.ShowDialog(Me)
+                                If objFrmSemManager.DialogResult = DialogResult.OK Then
+                                    If objFrmSemManager.SelectedItems_TypeGUID = objLocalConfig.Globals.ObjectReferenceType_Token.GUID Then
+                                        If objFrmSemManager.SelectedRows_Items.Count = 1 Then
+                                            objDGVR_Selected = objFrmSemManager.SelectedRows_Items(0)
+                                            objDRV_Selected = objDGVR_Selected.DataBoundItem
+                                            If objDRV_Selected.Item("GUID_Type") = objLocalConfig.SemItem_Type_Userschema.GUID Then
+                                                objSemItem_UserSchema = New clsSemItem
+                                                objSemItem_UserSchema.GUID = objDRV_Selected.Item("GUID_Token")
+                                                objSemItem_UserSchema.Name = objDRV_Selected.Item("Name_Token")
+                                                objSemItem_UserSchema.GUID_Parent = objLocalConfig.SemItem_Type_Userschema.GUID
+                                                objSemItem_UserSchema.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
 
 
+                                            Else
+
+                                                MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_Userschema.Name & """ auswählen!", MsgBoxStyle.Exclamation)
+                                            End If
                                         Else
 
                                             MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_Userschema.Name & """ auswählen!", MsgBoxStyle.Exclamation)
@@ -1673,26 +1768,24 @@ Public Class UserControl_SchemaView
 
                                         MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_Userschema.Name & """ auswählen!", MsgBoxStyle.Exclamation)
                                     End If
-                                Else
-
-                                    MsgBox("Bitte nur ein Token der Type """ & objLocalConfig.SemItem_Type_Userschema.Name & """ auswählen!", MsgBoxStyle.Exclamation)
                                 End If
                             End If
-                        End If
-                        
-                        If Not objSemItem_UserSchema Is Nothing Then
-                            objDRC_LogState = semprocA_DBWork_Save_TokenRel.GetData(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objSemItem_UserSchema.GUID, objLocalConfig.SemItem_RelationType_needs.GUID, 0).Rows
-                            If objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Insert.GUID Then
-                                get_SynonymTreeData(objTreeNode.Parent)
-                            Else
-                                MsgBox("Das Database-Item konnte mit dem Synonym nicht verknüpft werden!", MsgBoxStyle.Exclamation)
+
+                            If Not objSemItem_UserSchema Is Nothing Then
+                                objDRC_LogState = semprocA_DBWork_Save_TokenRel.GetData(procT_DBItems_In_Schema.Rows(0).Item("GUID_DBItemInSchema"), objSemItem_UserSchema.GUID, objLocalConfig.SemItem_RelationType_needs.GUID, 0).Rows
+                                If objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Insert.GUID Then
+                                    get_SynonymTreeData(objTreeNode.Parent)
+                                Else
+                                    MsgBox("Das Database-Item konnte mit dem Synonym nicht verknüpft werden!", MsgBoxStyle.Exclamation)
+                                End If
                             End If
+                        Else
+                            get_SynonymTreeData(objTreeNode.Parent)
                         End If
-                    Else
-                        get_SynonymTreeData(objTreeNode.Parent)
-                    End If
-            End Select
+                End Select
+            End If
         End If
+        
     End Sub
 
     Private Sub SchemaItemsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SchemaItemsToolStripMenuItem.Click

@@ -50,15 +50,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Filesystem-Management">
-      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\SemModules\Filesystem-Management\Filesystem-Management.exe</HintPath>
+      <HintPath>..\..\..\..\..\Development\Semantic\Modules\Filesystem-Management\Filesystem-Management.exe</HintPath>
     </Reference>
     <Reference Include="Sem-Manager">
-      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\SemModules\Semantic-Management\Sem-Manager.exe</HintPath>
+      <HintPath>..\..\..\..\..\Development\Semantic\Modules\Semantic-Management\Sem-Manager.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -79,6 +80,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsLocalConfig.vb" />
+    <Compile Include="clsUserData.vb" />
+    <Compile Include="DataSet_Reports.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet_Reports.xsd</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +130,18 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="DataSet_Reports.xsc">
+      <DependentUpon>DataSet_Reports.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet_Reports.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet_Reports.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="DataSet_Reports.xss">
+      <DependentUpon>DataSet_Reports.xsd</DependentUpon>
+    </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

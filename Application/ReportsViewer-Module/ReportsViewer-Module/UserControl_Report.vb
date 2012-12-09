@@ -3,7 +3,7 @@ Public Class UserControl_Report
 
     Private objLocalConfig As clsLocalConfig
 
-    Private funcA_TokenToken As New ds_TokenTableAdapters.func_TokenTokenTableAdapter
+    Private objUserData As clsUserData
 
     Private objDataTable As DataTable
     Private objDataAdp As SqlClient.SqlDataAdapter
@@ -30,7 +30,7 @@ Public Class UserControl_Report
     End Sub
 
     Private Sub set_DBConnection()
-        funcA_TokenToken.Connection = objLocalConfig.Connection_DB
+        objUserData = New clsUserData(objLocalConfig)
     End Sub
 
     Public Sub initialize(ByVal SemItem_Report As clsSemItem)
@@ -50,35 +50,32 @@ Public Class UserControl_Report
 
         objDataTable.Clear()
 
-        objDRC_Data = funcA_TokenToken.GetData_TokenToken_LeftRight(objSemItem_Report.GUID, _
-                                                                    objLocalConfig.SemItem_RelationType_is.GUID, _
-                                                                    objLocalConfig.SemItem_Type_DBView.GUID).Rows
+        objUserData.initialize_Report(objSemItem_Report)
+        Timer_Data.Start()
+        
+    End Sub
 
-        If objDRC_Data.Count > 0 Then
-            strView = objDRC_Data(0).Item("Name_Token_Right")
-            objDRC_Data = funcA_TokenToken.GetData_TokenToken_LeftRight(objDRC_Data(0).Item("GUID_Token_Right"), _
-                                                                        objLocalConfig.SemItem_RelationType_isPartOf.GUID, _
-                                                                        objLocalConfig.SemItem_Type_DatabaseOnServer.GUID).Rows
-            If objDRC_Data.Count > 0 Then
-                objDRC_Data2 = funcA_TokenToken.GetData_TokenToken_LeftRight(objDRC_Data(0).Item("GUID_Token_Right"), _
-                                                                             objLocalConfig.SemItem_RelationType_belongsTo.GUID, _
-                                                                             objLocalConfig.SemItem_Type_Database.GUID).Rows
-                objDRC_Data = funcA_TokenToken.GetData_TokenToken_LeftRight(objDRC_Data(0).Item("GUID_Token_Right"), _
-                                                                            objLocalConfig.SemItem_RelationType_locatedIn.GUID, _
-                                                                            objLocalConfig.SemItem_Type_Server.GUID).Rows
-                If objDRC_Data.Count > 0 And objDRC_Data2.Count > 0 Then
-                    strDatabase = objDRC_Data2(0).Item("Name_Token_Right")
-                    strServer = objDRC_Data(0).Item("Name_Token_Right")
-                    strConn = "Data Source=" & strServer & "\SQLEXPRESS;Initial Catalog=" & strDatabase & ";Integrated Security=True"
-                    objDataAdp = New SqlClient.SqlDataAdapter("SELECT * FROM [" & strDatabase & "]..[" & strView & "]", strConn)
-                    Debug.Print(objLocalConfig.Connection_DB.ConnectionString)
-                    objDataAdp.Fill(objDataSet)
-                    objDataTable = objDataSet.Tables(0)
+    Private Sub Timer_Data_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Data.Tick
+        If objUserData.finished_Data_Report = True Then
+            If objUserData.Report_procT.Rows.Count > 0 Then
+                strView = objUserData.Report_procT.Rows(0).Item("Name_DBItem")
 
-                    BindingSource_Reports.DataSource = objDataTable
-                    DataGridView_Reports.DataSource = BindingSource_Reports
-                End If
+                strDatabase = objUserData.Report_procT.Rows(0).Item("Name_Database")
+                strServer = objUserData.Report_procT.Rows(0).Item("Name_Server")
+                strConn = "Data Source=" & strServer & "\SQLEXPRESS;Initial Catalog=" & strDatabase & ";Integrated Security=True"
+                objDataAdp = New SqlClient.SqlDataAdapter("SELECT * FROM [" & strDatabase & "]..[" & strView & "]", strConn)
+                Debug.Print(objLocalConfig.Connection_DB.ConnectionString)
+                objDataAdp.Fill(objDataSet)
+                objDataTable = objDataSet.Tables(0)
+
+                BindingSource_Reports.DataSource = objDataTable
+                DataGridView_Reports.DataSource = BindingSource_Reports
+                BindingNavigator_Reports.BindingSource = BindingSource_Reports
+
+
+                Timer_Data.Stop()
             End If
         End If
+        
     End Sub
 End Class

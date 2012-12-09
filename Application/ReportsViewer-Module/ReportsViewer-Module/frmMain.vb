@@ -5,10 +5,11 @@ Public Class frmMain
 
     Private objLocalConfig As clsLocalConfig
 
+    Private objUserData As clsUserData
+
     Private WithEvents objUserControl_Report As UserControl_Report
 
-    Private procA_TokenTree_TopDown As New ds_TokenTableAdapters.proc_TokenTree_TopDownTableAdapter
-    Private procT_TokenTree_TopDown As New ds_Token.proc_TokenTree_TopDownDataTable
+    
     Private objTreeNode_Root As TreeNode
 
     Private Sub ToolStripButton_Close_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Close.Click
@@ -31,10 +32,12 @@ Public Class frmMain
     Private Sub initialize()
         set_DBConnection()
 
-        procA_TokenTree_TopDown.Fill(procT_TokenTree_TopDown, _
-                                     objLocalConfig.SemItem_Type_Report.GUID, _
-                                     objLocalConfig.SemItem_RelationType_Contains.GUID, _
-                                     Nothing)
+        objUserData.initailze_ReportTree()
+        Do
+        Loop While objUserData.finished_Data_ReportTree = False
+
+        objUserData.initialize_Reports()
+
         fill_Tree()
     End Sub
 
@@ -45,22 +48,22 @@ Public Class frmMain
 
         If objTreeNode Is Nothing Then
             TreeView_Report.Nodes.Clear()
-            objTreeNode_Root = TreeView_Report.Nodes.Add(objLocalConfig.SemItem_Type_Report.GUID.ToString, _
-                                                         objLocalConfig.SemItem_Type_Report.Name, _
+            objTreeNode_Root = TreeView_Report.Nodes.Add(objLocalConfig.SemItem_Type_Reports.GUID.ToString, _
+                                                         objLocalConfig.SemItem_Type_Reports.Name, _
                                                          cint_ImageID_Root, cint_ImageID_Root)
-            objDRs_Nodes = procT_TokenTree_TopDown.Select("GUID_Token_Parent IS NULL")
+            objDRs_Nodes = objUserData.ReportTree_procT.Select("GUID_Report_Parent IS NULL")
             For Each objDR_Node In objDRs_Nodes
-                objTreeNode_Sub = objTreeNode_Root.Nodes.Add(objDR_Node.Item("GUID_Token").ToString, _
-                                           objDR_Node.Item("Name_Token"),
+                objTreeNode_Sub = objTreeNode_Root.Nodes.Add(objDR_Node.Item("GUID_Report").ToString, _
+                                           objDR_Node.Item("Name_Report"),
                                            cint_ImageID_Report, cint_ImageID_Report)
                 fill_Tree(objTreeNode_Sub)
             Next
 
         Else
-            objDRs_Nodes = procT_TokenTree_TopDown.Select("GUID_Token_Parent='" & objTreeNode.Name & "'")
+            objDRs_Nodes = objUserData.ReportTree_procT.Select("GUID_Report_Parent='" & objTreeNode.Name & "'")
             For Each objDR_Node In objDRs_Nodes
-                objTreeNode_Sub = objTreeNode.Nodes.Add(objDR_Node.Item("GUID_Token").ToString, _
-                                           objDR_Node.Item("Name_Token"),
+                objTreeNode_Sub = objTreeNode.Nodes.Add(objDR_Node.Item("GUID_Report").ToString, _
+                                           objDR_Node.Item("Name_Report"),
                                            cint_ImageID_Report, cint_ImageID_Report)
 
                 fill_Tree(objTreeNode_Sub)
@@ -69,7 +72,7 @@ Public Class frmMain
     End Sub
 
     Private Sub set_DBConnection()
-        procA_TokenTree_TopDown.Connection = objLocalConfig.Connection_DB
+        objUserData = New clsUserData(objLocalConfig)
     End Sub
 
     Private Sub TreeView_Report_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_Report.AfterSelect
@@ -82,12 +85,16 @@ Public Class frmMain
             If objTreeNode.ImageIndex = cint_ImageID_Report Then
                 objSemItem_Report.GUID = New Guid(objTreeNode.Name)
                 objSemItem_Report.Name = objTreeNode.Text
-                objSemItem_Report.GUID_Parent = objLocalConfig.SemItem_Type_Report.GUID
+                objSemItem_Report.GUID_Parent = objLocalConfig.SemItem_Type_Reports.GUID
                 objSemItem_Report.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Type.GUID
 
                 objUserControl_Report.initialize(objSemItem_Report)
             End If
         End If
 
+    End Sub
+
+    Protected Overrides Sub Finalize()
+        MyBase.Finalize()
     End Sub
 End Class
