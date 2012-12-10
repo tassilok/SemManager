@@ -103,7 +103,17 @@ Public Class clsUserData
 
     Private Sub get_Data_ReportFields()
         procA_ReportFields.Connection = New SqlClient.SqlConnection(strConnection_Module)
-        procA_ReportFields.Fill(procT_ReportFields, objSemItem_Report.GUID)
+        procA_ReportFields.Fill(procT_ReportFields, _
+                                objLocalConfig.SemItem_Attribute_invisible.GUID, _
+                                objLocalConfig.SemItem_Type_Report_Field.GUID, _
+                                objLocalConfig.SemItem_Type_Reports.GUID, _
+                                objLocalConfig.SemItem_Type_DB_Columns.GUID, _
+                                objLocalConfig.SemItem_Type_Field_Type.GUID, _
+                                objLocalConfig.SemItem_RelationType_belongsTo.GUID, _
+                                objLocalConfig.SemItem_RelationType_is.GUID, _
+                                objLocalConfig.SemItem_RelationType_is_of_Type.GUID, _
+                                objLocalConfig.SemItem_RelationType_leads.GUID, _
+                                objSemItem_Report.GUID)
 
 
         boolData_ReportFields = True

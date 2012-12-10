@@ -5,10 +5,10 @@
     <Setting Name="sem_db_home_reportsviewer_moduleConnectionString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;Data Source=localhost\sqlexpress;Initial Catalog=sem_db_work_reportsviewer_module;Integrated Security=True&lt;/ConnectionString&gt;
+  &lt;ConnectionString&gt;Data Source=localhost\sqlexpress;Initial Catalog=sem_db_home_reportsviewer_module;Integrated Security=True&lt;/ConnectionString&gt;
   &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Data Source=localhost\sqlexpress;Initial Catalog=sem_db_work_reportsviewer_module;Integrated Security=True</Value>
+      <Value Profile="(Default)">Data Source=localhost\sqlexpress;Initial Catalog=sem_db_home_reportsviewer_module;Integrated Security=True</Value>
     </Setting>
   </Settings>
 </SettingsFile>
