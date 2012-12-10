@@ -25,6 +25,7 @@ Partial Class UserControl_Report
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UserControl_Report))
         Me.DataGridView_Reports = New System.Windows.Forms.DataGridView()
+        Me.BindingSource_Reports = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingNavigator_Reports = New System.Windows.Forms.BindingNavigator(Me.components)
         Me.BindingNavigatorCountItem = New System.Windows.Forms.ToolStripLabel()
         Me.BindingNavigatorMoveFirstItem = New System.Windows.Forms.ToolStripButton()
@@ -35,22 +36,24 @@ Partial Class UserControl_Report
         Me.BindingNavigatorMoveNextItem = New System.Windows.Forms.ToolStripButton()
         Me.BindingNavigatorMoveLastItem = New System.Windows.Forms.ToolStripButton()
         Me.BindingNavigatorSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.BindingSource_Reports = New System.Windows.Forms.BindingSource(Me.components)
         Me.Timer_Data = New System.Windows.Forms.Timer(Me.components)
         CType(Me.DataGridView_Reports, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BindingSource_Reports, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingNavigator_Reports, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.BindingNavigator_Reports.SuspendLayout()
-        CType(Me.BindingSource_Reports, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'DataGridView_Reports
         '
+        Me.DataGridView_Reports.AllowUserToAddRows = False
+        Me.DataGridView_Reports.AllowUserToDeleteRows = False
         Me.DataGridView_Reports.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView_Reports.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView_Reports.Location = New System.Drawing.Point(3, 3)
         Me.DataGridView_Reports.Name = "DataGridView_Reports"
+        Me.DataGridView_Reports.ReadOnly = True
         Me.DataGridView_Reports.Size = New System.Drawing.Size(869, 575)
         Me.DataGridView_Reports.TabIndex = 0
         '
@@ -75,8 +78,8 @@ Partial Class UserControl_Report
         'BindingNavigatorCountItem
         '
         Me.BindingNavigatorCountItem.Name = "BindingNavigatorCountItem"
-        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(44, 22)
-        Me.BindingNavigatorCountItem.Text = "von {0}"
+        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(35, 22)
+        Me.BindingNavigatorCountItem.Text = "of {0}"
         Me.BindingNavigatorCountItem.ToolTipText = "Total number of items"
         '
         'BindingNavigatorMoveFirstItem
@@ -152,10 +155,10 @@ Partial Class UserControl_Report
         Me.Name = "UserControl_Report"
         Me.Size = New System.Drawing.Size(875, 518)
         CType(Me.DataGridView_Reports, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BindingSource_Reports, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BindingNavigator_Reports, System.ComponentModel.ISupportInitialize).EndInit()
         Me.BindingNavigator_Reports.ResumeLayout(False)
         Me.BindingNavigator_Reports.PerformLayout()
-        CType(Me.BindingSource_Reports, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

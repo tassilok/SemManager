@@ -13,16 +13,26 @@ Public Class clsUserData
     Private procA_Report As New DataSet_ReportsTableAdapters.proc_ReportTableAdapter
     Private procT_Report As New DataSet_Reports.proc_ReportDataTable
 
+    Private procA_ReportFields As New DataSet_ReportsTableAdapters.proc_ReportFieldsTableAdapter
+    Private procT_ReportFields As New DataSet_Reports.proc_ReportFieldsDataTable
+
     Private objSemItem_Report As clsSemItem
 
     Private objThread_Data_ReportTree As Threading.Thread
     Private objThread_Data_Reports As Threading.Thread
     Private objThread_Data_Report As Threading.Thread
+    Private objThread_Data_ReportFields As Threading.Thread
 
     Private boolData_ReportTree As Boolean
     Private boolData_Reports As Boolean
     Private boolData_Report As Boolean
+    Private boolData_ReportFields As Boolean
 
+    Public ReadOnly Property ReportFields_procT As DataSet_Reports.proc_ReportFieldsDataTable
+        Get
+            Return procT_ReportFields
+        End Get
+    End Property
     Public ReadOnly Property ReportTree_procT As DataSet_Reports.proc_ReportTreeDataTable
         Get
             Return procT_ReportTree
@@ -54,6 +64,12 @@ Public Class clsUserData
         End Get
     End Property
 
+    Public ReadOnly Property finished_Data_ReportFields As Boolean
+        Get
+            Return boolData_ReportFields
+        End Get
+    End Property
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
         set_DBConnection()
@@ -78,6 +94,20 @@ Public Class clsUserData
         objThread_Data_Report.Start()
     End Sub
 
+    Public Sub initiaize_ReportFields(ByVal SemItem_Report As clsSemItem)
+        boolData_ReportFields = False
+        objSemItem_Report = SemItem_Report
+        objThread_Data_ReportFields = New Threading.Thread(AddressOf get_Data_ReportFields)
+        objThread_Data_ReportFields.Start()
+    End Sub
+
+    Private Sub get_Data_ReportFields()
+        procA_ReportFields.Connection = New SqlClient.SqlConnection(strConnection_Module)
+        procA_ReportFields.Fill(procT_ReportFields, objSemItem_Report.GUID)
+
+
+        boolData_ReportFields = True
+    End Sub
     Private Sub get_Data_Report()
         procA_Report.Connection = New SqlClient.SqlConnection(strConnection_Module)
         procA_Report.Fill(procT_Report, _
