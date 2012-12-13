@@ -25,6 +25,10 @@ Partial Class UserControl_Report
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UserControl_Report))
         Me.DataGridView_Reports = New System.Windows.Forms.DataGridView()
+        Me.ContextMenuStrip_Reports = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.FilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CopyPathToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BindingSource_Reports = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingNavigator_Reports = New System.Windows.Forms.BindingNavigator(Me.components)
         Me.BindingNavigatorCountItem = New System.Windows.Forms.ToolStripLabel()
@@ -37,15 +41,14 @@ Partial Class UserControl_Report
         Me.BindingNavigatorMoveLastItem = New System.Windows.Forms.ToolStripButton()
         Me.BindingNavigatorSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.Timer_Data = New System.Windows.Forms.Timer(Me.components)
-        Me.ContextMenuStrip_Reports = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.FilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CopyPathToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CopyGUIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CopyNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.DataGridView_Reports, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ContextMenuStrip_Reports.SuspendLayout()
         CType(Me.BindingSource_Reports, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingNavigator_Reports, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.BindingNavigator_Reports.SuspendLayout()
-        Me.ContextMenuStrip_Reports.SuspendLayout()
         Me.SuspendLayout()
         '
         'DataGridView_Reports
@@ -62,6 +65,31 @@ Partial Class UserControl_Report
         Me.DataGridView_Reports.ReadOnly = True
         Me.DataGridView_Reports.Size = New System.Drawing.Size(869, 575)
         Me.DataGridView_Reports.TabIndex = 0
+        '
+        'ContextMenuStrip_Reports
+        '
+        Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FilesToolStripMenuItem, Me.EditToolStripMenuItem})
+        Me.ContextMenuStrip_Reports.Name = "ContextMenuStrip_Reports"
+        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(153, 70)
+        '
+        'FilesToolStripMenuItem
+        '
+        Me.FilesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.CopyPathToolStripMenuItem})
+        Me.FilesToolStripMenuItem.Name = "FilesToolStripMenuItem"
+        Me.FilesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FilesToolStripMenuItem.Text = "x_Files"
+        '
+        'OpenToolStripMenuItem
+        '
+        Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
+        Me.OpenToolStripMenuItem.Text = "x_Open"
+        '
+        'CopyPathToolStripMenuItem
+        '
+        Me.CopyPathToolStripMenuItem.Name = "CopyPathToolStripMenuItem"
+        Me.CopyPathToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
+        Me.CopyPathToolStripMenuItem.Text = "x_Copy Path"
         '
         'BindingNavigator_Reports
         '
@@ -84,8 +112,8 @@ Partial Class UserControl_Report
         'BindingNavigatorCountItem
         '
         Me.BindingNavigatorCountItem.Name = "BindingNavigatorCountItem"
-        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(44, 22)
-        Me.BindingNavigatorCountItem.Text = "von {0}"
+        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(35, 22)
+        Me.BindingNavigatorCountItem.Text = "of {0}"
         Me.BindingNavigatorCountItem.ToolTipText = "Total number of items"
         '
         'BindingNavigatorMoveFirstItem
@@ -152,30 +180,24 @@ Partial Class UserControl_Report
         '
         Me.Timer_Data.Interval = 300
         '
-        'ContextMenuStrip_Reports
+        'EditToolStripMenuItem
         '
-        Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FilesToolStripMenuItem})
-        Me.ContextMenuStrip_Reports.Name = "ContextMenuStrip_Reports"
-        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(108, 26)
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.CopyGUIDToolStripMenuItem})
+        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EditToolStripMenuItem.Text = "x_Edit"
         '
-        'FilesToolStripMenuItem
+        'CopyGUIDToolStripMenuItem
         '
-        Me.FilesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.CopyPathToolStripMenuItem})
-        Me.FilesToolStripMenuItem.Name = "FilesToolStripMenuItem"
-        Me.FilesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.FilesToolStripMenuItem.Text = "x_Files"
+        Me.CopyGUIDToolStripMenuItem.Name = "CopyGUIDToolStripMenuItem"
+        Me.CopyGUIDToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.CopyGUIDToolStripMenuItem.Text = "x_Copy GUID"
         '
-        'OpenToolStripMenuItem
+        'CopyNameToolStripMenuItem
         '
-        Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.OpenToolStripMenuItem.Text = "x_Open"
-        '
-        'CopyPathToolStripMenuItem
-        '
-        Me.CopyPathToolStripMenuItem.Name = "CopyPathToolStripMenuItem"
-        Me.CopyPathToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.CopyPathToolStripMenuItem.Text = "x_Copy Path"
+        Me.CopyNameToolStripMenuItem.Name = "CopyNameToolStripMenuItem"
+        Me.CopyNameToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.CopyNameToolStripMenuItem.Text = "x_Copy Name"
         '
         'UserControl_Report
         '
@@ -186,11 +208,11 @@ Partial Class UserControl_Report
         Me.Name = "UserControl_Report"
         Me.Size = New System.Drawing.Size(875, 518)
         CType(Me.DataGridView_Reports, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContextMenuStrip_Reports.ResumeLayout(False)
         CType(Me.BindingSource_Reports, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BindingNavigator_Reports, System.ComponentModel.ISupportInitialize).EndInit()
         Me.BindingNavigator_Reports.ResumeLayout(False)
         Me.BindingNavigator_Reports.PerformLayout()
-        Me.ContextMenuStrip_Reports.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -212,5 +234,8 @@ Partial Class UserControl_Report
     Friend WithEvents FilesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CopyPathToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents EditToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CopyNameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CopyGUIDToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

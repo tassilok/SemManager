@@ -137,13 +137,23 @@ Public Class UserControl_Report
         Dim objDR_Report As DataRow
 
         FilesToolStripMenuItem.Enabled = True
+        CopyNameToolStripMenuItem.Enabled = False
+        CopyGUIDToolStripMenuItem.Enabled = False
 
         If DataGridView_Reports.SelectedCells.Count = 1 Then
+            CopyNameToolStripMenuItem.Enabled = True
             objDRs_Report = objUserData.ReportFields_procT.Select("Name_DBColumn='" & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & "'")
             If objDRs_Report.Count > 0 Then
                 If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_File.GUID Then
                     FilesToolStripMenuItem.Enabled = True
                 End If
+                objDRs_Report = objUserData.ReportFields_procT.Select("GUID_ReportField_Leaded='" & objDRs_Report(0).Item("GUID_ReportField").ToString & "'")
+                If objDRs_Report.Count > 0 Then
+                    If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_GUID.GUID Then
+                        CopyGUIDToolStripMenuItem.Enabled = True
+                    End If
+                End If
+                
             End If
         End If
 
@@ -198,6 +208,44 @@ Public Class UserControl_Report
 
             strPath = objFileWork.get_Path_FileSystemObject(objSemItem_File, True)
             Clipboard.SetDataObject(strPath)
+        End If
+    End Sub
+
+    Private Sub CopyGUIDToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CopyGUIDToolStripMenuItem.Click
+        Dim objDRs_Report() As DataRow
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        
+        If DataGridView_Reports.SelectedCells.Count = 1 Then
+
+            objDRs_Report = objUserData.ReportFields_procT.Select("Name_DBColumn='" & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & "'")
+            If objDRs_Report.Count > 0 Then
+                objDRs_Report = objUserData.ReportFields_procT.Select("GUID_ReportField_Leaded='" & objDRs_Report(0).Item("GUID_ReportField").ToString & "'")
+                If objDRs_Report.Count > 0 Then
+                    If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_GUID.GUID Then
+                        objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
+                        objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+                        If Not IsDBNull(objDRV_Selected.Item(objDRs_Report(0).Item("Name_DBColumn"))) Then
+                            Clipboard.SetText(objDRV_Selected.Item(objDRs_Report(0).Item("Name_DBColumn")).ToString)
+                        End If
+                    End If
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub CopyNameToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CopyNameToolStripMenuItem.Click
+        Dim objDRs_Report() As DataRow
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+
+        If DataGridView_Reports.SelectedCells.Count = 1 Then
+            objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
+            objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+            Clipboard.SetText(objDRV_Selected.Item(DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName))
+            
         End If
     End Sub
 End Class
