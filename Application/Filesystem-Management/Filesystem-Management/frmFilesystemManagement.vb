@@ -22,6 +22,7 @@ Public Class frmFilesystemManagement
     Private objBlobConnection As clsBlobConnection
     Private objShellWork As New clsShellWork
 
+
     Private semtbl_Token As New ds_SemDBTableAdapters.semtbl_TokenTableAdapter
     Private funcA_TokenToken As New ds_TokenTableAdapters.func_TokenTokenTableAdapter
     Private procA_TokenToken_LeftRight_NoRight As New ds_TokenTableAdapters.proc_TokenToken_LeftRight_NoRightTableAdapter
@@ -1490,5 +1491,24 @@ Public Class frmFilesystemManagement
             Case Keys.F5
                 get_Files()
         End Select
+    End Sub
+
+    Private Sub DataGridView_Files_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles DataGridView_Files.MouseDoubleClick
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim objSemItem_File As New clsSemItem
+
+        objDGVR_Selected = DataGridView_Files.SelectedRows(0)
+        objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+        objSemItem_File.GUID = objDRV_Selected.Item("GUID_File")
+        objSemItem_File.Name = objDRV_Selected.Item("Name_File")
+        objSemItem_File.GUID_Parent = objLocalConfig.SemItem_Type_File.GUID
+        objSemItem_File.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+        objFrmTokenEdit = New frmTokenEdit(objSemItem_File, objLocalConfig.Globals)
+        objFrmTokenEdit.ShowDialog(Me)
+
+        get_Files()
     End Sub
 End Class

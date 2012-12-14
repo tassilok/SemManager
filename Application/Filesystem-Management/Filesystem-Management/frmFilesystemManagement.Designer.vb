@@ -113,16 +113,16 @@ Partial Class frmFilesystemManagement
         'StatusStrip1
         '
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1_DB, Me.ToolStripStatusLabel_DBName, Me.StatusToolStripLable_Ctrl})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 381)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 379)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(536, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(536, 24)
         Me.StatusStrip1.TabIndex = 0
         Me.StatusStrip1.Text = "StatusStrip1"
         '
         'ToolStripStatusLabel1_DB
         '
         Me.ToolStripStatusLabel1_DB.Name = "ToolStripStatusLabel1_DB"
-        Me.ToolStripStatusLabel1_DB.Size = New System.Drawing.Size(36, 17)
+        Me.ToolStripStatusLabel1_DB.Size = New System.Drawing.Size(35, 19)
         Me.ToolStripStatusLabel1_DB.Text = "x_DB:"
         '
         'ToolStripStatusLabel_DBName
@@ -133,13 +133,13 @@ Partial Class frmFilesystemManagement
                     Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_DBName.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
         Me.ToolStripStatusLabel_DBName.Name = "ToolStripStatusLabel_DBName"
-        Me.ToolStripStatusLabel_DBName.Size = New System.Drawing.Size(31, 17)
+        Me.ToolStripStatusLabel_DBName.Size = New System.Drawing.Size(30, 19)
         Me.ToolStripStatusLabel_DBName.Text = "n.a."
         '
         'StatusToolStripLable_Ctrl
         '
         Me.StatusToolStripLable_Ctrl.Name = "StatusToolStripLable_Ctrl"
-        Me.StatusToolStripLable_Ctrl.Size = New System.Drawing.Size(24, 19)
+        Me.StatusToolStripLable_Ctrl.Size = New System.Drawing.Size(26, 17)
         Me.StatusToolStripLable_Ctrl.Text = "Ctrl"
         Me.StatusToolStripLable_Ctrl.Visible = False
         '
@@ -162,14 +162,14 @@ Partial Class frmFilesystemManagement
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(104, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(102, 22)
         Me.ExitToolStripMenuItem.Text = "x_Exit"
         '
         'ViewToolStripMenuItem
         '
         Me.ViewToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolstripToolStripMenuItem, Me.TaskbarToolStripMenuItem, Me.FolderToolStripMenuItem, Me.CheckExistanceToolStripMenuItem})
         Me.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem"
-        Me.ViewToolStripMenuItem.Size = New System.Drawing.Size(53, 20)
+        Me.ViewToolStripMenuItem.Size = New System.Drawing.Size(54, 20)
         Me.ViewToolStripMenuItem.Text = "x_View"
         '
         'ToolstripToolStripMenuItem
@@ -178,7 +178,7 @@ Partial Class frmFilesystemManagement
         Me.ToolstripToolStripMenuItem.CheckOnClick = True
         Me.ToolstripToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ToolstripToolStripMenuItem.Name = "ToolstripToolStripMenuItem"
-        Me.ToolstripToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
+        Me.ToolstripToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
         Me.ToolstripToolStripMenuItem.Text = "x_Toolstrip"
         '
         'TaskbarToolStripMenuItem
@@ -187,7 +187,7 @@ Partial Class frmFilesystemManagement
         Me.TaskbarToolStripMenuItem.CheckOnClick = True
         Me.TaskbarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.TaskbarToolStripMenuItem.Name = "TaskbarToolStripMenuItem"
-        Me.TaskbarToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
+        Me.TaskbarToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
         Me.TaskbarToolStripMenuItem.Text = "x_Taskbar"
         '
         'FolderToolStripMenuItem
@@ -196,7 +196,7 @@ Partial Class frmFilesystemManagement
         Me.FolderToolStripMenuItem.CheckOnClick = True
         Me.FolderToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.FolderToolStripMenuItem.Name = "FolderToolStripMenuItem"
-        Me.FolderToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
+        Me.FolderToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
         Me.FolderToolStripMenuItem.Text = "x_Folder"
         '
         'CheckExistanceToolStripMenuItem
@@ -205,20 +205,20 @@ Partial Class frmFilesystemManagement
         Me.CheckExistanceToolStripMenuItem.CheckOnClick = True
         Me.CheckExistanceToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckExistanceToolStripMenuItem.Name = "CheckExistanceToolStripMenuItem"
-        Me.CheckExistanceToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
+        Me.CheckExistanceToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
         Me.CheckExistanceToolStripMenuItem.Text = "x_Check Existance"
         '
         'ToolsToolStripMenuItem
         '
         Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.BrowseToolStripMenuItem, Me.ObjectListToolStripMenuItem, Me.StartBlobWatcherToolStripMenuItem, Me.MenuToolStripMenuItem, Me.RefreshToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
-        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(56, 20)
+        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(58, 20)
         Me.ToolsToolStripMenuItem.Text = "x_Tools"
         '
         'OptionsToolStripMenuItem
         '
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
-        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
         Me.OptionsToolStripMenuItem.Text = "x_Options"
         '
         'BrowseToolStripMenuItem
@@ -226,57 +226,57 @@ Partial Class frmFilesystemManagement
         Me.BrowseToolStripMenuItem.Checked = True
         Me.BrowseToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.BrowseToolStripMenuItem.Name = "BrowseToolStripMenuItem"
-        Me.BrowseToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.BrowseToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
         Me.BrowseToolStripMenuItem.Text = "x_Browse"
         '
         'ObjectListToolStripMenuItem
         '
         Me.ObjectListToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ExistentToolStripMenuItem, Me.ClearToolStripMenuItem})
         Me.ObjectListToolStripMenuItem.Name = "ObjectListToolStripMenuItem"
-        Me.ObjectListToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.ObjectListToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
         Me.ObjectListToolStripMenuItem.Text = "x_Object-List"
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(125, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
         Me.NewToolStripMenuItem.Text = "x_New"
         '
         'ExistentToolStripMenuItem
         '
         Me.ExistentToolStripMenuItem.Name = "ExistentToolStripMenuItem"
-        Me.ExistentToolStripMenuItem.Size = New System.Drawing.Size(125, 22)
+        Me.ExistentToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
         Me.ExistentToolStripMenuItem.Text = "x_Existent"
         '
         'ClearToolStripMenuItem
         '
         Me.ClearToolStripMenuItem.Name = "ClearToolStripMenuItem"
-        Me.ClearToolStripMenuItem.Size = New System.Drawing.Size(125, 22)
+        Me.ClearToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
         Me.ClearToolStripMenuItem.Text = "x_Clear"
         '
         'StartBlobWatcherToolStripMenuItem
         '
         Me.StartBlobWatcherToolStripMenuItem.Name = "StartBlobWatcherToolStripMenuItem"
-        Me.StartBlobWatcherToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.StartBlobWatcherToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
         Me.StartBlobWatcherToolStripMenuItem.Text = "x_Start Blob-Watcher"
         '
         'MenuToolStripMenuItem
         '
         Me.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem"
-        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
         Me.MenuToolStripMenuItem.Text = "x_Menu"
         '
         'RefreshToolStripMenuItem
         '
         Me.RefreshToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MetaBlobsToolStripMenuItem})
         Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
-        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
         Me.RefreshToolStripMenuItem.Text = "x_Refresh"
         '
         'MetaBlobsToolStripMenuItem
         '
         Me.MetaBlobsToolStripMenuItem.Name = "MetaBlobsToolStripMenuItem"
-        Me.MetaBlobsToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
+        Me.MetaBlobsToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.MetaBlobsToolStripMenuItem.Text = "x_Meta (Blobs)"
         '
         'ToolStripContainer1
@@ -285,11 +285,11 @@ Partial Class frmFilesystemManagement
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(536, 332)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(536, 330)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 24)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(536, 357)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(536, 355)
         Me.ToolStripContainer1.TabIndex = 2
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
@@ -311,7 +311,7 @@ Partial Class frmFilesystemManagement
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.ToolStripContainer2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(536, 332)
+        Me.SplitContainer1.Size = New System.Drawing.Size(536, 330)
         Me.SplitContainer1.SplitterDistance = 178
         Me.SplitContainer1.TabIndex = 0
         '
@@ -324,7 +324,7 @@ Partial Class frmFilesystemManagement
         Me.TreeView_Folder.Location = New System.Drawing.Point(0, 0)
         Me.TreeView_Folder.Name = "TreeView_Folder"
         Me.TreeView_Folder.SelectedImageIndex = 3
-        Me.TreeView_Folder.Size = New System.Drawing.Size(174, 328)
+        Me.TreeView_Folder.Size = New System.Drawing.Size(174, 326)
         Me.TreeView_Folder.TabIndex = 0
         '
         'ContextMenuStrip_Tree
@@ -362,7 +362,7 @@ Partial Class frmFilesystemManagement
         'ToolStripComboBox_ModuleActions_Tree
         '
         Me.ToolStripComboBox_ModuleActions_Tree.Name = "ToolStripComboBox_ModuleActions_Tree"
-        Me.ToolStripComboBox_ModuleActions_Tree.Size = New System.Drawing.Size(200, 21)
+        Me.ToolStripComboBox_ModuleActions_Tree.Size = New System.Drawing.Size(200, 23)
         '
         'ContextToolStripMenuItem
         '
@@ -394,11 +394,11 @@ Partial Class frmFilesystemManagement
         'ToolStripContainer2.ContentPanel
         '
         Me.ToolStripContainer2.ContentPanel.Controls.Add(Me.DataGridView_Files)
-        Me.ToolStripContainer2.ContentPanel.Size = New System.Drawing.Size(350, 278)
+        Me.ToolStripContainer2.ContentPanel.Size = New System.Drawing.Size(350, 276)
         Me.ToolStripContainer2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer2.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer2.Name = "ToolStripContainer2"
-        Me.ToolStripContainer2.Size = New System.Drawing.Size(350, 328)
+        Me.ToolStripContainer2.Size = New System.Drawing.Size(350, 326)
         Me.ToolStripContainer2.TabIndex = 0
         Me.ToolStripContainer2.Text = "ToolStripContainer2"
         '
@@ -412,13 +412,13 @@ Partial Class frmFilesystemManagement
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLBL, Me.ToolStripLabel_Count})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(75, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(78, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_CountLBL
         '
         Me.ToolStripLabel_CountLBL.Name = "ToolStripLabel_CountLBL"
-        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(52, 22)
+        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(53, 22)
         Me.ToolStripLabel_CountLBL.Text = "x_Count:"
         '
         'ToolStripLabel_Count
@@ -438,7 +438,7 @@ Partial Class frmFilesystemManagement
         Me.DataGridView_Files.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_Files.Name = "DataGridView_Files"
         Me.DataGridView_Files.ReadOnly = True
-        Me.DataGridView_Files.Size = New System.Drawing.Size(350, 278)
+        Me.DataGridView_Files.Size = New System.Drawing.Size(350, 276)
         Me.DataGridView_Files.TabIndex = 1
         '
         'ContextMenuStrip_DataGrid
@@ -476,7 +476,7 @@ Partial Class frmFilesystemManagement
         'ToolStripComboBox_ModuleActions
         '
         Me.ToolStripComboBox_ModuleActions.Name = "ToolStripComboBox_ModuleActions"
-        Me.ToolStripComboBox_ModuleActions.Size = New System.Drawing.Size(200, 21)
+        Me.ToolStripComboBox_ModuleActions.Size = New System.Drawing.Size(200, 23)
         '
         'EditToolStripMenuItem
         '
@@ -488,7 +488,7 @@ Partial Class frmFilesystemManagement
         'CopyPathToolStripMenuItem
         '
         Me.CopyPathToolStripMenuItem.Name = "CopyPathToolStripMenuItem"
-        Me.CopyPathToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+        Me.CopyPathToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
         Me.CopyPathToolStripMenuItem.Text = "x_Copy Path"
         '
         'BlobsToolStripMenuItem
@@ -501,25 +501,25 @@ Partial Class frmFilesystemManagement
         'CreateBlobToolStripMenuItem
         '
         Me.CreateBlobToolStripMenuItem.Name = "CreateBlobToolStripMenuItem"
-        Me.CreateBlobToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
+        Me.CreateBlobToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
         Me.CreateBlobToolStripMenuItem.Text = "x_create Blob"
         '
         'XputBackToFSToolStripMenuItem
         '
         Me.XputBackToFSToolStripMenuItem.Name = "XputBackToFSToolStripMenuItem"
-        Me.XputBackToFSToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
+        Me.XputBackToFSToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
         Me.XputBackToFSToolStripMenuItem.Text = "x_put back to FS"
         '
         'DownloadToolStripMenuItem
         '
         Me.DownloadToolStripMenuItem.Name = "DownloadToolStripMenuItem"
-        Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
+        Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
         Me.DownloadToolStripMenuItem.Text = "x_Download"
         '
         'GetMetaToolStripMenuItem
         '
         Me.GetMetaToolStripMenuItem.Name = "GetMetaToolStripMenuItem"
-        Me.GetMetaToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
+        Me.GetMetaToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
         Me.GetMetaToolStripMenuItem.Text = "x_get meta"
         '
         'ToolStrip2
@@ -528,13 +528,13 @@ Partial Class frmFilesystemManagement
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripTextBox_Search, Me.ToolStripButton_Search, Me.ToolStripButton_ClearSearch})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(314, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(315, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripLabel1
         '
         Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(56, 22)
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(55, 22)
         Me.ToolStripLabel1.Text = "x_Search:"
         '
         'ToolStripTextBox_Search
@@ -569,7 +569,7 @@ Partial Class frmFilesystemManagement
         Me.ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FoldersToolStripButton, Me.ToolStripSeparator8, Me.ToolStripLabel_ObjectList_Label, Me.ToolStripLabel_ObjectList})
         Me.ToolStrip.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip.Name = "ToolStrip"
-        Me.ToolStrip.Size = New System.Drawing.Size(175, 25)
+        Me.ToolStrip.Size = New System.Drawing.Size(182, 25)
         Me.ToolStrip.TabIndex = 1
         Me.ToolStrip.Text = "ToolStrip1"
         '
@@ -580,7 +580,7 @@ Partial Class frmFilesystemManagement
         Me.FoldersToolStripButton.Image = CType(resources.GetObject("FoldersToolStripButton.Image"), System.Drawing.Image)
         Me.FoldersToolStripButton.ImageTransparentColor = System.Drawing.Color.Black
         Me.FoldersToolStripButton.Name = "FoldersToolStripButton"
-        Me.FoldersToolStripButton.Size = New System.Drawing.Size(73, 22)
+        Me.FoldersToolStripButton.Size = New System.Drawing.Size(74, 22)
         Me.FoldersToolStripButton.Text = "x_Ordner"
         Me.FoldersToolStripButton.ToolTipText = "Ordneransicht umschalten"
         '
@@ -592,13 +592,13 @@ Partial Class frmFilesystemManagement
         'ToolStripLabel_ObjectList_Label
         '
         Me.ToolStripLabel_ObjectList_Label.Name = "ToolStripLabel_ObjectList_Label"
-        Me.ToolStripLabel_ObjectList_Label.Size = New System.Drawing.Size(75, 22)
+        Me.ToolStripLabel_ObjectList_Label.Size = New System.Drawing.Size(78, 22)
         Me.ToolStripLabel_ObjectList_Label.Text = "x_Object-List:"
         '
         'ToolStripLabel_ObjectList
         '
         Me.ToolStripLabel_ObjectList.Name = "ToolStripLabel_ObjectList"
-        Me.ToolStripLabel_ObjectList.Size = New System.Drawing.Size(11, 22)
+        Me.ToolStripLabel_ObjectList.Size = New System.Drawing.Size(12, 22)
         Me.ToolStripLabel_ObjectList.Text = "-"
         '
         'frmFilesystemManagement
