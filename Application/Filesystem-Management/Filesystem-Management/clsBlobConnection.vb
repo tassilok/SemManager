@@ -324,12 +324,12 @@ Public Class clsBlobConnection
             Next
             strHash_File = strHash_File & getHash(byteFile, 2000)
         Else
-            ReDim byteFile(objSQLFs.Length)
-            For i = 0 To objSQLFs.Length - 1
-                byteFile(i) = objSQLFs.ReadByte
+            ReDim byteFile(objFileStream.Length)
+            For i = 0 To objFileStream.Length - 1
+                byteFile(i) = objFileStream.ReadByte
             Next
 
-            strHash_File = getHash(byteFile, objSQLFs.Length - 1)
+            strHash_File = getHash(byteFile, objFileStream.Length - 1)
 
         End If
 
@@ -633,6 +633,7 @@ Public Class clsBlobConnection
 
                     objSQLFs.Flush()
                     objSQLFs.Close()
+                    objFileStream.Position = 0
                     If objFileStream.Length > 4000 Then
                         ReDim byteFile(4000)
                         objFileStream.Seek(0, IO.SeekOrigin.Begin)

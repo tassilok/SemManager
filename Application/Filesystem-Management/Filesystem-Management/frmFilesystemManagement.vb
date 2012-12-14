@@ -1241,6 +1241,8 @@ Public Class frmFilesystemManagement
         If intCount_Done < intCount_ToDo Then
             MsgBox("Es konnten nur " & intCount_Done & " von " & intCount_ToDo & " Dateien gespeichert werden!", MsgBoxStyle.Exclamation)
         End If
+
+        get_Files()
     End Sub
 
     Private Sub XputBackToFSToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles XputBackToFSToolStripMenuItem.Click
@@ -1481,5 +1483,12 @@ Public Class frmFilesystemManagement
             End If
         Next
 
+    End Sub
+
+    Private Sub DataGridView_Files_KeyDown1(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles DataGridView_Files.KeyDown
+        Select Case e.KeyCode
+            Case Keys.F5
+                get_Files()
+        End Select
     End Sub
 End Class
