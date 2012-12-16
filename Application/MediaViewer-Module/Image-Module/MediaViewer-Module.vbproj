@@ -1,0 +1,463 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5175CF62-61B6-4F7B-BADB-BE32F5758818}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>MediaViewer_Module.My.MyApplication</StartupObject>
+    <RootNamespace>MediaViewer_Module</RootNamespace>
+    <AssemblyName>MediaViewer-Module</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>MediaViewer-Module.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>MediaViewer-Module.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Multimedia.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ClassLibrary_ShellWork, Version=0.1.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\GitHub\SemManager\Application\ClassLibrary_ShellWork\ClassLibrary_ShellWork\bin\Debug\ClassLibrary_ShellWork.dll</HintPath>
+    </Reference>
+    <Reference Include="Filesystem-Management, Version=0.1.0.80, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\..\..\GitHub\SemManager\Application\Filesystem-Management\Filesystem-Management\bin\Debug\Filesystem-Management.exe</HintPath>
+    </Reference>
+    <Reference Include="Id3Lib">
+      <HintPath>..\..\Libraries\sharp mp3lib\Id3Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Localizing-Manager, Version=0.0.0.28, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\..\..\GitHub\SemManager\Application\Localizing-Manager\Localizing-Manager\bin\Debug\Localizing-Manager.exe</HintPath>
+    </Reference>
+    <Reference Include="Log-Manager, Version=0.1.0.5, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\..\..\GitHub\SemManager\Application\Log-Manager\Log-Manager\bin\Debug\Log-Manager.exe</HintPath>
+    </Reference>
+    <Reference Include="Mp3Lib">
+      <HintPath>..\..\Libraries\sharp mp3lib\Mp3Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="OrganisationalTransactions, Version=0.0.0.15, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\OrganisationalTransactions\OrganisationalTransactions\bin\Debug\OrganisationalTransactions.exe</HintPath>
+    </Reference>
+    <Reference Include="Sem-Manager, Version=0.2.0.22, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\..\..\GitHub\SemManager\Application\Sem-Manager\Sem-Manager\bin\Debug\Sem-Manager.exe</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsImageInfo.vb" />
+    <Compile Include="clsLocalConfig.vb" />
+    <Compile Include="clsMediaItem_Config.vb" />
+    <Compile Include="clsMediaInfo.vb" />
+    <Compile Include="clsMediaPlayer.vb" />
+    <Compile Include="clsModule.vb" />
+    <Compile Include="clsMP3Info.vb" />
+    <Compile Include="clsTransaction_Bookmarks.vb" />
+    <Compile Include="clsTransaction_ImageObjects.vb" />
+    <Compile Include="clsTransaction_Imagevb.vb" />
+    <Compile Include="clsTransaction_MediaItem.vb" />
+    <Compile Include="clsTransaction_MP3.vb" />
+    <Compile Include="clsTransaction_PDF.vb" />
+    <Compile Include="ds_ImageModule.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_ImageModule.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ds_ImageModule.vb">
+      <DependentUpon>ds_ImageModule.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="frmBookMarks.Designer.vb">
+      <DependentUpon>frmBookMarks.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmBookMarks.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditImage.Designer.vb">
+      <DependentUpon>frmEditImage.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditImage.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmImageModule.Designer.vb">
+      <DependentUpon>frmImageModule.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmImageModule.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmImageSingle.Designer.vb">
+      <DependentUpon>frmImageSingle.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmImageSingle.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMediaModule_Grid.Designer.vb">
+      <DependentUpon>frmMediaModule_Grid.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMediaModule_Grid.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmModuleTokenEdit.Designer.vb">
+      <DependentUpon>frmModuleTokenEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmModuleTokenEdit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="UserControl_ArtWork.Designer.vb">
+      <DependentUpon>UserControl_ArtWork.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_ArtWork.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_Bookmarks.Designer.vb">
+      <DependentUpon>UserControl_Bookmarks.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_Bookmarks.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_Buildings.Designer.vb">
+      <DependentUpon>UserControl_Buildings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_Buildings.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_EditMediaItem.Designer.vb">
+      <DependentUpon>UserControl_EditMediaItem.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_EditMediaItem.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_EidtImage.Designer.vb">
+      <DependentUpon>UserControl_EidtImage.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_EidtImage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_Galery.Designer.vb">
+      <DependentUpon>UserControl_Galery.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_Galery.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_ImageImportantEvent.Designer.vb">
+      <DependentUpon>UserControl_ImageImportantEvent.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_ImageImportantEvent.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_ImageLandscape.Designer.vb">
+      <DependentUpon>UserControl_ImageLandscape.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_ImageLandscape.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_ImageLocations.Designer.vb">
+      <DependentUpon>UserControl_ImageLocations.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_ImageLocations.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_ImagePersons.Designer.vb">
+      <DependentUpon>UserControl_ImagePersons.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_ImagePersons.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_ImagePlant.Designer.vb">
+      <DependentUpon>UserControl_ImagePlant.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_ImagePlant.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_ImageWeatherCondition.Designer.vb">
+      <DependentUpon>UserControl_ImageWeatherCondition.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_ImageWeatherCondition.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_MediaDetail_mp3.Designer.vb">
+      <DependentUpon>UserControl_MediaDetail_mp3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_MediaDetail_mp3.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_MediaItem.Designer.vb">
+      <DependentUpon>UserControl_MediaItem.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_MediaItem.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_EditPDF.Designer.vb">
+      <DependentUpon>UserControl_EditPDF.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_EditPDF.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_PDFViewer.Designer.vb">
+      <DependentUpon>UserControl_PDFViewer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_PDFViewer.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_Pets.Designer.vb">
+      <DependentUpon>UserControl_Pets.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_Pets.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_Species.Designer.vb">
+      <DependentUpon>UserControl_Species.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_Species.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="frmBookMarks.resx">
+      <DependentUpon>frmBookMarks.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditImage.resx">
+      <DependentUpon>frmEditImage.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmImageModule.resx">
+      <DependentUpon>frmImageModule.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmImageSingle.resx">
+      <DependentUpon>frmImageSingle.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMediaModule_Grid.resx">
+      <DependentUpon>frmMediaModule_Grid.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmModuleTokenEdit.resx">
+      <DependentUpon>frmModuleTokenEdit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_ArtWork.resx">
+      <DependentUpon>UserControl_ArtWork.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_Bookmarks.resx">
+      <DependentUpon>UserControl_Bookmarks.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_Buildings.resx">
+      <DependentUpon>UserControl_Buildings.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_EditMediaItem.resx">
+      <DependentUpon>UserControl_EditMediaItem.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_EidtImage.resx">
+      <DependentUpon>UserControl_EidtImage.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_Galery.resx">
+      <DependentUpon>UserControl_Galery.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_ImageImportantEvent.resx">
+      <DependentUpon>UserControl_ImageImportantEvent.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_ImageLandscape.resx">
+      <DependentUpon>UserControl_ImageLandscape.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_ImageLocations.resx">
+      <DependentUpon>UserControl_ImageLocations.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_ImagePersons.resx">
+      <DependentUpon>UserControl_ImagePersons.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_ImagePlant.resx">
+      <DependentUpon>UserControl_ImagePlant.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_ImageWeatherCondition.resx">
+      <DependentUpon>UserControl_ImageWeatherCondition.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_MediaDetail_mp3.resx">
+      <DependentUpon>UserControl_MediaDetail_mp3.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_MediaItem.resx">
+      <DependentUpon>UserControl_MediaItem.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_EditPDF.resx">
+      <DependentUpon>UserControl_EditPDF.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_PDFViewer.resx">
+      <DependentUpon>UserControl_PDFViewer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_Pets.resx">
+      <DependentUpon>UserControl_Pets.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_Species.resx">
+      <DependentUpon>UserControl_Species.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="ds_ImageModule.xsc">
+      <DependentUpon>ds_ImageModule.xsd</DependentUpon>
+    </None>
+    <None Include="ds_ImageModule.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_ImageModule.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="ds_ImageModule.xss">
+      <DependentUpon>ds_ImageModule.xsd</DependentUpon>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config_sem.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Multimedia.ico" />
+    <None Include="Resources\pulsante_02_architetto_f_01_gray.png" />
+    <None Include="Resources\b_plus.png" />
+    <None Include="Resources\enki_grey_plus_sign.png" />
+    <None Include="Resources\next.png" />
+    <None Include="Resources\base_floppydisk_32.png" />
+    <None Include="Resources\IssueTracking_32x32.png" />
+    <None Include="Resources\1435_ClipBoard.png" />
+    <None Include="Resources\Paste.png" />
+    <None Include="Resources\b_plus with Folder.png" />
+    <None Include="Resources\tasto_8_architetto_franc_01.png" />
+    <None Include="Resources\pulsante_02_architetto_f_01.png" />
+    <None Include="Resources\pulsante_02_architetto_f_01 Last.png" />
+    <None Include="Resources\pulsante_01_architetto_f_01.png" />
+    <None Include="Resources\pulsante_01_architetto_f_01 First.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AxFOXITREADEROCXLib">
+      <Guid>{3D20F47F-E818-4A03-AD52-45B708ACCF23}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="AxWMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="FOXITREADEROCXLib">
+      <Guid>{3D20F47F-E818-4A03-AD52-45B708ACCF23}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

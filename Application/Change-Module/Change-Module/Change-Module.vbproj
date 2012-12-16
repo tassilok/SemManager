@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{19736F31-5E9C-43ED-82C8-3A3856F786F1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>Change_Module.My.MyApplication</StartupObject>
+    <RootNamespace>Change_Module</RootNamespace>
+    <AssemblyName>Change-Module</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Change-Module.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Change-Module.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>kexi_kexi_team_01.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Log-Manager">
+      <HintPath>..\..\..\..\GitHub\SemManager\Application\Log-Manager\Log-Manager\bin\Debug\Log-Manager.exe</HintPath>
+    </Reference>
+    <Reference Include="MediaViewer-Module, Version=0.0.0.139, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\MediaViewer-Module\Image-Module\bin\Debug\MediaViewer-Module.exe</HintPath>
+    </Reference>
+    <Reference Include="Process-Module, Version=0.1.0.40, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\Process-Module\Process-Module\bin\Debug\Process-Module.exe</HintPath>
+    </Reference>
+    <Reference Include="Sem-Manager, Version=0.2.0.22, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\..\..\GitHub\SemManager\Application\Sem-Manager\Sem-Manager\bin\Debug\Sem-Manager.exe</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsLocalConfig.vb" />
+    <Compile Include="clsTicketWork.vb" />
+    <Compile Include="clsTransaction_ProcessLog.vb" />
+    <Compile Include="clsTransaction_Ticket.vb" />
+    <Compile Include="clsTransaction_TicketTree.vb" />
+    <Compile Include="ds_ChangeModule.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_ChangeModule.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="frmChangeModule.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmChangeModule.Designer.vb">
+      <DependentUpon>frmChangeModule.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGet_User_And_Group.Designer.vb">
+      <DependentUpon>frmGet_User_And_Group.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmGet_User_And_Group.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTicketList.Designer.vb">
+      <DependentUpon>frmTicketList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmTicketList.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="UserControl_History.Designer.vb">
+      <DependentUpon>UserControl_History.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_History.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_TicketList.Designer.vb">
+      <DependentUpon>UserControl_TicketList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_TicketList.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_TicketTree.Designer.vb">
+      <DependentUpon>UserControl_TicketTree.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_TicketTree.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="frmChangeModule.resx">
+      <DependentUpon>frmChangeModule.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGet_User_And_Group.resx">
+      <DependentUpon>frmGet_User_And_Group.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTicketList.resx">
+      <DependentUpon>frmTicketList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_History.resx">
+      <DependentUpon>UserControl_History.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_TicketList.resx">
+      <DependentUpon>UserControl_TicketList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_TicketTree.resx">
+      <DependentUpon>UserControl_TicketTree.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="ds_ChangeModule.xsc">
+      <DependentUpon>ds_ChangeModule.xsd</DependentUpon>
+    </None>
+    <None Include="ds_ChangeModule.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_ChangeModule.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="ds_ChangeModule.xss">
+      <DependentUpon>ds_ChangeModule.xsd</DependentUpon>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config_sem.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="kexi_kexi_team_01.ico" />
+    <None Include="Resources\gnome-mime-application-vnd.ms-powerpoint.png" />
+    <None Include="Resources\desktop.png" />
+    <None Include="Resources\trashcan_full.png" />
+    <None Include="Resources\bb_txt_.png" />
+    <None Include="Resources\pulsante_02_architetto_f_01.png" />
+    <None Include="Resources\pulsante_02_architetto_f_01 Last.png" />
+    <None Include="Resources\pulsante_01_architetto_f_01.png" />
+    <None Include="Resources\pulsante_01_architetto_f_01 First.png" />
+    <None Include="Resources\b_down_Infinite.png" />
+    <None Include="Resources\back.png" />
+    <None Include="Resources\b_stop.png" />
+    <None Include="Resources\next.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

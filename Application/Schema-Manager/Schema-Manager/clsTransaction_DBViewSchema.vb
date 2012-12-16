@@ -258,7 +258,7 @@ Public Class clsTransaction_DBViewSchema
                     Exit For
                 End If
             Next
-            If objDRC_SemDB(0).Item("Val") = False Then
+            If objDRC_SemDB(0).Item("Val_BOOL") = False Then
                 objDRC_LogState = semprocA_DBWork_Save_TokenAttribute_Bit.GetData(objSemItem_Database.GUID, _
                                                                                   objLocalConfig.SemItem_Attribute_is_Sem_DB.GUID, _
                                                                                   objDRC_SemDB(0).Item("GUID_TokenAttribute"), _

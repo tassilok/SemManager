@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3060414D-1D48-4CD8-89C5-6D37E1296C0A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>Bill_Module.My.MyApplication</StartupObject>
+    <RootNamespace>Bill_Module</RootNamespace>
+    <AssemblyName>Bill-Module</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Bill-Module.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Bill-Module.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>ArtFavor_Money_Bag.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Bank-Transaction-Module, Version=0.0.0.43, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\Bank-Transaction-Module\Bank-Transaction-Module\bin\Debug\Bank-Transaction-Module.exe</HintPath>
+    </Reference>
+    <Reference Include="MediaViewer-Module">
+      <HintPath>..\..\MediaViewer-Module\Image-Module\bin\Debug\MediaViewer-Module.exe</HintPath>
+    </Reference>
+    <Reference Include="Sem-Manager, Version=0.2.0.22, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\Sem-Manager\Sem-Manager\bin\Debug\Sem-Manager.exe</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsLocalConfig.vb" />
+    <Compile Include="clsTransaction_Belege.vb" />
+    <Compile Include="clsTransaction_FinancialTransaction.vb" />
+    <Compile Include="dlgPayment.Designer.vb">
+      <DependentUpon>dlgPayment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="dlgPayment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ds_FinancialTransaction.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_FinancialTransaction.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="frmBillModule.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBillModule.Designer.vb">
+      <DependentUpon>frmBillModule.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="UserControl_Documents.Designer.vb">
+      <DependentUpon>UserControl_Documents.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_Documents.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_Offset.Designer.vb">
+      <DependentUpon>UserControl_Offset.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_Offset.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_TransactionDetail.Designer.vb">
+      <DependentUpon>UserControl_TransactionDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_TransactionDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="dlgPayment.resx">
+      <DependentUpon>dlgPayment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBillModule.resx">
+      <DependentUpon>frmBillModule.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_Documents.resx">
+      <DependentUpon>UserControl_Documents.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_Offset.resx">
+      <DependentUpon>UserControl_Offset.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_TransactionDetail.resx">
+      <DependentUpon>UserControl_TransactionDetail.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="ds_FinancialTransaction.xsc">
+      <DependentUpon>ds_FinancialTransaction.xsd</DependentUpon>
+    </None>
+    <None Include="ds_FinancialTransaction.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_FinancialTransaction.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="ds_FinancialTransaction.xss">
+      <DependentUpon>ds_FinancialTransaction.xsd</DependentUpon>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ArtFavor_Money_Bag.ico" />
+    <Content Include="Config_sem.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Resources\arrow-up-blue_benji_park_01.png" />
+    <None Include="Resources\arrow-down-purple_benji__01.png" />
+    <None Include="Resources\NewDocumentHS.png" />
+    <None Include="Resources\tasto_8_architetto_franc_01.png" />
+    <None Include="Resources\pulsante_02_architetto_f_01.png" />
+    <None Include="Resources\pulsante_02_architetto_f_01 Last.png" />
+    <None Include="Resources\pulsante_01_architetto_f_01.png" />
+    <None Include="Resources\pulsante_01_architetto_f_01 First.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
