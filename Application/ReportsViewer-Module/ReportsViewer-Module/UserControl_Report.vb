@@ -1,7 +1,16 @@
 ﻿Imports Sem_Manager
 Imports ClassLibrary_ShellWork
 Imports Filesystem_Management
+Imports Security_Module
 Public Class UserControl_Report
+
+    Private frmTokenEdit As frmTokenEdit
+
+    Private Const cint_FilterID_equal As Integer = 1
+    Private Const cint_FilterID_different As Integer = 2
+    Private Const cint_FilterID_contains As Integer = 3
+
+    Private semtblA_Token As New ds_SemDBTableAdapters.semtbl_TokenTableAdapter
 
     Private objLocalConfig As clsLocalConfig
     Private objShell As clsShellWork
@@ -9,10 +18,13 @@ Public Class UserControl_Report
 
     Private objUserData As clsUserData
 
+    Private objSecurityModuleWork As clsSecurityModuleWork
+
     Private objDataTable As DataTable
     Private objDataAdp As SqlClient.SqlDataAdapter
     Private objDataSet As DataSet
     Private objSemItem_Report As clsSemItem
+    Private objSemItem_Token As New clsSemItem
 
     Private strView As String
     Private strProcedure As String
@@ -37,6 +49,11 @@ Public Class UserControl_Report
         objUserData = New clsUserData(objLocalConfig)
         objShell = New clsShellWork()
         objFileWork = New clsFileWork(objLocalConfig.Globals)
+        objSecurityModuleWork = New clsSecurityModuleWork(objLocalConfig.Globals, Me)
+        
+
+
+        semtblA_Token.Connection = objLocalConfig.Connection_DB
     End Sub
 
     Public Sub initialize(ByVal SemItem_Report As clsSemItem)
@@ -139,13 +156,27 @@ Public Class UserControl_Report
         FilesToolStripMenuItem.Enabled = True
         CopyNameToolStripMenuItem.Enabled = False
         CopyGUIDToolStripMenuItem.Enabled = False
+        DecodePasswordToolStripMenuItem.Enabled = False
+        FilterToolStripMenuItem.Enabled = False
+        If BindingSource_Reports.Filter = "" Then
+            ClearFilterToolStripMenuItem.Enabled = False
+        Else
+            ClearFilterToolStripMenuItem.Enabled = True
+        End If
 
         If DataGridView_Reports.SelectedCells.Count = 1 Then
+            FilterToolStripMenuItem.Enabled = True
             CopyNameToolStripMenuItem.Enabled = True
             objDRs_Report = objUserData.ReportFields_procT.Select("Name_DBColumn='" & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & "'")
             If objDRs_Report.Count > 0 Then
                 If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_File.GUID Then
                     FilesToolStripMenuItem.Enabled = True
+                End If
+                If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_Password.GUID Then
+                    If Not objLocalConfig.SemItem_User Is Nothing Then
+                        DecodePasswordToolStripMenuItem.Enabled = True
+                    End If
+
                 End If
                 objDRs_Report = objUserData.ReportFields_procT.Select("GUID_ReportField_Leaded='" & objDRs_Report(0).Item("GUID_ReportField").ToString & "'")
                 If objDRs_Report.Count > 0 Then
@@ -153,7 +184,7 @@ Public Class UserControl_Report
                         CopyGUIDToolStripMenuItem.Enabled = True
                     End If
                 End If
-                
+
             End If
         End If
 
@@ -247,5 +278,191 @@ Public Class UserControl_Report
             Clipboard.SetText(objDRV_Selected.Item(DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName))
             
         End If
+    End Sub
+
+    Private Sub EditToolStripMenuItem_DropDownOpening(ByVal sender As Object, ByVal e As System.EventArgs) Handles EditToolStripMenuItem.DropDownOpening
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim objDRs_Report() As DataRow
+        Dim objDRC_Token As DataRowCollection
+        Dim objGUID_Item As Guid
+
+        objSemItem_Token = Nothing
+        XEditSemItemToolStripMenuItem.Enabled = False
+        If DataGridView_Reports.SelectedCells.Count = 1 Then
+            objDRs_Report = objUserData.ReportFields_procT.Select("Name_DBColumn='" & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & "'")
+            If objDRs_Report.Count > 0 Then
+                objDRs_Report = objUserData.ReportFields_procT.Select("GUID_ReportField_Leaded='" & objDRs_Report(0).Item("GUID_ReportField").ToString & "'")
+                If objDRs_Report.Count > 0 Then
+                    If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_GUID.GUID Then
+                        objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
+                        objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+                        If Not IsDBNull(objDRV_Selected.Item(objDRs_Report(0).Item("Name_DBColumn"))) Then
+                            objGUID_Item = objDRV_Selected.Item(objDRs_Report(0).Item("Name_DBColumn"))
+                            objDRC_Token = semtblA_Token.GetData_Token_By_GUID(objGUID_Item).Rows
+                            If objDRC_Token.Count = 1 Then
+                                objSemItem_Token = New clsSemItem
+                                objSemItem_Token.GUID = objDRC_Token(0).Item("GUID_Token")
+                                objSemItem_Token.Name = objDRC_Token(0).Item("Name_Token")
+                                objSemItem_Token.GUID_Parent = objDRC_Token(0).Item("GUID_Type")
+                                objSemItem_Token.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                                XEditSemItemToolStripMenuItem.Enabled = True
+                            End If
+
+                        End If
+                    End If
+                End If
+            End If
+        End If
+
+    End Sub
+
+    Private Sub XEditSemItemToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles XEditSemItemToolStripMenuItem.Click
+        frmTokenEdit = New frmTokenEdit(objSemItem_Token, objLocalConfig.Globals)
+        frmTokenEdit.ShowDialog(Me)
+    End Sub
+
+    Private Sub DecodePasswordToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DecodePasswordToolStripMenuItem.Click
+
+        If Not objLocalConfig.SemItem_User Is Nothing Then
+            Dim objDGVR_Selected As DataGridViewRow
+            Dim objDRV_Selected As DataRowView
+            Dim objDRs_Report() As DataRow
+            Dim objDRC_Token As DataRowCollection
+            Dim objGUID_Item As Guid
+            Dim strPassword As String
+
+            XEditSemItemToolStripMenuItem.Enabled = False
+            If DataGridView_Reports.SelectedCells.Count = 1 Then
+                objDRs_Report = objUserData.ReportFields_procT.Select("Name_DBColumn='" & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & "'")
+                If objDRs_Report.Count > 0 Then
+
+                    objDRs_Report = objUserData.ReportFields_procT.Select("GUID_ReportField_Leaded='" & objDRs_Report(0).Item("GUID_ReportField").ToString & "'")
+                    If objDRs_Report.Count > 0 Then
+                        If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_GUID.GUID Then
+                            objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
+                            objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+                            If Not IsDBNull(objDRV_Selected.Item(objDRs_Report(0).Item("Name_DBColumn"))) Then
+
+                                objSecurityModuleWork.initialize_User(objLocalConfig.SemItem_User)
+                                strPassword = objSecurityModuleWork.decode_Password(objSemItem_Token.Name)
+                                If strPassword <> "" Then
+                                    Clipboard.SetText(strPassword)
+                                    Timer_Password.Start()
+                                Else
+                                    MsgBox("Das Passwort konnte nicht ermittelt werden!", MsgBoxStyle.Information)
+                                End If
+
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+            
+        End If
+    End Sub
+
+    Private Sub Timer_Password_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Password.Tick
+        Timer_Password.Stop()
+
+        Clipboard.Clear()
+    End Sub
+
+    Private Sub EqualToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EqualToolStripMenuItem.Click
+        filter_Grid(cint_FilterID_equal)
+    End Sub
+
+    Private Sub filter_Grid(ByVal intFilter As Integer)
+        Dim objDRs_Report() As DataRow
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim strFilter As String
+        Dim strOperator As String
+        Dim boolNull As Boolean
+
+        Select Case intFilter
+            Case cint_FilterID_contains
+                strOperator = " LIKE "
+            Case cint_FilterID_different
+                strOperator = "NOT "
+            Case cint_FilterID_equal
+                strOperator = "="
+        End Select
+        If DataGridView_Reports.SelectedCells.Count = 1 Then
+
+            objDRs_Report = objUserData.ReportFields_procT.Select("Name_DBColumn='" & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & "'")
+            If objDRs_Report.Count > 0 Then
+                If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_Zahl.GUID Then
+                    If IsDBNull(DataGridView_Reports.SelectedCells(0)) Then
+                        boolNull = True
+                    Else
+                        strFilter = DataGridView_Reports.SelectedCells(0).Value
+                    End If
+
+                Else
+                    If IsDBNull(DataGridView_Reports.SelectedCells(0)) Then
+                        boolNull = ""
+                    Else
+                        If strOperator = "LIKE " Then
+                            If ToolStripTextBox_contains.Text <> "" Then
+                                strFilter = "'%" & ToolStripTextBox_contains.Text & "%'"
+                            Else
+                                strFilter = ""
+                            End If
+
+                        Else
+                            strFilter = "'" & DataGridView_Reports.SelectedCells(0).Value & "'"
+                        End If
+
+                    End If
+                    
+                End If
+                If strFilter <> "" Then
+                    If boolNull = True Then
+                        If strOperator = "NOT " Then
+                            strFilter = strOperator & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & " IS NULL"
+                        Else
+                            strFilter = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & " IS NULL"
+                        End If
+
+                    Else
+                        If strOperator = "NOT " Then
+                            strFilter = strOperator & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & "=" & strFilter
+                        Else
+                            strFilter = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & strOperator & strFilter
+                        End If
+                    End If
+                End If
+                
+                BindingSource_Reports.Filter = strFilter
+
+            End If
+        End If
+
+        ToolStripLabel_Filter.Text = BindingSource_Reports.Filter
+    End Sub
+
+    Private Sub ClearFilterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearFilterToolStripMenuItem.Click
+        BindingSource_Reports.RemoveFilter()
+        ToolStripLabel_Filter.Text = BindingSource_Reports.Filter
+    End Sub
+
+    Private Sub DifferentToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DifferentToolStripMenuItem.Click
+        filter_Grid(cint_FilterID_different)
+    End Sub
+
+    Private Sub ContainsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ContainsToolStripMenuItem.Click
+        filter_Grid(cint_FilterID_contains)
+    End Sub
+
+    Private Sub ToolStripTextBox_contains_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ToolStripTextBox_contains.KeyDown
+        Select Case e.KeyCode
+            Case Keys.Return, Keys.Enter
+                filter_Grid(cint_FilterID_contains)
+
+        End Select
     End Sub
 End Class

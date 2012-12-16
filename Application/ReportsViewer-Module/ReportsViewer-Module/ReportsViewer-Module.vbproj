@@ -56,6 +56,9 @@
     <Reference Include="Filesystem-Management">
       <HintPath>..\..\..\..\..\Development\Semantic\Modules\Filesystem-Management\Filesystem-Management.exe</HintPath>
     </Reference>
+    <Reference Include="Security-Module">
+      <HintPath>..\..\Security-Module\Security-Module\bin\Debug\Security-Module.exe</HintPath>
+    </Reference>
     <Reference Include="Sem-Manager">
       <HintPath>..\..\..\..\..\Development\Semantic\Modules\Semantic-Management\Sem-Manager.exe</HintPath>
     </Reference>

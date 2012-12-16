@@ -29,6 +29,17 @@ Partial Class UserControl_Report
         Me.FilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CopyPathToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CopyNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CopyGUIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.XEditSemItemToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DecodePasswordToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EqualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DifferentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ContainsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripTextBox_contains = New System.Windows.Forms.ToolStripTextBox()
+        Me.ClearFilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BindingSource_Reports = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingNavigator_Reports = New System.Windows.Forms.BindingNavigator(Me.components)
         Me.BindingNavigatorCountItem = New System.Windows.Forms.ToolStripLabel()
@@ -40,10 +51,10 @@ Partial Class UserControl_Report
         Me.BindingNavigatorMoveNextItem = New System.Windows.Forms.ToolStripButton()
         Me.BindingNavigatorMoveLastItem = New System.Windows.Forms.ToolStripButton()
         Me.BindingNavigatorSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel_FilterLBL = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel_Filter = New System.Windows.Forms.ToolStripLabel()
         Me.Timer_Data = New System.Windows.Forms.Timer(Me.components)
-        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CopyGUIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CopyNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Timer_Password = New System.Windows.Forms.Timer(Me.components)
         CType(Me.DataGridView_Reports, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip_Reports.SuspendLayout()
         CType(Me.BindingSource_Reports, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -63,14 +74,14 @@ Partial Class UserControl_Report
         Me.DataGridView_Reports.Location = New System.Drawing.Point(3, 3)
         Me.DataGridView_Reports.Name = "DataGridView_Reports"
         Me.DataGridView_Reports.ReadOnly = True
-        Me.DataGridView_Reports.Size = New System.Drawing.Size(869, 575)
+        Me.DataGridView_Reports.Size = New System.Drawing.Size(875, 490)
         Me.DataGridView_Reports.TabIndex = 0
         '
         'ContextMenuStrip_Reports
         '
-        Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FilesToolStripMenuItem, Me.EditToolStripMenuItem})
+        Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FilesToolStripMenuItem, Me.EditToolStripMenuItem, Me.FilterToolStripMenuItem})
         Me.ContextMenuStrip_Reports.Name = "ContextMenuStrip_Reports"
-        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(153, 70)
+        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(153, 92)
         '
         'FilesToolStripMenuItem
         '
@@ -82,14 +93,82 @@ Partial Class UserControl_Report
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
         Me.OpenToolStripMenuItem.Text = "x_Open"
         '
         'CopyPathToolStripMenuItem
         '
         Me.CopyPathToolStripMenuItem.Name = "CopyPathToolStripMenuItem"
-        Me.CopyPathToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
+        Me.CopyPathToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
         Me.CopyPathToolStripMenuItem.Text = "x_Copy Path"
+        '
+        'EditToolStripMenuItem
+        '
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.CopyGUIDToolStripMenuItem, Me.XEditSemItemToolStripMenuItem, Me.DecodePasswordToolStripMenuItem})
+        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EditToolStripMenuItem.Text = "x_Edit"
+        '
+        'CopyNameToolStripMenuItem
+        '
+        Me.CopyNameToolStripMenuItem.Name = "CopyNameToolStripMenuItem"
+        Me.CopyNameToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
+        Me.CopyNameToolStripMenuItem.Text = "x_Copy Name"
+        '
+        'CopyGUIDToolStripMenuItem
+        '
+        Me.CopyGUIDToolStripMenuItem.Name = "CopyGUIDToolStripMenuItem"
+        Me.CopyGUIDToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
+        Me.CopyGUIDToolStripMenuItem.Text = "x_Copy GUID"
+        '
+        'XEditSemItemToolStripMenuItem
+        '
+        Me.XEditSemItemToolStripMenuItem.Name = "XEditSemItemToolStripMenuItem"
+        Me.XEditSemItemToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
+        Me.XEditSemItemToolStripMenuItem.Text = "x_Edit_SemItem"
+        '
+        'DecodePasswordToolStripMenuItem
+        '
+        Me.DecodePasswordToolStripMenuItem.Name = "DecodePasswordToolStripMenuItem"
+        Me.DecodePasswordToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
+        Me.DecodePasswordToolStripMenuItem.Text = "x_Decode Password (Copy)"
+        '
+        'FilterToolStripMenuItem
+        '
+        Me.FilterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EqualToolStripMenuItem, Me.DifferentToolStripMenuItem, Me.ContainsToolStripMenuItem, Me.ClearFilterToolStripMenuItem})
+        Me.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem"
+        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FilterToolStripMenuItem.Text = "x_Filter"
+        '
+        'EqualToolStripMenuItem
+        '
+        Me.EqualToolStripMenuItem.Name = "EqualToolStripMenuItem"
+        Me.EqualToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EqualToolStripMenuItem.Text = "equal"
+        '
+        'DifferentToolStripMenuItem
+        '
+        Me.DifferentToolStripMenuItem.Name = "DifferentToolStripMenuItem"
+        Me.DifferentToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DifferentToolStripMenuItem.Text = "different"
+        '
+        'ContainsToolStripMenuItem
+        '
+        Me.ContainsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripTextBox_contains})
+        Me.ContainsToolStripMenuItem.Name = "ContainsToolStripMenuItem"
+        Me.ContainsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ContainsToolStripMenuItem.Text = "contains"
+        '
+        'ToolStripTextBox_contains
+        '
+        Me.ToolStripTextBox_contains.Name = "ToolStripTextBox_contains"
+        Me.ToolStripTextBox_contains.Size = New System.Drawing.Size(100, 21)
+        '
+        'ClearFilterToolStripMenuItem
+        '
+        Me.ClearFilterToolStripMenuItem.Name = "ClearFilterToolStripMenuItem"
+        Me.ClearFilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ClearFilterToolStripMenuItem.Text = "x_clear Filter"
         '
         'BindingNavigator_Reports
         '
@@ -97,7 +176,7 @@ Partial Class UserControl_Report
         Me.BindingNavigator_Reports.CountItem = Me.BindingNavigatorCountItem
         Me.BindingNavigator_Reports.DeleteItem = Nothing
         Me.BindingNavigator_Reports.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.BindingNavigator_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BindingNavigatorMoveFirstItem, Me.BindingNavigatorMovePreviousItem, Me.BindingNavigatorSeparator, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.BindingNavigatorSeparator1, Me.BindingNavigatorMoveNextItem, Me.BindingNavigatorMoveLastItem, Me.BindingNavigatorSeparator2})
+        Me.BindingNavigator_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BindingNavigatorMoveFirstItem, Me.BindingNavigatorMovePreviousItem, Me.BindingNavigatorSeparator, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.BindingNavigatorSeparator1, Me.BindingNavigatorMoveNextItem, Me.BindingNavigatorMoveLastItem, Me.BindingNavigatorSeparator2, Me.ToolStripLabel_FilterLBL, Me.ToolStripLabel_Filter})
         Me.BindingNavigator_Reports.Location = New System.Drawing.Point(0, 493)
         Me.BindingNavigator_Reports.MoveFirstItem = Me.BindingNavigatorMoveFirstItem
         Me.BindingNavigator_Reports.MoveLastItem = Me.BindingNavigatorMoveLastItem
@@ -112,8 +191,8 @@ Partial Class UserControl_Report
         'BindingNavigatorCountItem
         '
         Me.BindingNavigatorCountItem.Name = "BindingNavigatorCountItem"
-        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(35, 22)
-        Me.BindingNavigatorCountItem.Text = "of {0}"
+        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(44, 22)
+        Me.BindingNavigatorCountItem.Text = "von {0}"
         Me.BindingNavigatorCountItem.ToolTipText = "Total number of items"
         '
         'BindingNavigatorMoveFirstItem
@@ -176,28 +255,27 @@ Partial Class UserControl_Report
         Me.BindingNavigatorSeparator2.Name = "BindingNavigatorSeparator2"
         Me.BindingNavigatorSeparator2.Size = New System.Drawing.Size(6, 25)
         '
+        'ToolStripLabel_FilterLBL
+        '
+        Me.ToolStripLabel_FilterLBL.Name = "ToolStripLabel_FilterLBL"
+        Me.ToolStripLabel_FilterLBL.Size = New System.Drawing.Size(47, 22)
+        Me.ToolStripLabel_FilterLBL.Text = "x_Filter:"
+        '
+        'ToolStripLabel_Filter
+        '
+        Me.ToolStripLabel_Filter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.ToolStripLabel_Filter.ForeColor = System.Drawing.Color.DarkBlue
+        Me.ToolStripLabel_Filter.Name = "ToolStripLabel_Filter"
+        Me.ToolStripLabel_Filter.Size = New System.Drawing.Size(12, 22)
+        Me.ToolStripLabel_Filter.Text = "-"
+        '
         'Timer_Data
         '
         Me.Timer_Data.Interval = 300
         '
-        'EditToolStripMenuItem
+        'Timer_Password
         '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.CopyGUIDToolStripMenuItem})
-        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.EditToolStripMenuItem.Text = "x_Edit"
-        '
-        'CopyGUIDToolStripMenuItem
-        '
-        Me.CopyGUIDToolStripMenuItem.Name = "CopyGUIDToolStripMenuItem"
-        Me.CopyGUIDToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.CopyGUIDToolStripMenuItem.Text = "x_Copy GUID"
-        '
-        'CopyNameToolStripMenuItem
-        '
-        Me.CopyNameToolStripMenuItem.Name = "CopyNameToolStripMenuItem"
-        Me.CopyNameToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.CopyNameToolStripMenuItem.Text = "x_Copy Name"
+        Me.Timer_Password.Interval = 30000
         '
         'UserControl_Report
         '
@@ -237,5 +315,16 @@ Partial Class UserControl_Report
     Friend WithEvents EditToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CopyNameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CopyGUIDToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents XEditSemItemToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DecodePasswordToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents Timer_Password As System.Windows.Forms.Timer
+    Friend WithEvents FilterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents EqualToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DifferentToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ContainsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripTextBox_contains As System.Windows.Forms.ToolStripTextBox
+    Friend WithEvents ClearFilterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripLabel_FilterLBL As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripLabel_Filter As System.Windows.Forms.ToolStripLabel
 
 End Class

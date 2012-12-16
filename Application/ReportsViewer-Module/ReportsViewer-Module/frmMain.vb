@@ -1,4 +1,5 @@
 ﻿Imports Sem_Manager
+Imports Security_Module
 Public Class frmMain
     Private cint_ImageID_Root As Integer = 0
     Private cint_ImageID_Report As Integer = 1
@@ -8,7 +9,7 @@ Public Class frmMain
     Private objUserData As clsUserData
 
     Private WithEvents objUserControl_Report As UserControl_Report
-
+    Private objFrmAuthenticate As frmAuthenticate
     
     Private objTreeNode_Root As TreeNode
 
@@ -32,6 +33,15 @@ Public Class frmMain
     Private Sub initialize()
         set_DBConnection()
 
+        objFrmAuthenticate = New frmAuthenticate(frmAuthenticate.ERelateMode.NoRelate, True, False)
+        objFrmAuthenticate.ShowDialog(Me)
+
+        If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
+            objLocalConfig.SemItem_User = objFrmAuthenticate.SemItem_User
+        Else
+            objLocalConfig.SemItem_User = Nothing
+        End If
+
         objUserData.initailze_ReportTree()
         Do
         Loop While objUserData.finished_Data_ReportTree = False
@@ -39,6 +49,8 @@ Public Class frmMain
         objUserData.initialize_Reports()
 
         fill_Tree()
+
+        
     End Sub
 
     Private Sub fill_Tree(Optional ByVal objTreeNode As TreeNode = Nothing)

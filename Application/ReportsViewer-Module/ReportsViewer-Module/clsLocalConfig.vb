@@ -20,6 +20,7 @@ Public Class clsLocalConfig
 
     Private objGUID_Development As Guid
     Private objSemItem_Development As clsSemItem
+    Private objSemItem_User As clsSemItem
 
     'Attributes
     Private objSemItem_attribute_dbPostfix As New clsSemItem
@@ -54,6 +55,7 @@ Public Class clsLocalConfig
     Private objSemItem_Token_Field_Type_File As New clsSemItem
     Private objSemItem_Token_Field_Type_Password As New clsSemItem
     Private objSemItem_Token_Field_Type_GUID As New clsSemItem
+    Private objSemItem_Token_Field_Type_Zahl As New clsSemItem
 
 
     'Attributes
@@ -216,6 +218,21 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property SemItem_Token_Field_Type_Zahl() As clsSemItem
+        Get
+            Return objSemItem_Token_Field_Type_Zahl
+        End Get
+    End Property
+
+
+    Public Property SemItem_User As clsSemItem
+        Get
+            Return objSemItem_User
+        End Get
+        Set(ByVal value As clsSemItem)
+            objSemItem_User = value
+        End Set
+    End Property
 
     Public ReadOnly Property Connection_DB() As SqlClient.SqlConnection
         Get
@@ -767,5 +784,21 @@ Public Class clsLocalConfig
             Err.Raise(1, "Config not set")
         End If
 
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Token_Field_Type_Zahl'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Token_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Token_Field_Type_Zahl.GUID = objDRC_Ref(0).Item("GUID_Token")
+                objSemItem_Token_Field_Type_Zahl.Name = objDRC_Ref(0).Item("Name_Token")
+                objSemItem_Token_Field_Type_Zahl.GUID_Parent = objDRC_Ref(0).Item("GUID_Type")
+                objSemItem_Token_Field_Type_Zahl.GUID_Type = objGlobals.ObjectReferenceType_Token.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
     End Sub
 End Class

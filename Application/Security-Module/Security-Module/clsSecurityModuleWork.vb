@@ -18,52 +18,57 @@ Public Class clsSecurityModuleWork
         Dim strMasterPassword_Encoded As String
         Dim strPassword As String
 
-        objDRC_User = procA_User_By_GUID.GetData(objLocalConfig.SemItem_Attribute_Master_Password.GUID, _
+        If boolUser_Initialized = False Then
+            objDRC_User = procA_User_By_GUID.GetData(objLocalConfig.SemItem_Attribute_Master_Password.GUID, _
                                                  objLocalConfig.SemItem_type_User.GUID, _
                                                  objSemItem_User.GUID).Rows
-        If objDRC_User.Count > 0 Then
-            strMasterPassword_Encoded = objDRC_User(0).Item("MasterPassword")
-            objDlgAttribute_VARCHAR255 = New dlgAttribute_Varchar255("New Password", objLocalConfig.Globals)
-            objDlgAttribute_VARCHAR255.secure_Val1 = True
-            objDlgAttribute_VARCHAR255.ShowDialog(objFrm)
-            If objDlgAttribute_VARCHAR255.DialogResult = Windows.Forms.DialogResult.OK Then
-                strPassword = objDlgAttribute_VARCHAR255.Value1
-                strMasterPassword_Decoded = objSecurity.decode_String(strMasterPassword_Encoded, strPassword)
-                If strPassword = strMasterPassword_Decoded Then
-                    objSemItem_Result = objLocalConfig.Globals.LogState_Success
-                    boolUser_Initialized = True
+            If objDRC_User.Count > 0 Then
+                strMasterPassword_Encoded = objDRC_User(0).Item("MasterPassword")
+                objDlgAttribute_VARCHAR255 = New dlgAttribute_Varchar255("New Password", objLocalConfig.Globals)
+                objDlgAttribute_VARCHAR255.secure_Val1 = True
+                objDlgAttribute_VARCHAR255.ShowDialog(objFrm)
+                If objDlgAttribute_VARCHAR255.DialogResult = Windows.Forms.DialogResult.OK Then
+                    strPassword = objDlgAttribute_VARCHAR255.Value1
+                    strMasterPassword_decoded = objSecurity.decode_String(strMasterPassword_Encoded, strPassword)
+                    If strPassword = strMasterPassword_decoded Then
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+                        boolUser_Initialized = True
+                    Else
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                    End If
                 Else
-                    objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                    objSemItem_Result = objLocalConfig.Globals.LogState_Nothing
                 End If
             Else
-                objSemItem_Result = objLocalConfig.Globals.LogState_Nothing
+
+                objDlgAttribute_VARCHAR255 = New dlgAttribute_Varchar255("New Password", objLocalConfig.Globals)
+                objDlgAttribute_VARCHAR255.secure_Val1 = True
+                objDlgAttribute_VARCHAR255.secure_Val2 = True
+                objDlgAttribute_VARCHAR255.ShowDialog(objFrm)
+                If objDlgAttribute_VARCHAR255.DialogResult = Windows.Forms.DialogResult.OK Then
+                    strMasterPassword_decoded = objDlgAttribute_VARCHAR255.Value1
+                    strMasterPassword_Encoded = objSecurity.encode_String(objDlgAttribute_VARCHAR255.Value1, strMasterPassword_decoded)
+                    objDRC_LogState = semprocA_DBWork_Save_TokenAttribute_VARCHAR255.GetData(objSemItem_User.GUID, _
+                                                                                             objLocalConfig.SemItem_Attribute_Master_Password.GUID, _
+                                                                                             Nothing, _
+                                                                                             strMasterPassword_Encoded, 0).Rows
+                    If Not objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Error.GUID Then
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+                        boolUser_Initialized = True
+                    Else
+
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                    End If
+
+
+                Else
+                    objSemItem_Result = objLocalConfig.Globals.LogState_Nothing
+                End If
             End If
         Else
-
-            objDlgAttribute_VARCHAR255 = New dlgAttribute_Varchar255("New Password", objLocalConfig.Globals)
-            objDlgAttribute_VARCHAR255.secure_Val1 = True
-            objDlgAttribute_VARCHAR255.secure_Val2 = True
-            objDlgAttribute_VARCHAR255.ShowDialog(objFrm)
-            If objDlgAttribute_VARCHAR255.DialogResult = Windows.Forms.DialogResult.OK Then
-                strMasterPassword_decoded = objDlgAttribute_VARCHAR255.Value1
-                strMasterPassword_Encoded = objSecurity.encode_String(objDlgAttribute_VARCHAR255.Value1, strMasterPassword_decoded)
-                objDRC_LogState = semprocA_DBWork_Save_TokenAttribute_VARCHAR255.GetData(objSemItem_User.GUID, _
-                                                                                         objLocalConfig.SemItem_Attribute_Master_Password.GUID, _
-                                                                                         Nothing, _
-                                                                                         strMasterPassword_Encoded, 0).Rows
-                If Not objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Error.GUID Then
-                    objSemItem_Result = objLocalConfig.Globals.LogState_Success
-                    boolUser_Initialized = True
-                Else
-
-                    objSemItem_Result = objLocalConfig.Globals.LogState_Error
-                End If
-
-
-            Else
-                objSemItem_Result = objLocalConfig.Globals.LogState_Nothing
-            End If
+            objSemItem_Result = objLocalConfig.Globals.LogState_Success
         End If
+        
 
 
 
