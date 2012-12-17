@@ -52,10 +52,8 @@
     <ApplicationIcon>lock_-_open_afief_halumi_01.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Sem-Manager, Version=0.2.0.22, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <ExecutableExtension>.exe</ExecutableExtension>
-      <HintPath>..\..\..\..\GitHub\SemManager\Application\Sem-Manager\Sem-Manager\bin\Debug\Sem-Manager.exe</HintPath>
+    <Reference Include="Sem-Manager">
+      <HintPath>..\..\Sem-Manager\Sem-Manager\bin\Debug\Sem-Manager.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
