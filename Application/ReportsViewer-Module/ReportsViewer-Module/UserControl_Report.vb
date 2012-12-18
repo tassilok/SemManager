@@ -406,7 +406,7 @@ Public Class UserControl_Report
                     If IsDBNull(DataGridView_Reports.SelectedCells(0)) Then
                         boolNull = ""
                     Else
-                        If strOperator = "LIKE " Then
+                        If strOperator = " LIKE " Then
                             If ToolStripTextBox_contains.Text <> "" Then
                                 strFilter = "'%" & ToolStripTextBox_contains.Text & "%'"
                             Else
