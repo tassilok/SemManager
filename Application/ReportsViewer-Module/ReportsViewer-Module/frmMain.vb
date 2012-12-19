@@ -109,4 +109,11 @@ Public Class frmMain
     Protected Overrides Sub Finalize()
         MyBase.Finalize()
     End Sub
+
+    Private Sub TreeView_Report_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TreeView_Report.KeyDown
+        Select Case e.KeyCode
+            Case Keys.F5
+                fill_Tree()
+        End Select
+    End Sub
 End Class
