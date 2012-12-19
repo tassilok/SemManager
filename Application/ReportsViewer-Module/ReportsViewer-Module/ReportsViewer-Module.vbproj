@@ -100,6 +100,12 @@
       <DependentUpon>frmMain.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmMediaShow.Designer.vb">
+      <DependentUpon>frmMediaShow.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMediaShow.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -125,6 +131,9 @@
   <ItemGroup>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMediaShow.resx">
+      <DependentUpon>frmMediaShow.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -164,6 +173,25 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\Key.png" />
+    <None Include="Resources\generic_picture.png" />
+    <None Include="Resources\1683_Lightbulb_32x32.png" />
+    <None Include="Resources\pdf_preview.png" />
+    <None Include="Resources\images.jpg" />
+    <None Include="Resources\GenVideoDoc_32x32_72.png" />
+    <None Include="Resources\Blu-RayMovieDisk.png" />
+    <None Include="Resources\AudioCD.png" />
+    <None Include="Resources\112_ArrowCurve_Blue_Right_32x32_72.png" />
+    <None Include="Resources\Video.png" />
+    <None Include="Resources\CopyHS.png" />
+    <None Include="Resources\CopyHH.bmp" />
+    <None Include="Resources\010_LowPriority_32x32_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MediaViewer-Module\Image-Module\MediaViewer-Module.vbproj">
+      <Project>{5175CF62-61B6-4F7B-BADB-BE32F5758818}</Project>
+      <Name>MediaViewer-Module</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ReportsViewer-Module", "ReportsViewer-Module\ReportsViewer-Module.vbproj", "{D214E4EA-D520-477E-9AB9-41A8C94DA2E3}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MediaViewer-Module", "..\MediaViewer-Module\Image-Module\MediaViewer-Module.vbproj", "{5175CF62-61B6-4F7B-BADB-BE32F5758818}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{D214E4EA-D520-477E-9AB9-41A8C94DA2E3}.Debug|x86.Build.0 = Debug|x86
 		{D214E4EA-D520-477E-9AB9-41A8C94DA2E3}.Release|x86.ActiveCfg = Release|x86
 		{D214E4EA-D520-477E-9AB9-41A8C94DA2E3}.Release|x86.Build.0 = Release|x86
+		{5175CF62-61B6-4F7B-BADB-BE32F5758818}.Debug|x86.ActiveCfg = Debug|x86
+		{5175CF62-61B6-4F7B-BADB-BE32F5758818}.Debug|x86.Build.0 = Debug|x86
+		{5175CF62-61B6-4F7B-BADB-BE32F5758818}.Release|x86.ActiveCfg = Release|x86
+		{5175CF62-61B6-4F7B-BADB-BE32F5758818}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
