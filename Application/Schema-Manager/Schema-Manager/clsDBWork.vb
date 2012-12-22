@@ -22,6 +22,8 @@ Public Class clsDBWork
     Private semtblA_RelationType As New ds_SemDBTableAdapters.semtbl_RelationTypeTableAdapter
     Private semtblA_Type As New ds_SemDBTableAdapters.semtbl_TypeTableAdapter
     Private semtblA_Token As New ds_SemDBTableAdapters.semtbl_TokenTableAdapter
+    Private dtblA_Columns As New ds_SchemaManagerTableAdapters.dtbl_ColumnsTableAdapter
+    Private dtblT_Columns As New ds_SchemaManager.dtbl_ColumnsDataTable
 
     Private funcA_Token_Token As New ds_TokenTableAdapters.func_TokenTokenTableAdapter
     Private procA_CreationScript_And_DBItems_Of_DBSchema_BY_GUIDDBSchema As New ds_SchemaManagerTableAdapters.proc_CreationScript_And_DBItems_Of_DBSchema_BY_GUIDDBSchemaTableAdapter
@@ -137,6 +139,31 @@ Public Class clsDBWork
 
     Private boolInitialized As Boolean
     Private boolSaveSQL As Boolean
+
+    Public ReadOnly Property dtbl_Columns() As ds_SchemaManager.dtbl_ColumnsDataTable
+        Get
+            Return dtblT_Columns
+        End Get
+    End Property
+
+    Public Function get_ColumnsOfView(ByVal SemItem_View As clsSemItem, ByVal strDatabase As String, ByVal strServer As String) As clsSemItem
+        Dim objConnection As New SqlClient.SqlConnection
+        Dim objSemItem_Result As clsSemItem
+
+        objConnection.ConnectionString = objLocalConfig.Globals.get_DB_ConnectionString(strServer, strDatabase)
+
+        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+
+        dtblA_Columns.Connection = objConnection
+        Try
+            dtblA_Columns.Fill(dtblT_Columns, SemItem_View.Name)
+        Catch ex As Exception
+            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+        End Try
+
+
+        Return objSemItem_Result
+    End Function
 
     Public Function get_SQL_Insert_Attribute(ByVal GUID_Attribute As Guid, ByVal Name_attribute As String, ByVal GUID_Attribute_Type As Guid) As String
         Dim strSQL As String
