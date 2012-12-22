@@ -72,6 +72,7 @@ Public Class UserControl_Report
         objSemItem_Report = SemItem_Report
         If objSemItem_Report Is Nothing Then
             objDataTable.Clear()
+            BindingSource_Reports.DataSource = Nothing
         Else
             get_Data()
         End If
@@ -104,7 +105,13 @@ Public Class UserControl_Report
 
                     objDataAdp.Fill(objDataSet)
                     objDataTable = objDataSet.Tables(0)
-                    BindingSource_Reports.DataSource = objDataTable
+                    Try
+                        BindingSource_Reports.DataSource = objDataTable
+                    Catch ex As Exception
+                        BindingSource_Reports.RemoveFilter()
+                        BindingSource_Reports.DataSource = objDataTable
+                    End Try
+
                     DataGridView_Reports.DataSource = BindingSource_Reports
                     BindingNavigator_Reports.BindingSource = BindingSource_Reports
                     configure_DataGridView()
@@ -129,10 +136,28 @@ Public Class UserControl_Report
                 End If
 
                 objColumn.HeaderText = objDRs_Column(0).Item("Name_ReportField")
+
+                If Not IsDBNull(objDRs_Column(0).Item("Name_Field_Format")) Then
+                    objColumn.DefaultCellStyle.Format = objDRs_Column(0).Item("Name_Field_Format")
+                End If
+
+                If objDRs_Column(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_Zahl.GUID Then
+                    objColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopRight
+                End If
+
+                Try
+                    If objColumn.Displayed = True Then
+                        objColumn.DisplayIndex = objDRs_Column(0).Item("OrderID")
+                    End If
+                Catch ex As Exception
+
+                End Try
             End If
 
 
         Next
+
+
     End Sub
 
     Private Sub DataGridView_Reports_CellMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellMouseEventArgs) Handles DataGridView_Reports.CellMouseClick

@@ -16,6 +16,14 @@ Public Class clsUserData
     Private procA_ReportFields As New DataSet_ReportsTableAdapters.proc_ReportFieldsTableAdapter
     Private procT_ReportFields As New DataSet_Reports.proc_ReportFieldsDataTable
 
+    Private funcA_TokenToken As New ds_TokenTableAdapters.func_TokenTokenTableAdapter
+    Private semtblA_Token As New ds_SemDBTableAdapters.semtbl_TokenTableAdapter
+
+    Private dtblA_Columns As New DataSet_ReportsTableAdapters.dtbl_ColumnsTableAdapter
+    Private dtblT_Columns As New DataSet_Reports.dtbl_ColumnsDataTable
+
+    Private objTransaction_Reports As clsTransaction_Reports
+
     Private objSemItem_Report As clsSemItem
 
     Private objThread_Data_ReportTree As Threading.Thread
@@ -75,6 +83,133 @@ Public Class clsUserData
         set_DBConnection()
     End Sub
 
+    Public Function get_Columns(ByVal objSemItem_Report As clsSemItem) As clsSemItem
+        Dim objConnection As SqlClient.SqlConnection
+        Dim objSemItem_Result As clsSemItem
+        Dim objSemItem_View As New clsSemItem
+        Dim objDRs_View() As DataRow
+        Dim objDRs_Exists() As DataRow
+        Dim objDR_Column As DataRow
+        Dim objDRC_Column As DataRowCollection
+        Dim objSemItem_DBColumn As New clsSemItem
+        Dim objSemItem_ReportField As New clsSemItem
+        Dim intToDo As Integer
+        Dim intDone As Integer
+
+
+        get_Data_Report(objSemItem_Report)
+        objDRs_View = procT_Report.Select("GUID_Report='" & objSemItem_Report.GUID.ToString & "'")
+
+        If objDRs_View.Count > 0 Then
+
+            objSemItem_View.GUID = objDRs_View(0).Item("GUID_DBItem")
+            objSemItem_View.Name = objDRs_View(0).Item("Name_DBItem")
+            objSemItem_View.GUID_Parent = objLocalConfig.SemItem_Type_DB_Views.GUID
+            objSemItem_View.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+
+            If Not IsDBNull(objDRs_View(0).Item("Name_Server")) And Not IsDBNull(objDRs_View(0).Item("Name_Database")) Then
+                objConnection = New SqlClient.SqlConnection(objLocalConfig.Globals.get_DB_ConnectionString(objDRs_View(0).Item("Name_Server"), objDRs_View(0).Item("Name_Database")))
+
+                dtblA_Columns.Connection = objConnection
+                dtblA_Columns.Fill(dtblT_Columns, _
+                                   objSemItem_View.Name)
+
+                If dtblT_Columns.Rows.Count > 0 Then
+                    procA_ReportFields.Fill(procT_ReportFields, _
+                                            objLocalConfig.SemItem_Attribute_invisible.GUID, _
+                                            objLocalConfig.SemItem_Type_Report_Field.GUID, _
+                                            objLocalConfig.SemItem_Type_Reports.GUID, _
+                                            objLocalConfig.SemItem_Type_DB_Columns.GUID, _
+                                            objLocalConfig.SemItem_Type_Field_Type.GUID, _
+                                            objLocalConfig.SemItem_Type_Field_Format.GUID, _
+                                            objLocalConfig.SemItem_RelationType_belongsTo.GUID, _
+                                            objLocalConfig.SemItem_RelationType_is.GUID, _
+                                            objLocalConfig.SemItem_RelationType_is_of_Type.GUID, _
+                                            objLocalConfig.SemItem_RelationType_leads.GUID, _
+                                            objLocalConfig.SemItem_RelationType_Formatted_by.GUID, _
+                                            objSemItem_Report.GUID)
+
+                    intToDo = dtblT_Columns.Rows.Count
+                    intDone = 0
+                    For Each objDR_Column In dtblT_Columns.Rows
+                        objDRs_Exists = procT_ReportFields.Select("Name_DBColumn='" & objDR_Column.Item("name") & "'")
+                        If objDRs_Exists.Count = 0 Then
+                            objDRC_Column = semtblA_Token.GetData_Token_By_Name_And_GUIDType(objLocalConfig.SemItem_Type_DB_Columns.GUID, _
+                                                                                             objDR_Column.Item("Name")).Rows
+                            If objDRC_Column.Count = 0 Then
+                                objSemItem_DBColumn.GUID = Guid.NewGuid
+                                objSemItem_DBColumn.Name = objDR_Column.Item("name")
+                                objSemItem_DBColumn.GUID_Parent = objLocalConfig.SemItem_Type_DB_Columns.GUID
+                                objSemItem_DBColumn.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                                objSemItem_Result = objTransaction_Reports.save_001_DBColumn(objSemItem_DBColumn)
+
+                            Else
+                                objSemItem_DBColumn.GUID = objDRC_Column(0).Item("GUID_Token")
+                                objSemItem_DBColumn.Name = objDRC_Column(0).Item("Name_Token")
+                                objSemItem_DBColumn.GUID_Parent = objLocalConfig.SemItem_Type_DB_Columns.GUID
+                                objSemItem_DBColumn.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                                objSemItem_Result = objLocalConfig.Globals.LogState_Success
+                            End If
+
+                            If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                objSemItem_Result = objTransaction_Reports.save_002_DBColumn_To_View(objSemItem_View, _
+                                                                                                     objSemItem_DBColumn)
+                                If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+
+                                    objSemItem_ReportField.GUID = Guid.NewGuid
+                                    objSemItem_ReportField.Name = objSemItem_DBColumn.Name
+                                    objSemItem_ReportField.GUID_Parent = objLocalConfig.SemItem_Type_Report_Field.GUID
+                                    objSemItem_ReportField.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                                    objSemItem_Result = objTransaction_Reports.save_003_ReportField(objSemItem_ReportField)
+                                    If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                        objSemItem_Result = objTransaction_Reports.save_004_ReportField_To_Report(objSemItem_Report, _
+                                                                                                                  objSemItem_ReportField)
+                                        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                            objSemItem_Result = objTransaction_Reports.save_005_ReportField_To_DBColumn(objSemItem_DBColumn, _
+                                                                                                                        objSemItem_ReportField)
+                                            If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                                intDone = intDone + 1
+                                            Else
+                                                objSemItem_Result = objTransaction_Reports.del_004_ReportField_To_Report
+                                                If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                                    objTransaction_Reports.del_003_ReportField()
+                                                End If
+                                            End If
+                                        Else
+                                            objTransaction_Reports.del_003_ReportField(objSemItem_ReportField)
+                                        End If
+                                    End If
+                                Else
+                                    objTransaction_Reports.del_001_DBColumn(objSemItem_DBColumn)
+
+                                End If
+                            End If
+                        Else
+                            intDone = intDone + 1
+                        End If
+
+                    Next
+
+                    If intDone < intToDo Then
+                        MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Report-Fields erzeugt werden!", MsgBoxStyle.Exclamation)
+                    End If
+                End If
+            Else
+                objSemItem_Result = objLocalConfig.Globals.LogState_Error
+            End If
+
+        Else
+            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+        End If
+
+
+        Return objSemItem_Result
+    End Function
+
     Public Sub initailze_ReportTree()
         boolData_ReportTree = False
         objThread_Data_ReportTree = New Threading.Thread(AddressOf get_Data_ReportTree)
@@ -109,16 +244,21 @@ Public Class clsUserData
                                 objLocalConfig.SemItem_Type_Reports.GUID, _
                                 objLocalConfig.SemItem_Type_DB_Columns.GUID, _
                                 objLocalConfig.SemItem_Type_Field_Type.GUID, _
+                                objLocalConfig.SemItem_Type_Field_Format.GUID, _
                                 objLocalConfig.SemItem_RelationType_belongsTo.GUID, _
                                 objLocalConfig.SemItem_RelationType_is.GUID, _
                                 objLocalConfig.SemItem_RelationType_is_of_Type.GUID, _
                                 objLocalConfig.SemItem_RelationType_leads.GUID, _
+                                objLocalConfig.SemItem_RelationType_Formatted_by.GUID, _
                                 objSemItem_Report.GUID)
 
 
         boolData_ReportFields = True
     End Sub
-    Private Sub get_Data_Report()
+    Private Sub get_Data_Report(Optional ByVal SemItem_Report As clsSemItem = Nothing)
+        If Not SemItem_Report Is Nothing Then
+            objSemItem_Report = SemItem_Report
+        End If
         procA_Report.Connection = New SqlClient.SqlConnection(strConnection_Module)
         procA_Report.Fill(procT_Report, _
                           objLocalConfig.SemItem_Type_Reports.GUID, _
@@ -160,5 +300,8 @@ Public Class clsUserData
     Private Sub set_DBConnection()
         strConnection_DB = objLocalConfig.Connection_DB.ConnectionString
         strConnection_Module = objLocalConfig.Connection_Plugin.ConnectionString
+        funcA_TokenToken.Connection = objLocalConfig.Connection_DB
+        objTransaction_Reports = New clsTransaction_Reports(objLocalConfig)
+        semtblA_Token.Connection = objLocalConfig.Connection_DB
     End Sub
 End Class

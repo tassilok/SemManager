@@ -8,7 +8,7 @@
   <Shapes>
     <Shape ID="DesignTable:proc_ReportTree" ZOrder="3" X="468" Y="171" Height="207" Width="300" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="160" />
     <Shape ID="DesignTable:proc_Report" ZOrder="2" X="78" Y="147" Height="258" Width="300" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="211" />
-    <Shape ID="DesignTable:proc_ReportFields" ZOrder="1" X="900" Y="119" Height="305" Width="248" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="254" />
+    <Shape ID="DesignTable:proc_ReportFields" ZOrder="1" X="899" Y="116" Height="275" Width="300" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="228" />
   </Shapes>
   <Connectors />
 </DiagramLayout>

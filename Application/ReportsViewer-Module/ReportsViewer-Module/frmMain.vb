@@ -8,8 +8,15 @@ Public Class frmMain
 
     Private objUserData As clsUserData
 
+    Private objDLGAttribute_VARCHAR255 As dlgAttribute_Varchar255
+
+    Private funcA_TokenToken As New ds_TokenTableAdapters.func_TokenTokenTableAdapter
+
     Private WithEvents objUserControl_Report As UserControl_Report
     Private objFrmAuthenticate As frmAuthenticate
+    Private objFrmTokenEdit As frmTokenEdit
+
+    Private objTransaction_Reports As clsTransaction_Reports
     
     Private objTreeNode_Root As TreeNode
 
@@ -85,6 +92,8 @@ Public Class frmMain
 
     Private Sub set_DBConnection()
         objUserData = New clsUserData(objLocalConfig)
+        objTransaction_Reports = New clsTransaction_Reports(objLocalConfig)
+        funcA_TokenToken.Connection = objLocalConfig.Connection_DB
     End Sub
 
     Private Sub TreeView_Report_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_Report.AfterSelect
@@ -110,10 +119,144 @@ Public Class frmMain
         MyBase.Finalize()
     End Sub
 
+    Private Sub TreeView_Report_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles TreeView_Report.DoubleClick
+        Dim objTreeNode As TreeNode
+        Dim objSemItem_Report As New clsSemItem
+        objTreeNode = TreeView_Report.SelectedNode
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = cint_ImageID_Report Then
+                objSemItem_Report.GUID = New Guid(objTreeNode.Name)
+                objSemItem_Report.Name = objTreeNode.Text
+                objSemItem_Report.GUID_Parent = objLocalConfig.SemItem_Type_Reports.GUID
+                objSemItem_Report.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                objFrmTokenEdit = New frmTokenEdit(objSemItem_Report, objLocalConfig.Globals)
+                objFrmTokenEdit.ShowDialog()
+            End If
+        End If
+    End Sub
+
     Private Sub TreeView_Report_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TreeView_Report.KeyDown
         Select Case e.KeyCode
             Case Keys.F5
                 fill_Tree()
         End Select
+    End Sub
+
+    Private Sub ContextMenuStrip_Reports_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Reports.Opening
+        Dim objTreeNode As TreeNode
+
+
+        GetColumnsToolStripMenuItem.Enabled = False
+        AddReportToolStripMenuItem.Enabled = False
+
+        objTreeNode = TreeView_Report.SelectedNode
+
+        If Not objTreeNode Is Nothing Then
+            AddReportToolStripMenuItem.Enabled = True
+            If objTreeNode.ImageIndex = cint_ImageID_Report Then
+                GetColumnsToolStripMenuItem.Enabled = True
+            End If
+        End If
+    End Sub
+
+    Private Sub GetColumnsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GetColumnsToolStripMenuItem.Click
+        Dim objTreeNode As TreeNode
+        Dim objSemItem_Report As clsSemItem
+        Dim objSemItem_Result As clsSemItem
+
+        objTreeNode = TreeView_Report.SelectedNode
+
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = cint_ImageID_Report Then
+                objSemItem_Report = New clsSemItem
+                objSemItem_Report.GUID = New Guid(objTreeNode.Name)
+                objSemItem_Report.Name = objTreeNode.Text
+                objSemItem_Report.GUID_Parent = objLocalConfig.SemItem_Type_Reports.GUID
+                objSemItem_Report.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                objSemItem_Result = objUserData.get_Columns(objSemItem_Report)
+                If Not objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                    MsgBox("Der Report ist nicht richtig konfiguriert!", MsgBoxStyle.Exclamation)
+                End If
+
+            End If
+        End If
+    End Sub
+
+    Private Sub AddReportToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddReportToolStripMenuItem.Click
+        Dim objTreeNode As TreeNode
+        Dim objSemItem_Report As clsSemItem
+        Dim objSemItem_Report_Parent As clsSemItem
+        Dim objDRC_Reports As DataRowCollection
+        Dim objSemItem_Result As clsSemItem
+
+        objTreeNode = TreeView_Report.SelectedNode
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = cint_ImageID_Report Then
+                objSemItem_Report_Parent = New clsSemItem
+                objSemItem_Report_Parent.GUID = New Guid(objTreeNode.Name)
+                objSemItem_Report_Parent.Name = objTreeNode.Text
+                objSemItem_Report_Parent.GUID_Parent = objLocalConfig.SemItem_Type_Reports.GUID
+                objSemItem_Report_Parent.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+            Else
+                objSemItem_Report_Parent = Nothing
+            End If
+
+            objDLGAttribute_VARCHAR255 = New dlgAttribute_Varchar255("New Report", objLocalConfig.Globals)
+            objDLGAttribute_VARCHAR255.ShowDialog(Me)
+            If objDLGAttribute_VARCHAR255.DialogResult = Windows.Forms.DialogResult.OK Then
+                If Not objSemItem_Report_Parent Is Nothing Then
+                    objDRC_Reports = funcA_TokenToken.GetData_By_GUIDToken_Left_GUIDType_Right_TokenName_Right_GUIDRel(objSemItem_Report_Parent.GUID, _
+                                                                                                                   objDLGAttribute_VARCHAR255.Value1, _
+                                                                                                                   objLocalConfig.SemItem_Type_Reports.GUID, _
+                                                                                                                   objLocalConfig.SemItem_RelationType_contains.GUID).Rows
+                    If objDRC_Reports.Count = 0 Then
+                        objSemItem_Report = New clsSemItem
+                        objSemItem_Report.GUID = Guid.NewGuid
+                        objSemItem_Report.Name = objDLGAttribute_VARCHAR255.Value1
+                        objSemItem_Report.GUID_Parent = objLocalConfig.SemItem_Type_Reports.GUID
+                        objSemItem_Report.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                    Else
+                        objSemItem_Report = Nothing
+                    End If
+                Else
+                    objSemItem_Report = New clsSemItem
+                    objSemItem_Report.GUID = Guid.NewGuid
+                    objSemItem_Report.Name = objDLGAttribute_VARCHAR255.Value1
+                    objSemItem_Report.GUID_Parent = objLocalConfig.SemItem_Type_Reports.GUID
+                    objSemItem_Report.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                End If
+                
+                If Not objSemItem_Report Is Nothing Then
+
+
+                    objSemItem_Result = objTransaction_Reports.save_006_Report(objSemItem_Report)
+                    If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                        If Not objSemItem_Report_Parent Is Nothing Then
+                            objSemItem_Result = objTransaction_Reports.save_007_Report_to_Report(objSemItem_Report_Parent, _
+                                                                                             objSemItem_Report)
+                        Else
+                            objSemItem_Result = objLocalConfig.Globals.LogState_Success
+                        End If
+                        
+                        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                            objTreeNode.Nodes.Add(objSemItem_Report.GUID.ToString, _
+                                                  objSemItem_Report.Name, _
+                                                  cint_ImageID_Report, _
+                                                  cint_ImageID_Report)
+                        Else
+                            objTransaction_Reports.del_006_Report(objSemItem_Report)
+                            MsgBox("Der Report konnte nicht erzeugt werden!", MsgBoxStyle.Exclamation)
+                        End If
+                    Else
+                        MsgBox("Der Report konnte nicht erzeugt werden!", MsgBoxStyle.Exclamation)
+                    End If
+                Else
+                    MsgBox("Es gibt bereits einen Report mit dem Namen!", MsgBoxStyle.Exclamation)
+                End If
+
+            End If
+        End If
     End Sub
 End Class

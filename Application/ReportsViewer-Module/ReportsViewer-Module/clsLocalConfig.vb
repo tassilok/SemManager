@@ -33,6 +33,7 @@ Public Class clsLocalConfig
     Private objSemItem_RelationType_located_in As New clsSemItem
     Private objSemItem_RelationType_is_of_Type As New clsSemItem
     Private objSemItem_RelationType_leads As New clsSemItem
+    Private objSemItem_RelationType_Formatted_by As New clsSemItem
 
     'Types
     Private objSemItem_Type_Database As New clsSemItem
@@ -46,6 +47,7 @@ Public Class clsLocalConfig
     Private objSemItem_Type_Field_Type As New clsSemItem
     Private objSemItem_Type_DB_Columns As New clsSemItem
     Private objSemItem_Type_File As New clsSemItem
+    Private objSemItem_Type_Field_Format As New clsSemItem
     
     'Token
     Private objSemItem_Token_Report_Type_View As New clsSemItem
@@ -107,6 +109,14 @@ Public Class clsLocalConfig
             Return objSemItem_RelationType_leads
         End Get
     End Property
+
+    Public ReadOnly Property SemItem_RelationType_Formatted_by() As clsSemItem
+        Get
+            Return objSemItem_RelationType_Formatted_by
+        End Get
+    End Property
+
+    
 
     'Types
     Public ReadOnly Property SemItem_Type_Database() As clsSemItem
@@ -174,6 +184,14 @@ Public Class clsLocalConfig
             Return objSemItem_Type_File
         End Get
     End Property
+
+    Public ReadOnly Property SemItem_Type_Field_Format() As clsSemItem
+        Get
+            Return objSemItem_Type_Field_Format
+        End Get
+    End Property
+
+
 
     'Token
     Public ReadOnly Property SemItem_Token_Report_Type_View() As clsSemItem
@@ -339,6 +357,23 @@ Public Class clsLocalConfig
         Dim objDRC_RelData As DataRowCollection
         Dim objDRs_ConfigItem() As DataRow
         Dim objDRC_Ref As DataRowCollection
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='RelationType_Formatted_by'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_RelationType_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_RelationType_Formatted_by.GUID = objDRC_Ref(0).Item("GUID_RelationType")
+                objSemItem_RelationType_Formatted_by.Name = objDRC_Ref(0).Item("Name_RelationType")
+                objSemItem_RelationType_Formatted_by.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
+
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
 
         objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='RelationType_belongsTo'")
         If objDRs_ConfigItem.Length > 0 Then
@@ -574,6 +609,25 @@ Public Class clsLocalConfig
         Dim objDRC_RelData As DataRowCollection
         Dim objDRs_ConfigItem() As DataRow
         Dim objDRC_Ref As DataRowCollection
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Type_Field_Format'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Type_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Type_Field_Format.GUID = objDRC_Ref(0).Item("GUID_Type")
+                objSemItem_Type_Field_Format.Name = objDRC_Ref(0).Item("Name_Type")
+                If Not IsDBNull(objDRC_Ref(0).Item("GUID_Type_Parent")) Then
+                    objSemItem_Type_Field_Format.GUID_Parent = objDRC_Ref(0).Item("GUID_Type_Parent")
+                End If
+                objSemItem_Type_Field_Format.GUID_Type = objGlobals.ObjectReferenceType_Type.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
 
         objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Type_Database'")
         If objDRs_ConfigItem.Length > 0 Then
