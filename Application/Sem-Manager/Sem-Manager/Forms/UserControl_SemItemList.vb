@@ -104,6 +104,9 @@
     Private objFilter As clsFilter
     Private objSemItem_FilterBase As clsSemItem
 
+    Private objSemItem_Other As clsSemItem
+    Private objSemItem_RelationType As clsSemItem
+
     Public Event Applied_Item()
     Public Event Attributes_Changed()
     Public Event Selection_Changed()
@@ -121,6 +124,26 @@
     Private boolProgChange_Filter As Boolean
     Private boolModuleView As Boolean = True
     Private boolComplexToken As Boolean
+
+    Public Property SemItem_Other As clsSemItem
+        Get
+            Return objSemItem_Other
+        End Get
+        Set(ByVal value As clsSemItem)
+            objSemItem_Other = value
+            configure_Relation()
+        End Set
+    End Property
+
+    Public Property SemItem_RelationType As clsSemItem
+        Get
+            Return objSemItem_RelationType
+        End Get
+        Set(ByVal value As clsSemItem)
+            objSemItem_RelationType = value
+            configure_Relation()
+        End Set
+    End Property
 
     Public Property visibility_Filter As Boolean
         Get
@@ -209,6 +232,12 @@
             set_Controls_Applyable()
         End Set
     End Property
+
+    Private Sub configure_Relation()
+        If Not objSemItem_Other Is Nothing And Not objSemItem_RelationType Is Nothing Then
+            ToolStripButton_Relate.Enabled = True
+        End If
+    End Sub
 
     Public Sub select_Row(ByVal GUID_Row As Guid)
         Dim objGUID_Type As Guid
@@ -691,6 +720,13 @@
 
         'semfuncA_ObjectReference.Connection = objLocalConfig.Connection_DB
     End Sub
+
+    Private Sub clear_Relation()
+        objSemItem_Other = Nothing
+        objSemItem_RelationType = Nothing
+        ToolStripButton_Relate.Checked = False
+        ToolStripButton_Relate.Enabled = False
+    End Sub
     Public Sub initialize_Complex(ByVal BatItem_Complex As clsSemItem, ByVal Globals As clsGlobals)
 
         boolProgChange = True
@@ -706,6 +742,7 @@
         ToolStripButton_Down.Visible = True
         ToolStripButton_Sort.Visible = True
         ToolStripButton_Report.Visible = True
+        clear_Relation()
         set_DBConnection()
         get_Data()
         boolProgChange = False
@@ -726,6 +763,7 @@
         ToolStripButton_Down.Visible = False
         ToolStripButton_Sort.Visible = False
         ToolStripButton_Report.Visible = True
+        clear_Relation()
         set_DBConnection()
         get_Data()
         boolProgChange = False
@@ -748,6 +786,7 @@
         ToolStripTextBox_Filter.ReadOnly = True
         ToolStripTextBox_Filter.Text = ""
         ToolStripTextBox_Filter.ReadOnly = False
+        clear_Relation()
         set_DBConnection()
         configure_TabPages()
 
@@ -1239,6 +1278,7 @@
 
                 objDlgAttribute_Bool = New dlgAttribute_Bool(strCaption, objLocalConfig.Globals)
                 objDlgAttribute_Bool.ShowDialog(Me)
+
                 If objDlgAttribute_Bool.DialogResult = DialogResult.OK Then
                     boolVal = objDlgAttribute_Bool.Value
 
@@ -1516,6 +1556,54 @@
         RaiseEvent Attributes_Changed()
     End Sub
 
+
+    Public Function relate_Item(ByVal objSemItem_Item As clsSemItem) As clsSemItem
+        Dim objSemItem_Result As clsSemItem
+        Dim objDRC_LogState As DataRowCollection
+
+        objSemItem_Result = objLocalConfig.Globals.LogState_Error
+
+        Select Case objSemItem_Item.GUID_Type
+            Case objLocalConfig.Globals.ObjectReferenceType_Attribute.GUID
+
+            Case objLocalConfig.Globals.ObjectReferenceType_RelationType.GUID
+
+            Case objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                objSemItem_Result = objLocalConfig.Globals.LogState_Nothing
+            Case objLocalConfig.Globals.ObjectReferenceType_Type.GUID
+
+        End Select
+
+
+        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Nothing.GUID Then
+            If objSemItem_Other.Direction = objSemItem_Other.Direction_LeftRight Then
+                If objSemItem_Other.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID Then
+                    objDRC_LogState = semprocA_DBWork_Save_TokenRel.GetData(objSemItem_Item.GUID, _
+                                                                            objSemItem_Other.GUID, _
+                                                                            objSemItem_RelationType.GUID, 1).Rows
+                Else
+                    objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                End If
+            Else
+                If objSemItem_Other.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID Then
+                    objDRC_LogState = semprocA_DBWork_Save_TokenRel.GetData(objSemItem_Other.GUID, _
+                                                                            objSemItem_Item.GUID, _
+                                                                            objSemItem_RelationType.GUID, 1).Rows
+                Else
+                    objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                End If
+            End If
+            If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Nothing.GUID Then
+                If Not objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Error.GUID Then
+                    objSemItem_Result = objLocalConfig.Globals.LogState_Success
+                Else
+                    objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                End If
+            End If
+        End If
+
+        Return objSemItem_Result
+    End Function
     Private Function add_Token(ByVal objGUID_Type As Guid, Optional ByVal strValue As String = "", Optional ByVal boolMore As Boolean = False) As clsSemItem
         Dim strCaption As String
         Dim strVal As String
@@ -1578,6 +1666,7 @@
                         If objDRC_LogState(0).Item("GUID_Type") = objLocalConfig.Globals.LogState_Error.GUID Then
                             MsgBox("Beim Speichern ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
                         Else
+                            relate_Item(objSemItem_Selected)
                             RaiseEvent Item_Added(objSemItem_Selected)
                         End If
                         get_Data()
@@ -1623,6 +1712,9 @@
                             MsgBox("Beim Speichern ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
                         Else
                             RaiseEvent Item_Added(objSemItem_Selected)
+                        End If
+                        If ToolStripButton_Relate.Checked = True Then
+                            relate_Item(objSemItem_Selected)
                         End If
                         get_Data()
                     Else
@@ -1715,6 +1807,9 @@
                             End If
 
                             If objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Insert.GUID Then
+                                If objSemItem_Selected.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID Then
+                                    relate_Item(objSemItem_Selected)
+                                End If
                                 intDone2 = intDone2 + 1
                             End If
                         End If
