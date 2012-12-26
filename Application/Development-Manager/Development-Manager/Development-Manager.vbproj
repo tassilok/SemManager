@@ -73,8 +73,10 @@
     <Reference Include="Schema-Manager">
       <HintPath>..\..\..\..\GitHub\SemManager\Application\Schema-Manager\Schema-Manager\bin\Debug\Schema-Manager.exe</HintPath>
     </Reference>
-    <Reference Include="Sem-Manager">
-      <HintPath>..\..\..\..\GitHub\SemManager\Application\Schema-Manager\Schema-Manager\bin\Debug\Sem-Manager.exe</HintPath>
+    <Reference Include="Sem-Manager, Version=0.2.0.23, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\Sem-Manager\Sem-Manager\bin\Debug\Sem-Manager.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
