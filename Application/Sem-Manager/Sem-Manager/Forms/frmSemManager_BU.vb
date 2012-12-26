@@ -139,6 +139,7 @@
 
     Private Sub selected_TokenTree(ByVal SemItem_Node As clsSemItem) Handles objUserControl_TokenTree.selected_Node
         objUserControl_SemItemList_TokenList.select_Row(SemItem_Node.GUID)
+        
     End Sub
 
     Private Sub TypeTree_Selection_Changed() Handles objUserControl_TypeTree.selected_Item
@@ -207,6 +208,12 @@
             objUserControl_SemItemList_TokenList.initialize_Simple(objSemItem_Selected, objLocalConfig.Globals)
             objUserControl_SemItemList_TokenList.ModuleView = ToolStripButton_ModuleView.Checked
             objUserControl_TokenTree.initialize(objSemItem_Selected)
+            If Not objSemItem_Token_Left Is Nothing Then
+                objUserControl_SemItemList_TokenList.SemItem_Other = objSemItem_Token_Left
+            End If
+            If Not objSemItem_RelationType Is Nothing Then
+                objUserControl_SemItemList_TokenList.SemItem_RelationType = objSemItem_RelationType
+            End If
         Else
             objUserControl_SemItemList_TokenList.clear_List()
             procT_TokenRel_With_Or.Clear()
@@ -749,6 +756,7 @@
 
     Private Function save_Relation() As clsSemItem
         Dim objSemItem_Result As clsSemItem
+        Dim objSemItem_ForListRelation As New clsSemItem
         Dim objSemItem_Clipboard As clsSemItem
         Dim objDRC_Token As DataRowCollection
 
@@ -756,6 +764,13 @@
 
 
         If Not objSemItem_Token_Left Is Nothing Then
+            objSemItem_ForListRelation.GUID = objSemItem_Token_Left.GUID
+            objSemItem_ForListRelation.Name = objSemItem_Token_Left.Name
+            objSemItem_ForListRelation.GUID_Parent = objSemItem_Token_Left.GUID_Parent
+            objSemItem_ForListRelation.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+            objSemItem_ForListRelation.Direction = objSemItem_ForListRelation.Direction_RightLeft
+
+            objUserControl_SemItemList_TokenList.SemItem_Other = objSemItem_ForListRelation
             ToolStripStatusLabel_TokenRelLeft.Text = objSemItem_Token_Left.Name
         Else
             ToolStripStatusLabel_TokenRelLeft.Text = "-"
@@ -787,6 +802,7 @@
         End If
 
         If Not objSemItem_RelationType Is Nothing Then
+            objUserControl_SemItemList_TokenList.SemItem_RelationType = objSemItem_RelationType
             ToolStripStatusLabel_TokenRelRelation.Text = objSemItem_RelationType.Name
         Else
             ToolStripStatusLabel_TokenRelRelation.Text = "-"
