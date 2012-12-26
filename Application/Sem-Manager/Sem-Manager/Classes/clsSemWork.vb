@@ -522,6 +522,8 @@
     End Function
 
     Public Function relate_added_Items() As clsSemItem
+        Dim semtblT_Token_Cpy As New ds_SemDB.semtbl_TokenDataTable
+
         Dim objSemItem_Result As clsSemItem
         Dim objDR_Type As DataRow
         Dim objDRs_Types_Left() As DataRow
@@ -542,6 +544,7 @@
         Dim objDRC_Type_Or As DataRowCollection
         Dim objDR_Type_Or As DataRow
         Dim objDRs_Type_Or() As DataRow
+
 
 
         objSemItem_Result = objLocalConfig.Globals.LogState_Success
@@ -570,7 +573,13 @@
         strStep = "Token"
         intToDo = semtblT_Token.Rows.Count
         intDone = 0
-        For Each objDR_Token_Added In semtblT_Token.Rows
+        For intDone = 0 To intToDo - 1
+            semtblT_Token_Cpy.ImportRow(semtblT_Token.Rows(intDone))
+        Next
+        intDone = 0
+
+
+        For Each objDR_Token_Added In semtblT_Token_Cpy.Rows
             objDRC_TokenToken = semtblA_Token_Token.GetData_Right_Tokens_By_GUID_Token_Left(objDR_Token_Added.Item("GUID_Token")).Rows
             For Each objDR_TokenToken In objDRC_TokenToken
                 objDRs_TokenToken = semtblT_Token.Select("GUID_Token='" & objDR_TokenToken.Item("GUID_TokeN_Right").ToString & "'")
@@ -631,7 +640,7 @@
         intDone = 0
         For Each objDR_Type In semtblT_Type.Rows
             add_TypeAttribute(objDR_Type.Item("GUID_Type"))
-            
+
             objDRC_Type_Or = semtblA_Type_OR.GetData_By_GUIDType(objDR_Type.Item("GUID_Type")).Rows
             For Each objDR_Type_Or In objDRC_Type_Or
 
