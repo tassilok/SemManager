@@ -21,7 +21,7 @@ Public Class frmMain
         Dim objSemItem_Result As clsSemItem
         objSemItem_Result = objGraphDB.initialize_GraphDB()
         If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
-            objGraphDB.SemItem_Url = objUserData.SemItem_URL
+            objGraphDB.SemItem_Url = objGraphDB.SemItem_Url
             If objGraphDB.SingleInstance = False Then
                 If objGraphDB.GraphDB_Exists = False Then
                     objGraphDB.create_Database()

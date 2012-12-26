@@ -92,6 +92,8 @@ Public Class clsLocalConfig
     Private objSemItem_Token_Variable_VIEWS As New clsSemItem
     Private objSemItem_Token_Variable_CODE As New clsSemItem
     Private objSemItem_Token_Variable_ID_TYPE_RIGHT As New clsSemItem
+    Private objSemItem_Token_Variable_GUID As New clsSemItem
+    Private objSemItem_Token_Variable_GUID_Type As New clsSemItem
 
     'Types
     Private objSemItem_Type_Code_Snipplet As New clsSemItem
@@ -455,6 +457,18 @@ Public Class clsLocalConfig
     Public ReadOnly Property SemItem_Token_Variable_ID_TYPE_RIGHT() As clsSemItem
         Get
             Return objSemItem_Token_Variable_ID_TYPE_RIGHT
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_Token_Variable_GUID() As clsSemItem
+        Get
+            Return objSemItem_Token_Variable_GUID
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_Token_Variable_GUID_Type() As clsSemItem
+        Get
+            Return objSemItem_Token_Variable_GUID_Type
         End Get
     End Property
 
@@ -1602,6 +1616,40 @@ Public Class clsLocalConfig
                 objSemItem_Token_Variable_ID_TYPE_RIGHT.Name = objDRC_Ref(0).Item("Name_Token")
                 objSemItem_Token_Variable_ID_TYPE_RIGHT.GUID_Parent = objDRC_Ref(0).Item("GUID_Type")
                 objSemItem_Token_Variable_ID_TYPE_RIGHT.GUID_Type = objGlobals.ObjectReferenceType_Token.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Token_Variable_GUID'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Token_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Token_Variable_GUID.GUID = objDRC_Ref(0).Item("GUID_Token")
+                objSemItem_Token_Variable_GUID.Name = objDRC_Ref(0).Item("Name_Token")
+                objSemItem_Token_Variable_GUID.GUID_Parent = objDRC_Ref(0).Item("GUID_Type")
+                objSemItem_Token_Variable_GUID.GUID_Type = objGlobals.ObjectReferenceType_Token.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Token_Variable_GUID_Type'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Token_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Token_Variable_GUID_Type.GUID = objDRC_Ref(0).Item("GUID_Token")
+                objSemItem_Token_Variable_GUID_Type.Name = objDRC_Ref(0).Item("Name_Token")
+                objSemItem_Token_Variable_GUID_Type.GUID_Parent = objDRC_Ref(0).Item("GUID_Type")
+                objSemItem_Token_Variable_GUID_Type.GUID_Type = objGlobals.ObjectReferenceType_Token.GUID
             Else
                 Err.Raise(1, "Config not set")
             End If

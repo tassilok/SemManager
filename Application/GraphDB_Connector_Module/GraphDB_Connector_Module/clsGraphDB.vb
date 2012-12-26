@@ -182,6 +182,7 @@ Public Class clsGraphDB
 
         For Each objDR_DataType In objLocalConfig.tbl_DataTypes.Rows
             strUpload = strJSON
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID.Name & "@", objDR_DataType.Item("GUID_Token_Left").ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_id.Name & "@", objDR_DataType.Item("GUID_Token_Left").ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_NAME.Name & "@", objDR_DataType.Item("Name_Token_Left"))
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_ID_TYPE.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString)
@@ -203,14 +204,16 @@ Public Class clsGraphDB
         Dim strJSON As String
         Dim strUpload As String
 
-        objDRs_Code = objLocalConfig.tbl_ItemsWithRest.Select("GUID_Item='" & objLocalConfig.SemItem_Token_KindOfOntology_Attribute.GUID.ToString & "' " & _
+        objDRs_Code = objLocalConfig.tbl_ItemsWithRest.Select("GUID_Item='" & objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString & "' " & _
                                                 "AND GUID_ProgramingLanguage='" & objSemItem_ProgramingLanguage.GUID.ToString & "'")
 
         If objDRs_Code.Count > 0 Then
             strJSON = objDRs_Code(0).Item("Code")
             strUpload = strJSON
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Attribute.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_id.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Attribute.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_ID_TYPE.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID_Type.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_NAME.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Attribute.Name)
 
             objSemItem_Result = upload_String(strUpload)
@@ -222,9 +225,12 @@ Public Class clsGraphDB
         If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Or _
             objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Exists.GUID Then
 
+            strJSON = objDRs_Code(0).Item("Code")
             strUpload = strJSON
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_id.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_ID_TYPE.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID_Type.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_NAME.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.Name)
 
             objSemItem_Result = upload_String(strUpload)
@@ -233,9 +239,12 @@ Public Class clsGraphDB
         If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Or _
             objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Exists.GUID Then
 
+            strJSON = objDRs_Code(0).Item("Code")
             strUpload = strJSON
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Class.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_id.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Class.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_ID_TYPE.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID_Type.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_NAME.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Class.Name)
 
             objSemItem_Result = upload_String(strUpload)
@@ -245,9 +254,12 @@ Public Class clsGraphDB
         If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Or _
             objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Exists.GUID Then
 
+            strJSON = objDRs_Code(0).Item("Code")
             strUpload = strJSON
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Class_Attribute.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_id.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Class_Attribute.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_ID_TYPE.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID_Type.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_NAME.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Class_Attribute.Name)
 
             objSemItem_Result = upload_String(strUpload)
@@ -257,9 +269,12 @@ Public Class clsGraphDB
         If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Or _
             objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Exists.GUID Then
 
+            strJSON = objDRs_Code(0).Item("Code")
             strUpload = strJSON
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Class_Relation.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_id.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Class_Relation.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_ID_TYPE.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID_Type.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_NAME.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Class_Relation.Name)
 
             objSemItem_Result = upload_String(strUpload)
@@ -268,9 +283,12 @@ Public Class clsGraphDB
         If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Or _
             objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Exists.GUID Then
 
+            strJSON = objDRs_Code(0).Item("Code")
             strUpload = strJSON
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Class_Ontology.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_id.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Class_Ontology.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_ID_TYPE.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID_Type.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_NAME.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Class_Ontology.Name)
 
             objSemItem_Result = upload_String(strUpload)
@@ -280,9 +298,12 @@ Public Class clsGraphDB
         If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Or _
             objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Exists.GUID Then
 
+            strJSON = objDRs_Code(0).Item("Code")
             strUpload = strJSON
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_id.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_ID_TYPE.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID_Type.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_NAME.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_DataType.Name)
 
             objSemItem_Result = upload_String(strUpload)
@@ -292,9 +313,12 @@ Public Class clsGraphDB
         If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Or _
             objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Exists.GUID Then
 
+            strJSON = objDRs_Code(0).Item("Code")
             strUpload = strJSON
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Object.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_id.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Object.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_ID_TYPE.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID_Type.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_NAME.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Object.Name)
 
             objSemItem_Result = upload_String(strUpload)
@@ -304,9 +328,12 @@ Public Class clsGraphDB
         If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Or _
             objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Exists.GUID Then
 
+            strJSON = objDRs_Code(0).Item("Code")
             strUpload = strJSON
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Object_Ontology.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_id.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Object_Ontology.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_ID_TYPE.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID_Type.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_NAME.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_Object_Ontology.Name)
 
             objSemItem_Result = upload_String(strUpload)
@@ -316,9 +343,12 @@ Public Class clsGraphDB
         If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Or _
             objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Exists.GUID Then
 
+            strJSON = objDRs_Code(0).Item("Code")
             strUpload = strJSON
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_RelationType.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_id.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_RelationType.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_ID_TYPE.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID_Type.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_NAME.Name & "@", objLocalConfig.SemItem_Token_KindOfOntology_RelationType.Name)
 
             objSemItem_Result = upload_String(strUpload)
@@ -338,12 +368,22 @@ Public Class clsGraphDB
         Dim strResponse As String
 
         objWebClient.Headers.Add("Content-Type", "application/json")
-        objWebClient.Headers.Add("Method", "PUT")
+        If SingleInstance = False Then
+            objWebClient.Headers.Add("Method", "PUT")
+        Else
+            objWebClient.Headers.Add("Method", "POST")
+        End If
+
         Try
-            strResponse = objWebClient.UploadString(objSemItem_Url.Name & objLocalConfig.Connection_DB.Database, strUpload)
+            If SingleInstance = False Then
+                strResponse = objWebClient.UploadString(objSemItem_Url.Name & objLocalConfig.Connection_DB.Database, strUpload)
+            Else
+                strResponse = objWebClient.UploadString(objSemItem_Url.Name, strUpload)
+            End If
 
 
-            If strResponse.ToLower.Contains("{""ok"":true,") Then
+
+            If strResponse.ToLower.Contains("{""ok"":true,") Or objWebClient.ResponseHeaders.Get("Location").Contains(objSemItem_Url.Name) Then
                 objSemItem_Result = objLocalConfig.Globals.LogState_Success
             Else
                 objSemItem_Result = objLocalConfig.Globals.LogState_Error
@@ -424,6 +464,7 @@ Public Class clsGraphDB
             End Select
 
             strUpload = strJSON
+            strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_GUID.Name & "@", objDR_Attribute.Item("GUID_Attribute").ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_id.Name & "@", objDR_Attribute.Item("GUID_Attribute").ToString)
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_NAME.Name & "@", HttpUtility.UrlEncode(objDR_Attribute.Item("Name_Attribute")))
             strUpload = strUpload.Replace("@" & objLocalConfig.SemItem_Token_Variable_ID_DATATYPE.Name & "@", objDRs_DataType(0).Item("GUID_Token_Left").ToString)
