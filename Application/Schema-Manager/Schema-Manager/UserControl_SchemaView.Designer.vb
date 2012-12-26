@@ -369,7 +369,7 @@ Partial Class UserControl_SchemaView
         '
         Me.ContextMenuStrip_SchemaTree.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GetFromTemplateToolStripMenuItem, Me.SetDependenciesToolStripMenuItem, Me.ShowDependenciesToolStripMenuItem, Me.SynonymsToolStripMenuItem, Me.ApplyToolStripMenuItem})
         Me.ContextMenuStrip_SchemaTree.Name = "ContextMenuStrip_SchemaTree"
-        Me.ContextMenuStrip_SchemaTree.Size = New System.Drawing.Size(183, 136)
+        Me.ContextMenuStrip_SchemaTree.Size = New System.Drawing.Size(183, 114)
         '
         'GetFromTemplateToolStripMenuItem
         '
@@ -657,7 +657,7 @@ Partial Class UserControl_SchemaView
         '
         Me.ContextMenuStrip_DBView.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TestSchemaToolStripMenuItem, Me.ImportexportToolStripMenuItem, Me.CopyDefinitionToolStripMenuItem})
         Me.ContextMenuStrip_DBView.Name = "ContextMenuStrip_DBView"
-        Me.ContextMenuStrip_DBView.Size = New System.Drawing.Size(160, 92)
+        Me.ContextMenuStrip_DBView.Size = New System.Drawing.Size(160, 70)
         '
         'TestSchemaToolStripMenuItem
         '
