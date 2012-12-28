@@ -59,6 +59,7 @@ Public Class clsLocalConfig
     Private objSemItem_Token_KindOfOntology_Class_Ontology As New clsSemItem
     Private objSemItem_Token_KindOfOntology_designDocs As New clsSemItem
     Private objSemItem_Token_Code_Snipplet_No_DB As New clsSemItem
+    Private objSemItem_Token_Ontology_Item_qry_NodeByGUID As New clsSemItem
 
     Private objSemItem_Token_Variable_WEIGHT As New clsSemItem
     Private objSemItem_Token_Variable_VAL_YEAR As New clsSemItem
@@ -472,6 +473,12 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property SemItem_Token_Ontology_Item_qry_NodeByGUID() As clsSemItem
+        Get
+            Return objSemItem_Token_Ontology_Item_qry_NodeByGUID
+        End Get
+    End Property
+
 
     'Types
     Public ReadOnly Property SemItem_Type_Code_Snipplet() As clsSemItem
@@ -831,6 +838,23 @@ Public Class clsLocalConfig
         Dim objDRC_RelData As DataRowCollection
         Dim objDRs_ConfigItem() As DataRow
         Dim objDRC_Ref As DataRowCollection
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Token_Ontology_Item_qry_NodeByGUID'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Token_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Token_Ontology_Item_qry_NodeByGUID.GUID = objDRC_Ref(0).Item("GUID_Token")
+                objSemItem_Token_Ontology_Item_qry_NodeByGUID.Name = objDRC_Ref(0).Item("Name_Token")
+                objSemItem_Token_Ontology_Item_qry_NodeByGUID.GUID_Parent = objDRC_Ref(0).Item("GUID_Type")
+                objSemItem_Token_Ontology_Item_qry_NodeByGUID.GUID_Type = objGlobals.ObjectReferenceType_Token.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
 
         objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Token_KindOfOntology_Attribute'")
         If objDRs_ConfigItem.Length > 0 Then
@@ -1723,6 +1747,11 @@ Public Class clsLocalConfig
 
         funcA_TokenToken.Fill_TokenToken_LeftRight(funcT_CodeSnipplets, _
                                                    objSemItem_Token_KindOfOntology_RelationType.GUID, _
+                                                   objSemItem_RelationType_JSON.GUID, _
+                                                   objSemItem_Type_Code_Snipplet.GUID)
+
+        funcA_TokenToken.Fill_TokenToken_LeftRight(funcT_CodeSnipplets, _
+                                                   objSemItem_Token_Ontology_Item_qry_NodeByGUID.GUID, _
                                                    objSemItem_RelationType_JSON.GUID, _
                                                    objSemItem_Type_Code_Snipplet.GUID)
 
