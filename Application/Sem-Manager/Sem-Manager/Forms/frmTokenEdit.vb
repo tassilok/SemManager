@@ -13,6 +13,7 @@
     Private objLocalConfig As clsLocalConfig_TokenTree
 
     Private objTokenEdit_Navigation As clsTokenEdit_Navigation
+    Private objSemClipboard As clsSemClipboard
 
     Private boolApplyable As Boolean
     Private boolPChange_Name As Boolean
@@ -90,6 +91,8 @@
         semfuncA_Token_Path.Connection = objLocalConfig.Connection_DB
         semprocA_DBWork_Save_Token.Connection = objLocalConfig.Connection_DB
         semprocA_DBWork_Del_Token.Connection = objLocalConfig.Connection_DB
+
+        objSemClipboard = New clsSemClipboard(objLocalConfig.Globals)
     End Sub
 
     Private Sub set_Token()
@@ -308,6 +311,15 @@
         If Not objModule Is Nothing Then
             objSemItem_Token = objModule.loaded_Module.edit_SemItem(objTokenEdit_Navigation.SemItem_Active, Me)
 
+        End If
+    End Sub
+
+    Private Sub ToClipboardToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToClipboardToolStripMenuItem.Click
+        Dim objSemItem_Result As clsSemItem
+
+        objSemItem_Result = objSemClipboard.addToClipboard(objTokenEdit_Navigation.SemItem_Active)
+        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Error.GUID Then
+            MsgBox("Das Token konnte leider nicht in die Zwischenablage kopiert werden!", MsgBoxStyle.Exclamation)
         End If
     End Sub
 End Class

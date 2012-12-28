@@ -53,6 +53,7 @@ Partial Class frmTokenEdit
         Me.ToolStripTextBox_Name = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.Timer_Name = New System.Windows.Forms.Timer(Me.components)
+        Me.ToClipboardToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.TableLayoutPanel1.SuspendLayout()
@@ -79,7 +80,7 @@ Partial Class frmTokenEdit
         '
         'EditfToolStripMenuItem
         '
-        Me.EditfToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DeleteToolStripMenuItem})
+        Me.EditfToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToClipboardToolStripMenuItem, Me.DeleteToolStripMenuItem})
         Me.EditfToolStripMenuItem.Name = "EditfToolStripMenuItem"
         Me.EditfToolStripMenuItem.Size = New System.Drawing.Size(49, 20)
         Me.EditfToolStripMenuItem.Text = "x_Edit"
@@ -87,14 +88,14 @@ Partial Class frmTokenEdit
         'DeleteToolStripMenuItem
         '
         Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.DeleteToolStripMenuItem.Text = "x_delete"
         '
         'ToolsToolStripMenuItem
         '
         Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ModuleViewToolStripMenuItem, Me.ToolStripComboBox_ModuleEdit})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
-        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(58, 20)
+        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(56, 20)
         Me.ToolsToolStripMenuItem.Text = "x_Tools"
         '
         'ModuleViewToolStripMenuItem
@@ -109,7 +110,7 @@ Partial Class frmTokenEdit
         'ToolStripComboBox_ModuleEdit
         '
         Me.ToolStripComboBox_ModuleEdit.Name = "ToolStripComboBox_ModuleEdit"
-        Me.ToolStripComboBox_ModuleEdit.Size = New System.Drawing.Size(121, 23)
+        Me.ToolStripComboBox_ModuleEdit.Size = New System.Drawing.Size(121, 21)
         '
         'StatusStrip1
         '
@@ -129,13 +130,13 @@ Partial Class frmTokenEdit
         Me.ToolStripStatusLabel_DB.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
         Me.ToolStripStatusLabel_DB.Image = Global.Sem_Manager.My.Resources.Resources.bb_home_
         Me.ToolStripStatusLabel_DB.Name = "ToolStripStatusLabel_DB"
-        Me.ToolStripStatusLabel_DB.Size = New System.Drawing.Size(51, 20)
+        Me.ToolStripStatusLabel_DB.Size = New System.Drawing.Size(50, 20)
         Me.ToolStripStatusLabel_DB.Text = "DB_f"
         '
         'ToolStripStatusLabel_VersionLbl
         '
         Me.ToolStripStatusLabel_VersionLbl.Name = "ToolStripStatusLabel_VersionLbl"
-        Me.ToolStripStatusLabel_VersionLbl.Size = New System.Drawing.Size(59, 20)
+        Me.ToolStripStatusLabel_VersionLbl.Size = New System.Drawing.Size(58, 20)
         Me.ToolStripStatusLabel_VersionLbl.Text = "x_Version:"
         '
         'ToolStripStatusLabel_Version
@@ -214,13 +215,13 @@ Partial Class frmTokenEdit
         'ToolStripLabel_PosCount
         '
         Me.ToolStripLabel_PosCount.Name = "ToolStripLabel_PosCount"
-        Me.ToolStripLabel_PosCount.Size = New System.Drawing.Size(24, 22)
+        Me.ToolStripLabel_PosCount.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripLabel_PosCount.Text = "0/0"
         '
         'ToolStripLabel_Token
         '
         Me.ToolStripLabel_Token.Name = "ToolStripLabel_Token"
-        Me.ToolStripLabel_Token.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripLabel_Token.Size = New System.Drawing.Size(48, 22)
         Me.ToolStripLabel_Token.Text = "x_Token"
         '
         'SplitContainer1
@@ -245,7 +246,7 @@ Partial Class frmTokenEdit
         'ToolStripLabel_GUID
         '
         Me.ToolStripLabel_GUID.Name = "ToolStripLabel_GUID"
-        Me.ToolStripLabel_GUID.Size = New System.Drawing.Size(47, 22)
+        Me.ToolStripLabel_GUID.Size = New System.Drawing.Size(48, 22)
         Me.ToolStripLabel_GUID.Text = "x_GUID:"
         '
         'ToolStripTextBox_GUID
@@ -263,7 +264,7 @@ Partial Class frmTokenEdit
         'ToolStripLabel_Name
         '
         Me.ToolStripLabel_Name.Name = "ToolStripLabel_Name"
-        Me.ToolStripLabel_Name.Size = New System.Drawing.Size(52, 22)
+        Me.ToolStripLabel_Name.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripLabel_Name.Text = "x_Name:"
         '
         'ToolStripTextBox_Name
@@ -281,6 +282,12 @@ Partial Class frmTokenEdit
         'Timer_Name
         '
         Me.Timer_Name.Interval = 300
+        '
+        'ToClipboardToolStripMenuItem
+        '
+        Me.ToClipboardToolStripMenuItem.Name = "ToClipboardToolStripMenuItem"
+        Me.ToClipboardToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ToClipboardToolStripMenuItem.Text = "x_to Clipboard"
         '
         'frmTokenEdit
         '
@@ -339,4 +346,5 @@ Partial Class frmTokenEdit
     Friend WithEvents DeleteToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripComboBox_ModuleEdit As System.Windows.Forms.ToolStripComboBox
+    Friend WithEvents ToClipboardToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class
