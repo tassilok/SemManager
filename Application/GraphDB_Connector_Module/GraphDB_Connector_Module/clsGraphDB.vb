@@ -815,7 +815,9 @@ Public Class clsGraphDB
 
         Return objSemItem_Result
     End Function
+    Public Function create_Object_To_Class() As clsSemItem
 
+    End Function
     Public Function create_Object() As clsSemItem
         Dim objSemItem_Result As clsSemItem = objLocalConfig.Globals.LogState_Nothing
         Dim objDRC_Tokens As DataRowCollection
