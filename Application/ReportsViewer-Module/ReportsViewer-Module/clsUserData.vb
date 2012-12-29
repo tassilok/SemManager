@@ -128,6 +128,7 @@ Public Class clsUserData
                                             objLocalConfig.SemItem_RelationType_is_of_Type.GUID, _
                                             objLocalConfig.SemItem_RelationType_leads.GUID, _
                                             objLocalConfig.SemItem_RelationType_Formatted_by.GUID, _
+                                            objLocalConfig.SemItem_RelationType_Type_Field.GUID, _
                                             objSemItem_Report.GUID)
 
                     intToDo = dtblT_Columns.Rows.Count
@@ -250,6 +251,7 @@ Public Class clsUserData
                                 objLocalConfig.SemItem_RelationType_is_of_Type.GUID, _
                                 objLocalConfig.SemItem_RelationType_leads.GUID, _
                                 objLocalConfig.SemItem_RelationType_Formatted_by.GUID, _
+                                objLocalConfig.SemItem_RelationType_Type_Field.GUID, _
                                 objSemItem_Report.GUID)
 
 

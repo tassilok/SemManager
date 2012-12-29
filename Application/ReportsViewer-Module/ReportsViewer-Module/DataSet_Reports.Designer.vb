@@ -33,6 +33,10 @@ Partial Public Class DataSet_Reports
     
     Private tabledtbl_Columns As dtbl_ColumnsDataTable
     
+    Private tabledtblSort As dtblSortDataTable
+    
+    Private tabledtblFilter As dtblFilterDataTable
+    
     Private _schemaSerializationMode As Global.System.Data.SchemaSerializationMode = Global.System.Data.SchemaSerializationMode.IncludeSchema
     
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -73,6 +77,12 @@ Partial Public Class DataSet_Reports
             End If
             If (Not (ds.Tables("dtbl_Columns")) Is Nothing) Then
                 MyBase.Tables.Add(New dtbl_ColumnsDataTable(ds.Tables("dtbl_Columns")))
+            End If
+            If (Not (ds.Tables("dtblSort")) Is Nothing) Then
+                MyBase.Tables.Add(New dtblSortDataTable(ds.Tables("dtblSort")))
+            End If
+            If (Not (ds.Tables("dtblFilter")) Is Nothing) Then
+                MyBase.Tables.Add(New dtblFilterDataTable(ds.Tables("dtblFilter")))
             End If
             Me.DataSetName = ds.DataSetName
             Me.Prefix = ds.Prefix
@@ -128,6 +138,26 @@ Partial Public Class DataSet_Reports
     Public ReadOnly Property dtbl_Columns() As dtbl_ColumnsDataTable
         Get
             Return Me.tabledtbl_Columns
+        End Get
+    End Property
+    
+    <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+     Global.System.ComponentModel.Browsable(false),  _
+     Global.System.ComponentModel.DesignerSerializationVisibility(Global.System.ComponentModel.DesignerSerializationVisibility.Content)>  _
+    Public ReadOnly Property dtblSort() As dtblSortDataTable
+        Get
+            Return Me.tabledtblSort
+        End Get
+    End Property
+    
+    <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+     Global.System.ComponentModel.Browsable(false),  _
+     Global.System.ComponentModel.DesignerSerializationVisibility(Global.System.ComponentModel.DesignerSerializationVisibility.Content)>  _
+    Public ReadOnly Property dtblFilter() As dtblFilterDataTable
+        Get
+            Return Me.tabledtblFilter
         End Get
     End Property
     
@@ -210,6 +240,12 @@ Partial Public Class DataSet_Reports
             If (Not (ds.Tables("dtbl_Columns")) Is Nothing) Then
                 MyBase.Tables.Add(New dtbl_ColumnsDataTable(ds.Tables("dtbl_Columns")))
             End If
+            If (Not (ds.Tables("dtblSort")) Is Nothing) Then
+                MyBase.Tables.Add(New dtblSortDataTable(ds.Tables("dtblSort")))
+            End If
+            If (Not (ds.Tables("dtblFilter")) Is Nothing) Then
+                MyBase.Tables.Add(New dtblFilterDataTable(ds.Tables("dtblFilter")))
+            End If
             Me.DataSetName = ds.DataSetName
             Me.Prefix = ds.Prefix
             Me.Namespace = ds.Namespace
@@ -266,6 +302,18 @@ Partial Public Class DataSet_Reports
                 Me.tabledtbl_Columns.InitVars
             End If
         End If
+        Me.tabledtblSort = CType(MyBase.Tables("dtblSort"),dtblSortDataTable)
+        If (initTable = true) Then
+            If (Not (Me.tabledtblSort) Is Nothing) Then
+                Me.tabledtblSort.InitVars
+            End If
+        End If
+        Me.tabledtblFilter = CType(MyBase.Tables("dtblFilter"),dtblFilterDataTable)
+        If (initTable = true) Then
+            If (Not (Me.tabledtblFilter) Is Nothing) Then
+                Me.tabledtblFilter.InitVars
+            End If
+        End If
     End Sub
     
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -284,6 +332,10 @@ Partial Public Class DataSet_Reports
         MyBase.Tables.Add(Me.tableproc_ReportFields)
         Me.tabledtbl_Columns = New dtbl_ColumnsDataTable()
         MyBase.Tables.Add(Me.tabledtbl_Columns)
+        Me.tabledtblSort = New dtblSortDataTable()
+        MyBase.Tables.Add(Me.tabledtblSort)
+        Me.tabledtblFilter = New dtblFilterDataTable()
+        MyBase.Tables.Add(Me.tabledtblFilter)
     End Sub
     
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -307,6 +359,18 @@ Partial Public Class DataSet_Reports
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
     Private Function ShouldSerializedtbl_Columns() As Boolean
+        Return false
+    End Function
+    
+    <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+    Private Function ShouldSerializedtblSort() As Boolean
+        Return false
+    End Function
+    
+    <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+    Private Function ShouldSerializedtblFilter() As Boolean
         Return false
     End Function
     
@@ -379,6 +443,12 @@ Partial Public Class DataSet_Reports
     
     <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
     Public Delegate Sub dtbl_ColumnsRowChangeEventHandler(ByVal sender As Object, ByVal e As dtbl_ColumnsRowChangeEvent)
+    
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+    Public Delegate Sub dtblSortRowChangeEventHandler(ByVal sender As Object, ByVal e As dtblSortRowChangeEvent)
+    
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+    Public Delegate Sub dtblFilterRowChangeEventHandler(ByVal sender As Object, ByVal e As dtblFilterRowChangeEvent)
     
     '''<summary>
     '''Represents the strongly named DataTable class.
@@ -1160,6 +1230,10 @@ Partial Public Class DataSet_Reports
         
         Private columnOrderID As Global.System.Data.DataColumn
         
+        Private columnGUID_ReportField_Type As Global.System.Data.DataColumn
+        
+        Private columnName_ReportField_Type As Global.System.Data.DataColumn
+        
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub New()
@@ -1316,6 +1390,22 @@ Partial Public Class DataSet_Reports
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property GUID_ReportField_TypeColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnGUID_ReportField_Type
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Name_ReportField_TypeColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnName_ReportField_Type
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Browsable(false)>  _
         Public ReadOnly Property Count() As Integer
@@ -1352,9 +1442,26 @@ Partial Public Class DataSet_Reports
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function Addproc_ReportFieldsRow(ByVal GUID_ReportField As System.Guid, ByVal Name_ReportField As String, ByVal GUID_Report As System.Guid, ByVal Name_Report As String, ByVal GUID_TokenAttribute_invisible As System.Guid, ByVal invisible As Boolean, ByVal GUID_DBColumn As System.Guid, ByVal Name_DBColumn As String, ByVal GUID_FieldType As System.Guid, ByVal Name_FieldType As String, ByVal GUID_ReportField_Leaded As System.Guid, ByVal Name_ReportField_Leaded As String, ByVal GUID_Field_Format As System.Guid, ByVal Name_Field_Format As String, ByVal OrderID As Integer) As proc_ReportFieldsRow
+        Public Overloads Function Addproc_ReportFieldsRow( _
+                    ByVal GUID_ReportField As System.Guid,  _
+                    ByVal Name_ReportField As String,  _
+                    ByVal GUID_Report As System.Guid,  _
+                    ByVal Name_Report As String,  _
+                    ByVal GUID_TokenAttribute_invisible As System.Guid,  _
+                    ByVal invisible As Boolean,  _
+                    ByVal GUID_DBColumn As System.Guid,  _
+                    ByVal Name_DBColumn As String,  _
+                    ByVal GUID_FieldType As System.Guid,  _
+                    ByVal Name_FieldType As String,  _
+                    ByVal GUID_ReportField_Leaded As System.Guid,  _
+                    ByVal Name_ReportField_Leaded As String,  _
+                    ByVal GUID_Field_Format As System.Guid,  _
+                    ByVal Name_Field_Format As String,  _
+                    ByVal OrderID As Integer,  _
+                    ByVal GUID_ReportField_Type As System.Guid,  _
+                    ByVal Name_ReportField_Type As String) As proc_ReportFieldsRow
             Dim rowproc_ReportFieldsRow As proc_ReportFieldsRow = CType(Me.NewRow,proc_ReportFieldsRow)
-            Dim columnValuesArray() As Object = New Object() {GUID_ReportField, Name_ReportField, GUID_Report, Name_Report, GUID_TokenAttribute_invisible, invisible, GUID_DBColumn, Name_DBColumn, GUID_FieldType, Name_FieldType, GUID_ReportField_Leaded, Name_ReportField_Leaded, GUID_Field_Format, Name_Field_Format, OrderID}
+            Dim columnValuesArray() As Object = New Object() {GUID_ReportField, Name_ReportField, GUID_Report, Name_Report, GUID_TokenAttribute_invisible, invisible, GUID_DBColumn, Name_DBColumn, GUID_FieldType, Name_FieldType, GUID_ReportField_Leaded, Name_ReportField_Leaded, GUID_Field_Format, Name_Field_Format, OrderID, GUID_ReportField_Type, Name_ReportField_Type}
             rowproc_ReportFieldsRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowproc_ReportFieldsRow)
             Return rowproc_ReportFieldsRow
@@ -1392,6 +1499,8 @@ Partial Public Class DataSet_Reports
             Me.columnGUID_Field_Format = MyBase.Columns("GUID_Field_Format")
             Me.columnName_Field_Format = MyBase.Columns("Name_Field_Format")
             Me.columnOrderID = MyBase.Columns("OrderID")
+            Me.columnGUID_ReportField_Type = MyBase.Columns("GUID_ReportField_Type")
+            Me.columnName_ReportField_Type = MyBase.Columns("Name_ReportField_Type")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -1427,6 +1536,10 @@ Partial Public Class DataSet_Reports
             MyBase.Columns.Add(Me.columnName_Field_Format)
             Me.columnOrderID = New Global.System.Data.DataColumn("OrderID", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnOrderID)
+            Me.columnGUID_ReportField_Type = New Global.System.Data.DataColumn("GUID_ReportField_Type", GetType(Global.System.Guid), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnGUID_ReportField_Type)
+            Me.columnName_ReportField_Type = New Global.System.Data.DataColumn("Name_ReportField_Type", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnName_ReportField_Type)
             Me.columnGUID_ReportField.AllowDBNull = false
             Me.columnName_ReportField.AllowDBNull = false
             Me.columnName_ReportField.MaxLength = 255
@@ -1444,6 +1557,7 @@ Partial Public Class DataSet_Reports
             Me.columnName_ReportField_Leaded.MaxLength = 255
             Me.columnName_Field_Format.MaxLength = 255
             Me.columnOrderID.AllowDBNull = false
+            Me.columnName_ReportField_Type.MaxLength = 255
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -1783,6 +1897,552 @@ Partial Public Class DataSet_Reports
             Dim attribute2 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
             attribute2.Name = "tableTypeName"
             attribute2.FixedValue = "dtbl_ColumnsDataTable"
+            type.Attributes.Add(attribute2)
+            type.Particle = sequence
+            Dim dsSchema As Global.System.Xml.Schema.XmlSchema = ds.GetSchemaSerializable
+            If xs.Contains(dsSchema.TargetNamespace) Then
+                Dim s1 As Global.System.IO.MemoryStream = New Global.System.IO.MemoryStream()
+                Dim s2 As Global.System.IO.MemoryStream = New Global.System.IO.MemoryStream()
+                Try 
+                    Dim schema As Global.System.Xml.Schema.XmlSchema = Nothing
+                    dsSchema.Write(s1)
+                    Dim schemas As Global.System.Collections.IEnumerator = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator
+                    Do While schemas.MoveNext
+                        schema = CType(schemas.Current,Global.System.Xml.Schema.XmlSchema)
+                        s2.SetLength(0)
+                        schema.Write(s2)
+                        If (s1.Length = s2.Length) Then
+                            s1.Position = 0
+                            s2.Position = 0
+                            
+                            Do While ((s1.Position <> s1.Length)  _
+                                        AndAlso (s1.ReadByte = s2.ReadByte))
+                                
+                                
+                            Loop
+                            If (s1.Position = s1.Length) Then
+                                Return type
+                            End If
+                        End If
+                        
+                    Loop
+                Finally
+                    If (Not (s1) Is Nothing) Then
+                        s1.Close
+                    End If
+                    If (Not (s2) Is Nothing) Then
+                        s2.Close
+                    End If
+                End Try
+            End If
+            xs.Add(dsSchema)
+            Return type
+        End Function
+    End Class
+    
+    '''<summary>
+    '''Represents the strongly named DataTable class.
+    '''</summary>
+    <Global.System.Serializable(),  _
+     Global.System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")>  _
+    Partial Public Class dtblSortDataTable
+        Inherits Global.System.Data.TypedTableBase(Of dtblSortRow)
+        
+        Private columnFieldColumn As Global.System.Data.DataColumn
+        
+        Private columnid As Global.System.Data.DataColumn
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub New()
+            MyBase.New
+            Me.TableName = "dtblSort"
+            Me.BeginInit
+            Me.InitClass
+            Me.EndInit
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Sub New(ByVal table As Global.System.Data.DataTable)
+            MyBase.New
+            Me.TableName = table.TableName
+            If (table.CaseSensitive <> table.DataSet.CaseSensitive) Then
+                Me.CaseSensitive = table.CaseSensitive
+            End If
+            If (table.Locale.ToString <> table.DataSet.Locale.ToString) Then
+                Me.Locale = table.Locale
+            End If
+            If (table.Namespace <> table.DataSet.Namespace) Then
+                Me.Namespace = table.Namespace
+            End If
+            Me.Prefix = table.Prefix
+            Me.MinimumCapacity = table.MinimumCapacity
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Sub New(ByVal info As Global.System.Runtime.Serialization.SerializationInfo, ByVal context As Global.System.Runtime.Serialization.StreamingContext)
+            MyBase.New(info, context)
+            Me.InitVars
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property ColumnColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnFieldColumn
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property idColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnid
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Browsable(false)>  _
+        Public ReadOnly Property Count() As Integer
+            Get
+                Return Me.Rows.Count
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Default ReadOnly Property Item(ByVal index As Integer) As dtblSortRow
+            Get
+                Return CType(Me.Rows(index),dtblSortRow)
+            End Get
+        End Property
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event dtblSortRowChanging As dtblSortRowChangeEventHandler
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event dtblSortRowChanged As dtblSortRowChangeEventHandler
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event dtblSortRowDeleting As dtblSortRowChangeEventHandler
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event dtblSortRowDeleted As dtblSortRowChangeEventHandler
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Overloads Sub AdddtblSortRow(ByVal row As dtblSortRow)
+            Me.Rows.Add(row)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Overloads Function AdddtblSortRow(ByVal Column As String, ByVal id As Integer) As dtblSortRow
+            Dim rowdtblSortRow As dtblSortRow = CType(Me.NewRow,dtblSortRow)
+            Dim columnValuesArray() As Object = New Object() {Column, id}
+            rowdtblSortRow.ItemArray = columnValuesArray
+            Me.Rows.Add(rowdtblSortRow)
+            Return rowdtblSortRow
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Overrides Function Clone() As Global.System.Data.DataTable
+            Dim cln As dtblSortDataTable = CType(MyBase.Clone,dtblSortDataTable)
+            cln.InitVars
+            Return cln
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Function CreateInstance() As Global.System.Data.DataTable
+            Return New dtblSortDataTable()
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Sub InitVars()
+            Me.columnFieldColumn = MyBase.Columns("Column")
+            Me.columnid = MyBase.Columns("id")
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Private Sub InitClass()
+            Me.columnFieldColumn = New Global.System.Data.DataColumn("Column", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnFieldColumn)
+            Me.columnid = New Global.System.Data.DataColumn("id", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnid)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function NewdtblSortRow() As dtblSortRow
+            Return CType(Me.NewRow,dtblSortRow)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Function NewRowFromBuilder(ByVal builder As Global.System.Data.DataRowBuilder) As Global.System.Data.DataRow
+            Return New dtblSortRow(builder)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Function GetRowType() As Global.System.Type
+            Return GetType(dtblSortRow)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowChanged(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowChanged(e)
+            If (Not (Me.dtblSortRowChangedEvent) Is Nothing) Then
+                RaiseEvent dtblSortRowChanged(Me, New dtblSortRowChangeEvent(CType(e.Row,dtblSortRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowChanging(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowChanging(e)
+            If (Not (Me.dtblSortRowChangingEvent) Is Nothing) Then
+                RaiseEvent dtblSortRowChanging(Me, New dtblSortRowChangeEvent(CType(e.Row,dtblSortRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowDeleted(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowDeleted(e)
+            If (Not (Me.dtblSortRowDeletedEvent) Is Nothing) Then
+                RaiseEvent dtblSortRowDeleted(Me, New dtblSortRowChangeEvent(CType(e.Row,dtblSortRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowDeleting(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowDeleting(e)
+            If (Not (Me.dtblSortRowDeletingEvent) Is Nothing) Then
+                RaiseEvent dtblSortRowDeleting(Me, New dtblSortRowChangeEvent(CType(e.Row,dtblSortRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub RemovedtblSortRow(ByVal row As dtblSortRow)
+            Me.Rows.Remove(row)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Shared Function GetTypedTableSchema(ByVal xs As Global.System.Xml.Schema.XmlSchemaSet) As Global.System.Xml.Schema.XmlSchemaComplexType
+            Dim type As Global.System.Xml.Schema.XmlSchemaComplexType = New Global.System.Xml.Schema.XmlSchemaComplexType()
+            Dim sequence As Global.System.Xml.Schema.XmlSchemaSequence = New Global.System.Xml.Schema.XmlSchemaSequence()
+            Dim ds As DataSet_Reports = New DataSet_Reports()
+            Dim any1 As Global.System.Xml.Schema.XmlSchemaAny = New Global.System.Xml.Schema.XmlSchemaAny()
+            any1.Namespace = "http://www.w3.org/2001/XMLSchema"
+            any1.MinOccurs = New Decimal(0)
+            any1.MaxOccurs = Decimal.MaxValue
+            any1.ProcessContents = Global.System.Xml.Schema.XmlSchemaContentProcessing.Lax
+            sequence.Items.Add(any1)
+            Dim any2 As Global.System.Xml.Schema.XmlSchemaAny = New Global.System.Xml.Schema.XmlSchemaAny()
+            any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1"
+            any2.MinOccurs = New Decimal(1)
+            any2.ProcessContents = Global.System.Xml.Schema.XmlSchemaContentProcessing.Lax
+            sequence.Items.Add(any2)
+            Dim attribute1 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
+            attribute1.Name = "namespace"
+            attribute1.FixedValue = ds.Namespace
+            type.Attributes.Add(attribute1)
+            Dim attribute2 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
+            attribute2.Name = "tableTypeName"
+            attribute2.FixedValue = "dtblSortDataTable"
+            type.Attributes.Add(attribute2)
+            type.Particle = sequence
+            Dim dsSchema As Global.System.Xml.Schema.XmlSchema = ds.GetSchemaSerializable
+            If xs.Contains(dsSchema.TargetNamespace) Then
+                Dim s1 As Global.System.IO.MemoryStream = New Global.System.IO.MemoryStream()
+                Dim s2 As Global.System.IO.MemoryStream = New Global.System.IO.MemoryStream()
+                Try 
+                    Dim schema As Global.System.Xml.Schema.XmlSchema = Nothing
+                    dsSchema.Write(s1)
+                    Dim schemas As Global.System.Collections.IEnumerator = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator
+                    Do While schemas.MoveNext
+                        schema = CType(schemas.Current,Global.System.Xml.Schema.XmlSchema)
+                        s2.SetLength(0)
+                        schema.Write(s2)
+                        If (s1.Length = s2.Length) Then
+                            s1.Position = 0
+                            s2.Position = 0
+                            
+                            Do While ((s1.Position <> s1.Length)  _
+                                        AndAlso (s1.ReadByte = s2.ReadByte))
+                                
+                                
+                            Loop
+                            If (s1.Position = s1.Length) Then
+                                Return type
+                            End If
+                        End If
+                        
+                    Loop
+                Finally
+                    If (Not (s1) Is Nothing) Then
+                        s1.Close
+                    End If
+                    If (Not (s2) Is Nothing) Then
+                        s2.Close
+                    End If
+                End Try
+            End If
+            xs.Add(dsSchema)
+            Return type
+        End Function
+    End Class
+    
+    '''<summary>
+    '''Represents the strongly named DataTable class.
+    '''</summary>
+    <Global.System.Serializable(),  _
+     Global.System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")>  _
+    Partial Public Class dtblFilterDataTable
+        Inherits Global.System.Data.TypedTableBase(Of dtblFilterRow)
+        
+        Private columnFieldColumn As Global.System.Data.DataColumn
+        
+        Private columnOperator As Global.System.Data.DataColumn
+        
+        Private columnValue As Global.System.Data.DataColumn
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub New()
+            MyBase.New
+            Me.TableName = "dtblFilter"
+            Me.BeginInit
+            Me.InitClass
+            Me.EndInit
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Sub New(ByVal table As Global.System.Data.DataTable)
+            MyBase.New
+            Me.TableName = table.TableName
+            If (table.CaseSensitive <> table.DataSet.CaseSensitive) Then
+                Me.CaseSensitive = table.CaseSensitive
+            End If
+            If (table.Locale.ToString <> table.DataSet.Locale.ToString) Then
+                Me.Locale = table.Locale
+            End If
+            If (table.Namespace <> table.DataSet.Namespace) Then
+                Me.Namespace = table.Namespace
+            End If
+            Me.Prefix = table.Prefix
+            Me.MinimumCapacity = table.MinimumCapacity
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Sub New(ByVal info As Global.System.Runtime.Serialization.SerializationInfo, ByVal context As Global.System.Runtime.Serialization.StreamingContext)
+            MyBase.New(info, context)
+            Me.InitVars
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property ColumnColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnFieldColumn
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property OperatorColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnOperator
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property ValueColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnValue
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Browsable(false)>  _
+        Public ReadOnly Property Count() As Integer
+            Get
+                Return Me.Rows.Count
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Default ReadOnly Property Item(ByVal index As Integer) As dtblFilterRow
+            Get
+                Return CType(Me.Rows(index),dtblFilterRow)
+            End Get
+        End Property
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event dtblFilterRowChanging As dtblFilterRowChangeEventHandler
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event dtblFilterRowChanged As dtblFilterRowChangeEventHandler
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event dtblFilterRowDeleting As dtblFilterRowChangeEventHandler
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event dtblFilterRowDeleted As dtblFilterRowChangeEventHandler
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Overloads Sub AdddtblFilterRow(ByVal row As dtblFilterRow)
+            Me.Rows.Add(row)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Overloads Function AdddtblFilterRow(ByVal Column As String, ByVal _Operator As String, ByVal Value As String) As dtblFilterRow
+            Dim rowdtblFilterRow As dtblFilterRow = CType(Me.NewRow,dtblFilterRow)
+            Dim columnValuesArray() As Object = New Object() {Column, _Operator, Value}
+            rowdtblFilterRow.ItemArray = columnValuesArray
+            Me.Rows.Add(rowdtblFilterRow)
+            Return rowdtblFilterRow
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Overrides Function Clone() As Global.System.Data.DataTable
+            Dim cln As dtblFilterDataTable = CType(MyBase.Clone,dtblFilterDataTable)
+            cln.InitVars
+            Return cln
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Function CreateInstance() As Global.System.Data.DataTable
+            Return New dtblFilterDataTable()
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Sub InitVars()
+            Me.columnFieldColumn = MyBase.Columns("Column")
+            Me.columnOperator = MyBase.Columns("Operator")
+            Me.columnValue = MyBase.Columns("Value")
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Private Sub InitClass()
+            Me.columnFieldColumn = New Global.System.Data.DataColumn("Column", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnFieldColumn)
+            Me.columnOperator = New Global.System.Data.DataColumn("Operator", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            Me.columnOperator.ExtendedProperties.Add("Generator_ColumnPropNameInTable", "OperatorColumn")
+            Me.columnOperator.ExtendedProperties.Add("Generator_ColumnVarNameInTable", "columnOperator")
+            Me.columnOperator.ExtendedProperties.Add("Generator_UserColumnName", "Operator")
+            MyBase.Columns.Add(Me.columnOperator)
+            Me.columnValue = New Global.System.Data.DataColumn("Value", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnValue)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function NewdtblFilterRow() As dtblFilterRow
+            Return CType(Me.NewRow,dtblFilterRow)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Function NewRowFromBuilder(ByVal builder As Global.System.Data.DataRowBuilder) As Global.System.Data.DataRow
+            Return New dtblFilterRow(builder)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Function GetRowType() As Global.System.Type
+            Return GetType(dtblFilterRow)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowChanged(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowChanged(e)
+            If (Not (Me.dtblFilterRowChangedEvent) Is Nothing) Then
+                RaiseEvent dtblFilterRowChanged(Me, New dtblFilterRowChangeEvent(CType(e.Row,dtblFilterRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowChanging(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowChanging(e)
+            If (Not (Me.dtblFilterRowChangingEvent) Is Nothing) Then
+                RaiseEvent dtblFilterRowChanging(Me, New dtblFilterRowChangeEvent(CType(e.Row,dtblFilterRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowDeleted(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowDeleted(e)
+            If (Not (Me.dtblFilterRowDeletedEvent) Is Nothing) Then
+                RaiseEvent dtblFilterRowDeleted(Me, New dtblFilterRowChangeEvent(CType(e.Row,dtblFilterRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowDeleting(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowDeleting(e)
+            If (Not (Me.dtblFilterRowDeletingEvent) Is Nothing) Then
+                RaiseEvent dtblFilterRowDeleting(Me, New dtblFilterRowChangeEvent(CType(e.Row,dtblFilterRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub RemovedtblFilterRow(ByVal row As dtblFilterRow)
+            Me.Rows.Remove(row)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Shared Function GetTypedTableSchema(ByVal xs As Global.System.Xml.Schema.XmlSchemaSet) As Global.System.Xml.Schema.XmlSchemaComplexType
+            Dim type As Global.System.Xml.Schema.XmlSchemaComplexType = New Global.System.Xml.Schema.XmlSchemaComplexType()
+            Dim sequence As Global.System.Xml.Schema.XmlSchemaSequence = New Global.System.Xml.Schema.XmlSchemaSequence()
+            Dim ds As DataSet_Reports = New DataSet_Reports()
+            Dim any1 As Global.System.Xml.Schema.XmlSchemaAny = New Global.System.Xml.Schema.XmlSchemaAny()
+            any1.Namespace = "http://www.w3.org/2001/XMLSchema"
+            any1.MinOccurs = New Decimal(0)
+            any1.MaxOccurs = Decimal.MaxValue
+            any1.ProcessContents = Global.System.Xml.Schema.XmlSchemaContentProcessing.Lax
+            sequence.Items.Add(any1)
+            Dim any2 As Global.System.Xml.Schema.XmlSchemaAny = New Global.System.Xml.Schema.XmlSchemaAny()
+            any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1"
+            any2.MinOccurs = New Decimal(1)
+            any2.ProcessContents = Global.System.Xml.Schema.XmlSchemaContentProcessing.Lax
+            sequence.Items.Add(any2)
+            Dim attribute1 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
+            attribute1.Name = "namespace"
+            attribute1.FixedValue = ds.Namespace
+            type.Attributes.Add(attribute1)
+            Dim attribute2 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
+            attribute2.Name = "tableTypeName"
+            attribute2.FixedValue = "dtblFilterDataTable"
             type.Attributes.Add(attribute2)
             type.Particle = sequence
             Dim dsSchema As Global.System.Xml.Schema.XmlSchema = ds.GetSchemaSerializable
@@ -2573,6 +3233,38 @@ Partial Public Class DataSet_Reports
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property GUID_ReportField_Type() As System.Guid
+            Get
+                Try 
+                    Return CType(Me(Me.tableproc_ReportFields.GUID_ReportField_TypeColumn),Global.System.Guid)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte GUID_ReportField_Type in Tabelle proc_ReportFields ist DBNull"& _ 
+                            ".", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableproc_ReportFields.GUID_ReportField_TypeColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Name_ReportField_Type() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableproc_ReportFields.Name_ReportField_TypeColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte Name_ReportField_Type in Tabelle proc_ReportFields ist DBNull"& _ 
+                            ".", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableproc_ReportFields.Name_ReportField_TypeColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Function IsGUID_ReportField_LeadedNull() As Boolean
             Return Me.IsNull(Me.tableproc_ReportFields.GUID_ReportField_LeadedColumn)
         End Function
@@ -2618,6 +3310,30 @@ Partial Public Class DataSet_Reports
         Public Sub SetName_Field_FormatNull()
             Me(Me.tableproc_ReportFields.Name_Field_FormatColumn) = Global.System.Convert.DBNull
         End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsGUID_ReportField_TypeNull() As Boolean
+            Return Me.IsNull(Me.tableproc_ReportFields.GUID_ReportField_TypeColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetGUID_ReportField_TypeNull()
+            Me(Me.tableproc_ReportFields.GUID_ReportField_TypeColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsName_ReportField_TypeNull() As Boolean
+            Return Me.IsNull(Me.tableproc_ReportFields.Name_ReportField_TypeColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetName_ReportField_TypeNull()
+            Me(Me.tableproc_ReportFields.Name_ReportField_TypeColumn) = Global.System.Convert.DBNull
+        End Sub
     End Class
     
     '''<summary>
@@ -2660,6 +3376,173 @@ Partial Public Class DataSet_Reports
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub SetnameNull()
             Me(Me.tabledtbl_Columns.nameColumn) = Global.System.Convert.DBNull
+        End Sub
+    End Class
+    
+    '''<summary>
+    '''Represents strongly named DataRow class.
+    '''</summary>
+    Partial Public Class dtblSortRow
+        Inherits Global.System.Data.DataRow
+        
+        Private tabledtblSort As dtblSortDataTable
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Sub New(ByVal rb As Global.System.Data.DataRowBuilder)
+            MyBase.New(rb)
+            Me.tabledtblSort = CType(Me.Table,dtblSortDataTable)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Column() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tabledtblSort.ColumnColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte Column in Tabelle dtblSort ist DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabledtblSort.ColumnColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property id() As Integer
+            Get
+                Try 
+                    Return CType(Me(Me.tabledtblSort.idColumn),Integer)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte id in Tabelle dtblSort ist DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabledtblSort.idColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsColumnNull() As Boolean
+            Return Me.IsNull(Me.tabledtblSort.ColumnColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetColumnNull()
+            Me(Me.tabledtblSort.ColumnColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsidNull() As Boolean
+            Return Me.IsNull(Me.tabledtblSort.idColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetidNull()
+            Me(Me.tabledtblSort.idColumn) = Global.System.Convert.DBNull
+        End Sub
+    End Class
+    
+    '''<summary>
+    '''Represents strongly named DataRow class.
+    '''</summary>
+    Partial Public Class dtblFilterRow
+        Inherits Global.System.Data.DataRow
+        
+        Private tabledtblFilter As dtblFilterDataTable
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Sub New(ByVal rb As Global.System.Data.DataRowBuilder)
+            MyBase.New(rb)
+            Me.tabledtblFilter = CType(Me.Table,dtblFilterDataTable)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Column() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tabledtblFilter.ColumnColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte Column in Tabelle dtblFilter ist DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabledtblFilter.ColumnColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property _Operator() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tabledtblFilter.OperatorColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte Operator in Tabelle dtblFilter ist DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabledtblFilter.OperatorColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Value() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tabledtblFilter.ValueColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte Value in Tabelle dtblFilter ist DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabledtblFilter.ValueColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsColumnNull() As Boolean
+            Return Me.IsNull(Me.tabledtblFilter.ColumnColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetColumnNull()
+            Me(Me.tabledtblFilter.ColumnColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function Is_OperatorNull() As Boolean
+            Return Me.IsNull(Me.tabledtblFilter.OperatorColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub Set_OperatorNull()
+            Me(Me.tabledtblFilter.OperatorColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsValueNull() As Boolean
+            Return Me.IsNull(Me.tabledtblFilter.ValueColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetValueNull()
+            Me(Me.tabledtblFilter.ValueColumn) = Global.System.Convert.DBNull
         End Sub
     End Class
     
@@ -2793,6 +3676,78 @@ Partial Public Class DataSet_Reports
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public ReadOnly Property Row() As dtbl_ColumnsRow
+            Get
+                Return Me.eventRow
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Action() As Global.System.Data.DataRowAction
+            Get
+                Return Me.eventAction
+            End Get
+        End Property
+    End Class
+    
+    '''<summary>
+    '''Row event argument class
+    '''</summary>
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+    Public Class dtblSortRowChangeEvent
+        Inherits Global.System.EventArgs
+        
+        Private eventRow As dtblSortRow
+        
+        Private eventAction As Global.System.Data.DataRowAction
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub New(ByVal row As dtblSortRow, ByVal action As Global.System.Data.DataRowAction)
+            MyBase.New
+            Me.eventRow = row
+            Me.eventAction = action
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Row() As dtblSortRow
+            Get
+                Return Me.eventRow
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Action() As Global.System.Data.DataRowAction
+            Get
+                Return Me.eventAction
+            End Get
+        End Property
+    End Class
+    
+    '''<summary>
+    '''Row event argument class
+    '''</summary>
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+    Public Class dtblFilterRowChangeEvent
+        Inherits Global.System.EventArgs
+        
+        Private eventRow As dtblFilterRow
+        
+        Private eventAction As Global.System.Data.DataRowAction
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub New(ByVal row As dtblFilterRow, ByVal action As Global.System.Data.DataRowAction)
+            MyBase.New
+            Me.eventRow = row
+            Me.eventAction = action
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Row() As dtblFilterRow
             Get
                 Return Me.eventRow
             End Get
@@ -3542,6 +4497,8 @@ Namespace DataSet_ReportsTableAdapters
             tableMapping.ColumnMappings.Add("GUID_Field_Format", "GUID_Field_Format")
             tableMapping.ColumnMappings.Add("Name_Field_Format", "Name_Field_Format")
             tableMapping.ColumnMappings.Add("OrderID", "OrderID")
+            tableMapping.ColumnMappings.Add("GUID_ReportField_Type", "GUID_ReportField_Type")
+            tableMapping.ColumnMappings.Add("Name_ReportField_Type", "Name_ReportField_Type")
             Me._adapter.TableMappings.Add(tableMapping)
         End Sub
         
@@ -3572,6 +4529,7 @@ Namespace DataSet_ReportsTableAdapters
             Me._commandCollection(0).Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@GUID_RelationType_isOfType", Global.System.Data.SqlDbType.UniqueIdentifier, 16, Global.System.Data.ParameterDirection.Input, 0, 0, Nothing, Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
             Me._commandCollection(0).Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@GUID_RelationType_leads", Global.System.Data.SqlDbType.UniqueIdentifier, 16, Global.System.Data.ParameterDirection.Input, 0, 0, Nothing, Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
             Me._commandCollection(0).Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@GUID_RelationType_FormattedBy", Global.System.Data.SqlDbType.UniqueIdentifier, 16, Global.System.Data.ParameterDirection.Input, 0, 0, Nothing, Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._commandCollection(0).Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@GUID_RelationTypeType_TypeField", Global.System.Data.SqlDbType.UniqueIdentifier, 16, Global.System.Data.ParameterDirection.Input, 0, 0, Nothing, Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
             Me._commandCollection(0).Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@GUID_Report", Global.System.Data.SqlDbType.UniqueIdentifier, 16, Global.System.Data.ParameterDirection.Input, 0, 0, Nothing, Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
         End Sub
         
@@ -3579,7 +4537,7 @@ Namespace DataSet_ReportsTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
          Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Fill, true)>  _
-        Public Overloads Overridable Function Fill(ByVal dataTable As DataSet_Reports.proc_ReportFieldsDataTable, ByVal GUID_Attribute_Invisible As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_ReportField As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_Report As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_DBColumn As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_FieldType As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_FieldFormat As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_belongsTo As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_is As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_isOfType As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_leads As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_FormattedBy As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Report As Global.System.Nullable(Of Global.System.Guid)) As Integer
+        Public Overloads Overridable Function Fill(ByVal dataTable As DataSet_Reports.proc_ReportFieldsDataTable, ByVal GUID_Attribute_Invisible As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_ReportField As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_Report As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_DBColumn As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_FieldType As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_FieldFormat As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_belongsTo As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_is As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_isOfType As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_leads As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_FormattedBy As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationTypeType_TypeField As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Report As Global.System.Nullable(Of Global.System.Guid)) As Integer
             Me.Adapter.SelectCommand = Me.CommandCollection(0)
             If (GUID_Attribute_Invisible.HasValue = true) Then
                 Me.Adapter.SelectCommand.Parameters(1).Value = CType(GUID_Attribute_Invisible.Value,System.Guid)
@@ -3636,10 +4594,15 @@ Namespace DataSet_ReportsTableAdapters
             Else
                 Me.Adapter.SelectCommand.Parameters(11).Value = Global.System.DBNull.Value
             End If
-            If (GUID_Report.HasValue = true) Then
-                Me.Adapter.SelectCommand.Parameters(12).Value = CType(GUID_Report.Value,System.Guid)
+            If (GUID_RelationTypeType_TypeField.HasValue = true) Then
+                Me.Adapter.SelectCommand.Parameters(12).Value = CType(GUID_RelationTypeType_TypeField.Value,System.Guid)
             Else
                 Me.Adapter.SelectCommand.Parameters(12).Value = Global.System.DBNull.Value
+            End If
+            If (GUID_Report.HasValue = true) Then
+                Me.Adapter.SelectCommand.Parameters(13).Value = CType(GUID_Report.Value,System.Guid)
+            Else
+                Me.Adapter.SelectCommand.Parameters(13).Value = Global.System.DBNull.Value
             End If
             If (Me.ClearBeforeFill = true) Then
                 dataTable.Clear
@@ -3652,7 +4615,7 @@ Namespace DataSet_ReportsTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
          Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.[Select], true)>  _
-        Public Overloads Overridable Function GetData(ByVal GUID_Attribute_Invisible As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_ReportField As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_Report As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_DBColumn As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_FieldType As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_FieldFormat As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_belongsTo As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_is As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_isOfType As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_leads As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_FormattedBy As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Report As Global.System.Nullable(Of Global.System.Guid)) As DataSet_Reports.proc_ReportFieldsDataTable
+        Public Overloads Overridable Function GetData(ByVal GUID_Attribute_Invisible As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_ReportField As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_Report As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_DBColumn As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_FieldType As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_FieldFormat As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_belongsTo As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_is As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_isOfType As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_leads As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_FormattedBy As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationTypeType_TypeField As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Report As Global.System.Nullable(Of Global.System.Guid)) As DataSet_Reports.proc_ReportFieldsDataTable
             Me.Adapter.SelectCommand = Me.CommandCollection(0)
             If (GUID_Attribute_Invisible.HasValue = true) Then
                 Me.Adapter.SelectCommand.Parameters(1).Value = CType(GUID_Attribute_Invisible.Value,System.Guid)
@@ -3709,10 +4672,15 @@ Namespace DataSet_ReportsTableAdapters
             Else
                 Me.Adapter.SelectCommand.Parameters(11).Value = Global.System.DBNull.Value
             End If
-            If (GUID_Report.HasValue = true) Then
-                Me.Adapter.SelectCommand.Parameters(12).Value = CType(GUID_Report.Value,System.Guid)
+            If (GUID_RelationTypeType_TypeField.HasValue = true) Then
+                Me.Adapter.SelectCommand.Parameters(12).Value = CType(GUID_RelationTypeType_TypeField.Value,System.Guid)
             Else
                 Me.Adapter.SelectCommand.Parameters(12).Value = Global.System.DBNull.Value
+            End If
+            If (GUID_Report.HasValue = true) Then
+                Me.Adapter.SelectCommand.Parameters(13).Value = CType(GUID_Report.Value,System.Guid)
+            Else
+                Me.Adapter.SelectCommand.Parameters(13).Value = Global.System.DBNull.Value
             End If
             Dim dataTable As DataSet_Reports.proc_ReportFieldsDataTable = New DataSet_Reports.proc_ReportFieldsDataTable()
             Me.Adapter.Fill(dataTable)

@@ -163,6 +163,7 @@ Public Class UserControl_Report
     Private Sub DataGridView_Reports_CellMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellMouseEventArgs) Handles DataGridView_Reports.CellMouseClick
         Dim objDRs_Report() As DataRow
         Dim objDRs_Leaded() As DataRow
+        Dim objDRs_Type() As DataRow
         Dim objDR_Report As DataRow
         Dim objSemItem_Ref As clsSemItem
         Dim objDGVR_Selected As DataGridViewRow
@@ -173,6 +174,8 @@ Public Class UserControl_Report
         ToolStripButton_OpenFile.Enabled = False
         ToolStripButton_CopyPath.Enabled = False
         ToolStripButton_DownloadFile.Enabled = False
+
+        ToolStripButton_OpenLink.Enabled = False
 
         ToolStripButton_DrillDown.Enabled = False
 
@@ -185,89 +188,72 @@ Public Class UserControl_Report
         If DataGridView_Reports.SelectedCells.Count = 1 Then
             objDRs_Report = objUserData.ReportFields_procT.Select("Name_DBColumn='" & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & "'")
             If objDRs_Report.Count > 0 Then
-                If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_File.GUID Then
-                    ToolStripButton_OpenFile.Enabled = True
-                    ToolStripButton_CopyPath.Enabled = True
-                    ToolStripButton_DownloadFile.Enabled = True
+                objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
+                objDRV_Selected = objDGVR_Selected.DataBoundItem
+                objDRs_Type = objUserData.ReportFields_procT.Select("GUID_ReportField='" & objDRs_Report(0).Item("GUID_ReportField_Type").ToString & "'")
+                If objDRs_Type.Count > 0 Then
+                    
+
+                    Select Case objDRV_Selected.Item(objDRs_Type(0).Item("Name_DBColumn"))
+                        Case objLocalConfig.SemItem_Type_File.GUID
+                            ToolStripButton_OpenFile.Enabled = True
+                            ToolStripButton_CopyPath.Enabled = True
+                            ToolStripButton_DownloadFile.Enabled = True
+                        Case objLocalConfig.SemItem_Type_Password.GUID
+                            ToolStripButton_DecodePassword.Enabled = True
+
+                        Case objLocalConfig.SemItem_Type_Url.GUID
+                            ToolStripButton_OpenLink.Enabled = True
+                    End Select
+                    
                 End If
+
 
                 objDRs_Leaded = objUserData.ReportFields_procT.Select("GUID_ReportField_Leaded='" & objDRs_Report(0).Item("GUID_ReportField").ToString & "'")
                 If objDRs_Leaded.Count > 0 Then
-                    If objDRs_Leaded(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_GUID.GUID Then
-                        objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
-                        objDRV_Selected = objDGVR_Selected.DataBoundItem
+                    If Not IsDBNull(objDRV_Selected.Item(objDRs_Leaded(0).Item("Name_DBColumn"))) Then
                         objSemItem_Ref = New clsSemItem
                         objSemItem_Ref.GUID = objDRV_Selected.Item(objDRs_Leaded(0).Item("Name_DBColumn"))
                         objSemItem_Ref.Name = objDRV_Selected.Item(objDRs_Report(0).Item("Name_DBColumn"))
 
-                        If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_Password.GUID Then
-                            If Not objLocalConfig.SemItem_User Is Nothing Then
-                                ToolStripButton_DecodePassword.Enabled = True
+                        If Not IsDBNull(objDRV_Selected.Item(objDRs_Leaded(0).Item("Name_DBColumn"))) Then
+                            objGUID_Item = objDRV_Selected.Item(objDRs_Leaded(0).Item("Name_DBColumn"))
+                            objDRC_Token = semtblA_Token.GetData_Token_By_GUID(objGUID_Item).Rows
+                            If objDRC_Token.Count = 1 Then
+                                objSemItem_Token = New clsSemItem
+                                objSemItem_Token.GUID = objDRC_Token(0).Item("GUID_Token")
+                                objSemItem_Token.Name = objDRC_Token(0).Item("Name_Token")
+                                objSemItem_Token.GUID_Parent = objDRC_Token(0).Item("GUID_Type")
+                                objSemItem_Token.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
 
+                                If objMediaItem_Config.has_Images(objSemItem_Ref) = True Then
+                                    ToolStripButton_OpenImage.Enabled = True
+                                End If
 
-                                If Not IsDBNull(objDRV_Selected.Item(objDRs_Leaded(0).Item("Name_DBColumn"))) Then
-                                    objGUID_Item = objDRV_Selected.Item(objDRs_Leaded(0).Item("Name_DBColumn"))
-                                    objDRC_Token = semtblA_Token.GetData_Token_By_GUID(objGUID_Item).Rows
-                                    If objDRC_Token.Count = 1 Then
-                                        objSemItem_Token = New clsSemItem
-                                        objSemItem_Token.GUID = objDRC_Token(0).Item("GUID_Token")
-                                        objSemItem_Token.Name = objDRC_Token(0).Item("Name_Token")
-                                        objSemItem_Token.GUID_Parent = objDRC_Token(0).Item("GUID_Type")
-                                        objSemItem_Token.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                                If objMediaItem_Config.has_MediaItems(objSemItem_Ref) = True Then
+                                    ToolStripButton_OpenMedia.Enabled = True
+                                End If
 
-                                    End If
-
+                                If objMediaItem_Config.has_PDFs(objSemItem_Ref) = True Then
+                                    ToolStripButton_OpenPDF.Enabled = True
                                 End If
                             End If
 
                         End If
-
-                        If objMediaItem_Config.has_Images(objSemItem_Ref) = True Then
-                            ToolStripButton_OpenImage.Enabled = True
-                        End If
-
-                        If objMediaItem_Config.has_MediaItems(objSemItem_Ref) = True Then
-                            ToolStripButton_OpenMedia.Enabled = True
-                        End If
-
-                        If objMediaItem_Config.has_PDFs(objSemItem_Ref) = True Then
-                            ToolStripButton_OpenPDF.Enabled = True
-                        End If
                     End If
-
+                    
                 End If
 
             End If
         End If
-    End Sub
-
-    Private Sub DataGridView_Reports_CellMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellMouseEventArgs) Handles DataGridView_Reports.CellMouseDoubleClick
-        Dim objDRs_Column() As DataRow
-        Dim objDGVR_Selected As DataGridViewRow
-        Dim objDRV_Selected As DataRowView
-
-        If e.RowIndex > -1 Then
-            objDRs_Column = objUserData.ReportFields_procT.Select("Name_DBColumn='" & DataGridView_Reports.Columns(e.ColumnIndex).Name & "'")
-            If objDRs_Column.Count > 0 Then
-                objDGVR_Selected = DataGridView_Reports.Rows(e.RowIndex)
-                objDRV_Selected = objDGVR_Selected.DataBoundItem
-
-                Select Case objDRs_Column(0).Item("GUID_FieldType")
-                    Case objLocalConfig.SemItem_Token_Field_Type_Url.GUID
-                        If Not IsDBNull(objDRV_Selected.Item(DataGridView_Reports.Columns(e.ColumnIndex).DataPropertyName)) Then
-                            objShell.start_Process(objDRV_Selected.Item(DataGridView_Reports.Columns(e.ColumnIndex).DataPropertyName), Nothing, Nothing, False, False)
-                        End If
-
-
-                End Select
-            End If
-        End If
-
     End Sub
 
     Private Sub ContextMenuStrip_Reports_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Reports.Opening
         Dim objDRs_Report() As DataRow
         Dim objDR_Report As DataRow
+        Dim objDRs_Type() As DataRow
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
 
         FilesToolStripMenuItem.Enabled = True
         CopyNameToolStripMenuItem.Enabled = False
@@ -284,16 +270,23 @@ Public Class UserControl_Report
             FilterToolStripMenuItem.Enabled = True
             CopyNameToolStripMenuItem.Enabled = True
             objDRs_Report = objUserData.ReportFields_procT.Select("Name_DBColumn='" & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & "'")
-            If objDRs_Report.Count > 0 Then
-                If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_File.GUID Then
-                    FilesToolStripMenuItem.Enabled = True
-                End If
-                If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_Password.GUID Then
-                    If Not objLocalConfig.SemItem_User Is Nothing Then
-                        DecodePasswordToolStripMenuItem.Enabled = True
-                    End If
+            objDRs_Type = objUserData.ReportFields_procT.Select("GUID_ReportField='" & objDRs_Report(0).Item("GUID_ReportField_Type").ToString & "'")
+            If objDRs_Type.Count > 0 Then
+                objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
+                objDRV_Selected = objDGVR_Selected.DataBoundItem
 
-                End If
+                Select Case objDRV_Selected.Item(objDRs_Type(0).Item("Name_DBColumn"))
+                    Case objLocalConfig.SemItem_Type_File.GUID
+                        FilesToolStripMenuItem.Enabled = True
+                    Case objLocalConfig.SemItem_Type_Password.GUID
+                        DecodePasswordToolStripMenuItem.Enabled = True
+
+
+                End Select
+
+            End If
+
+            If objDRs_Report.Count > 0 Then
                 objDRs_Report = objUserData.ReportFields_procT.Select("GUID_ReportField_Leaded='" & objDRs_Report(0).Item("GUID_ReportField").ToString & "'")
                 If objDRs_Report.Count > 0 Then
                     If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_GUID.GUID Then
@@ -367,6 +360,7 @@ Public Class UserControl_Report
             Dim objDGVR_Selected As DataGridViewRow
             Dim objDRV_Selected As DataRowView
             Dim objDRs_Report() As DataRow
+            Dim objDRs_Type() As DataRow
             Dim objDRC_Token As DataRowCollection
             Dim objGUID_Item As Guid
             Dim strPassword As String
@@ -376,9 +370,12 @@ Public Class UserControl_Report
                 objDRs_Report = objUserData.ReportFields_procT.Select("Name_DBColumn='" & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & "'")
                 If objDRs_Report.Count > 0 Then
 
+                    objDRs_Type = objUserData.ReportFields_procT.Select("GUID_ReportField='" & objDRs_Report(0).Item("GUID_ReportField_Type").ToString & "'")
                     objDRs_Report = objUserData.ReportFields_procT.Select("GUID_ReportField_Leaded='" & objDRs_Report(0).Item("GUID_ReportField").ToString & "'")
                     If objDRs_Report.Count > 0 Then
-                        If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_GUID.GUID Then
+
+                        If objDRs_Type.Count > 0 Then
+
                             objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
                             objDRV_Selected = objDGVR_Selected.DataBoundItem
 
@@ -394,7 +391,10 @@ Public Class UserControl_Report
                                 End If
 
                             End If
+                        Else
+                            MsgBox("Das Feld konnte nicht als Password-Feld identifiziert werden!", MsgBoxStyle.Exclamation)
                         End If
+
                     End If
                 End If
             End If
@@ -687,17 +687,30 @@ Public Class UserControl_Report
         Dim objDRV_Selected As DataRowView
         Dim objDRs_Report() As DataRow
         Dim objDRs_Leaded() As DataRow
+        Dim objDRs_Type() As DataRow
         Dim objSemItem_Ref As clsSemItem
 
         objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
         objDRV_Selected = objDGVR_Selected.DataBoundItem
         objDRs_Report = objUserData.ReportFields_procT.Select("Name_DBColumn='" & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & "'")
         If objDRs_Report.Count > 0 Then
-            If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_File.GUID Then
-                ToolStripButton_OpenFile.Enabled = True
-                ToolStripButton_CopyPath.Enabled = True
-                ToolStripButton_DownloadFile.Enabled = True
+            objDRs_Type = objUserData.ReportFields_procT.Select("GUID_ReportField='" & objDRs_Report(0).Item("GUID_ReportField_Type").ToString & "'")
+            objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
+            objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+            If objDRs_Type.Count > 0 Then
+                Select Case objDRV_Selected.Item(objDRs_Type(0).Item("Name_DBColumn"))
+                    Case objLocalConfig.SemItem_Type_File.GUID
+                        ToolStripButton_OpenFile.Enabled = True
+                        ToolStripButton_CopyPath.Enabled = True
+                        ToolStripButton_DownloadFile.Enabled = True
+                    Case objLocalConfig.SemItem_Type_Password.GUID
+                        ToolStripButton_DecodePassword.Enabled = True
+
+
+                End Select
             End If
+            
 
             objDRs_Leaded = objUserData.ReportFields_procT.Select("GUID_ReportField_Leaded='" & objDRs_Report(0).Item("GUID_ReportField").ToString & "'")
             If objDRs_Leaded.Count > 0 Then
@@ -723,5 +736,47 @@ Public Class UserControl_Report
 
     Private Sub ToolStripButton_OpenPDF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_OpenPDF.Click
         open_MediaImagePDF(cint_PDF)
+    End Sub
+
+    Private Sub ToolStripButton_OpenLink_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_OpenLink.Click
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim objDRs_Report() As DataRow
+        Dim objDRs_Leaded() As DataRow
+        Dim objDRs_Type() As DataRow
+        Dim objSemItem_Ref As clsSemItem
+
+        objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
+        objDRV_Selected = objDGVR_Selected.DataBoundItem
+        objDRs_Report = objUserData.ReportFields_procT.Select("Name_DBColumn='" & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & "'")
+        If objDRs_Report.Count > 0 Then
+            objDRs_Type = objUserData.ReportFields_procT.Select("GUID_ReportField='" & objDRs_Report(0).Item("GUID_ReportField_Type").ToString & "'")
+            objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
+            objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+            If objDRs_Type.Count > 0 Then
+                
+            End If
+
+
+            objDRs_Leaded = objUserData.ReportFields_procT.Select("GUID_ReportField_Leaded='" & objDRs_Report(0).Item("GUID_ReportField").ToString & "'")
+            If objDRs_Leaded.Count > 0 Then
+                If objDRs_Leaded(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_GUID.GUID Then
+                    objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
+                    objDRV_Selected = objDGVR_Selected.DataBoundItem
+                    objSemItem_Ref = New clsSemItem
+                    objSemItem_Ref.GUID = objDRV_Selected.Item(objDRs_Leaded(0).Item("Name_DBColumn"))
+                    objSemItem_Ref.Name = objDRV_Selected.Item(objDRs_Report(0).Item("Name_DBColumn"))
+                    objSemItem_Ref.GUID_Parent = objDRV_Selected.Item(objDRs_Type(0).Item("Name_DBColumn"))
+                    objSemItem_Ref.GUID_Type = objLocalConfig.Globals.LogState_Success.GUID
+
+                    If objShell.start_Process(objSemItem_Ref.Name, Nothing, Nothing, False, False) = False Then
+                        MsgBox("Der Link konnte nicht geöffnet werden!", MsgBoxStyle.Exclamation)
+                    End If
+
+
+                End If
+            End If
+        End If
     End Sub
 End Class

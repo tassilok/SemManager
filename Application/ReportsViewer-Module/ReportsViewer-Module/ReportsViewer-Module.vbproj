@@ -102,6 +102,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet_Reports.xsd</DependentUpon>
     </Compile>
+    <Compile Include="frmFilterSort.Designer.vb">
+      <DependentUpon>frmFilterSort.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmFilterSort.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmMain.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -138,6 +144,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmFilterSort.resx">
+      <DependentUpon>frmFilterSort.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>
     </EmbeddedResource>
@@ -182,6 +191,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\bb_wrld_.png" />
     <None Include="Resources\Key.png" />
     <None Include="Resources\generic_picture.png" />
     <None Include="Resources\1683_Lightbulb_32x32.png" />

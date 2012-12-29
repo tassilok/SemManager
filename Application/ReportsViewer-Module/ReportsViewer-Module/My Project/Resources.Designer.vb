@@ -88,6 +88,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property bb_wrld_() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("bb_wrld_", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property Blu_RayMovieDisk() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Blu-RayMovieDisk", resourceCulture)
