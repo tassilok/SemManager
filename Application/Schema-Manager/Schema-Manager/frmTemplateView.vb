@@ -520,4 +520,22 @@ Public Class frmTemplateView
         DialogResult = Windows.Forms.DialogResult.Cancel
         Me.Hide()
     End Sub
+
+    Private Sub DataGridView_DBItems_CellPainting(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellPaintingEventArgs) Handles DataGridView_DBItems.CellPainting
+        'Dim objDGVR_Selected As DataGridViewRow
+        'Dim objDRV_Selected As DataRowView
+        'Dim objDGVC_Selected As DataGridViewCell
+
+        'If Not e.RowIndex = -1 Then
+        '    objDGVR_Selected = DataGridView_DBItems.Rows(e.RowIndex)
+        '    objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+        '    If objDRV_Selected.Item("CreationDate") <> objDRV_Selected.Item("AlterDate") Then
+        '        For Each objDGVC_Selected In objDGVR_Selected.Cells
+        '            objDGVC_Selected.Style.BackColor = Color.Yellow
+        '        Next
+        '    End If
+        'End If
+        
+    End Sub
 End Class

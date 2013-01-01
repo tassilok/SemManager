@@ -22,9 +22,16 @@ Public Class clsUserData
     Private dtblA_Columns As New DataSet_ReportsTableAdapters.dtbl_ColumnsTableAdapter
     Private dtblT_Columns As New DataSet_Reports.dtbl_ColumnsDataTable
 
+    Private procA_XMLConfig As New DataSet_ReportsTableAdapters.proc_XMLConfigTableAdapter
+    Private procT_XMLConfig As New DataSet_Reports.proc_XMLConfigDataTable
+
+    Private procA_XML_Variable As New DataSet_ReportsTableAdapters.proc_XML_VariableTableAdapter
+    Private procT_XML_Variable As New DataSet_Reports.proc_XML_VariableDataTable
+
     Private objTransaction_Reports As clsTransaction_Reports
 
     Private objSemItem_Report As clsSemItem
+    Private objSemItem_User As clsSemItem
 
     Private objThread_Data_ReportTree As Threading.Thread
     Private objThread_Data_Reports As Threading.Thread
@@ -53,6 +60,17 @@ Public Class clsUserData
         End Get
     End Property
 
+    Public ReadOnly Property XMLConfig_procT As DataSet_Reports.proc_XMLConfigDataTable
+        Get
+            Return procT_XMLConfig
+        End Get
+    End Property
+
+    Public ReadOnly Property XML_Variable_ProcT As DataSet_Reports.proc_XML_VariableDataTable
+        Get
+            Return procT_XML_Variable
+        End Get
+    End Property
 
     Public ReadOnly Property finished_Data_ReportTree As Boolean
         Get
@@ -78,10 +96,123 @@ Public Class clsUserData
         End Get
     End Property
 
+    Public ReadOnly Property TextConfig_Table As clsSemItem
+        Get
+            Dim objXMLDom As New Xml.XmlDocument
+            Dim objXMLElement As Xml.XmlElement
+            Dim objSemItem_Text As New clsSemItem
+
+            If procT_XMLConfig.Rows.Count = 1 Then
+                Try
+                    objXMLDom.LoadXml(procT_XMLConfig.Rows(0).Item("XMLTable"))
+                    objXMLElement = objXMLDom.GetElementsByTagName("data").Item(0)
+
+                    objSemItem_Text.GUID = procT_XMLConfig.Rows(0).Item("GUID_XML_Table")
+                    objSemItem_Text.Name = procT_XMLConfig.Rows(0).Item("Name_XML_Table")
+                    objSemItem_Text.Additional1 = objXMLElement.InnerText
+                    objSemItem_Text.GUID_Parent = objLocalConfig.SemItem_Type_XML.GUID
+                    objSemItem_Text.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                Catch ex As Exception
+                    objSemItem_Text = Nothing
+                End Try
+
+
+            Else
+                objSemItem_Text = Nothing
+            End If
+
+            Return objSemItem_Text
+        End Get
+    End Property
+
+    Public ReadOnly Property TextConfig_Row As clsSemItem
+        Get
+            Dim objXMLDom As New Xml.XmlDocument
+            Dim objXMLElement As Xml.XmlElement
+            Dim objSemItem_Text As New clsSemItem
+
+            If procT_XMLConfig.Rows.Count = 1 Then
+                Try
+                    objXMLDom.LoadXml(procT_XMLConfig.Rows(0).Item("XMLRow"))
+                    objXMLElement = objXMLDom.GetElementsByTagName("data").Item(0)
+
+                    objSemItem_Text.GUID = procT_XMLConfig.Rows(0).Item("GUID_XML_Row")
+                    objSemItem_Text.Name = procT_XMLConfig.Rows(0).Item("Name_XML_Row")
+                    objSemItem_Text.Additional1 = objXMLElement.InnerText
+                    objSemItem_Text.GUID_Parent = objLocalConfig.SemItem_Type_XML.GUID
+                    objSemItem_Text.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                Catch ex As Exception
+                    objSemItem_Text = Nothing
+                End Try
+
+
+            Else
+                objSemItem_Text = Nothing
+            End If
+
+            Return objSemItem_Text
+        End Get
+    End Property
+
+    Public ReadOnly Property TextConfig_Cell As clsSemItem
+        Get
+            Dim objXMLDom As New Xml.XmlDocument
+            Dim objXMLElement As Xml.XmlElement
+            Dim objSemItem_Text As New clsSemItem
+
+            If procT_XMLConfig.Rows.Count = 1 Then
+                Try
+                    objXMLDom.LoadXml(procT_XMLConfig.Rows(0).Item("XMLCell"))
+                    objXMLElement = objXMLDom.GetElementsByTagName("data").Item(0)
+
+                    objSemItem_Text.GUID = procT_XMLConfig.Rows(0).Item("GUID_XML_Cell")
+                    objSemItem_Text.Name = procT_XMLConfig.Rows(0).Item("Name_XML_Cell")
+                    objSemItem_Text.Additional1 = objXMLElement.InnerText
+                    objSemItem_Text.GUID_Parent = objLocalConfig.SemItem_Type_XML.GUID
+                    objSemItem_Text.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                Catch ex As Exception
+                    objSemItem_Text = Nothing
+                End Try
+
+
+            Else
+                objSemItem_Text = Nothing
+            End If
+
+            Return objSemItem_Text
+        End Get
+    End Property
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
         set_DBConnection()
     End Sub
+
+    Public Function get_Data_XMLConfig(ByVal SemItem_User As clsSemItem) As clsSemItem
+        Dim objSemItem_Result As clsSemItem
+
+        objSemItem_User = SemItem_User
+
+        procA_XMLConfig.Fill(procT_XMLConfig, _
+                             objLocalConfig.SemItem_Attribute_XML_Text.GUID, _
+                             objLocalConfig.SemItem_Type_XML_Config.GUID, _
+                             objLocalConfig.SemItem_Type_XML.GUID, _
+                             objLocalConfig.SemItem_type_User.GUID, _
+                             objLocalConfig.SemItem_Type_Variable.GUID, _
+                             objLocalConfig.SemItem_RelationType_belongsTo.GUID, _
+                             objLocalConfig.SemItem_RelationType_Table_Config.GUID, _
+                             objLocalConfig.SemItem_RelationType_Row_Config.GUID, _
+                             objLocalConfig.SemItem_RelationType_Cell_Config.GUID, _
+                             objLocalConfig.SemItem_RelationType_contains.GUID, _
+                             objSemItem_User.GUID)
+
+        procA_XML_Variable.Fill(procT_XML_Variable, _
+                                objSemItem_User.GUID)
+
+        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+
+        Return objSemItem_Result
+    End Function
 
     Public Function get_Columns(ByVal objSemItem_Report As clsSemItem) As clsSemItem
         Dim objConnection As SqlClient.SqlConnection
@@ -305,5 +436,7 @@ Public Class clsUserData
         funcA_TokenToken.Connection = objLocalConfig.Connection_DB
         objTransaction_Reports = New clsTransaction_Reports(objLocalConfig)
         semtblA_Token.Connection = objLocalConfig.Connection_DB
+        procA_XMLConfig.Connection = objLocalConfig.Connection_Plugin
+        procA_XML_Variable.Connection = objLocalConfig.Connection_Plugin
     End Sub
 End Class

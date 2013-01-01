@@ -30,8 +30,9 @@ Partial Class frmMain
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeView_Report = New System.Windows.Forms.TreeView()
         Me.ContextMenuStrip_Reports = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.GetColumnsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AddReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GetColumnsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExportXMLToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -103,9 +104,15 @@ Partial Class frmMain
         '
         'ContextMenuStrip_Reports
         '
-        Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddReportToolStripMenuItem, Me.GetColumnsToolStripMenuItem})
+        Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddReportToolStripMenuItem, Me.GetColumnsToolStripMenuItem, Me.ExportXMLToolStripMenuItem})
         Me.ContextMenuStrip_Reports.Name = "ContextMenuStrip_Reports"
-        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(153, 70)
+        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(153, 92)
+        '
+        'AddReportToolStripMenuItem
+        '
+        Me.AddReportToolStripMenuItem.Name = "AddReportToolStripMenuItem"
+        Me.AddReportToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AddReportToolStripMenuItem.Text = "x_Add Report"
         '
         'GetColumnsToolStripMenuItem
         '
@@ -113,11 +120,12 @@ Partial Class frmMain
         Me.GetColumnsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.GetColumnsToolStripMenuItem.Text = "x_Get Columns"
         '
-        'AddReportToolStripMenuItem
+        'ExportXMLToolStripMenuItem
         '
-        Me.AddReportToolStripMenuItem.Name = "AddReportToolStripMenuItem"
-        Me.AddReportToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.AddReportToolStripMenuItem.Text = "x_Add Report"
+        Me.ExportXMLToolStripMenuItem.Enabled = False
+        Me.ExportXMLToolStripMenuItem.Name = "ExportXMLToolStripMenuItem"
+        Me.ExportXMLToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ExportXMLToolStripMenuItem.Text = "x_export XML"
         '
         'frmMain
         '
@@ -149,5 +157,6 @@ Partial Class frmMain
     Friend WithEvents ContextMenuStrip_Reports As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents GetColumnsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AddReportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ExportXMLToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

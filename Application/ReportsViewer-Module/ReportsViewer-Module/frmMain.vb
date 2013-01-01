@@ -17,6 +17,7 @@ Public Class frmMain
     Private objFrmTokenEdit As frmTokenEdit
 
     Private objTransaction_Reports As clsTransaction_Reports
+    Private objReportXMLExport As clsReportXMLExport
     
     Private objTreeNode_Root As TreeNode
 
@@ -54,6 +55,9 @@ Public Class frmMain
         Loop While objUserData.finished_Data_ReportTree = False
 
         objUserData.initialize_Reports()
+        If Not objLocalConfig.SemItem_User Is Nothing Then
+            objUserData.get_Data_XMLConfig(objLocalConfig.SemItem_User)
+        End If
 
         fill_Tree()
 
@@ -94,6 +98,7 @@ Public Class frmMain
         objUserData = New clsUserData(objLocalConfig)
         objTransaction_Reports = New clsTransaction_Reports(objLocalConfig)
         funcA_TokenToken.Connection = objLocalConfig.Connection_DB
+        objReportXMLExport = New clsReportXMLExport(objLocalConfig)
     End Sub
 
     Private Sub TreeView_Report_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_Report.AfterSelect
@@ -149,6 +154,7 @@ Public Class frmMain
 
         GetColumnsToolStripMenuItem.Enabled = False
         AddReportToolStripMenuItem.Enabled = False
+        ExportXMLToolStripMenuItem.Enabled = False
 
         objTreeNode = TreeView_Report.SelectedNode
 
@@ -156,6 +162,13 @@ Public Class frmMain
             AddReportToolStripMenuItem.Enabled = True
             If objTreeNode.ImageIndex = cint_ImageID_Report Then
                 GetColumnsToolStripMenuItem.Enabled = True
+                If Not objLocalConfig.SemItem_User Is Nothing Then
+                    If objUserData.XMLConfig_procT.Rows.Count = 1 Then
+                        ExportXMLToolStripMenuItem.Enabled = True
+                    End If
+
+                End If
+
             End If
         End If
     End Sub
@@ -256,6 +269,32 @@ Public Class frmMain
                     MsgBox("Es gibt bereits einen Report mit dem Namen!", MsgBoxStyle.Exclamation)
                 End If
 
+            End If
+        End If
+    End Sub
+
+    Private Sub ExportXMLToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExportXMLToolStripMenuItem.Click
+        Dim objTreeNode As TreeNode
+        Dim objSemItem_Report As New clsSemItem
+        Dim objSemItem_Result As clsSemItem
+
+        objTreeNode = TreeView_Report.SelectedNode
+        If Not objTreeNode Is Nothing Then
+            objSemItem_Report.GUID = New Guid(objTreeNode.Name)
+            objSemItem_Report.Name = objTreeNode.Text
+            objSemItem_Report.GUID_Parent = objLocalConfig.SemItem_Type_Reports.GUID
+            objSemItem_Report.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+            objSemItem_Result = objReportXMLExport.initialize(objSemItem_Report)
+            If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                objSemItem_Result = objReportXMLExport.create_XML()
+                If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                    MsgBox("Datei wurde erzeugt!", MsgBoxStyle.Information)
+                Else
+                    MsgBox("Das File kann nicht exportiert werden!", MsgBoxStyle.Exclamation)
+                End If
+            Else
+                MsgBox("Das File kann nicht exportiert werden!", MsgBoxStyle.Exclamation)
             End If
         End If
     End Sub
