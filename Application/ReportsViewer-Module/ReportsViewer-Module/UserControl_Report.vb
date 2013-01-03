@@ -43,6 +43,8 @@ Public Class UserControl_Report
 
     Private strConn As String
 
+    Private boolFilterChanged As Boolean
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
 
         ' This call is required by the designer.
@@ -120,7 +122,7 @@ Public Class UserControl_Report
 
                 Timer_Data.Stop()
             End If
-            End If
+        End If
 
     End Sub
 
@@ -557,16 +559,22 @@ Public Class UserControl_Report
     End Sub
 
     Private Sub EqualToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EqualToolStripMenuItem.Click
-        filter_Grid(cint_FilterID_equal)
+        objLocalConfig.Filter_Type = cint_FilterID_equal
+        filter_Grid(objLocalConfig.Filter_Type)
+        ToolStripButton_Filter.Checked = True
+
+
+
     End Sub
 
     Private Sub filter_Grid(ByVal intFilter As Integer)
         Dim objDRs_Report() As DataRow
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
-        Dim strFilter As String
         Dim strOperator As String
         Dim boolNull As Boolean
+
+        objLocalConfig.Filter = ""
 
         Select Case intFilter
             Case cint_FilterID_contains
@@ -584,7 +592,7 @@ Public Class UserControl_Report
                     If IsDBNull(DataGridView_Reports.SelectedCells(0)) Then
                         boolNull = True
                     Else
-                        strFilter = DataGridView_Reports.SelectedCells(0).Value
+                        objLocalConfig.Filter = DataGridView_Reports.SelectedCells(0).Value
                     End If
 
                 Else
@@ -593,68 +601,74 @@ Public Class UserControl_Report
                     Else
                         If strOperator = " LIKE " Then
                             If ToolStripTextBox_contains.Text <> "" Then
-                                strFilter = "'%" & ToolStripTextBox_contains.Text & "%'"
+                                objLocalConfig.Filter = "'%" & ToolStripTextBox_contains.Text & "%'"
                             Else
-                                strFilter = ""
+                                objLocalConfig.Filter = ""
                             End If
 
                         Else
-                            strFilter = "'" & DataGridView_Reports.SelectedCells(0).Value & "'"
+                            objLocalConfig.Filter = "'" & DataGridView_Reports.SelectedCells(0).Value.ToString & "'"
                         End If
 
                     End If
-                    
+
                 End If
-                If strFilter <> "" Then
+                If objLocalConfig.Filter <> "" Then
                     If boolNull = True Then
                         If strOperator = "NOT " Then
-                            strFilter = strOperator & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & " IS NULL"
+                            objLocalConfig.Filter = strOperator & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & " IS NULL"
                         Else
-                            strFilter = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & " IS NULL"
+                            objLocalConfig.Filter = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & " IS NULL"
                         End If
 
                     Else
                         If strOperator = "NOT " Then
-                            strFilter = strOperator & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & "=" & strFilter
+                            objLocalConfig.Filter = strOperator & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & "=" & objLocalConfig.Filter
                         Else
-                            strFilter = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & strOperator & strFilter
+                            objLocalConfig.Filter = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & strOperator & objLocalConfig.Filter
                         End If
                     End If
                 End If
-                
-                BindingSource_Reports.Filter = strFilter
+
+                BindingSource_Reports.Filter = objLocalConfig.Filter
 
             End If
         End If
+        
 
-        ToolStripLabel_Filter.Text = BindingSource_Reports.Filter
+        ToolStripTextBox_Filter.Text = BindingSource_Reports.Filter
     End Sub
 
     Private Sub ClearFilterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearFilterToolStripMenuItem.Click
         BindingSource_Reports.RemoveFilter()
-        ToolStripLabel_Filter.Text = BindingSource_Reports.Filter
+        ToolStripTextBox_Filter.Text = BindingSource_Reports.Filter
     End Sub
 
     Private Sub DifferentToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DifferentToolStripMenuItem.Click
-        filter_Grid(cint_FilterID_different)
+        objLocalConfig.Filter_Type = cint_FilterID_different
+        filter_Grid(objLocalConfig.Filter_Type)
+        ToolStripButton_Filter.Checked = True
     End Sub
 
     Private Sub ContainsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ContainsToolStripMenuItem.Click
-        filter_Grid(cint_FilterID_contains)
+        objLocalConfig.Filter_Type = cint_FilterID_contains
+        filter_Grid(objLocalConfig.Filter_Type)
+        ToolStripButton_Filter.Checked = True
     End Sub
 
     Private Sub ToolStripTextBox_contains_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ToolStripTextBox_contains.KeyDown
         Select Case e.KeyCode
             Case Keys.Return, Keys.Enter
-                filter_Grid(cint_FilterID_contains)
-
+                objLocalConfig.Filter_Type = cint_FilterID_contains
+                filter_Grid(objLocalConfig.Filter_Type)
+                ToolStripButton_Filter.Checked = True
         End Select
     End Sub
 
 
 
     Private Sub DataGridView_Reports_CellMouseEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles DataGridView_Reports.CellMouseEnter
-        
+
     End Sub
 
     Private Sub ToolStripButton_OpenFile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_OpenFile.Click
@@ -710,7 +724,7 @@ Public Class UserControl_Report
 
                 End Select
             End If
-            
+
 
             objDRs_Leaded = objUserData.ReportFields_procT.Select("GUID_ReportField_Leaded='" & objDRs_Report(0).Item("GUID_ReportField").ToString & "'")
             If objDRs_Leaded.Count > 0 Then
@@ -736,6 +750,7 @@ Public Class UserControl_Report
 
     Private Sub ToolStripButton_OpenPDF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_OpenPDF.Click
         open_MediaImagePDF(cint_PDF)
+
     End Sub
 
     Private Sub ToolStripButton_OpenLink_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_OpenLink.Click
@@ -755,7 +770,7 @@ Public Class UserControl_Report
             objDRV_Selected = objDGVR_Selected.DataBoundItem
 
             If objDRs_Type.Count > 0 Then
-                
+
             End If
 
 
@@ -778,5 +793,68 @@ Public Class UserControl_Report
                 End If
             End If
         End If
+    End Sub
+
+    Private Sub DataGridView_Reports_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles DataGridView_Reports.KeyDown
+        Select Case e.KeyCode
+            Case Keys.F5
+                get_Data()
+
+        End Select
+    End Sub
+
+    Private Sub ToolStripButton_Filter_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripButton_Filter.Click
+
+        If boolFilterChanged = True Then
+            objLocalConfig.Filter = ToolStripTextBox_Filter.Text
+        End If
+        If ToolStripButton_Filter.Checked = True Then
+            
+            Try
+                BindingSource_Reports.Filter = objLocalConfig.Filter
+                ToolStripTextBox_Filter.Text = objLocalConfig.Filter
+            Catch ex As Exception
+                MsgBox(ex.Message)
+                ToolStripTextBox_Filter.Text = ""
+            End Try
+            boolFilterChanged = False
+        Else
+            BindingSource_Reports.RemoveFilter()
+            ToolStripTextBox_Filter.Text = ""
+            boolFilterChanged = False
+        End If
+    End Sub
+
+    Private Sub ToolStripTextBox_Filter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripTextBox_Filter.Click
+
+    End Sub
+
+    Private Sub ToolStripTextBox_Filter_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripTextBox_Filter.DoubleClick
+
+    End Sub
+
+    Private Sub ToolStripTextBox_Filter_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ToolStripTextBox_Filter.KeyDown
+        Select Case e.KeyCode
+            Case Keys.Enter, Keys.Return
+
+                boolFilterChanged = True
+                ToolStripButton_Filter.Checked = True
+                objLocalConfig.Filter = ToolStripTextBox_Filter.Text
+                Try
+                    BindingSource_Reports.Filter = objLocalConfig.Filter
+                    ToolStripTextBox_Filter.Text = objLocalConfig.Filter
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                    ToolStripTextBox_Filter.Text = ""
+                End Try
+
+
+            Case Else
+
+                boolFilterChanged = True
+
+        End Select
+        
+
     End Sub
 End Class

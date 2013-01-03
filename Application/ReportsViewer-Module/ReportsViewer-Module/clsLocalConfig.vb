@@ -21,6 +21,8 @@ Public Class clsLocalConfig
     Private objGUID_Development As Guid
     Private objSemItem_Development As clsSemItem
     Private objSemItem_User As clsSemItem
+    Private strFilter As String
+    Private intFilter As Integer
 
     'Attributes
     Private objSemItem_attribute_dbPostfix As New clsSemItem
@@ -454,6 +456,24 @@ Public Class clsLocalConfig
         End Get
         Set(ByVal value As clsSemItem)
             objSemItem_User = value
+        End Set
+    End Property
+
+    Public Property Filter As String
+        Get
+            Return strFilter
+        End Get
+        Set(ByVal value As String)
+            strFilter = value
+        End Set
+    End Property
+
+    Public Property Filter_Type As Integer
+        Get
+            Return intFilter
+        End Get
+        Set(ByVal value As Integer)
+            intFilter = value
         End Set
     End Property
 
