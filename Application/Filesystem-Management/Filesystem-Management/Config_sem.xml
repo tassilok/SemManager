@@ -6,7 +6,7 @@
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>Server_Name</ConfigItem_Name>
-    <ConfigItem_Value>192.168.178.106</ConfigItem_Value>
+    <ConfigItem_Value>localhost</ConfigItem_Value>
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>Server_Instance</ConfigItem_Name>
@@ -14,7 +14,7 @@
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>DB_Name_User</ConfigItem_Name>
-    <ConfigItem_Value>sem_db_tcp</ConfigItem_Value>
+    <ConfigItem_Value>sem_db_home</ConfigItem_Value>
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>Name_User</ConfigItem_Name>
