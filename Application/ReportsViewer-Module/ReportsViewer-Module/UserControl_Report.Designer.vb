@@ -54,6 +54,8 @@ Partial Class UserControl_Report
         Me.BindingNavigatorSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_Filter = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripTextBox_Filter = New System.Windows.Forms.ToolStripTextBox()
+        Me.ToolStripLabel_Sort = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripTextBox_Sort = New System.Windows.Forms.ToolStripTextBox()
         Me.DataGridView_Reports = New System.Windows.Forms.DataGridView()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_DrillDown = New System.Windows.Forms.ToolStripButton()
@@ -71,8 +73,8 @@ Partial Class UserControl_Report
         Me.ToolStripButton_DecodePassword = New System.Windows.Forms.ToolStripButton()
         Me.FolderBrowserDialog_Save = New System.Windows.Forms.FolderBrowserDialog()
         Me.BindingSource_Reports = New System.Windows.Forms.BindingSource(Me.components)
-        Me.ToolStripLabel_Sort = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripTextBox_Sort = New System.Windows.Forms.ToolStripTextBox()
+        Me.FieldToFilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FieldToSortToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip_Reports.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.RightToolStripPanel.SuspendLayout()
@@ -88,13 +90,13 @@ Partial Class UserControl_Report
         '
         Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FilesToolStripMenuItem, Me.EditToolStripMenuItem, Me.FilterToolStripMenuItem})
         Me.ContextMenuStrip_Reports.Name = "ContextMenuStrip_Reports"
-        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(111, 70)
+        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(153, 92)
         '
         'FilesToolStripMenuItem
         '
         Me.FilesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.CopyPathToolStripMenuItem})
         Me.FilesToolStripMenuItem.Name = "FilesToolStripMenuItem"
-        Me.FilesToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
+        Me.FilesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.FilesToolStripMenuItem.Text = "x_Files"
         '
         'OpenToolStripMenuItem
@@ -113,7 +115,7 @@ Partial Class UserControl_Report
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.CopyGUIDToolStripMenuItem, Me.XEditSemItemToolStripMenuItem, Me.DecodePasswordToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.EditToolStripMenuItem.Text = "x_Edit"
         '
         'CopyNameToolStripMenuItem
@@ -142,28 +144,28 @@ Partial Class UserControl_Report
         '
         'FilterToolStripMenuItem
         '
-        Me.FilterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EqualToolStripMenuItem, Me.DifferentToolStripMenuItem, Me.ContainsToolStripMenuItem, Me.ClearFilterToolStripMenuItem})
+        Me.FilterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EqualToolStripMenuItem, Me.DifferentToolStripMenuItem, Me.ContainsToolStripMenuItem, Me.ClearFilterToolStripMenuItem, Me.FieldToFilterToolStripMenuItem, Me.FieldToSortToolStripMenuItem})
         Me.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem"
-        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
+        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.FilterToolStripMenuItem.Text = "x_Filter"
         '
         'EqualToolStripMenuItem
         '
         Me.EqualToolStripMenuItem.Name = "EqualToolStripMenuItem"
-        Me.EqualToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+        Me.EqualToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.EqualToolStripMenuItem.Text = "equal"
         '
         'DifferentToolStripMenuItem
         '
         Me.DifferentToolStripMenuItem.Name = "DifferentToolStripMenuItem"
-        Me.DifferentToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+        Me.DifferentToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.DifferentToolStripMenuItem.Text = "different"
         '
         'ContainsToolStripMenuItem
         '
         Me.ContainsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripTextBox_contains})
         Me.ContainsToolStripMenuItem.Name = "ContainsToolStripMenuItem"
-        Me.ContainsToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+        Me.ContainsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ContainsToolStripMenuItem.Text = "contains"
         '
         'ToolStripTextBox_contains
@@ -174,7 +176,7 @@ Partial Class UserControl_Report
         'ClearFilterToolStripMenuItem
         '
         Me.ClearFilterToolStripMenuItem.Name = "ClearFilterToolStripMenuItem"
-        Me.ClearFilterToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+        Me.ClearFilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ClearFilterToolStripMenuItem.Text = "x_clear Filter"
         '
         'Timer_Data
@@ -303,6 +305,17 @@ Partial Class UserControl_Report
         '
         Me.ToolStripTextBox_Filter.Name = "ToolStripTextBox_Filter"
         Me.ToolStripTextBox_Filter.Size = New System.Drawing.Size(500, 25)
+        '
+        'ToolStripLabel_Sort
+        '
+        Me.ToolStripLabel_Sort.Name = "ToolStripLabel_Sort"
+        Me.ToolStripLabel_Sort.Size = New System.Drawing.Size(41, 22)
+        Me.ToolStripLabel_Sort.Text = "x_Sort:"
+        '
+        'ToolStripTextBox_Sort
+        '
+        Me.ToolStripTextBox_Sort.Name = "ToolStripTextBox_Sort"
+        Me.ToolStripTextBox_Sort.Size = New System.Drawing.Size(200, 25)
         '
         'DataGridView_Reports
         '
@@ -443,16 +456,17 @@ Partial Class UserControl_Report
         Me.ToolStripButton_DecodePassword.Size = New System.Drawing.Size(22, 20)
         Me.ToolStripButton_DecodePassword.Text = "ToolStripButton1"
         '
-        'ToolStripLabel_Sort
+        'FieldToFilterToolStripMenuItem
         '
-        Me.ToolStripLabel_Sort.Name = "ToolStripLabel_Sort"
-        Me.ToolStripLabel_Sort.Size = New System.Drawing.Size(41, 22)
-        Me.ToolStripLabel_Sort.Text = "x_Sort:"
+        Me.FieldToFilterToolStripMenuItem.Name = "FieldToFilterToolStripMenuItem"
+        Me.FieldToFilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FieldToFilterToolStripMenuItem.Text = "x_Field to Filter"
         '
-        'ToolStripTextBox_Sort
+        'FieldToSortToolStripMenuItem
         '
-        Me.ToolStripTextBox_Sort.Name = "ToolStripTextBox_Sort"
-        Me.ToolStripTextBox_Sort.Size = New System.Drawing.Size(200, 25)
+        Me.FieldToSortToolStripMenuItem.Name = "FieldToSortToolStripMenuItem"
+        Me.FieldToSortToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FieldToSortToolStripMenuItem.Text = "x_Field to Sort"
         '
         'UserControl_Report
         '
@@ -527,5 +541,7 @@ Partial Class UserControl_Report
     Friend WithEvents ToolStripTextBox_Filter As System.Windows.Forms.ToolStripTextBox
     Friend WithEvents ToolStripLabel_Sort As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripTextBox_Sort As System.Windows.Forms.ToolStripTextBox
+    Friend WithEvents FieldToFilterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FieldToSortToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

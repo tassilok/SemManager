@@ -263,12 +263,17 @@ Public Class UserControl_Report
         DecodePasswordToolStripMenuItem.Enabled = False
         FilterToolStripMenuItem.Enabled = False
         If BindingSource_Reports.Filter = "" Then
+            ToolStripTextBox_Filter.Text = ""
             ClearFilterToolStripMenuItem.Enabled = False
         Else
             ClearFilterToolStripMenuItem.Enabled = True
         End If
 
+        FieldToFilterToolStripMenuItem.Enabled = False
+        FieldToSortToolStripMenuItem.Enabled = False
+
         If DataGridView_Reports.SelectedCells.Count = 1 Then
+            
             FilterToolStripMenuItem.Enabled = True
             CopyNameToolStripMenuItem.Enabled = True
             objDRs_Report = objUserData.ReportFields_procT.Select("Name_DBColumn='" & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & "'")
@@ -289,6 +294,8 @@ Public Class UserControl_Report
             End If
 
             If objDRs_Report.Count > 0 Then
+                FieldToFilterToolStripMenuItem.Enabled = True
+                FieldToSortToolStripMenuItem.Enabled = True
                 objDRs_Report = objUserData.ReportFields_procT.Select("GUID_ReportField_Leaded='" & objDRs_Report(0).Item("GUID_ReportField").ToString & "'")
                 If objDRs_Report.Count > 0 Then
                     If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_GUID.GUID Then
@@ -885,5 +892,13 @@ Public Class UserControl_Report
             Case Else
 
         End Select
+    End Sub
+
+    Private Sub FieldToFilterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FieldToFilterToolStripMenuItem.Click
+        ToolStripTextBox_Filter.Text = ToolStripTextBox_Filter.Text & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName
+    End Sub
+
+    Private Sub FieldToSortToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FieldToSortToolStripMenuItem.Click
+        ToolStripTextBox_Sort.Text = ToolStripTextBox_Filter.Text & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName
     End Sub
 End Class
