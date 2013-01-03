@@ -55,7 +55,7 @@
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\SemModules\Semantic-Management\ClassLibrary_ShellWork.dll</HintPath>
     </Reference>
     <Reference Include="Filesystem-Management">
-      <HintPath>..\..\..\..\..\Development\Semantic\Modules\Filesystem-Management\Filesystem-Management.exe</HintPath>
+      <HintPath>..\..\Filesystem-Management\Filesystem-Management\bin\Debug\Filesystem-Management.exe</HintPath>
     </Reference>
     <Reference Include="MediaViewer-Module">
       <HintPath>..\..\MediaViewer-Module\Image-Module\bin\Debug\MediaViewer-Module.exe</HintPath>

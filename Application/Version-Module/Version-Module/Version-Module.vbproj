@@ -49,7 +49,7 @@
       <HintPath>..\..\Log-Manager\Log-Manager\bin\Debug\Log-Manager.exe</HintPath>
     </Reference>
     <Reference Include="Sem-Manager">
-      <HintPath>..\..\..\..\GitHub\SemManager\Application\Sem-Manager\Sem-Manager\bin\Debug\Sem-Manager.exe</HintPath>
+      <HintPath>..\..\Sem-Manager\Sem-Manager\bin\Debug\Sem-Manager.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

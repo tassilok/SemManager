@@ -52,40 +52,31 @@
     <ApplicationIcon>Multimedia.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ClassLibrary_ShellWork, Version=0.1.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\GitHub\SemManager\Application\ClassLibrary_ShellWork\ClassLibrary_ShellWork\bin\Debug\ClassLibrary_ShellWork.dll</HintPath>
+    <Reference Include="ClassLibrary_ShellWork">
+      <HintPath>..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\bin\Debug\ClassLibrary_ShellWork.dll</HintPath>
     </Reference>
-    <Reference Include="Filesystem-Management, Version=0.1.0.80, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <ExecutableExtension>.exe</ExecutableExtension>
-      <HintPath>..\..\..\..\GitHub\SemManager\Application\Filesystem-Management\Filesystem-Management\bin\Debug\Filesystem-Management.exe</HintPath>
+    <Reference Include="Filesystem-Management">
+      <HintPath>..\..\Filesystem-Management\Filesystem-Management\bin\Debug\Filesystem-Management.exe</HintPath>
     </Reference>
     <Reference Include="Id3Lib">
-      <HintPath>..\..\Libraries\sharp mp3lib\Id3Lib.dll</HintPath>
+      <HintPath>..\..\Libraries\Id3Lib.dll</HintPath>
     </Reference>
-    <Reference Include="Localizing-Manager, Version=0.0.0.28, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <ExecutableExtension>.exe</ExecutableExtension>
-      <HintPath>..\..\..\..\GitHub\SemManager\Application\Localizing-Manager\Localizing-Manager\bin\Debug\Localizing-Manager.exe</HintPath>
+    <Reference Include="Localizing-Manager">
+      <HintPath>..\..\Localizing-Manager\Localizing-Manager\bin\Debug\Localizing-Manager.exe</HintPath>
     </Reference>
-    <Reference Include="Log-Manager, Version=0.1.0.5, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <ExecutableExtension>.exe</ExecutableExtension>
-      <HintPath>..\..\..\..\GitHub\SemManager\Application\Log-Manager\Log-Manager\bin\Debug\Log-Manager.exe</HintPath>
+    <Reference Include="Log-Manager">
+      <HintPath>..\..\Log-Manager\Log-Manager\bin\Debug\Log-Manager.exe</HintPath>
     </Reference>
     <Reference Include="Mp3Lib">
-      <HintPath>..\..\Libraries\sharp mp3lib\Mp3Lib.dll</HintPath>
+      <HintPath>..\..\Libraries\Mp3Lib.dll</HintPath>
     </Reference>
     <Reference Include="OrganisationalTransactions, Version=0.0.0.15, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <ExecutableExtension>.exe</ExecutableExtension>
       <HintPath>..\..\OrganisationalTransactions\OrganisationalTransactions\bin\Debug\OrganisationalTransactions.exe</HintPath>
     </Reference>
-    <Reference Include="Sem-Manager, Version=0.2.0.22, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <ExecutableExtension>.exe</ExecutableExtension>
-      <HintPath>..\..\..\..\GitHub\SemManager\Application\Sem-Manager\Sem-Manager\bin\Debug\Sem-Manager.exe</HintPath>
+    <Reference Include="Sem-Manager">
+      <HintPath>..\..\Sem-Manager\Sem-Manager\bin\Debug\Sem-Manager.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
