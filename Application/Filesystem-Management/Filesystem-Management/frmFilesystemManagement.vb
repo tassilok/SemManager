@@ -1511,4 +1511,35 @@ Public Class frmFilesystemManagement
 
         get_Files()
     End Sub
+
+    Private Sub GetHashOfFilesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GetHashOfFilesToolStripMenuItem.Click
+        Dim objTreeNode As TreeNode
+        Dim objSemItem_Folder As New clsSemItem
+        Dim objSemItem_Result As clsSemItem
+        Dim strPath As String
+
+        objTreeNode = TreeView_Folder.SelectedNode
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = cint_ImageID_Folder_Closed Then
+                objSemItem_Folder.GUID = New Guid(objTreeNode.Name)
+                objSemItem_Folder.Name = objTreeNode.Text
+                objSemItem_Folder.GUID_Parent = objLocalConfig.SemItem_type_Folder.GUID
+                objSemItem_Folder.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                strPath = objFileWork.get_Path_FileSystemObject(objSemItem_Folder, False)
+                If IO.Directory.Exists(strPath) Then
+                    objSemItem_Result = objFileWork.get_HashStrings_Folder(strPath)
+                    If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                        MsgBox("Die Hashwerte wurden erzeugt!", MsgBoxStyle.Information)
+                    Else
+                        MsgBox("Leider konnten die Hashwerte nicht erzeugt werden!", MsgBoxStyle.Exclamation)
+                    End If
+                Else
+                    MsgBox("Das Verzeichnis existiert nicht!", MsgBoxStyle.Exclamation)
+                End If
+            Else
+                MsgBox("Bitte nur Ordner auswählen!", MsgBoxStyle.Information)
+            End If
+        End If
+    End Sub
 End Class

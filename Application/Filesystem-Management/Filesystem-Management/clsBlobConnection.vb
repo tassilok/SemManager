@@ -34,6 +34,22 @@ Public Class clsBlobConnection
         End Get
     End Property
 
+    Public Function File_Of_Hash(ByVal strHash As String) As clsSemItem
+        Dim objSemItem_File As clsSemItem = Nothing
+        Dim objDRC_File As DataRowCollection
+
+        objDRC_File = procA_Files_MD5.GetData(strHash).Rows
+        If objDRC_File.Count > 0 Then
+            objSemItem_File = New clsSemItem
+            objSemItem_File.GUID = objDRC_File(0).Item("GUID_Blob")
+            objSemItem_File.GUID_Parent = objLocalConfig.SemItem_Type_File.GUID
+            objSemItem_File.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+        End If
+
+        Return objSemItem_File
+    End Function
+
     Public Sub New()
         
 
@@ -296,6 +312,7 @@ Public Class clsBlobConnection
 
         Return objSemItem_Result
     End Function
+
     Public Function compare_File(ByVal strFilePath As String) As clsSemItem
         Dim objSemItem_Result As clsSemItem
         Dim strHash_File As String
@@ -421,6 +438,11 @@ Public Class clsBlobConnection
         Dim strHash As String
 
         objSemItem_Result = objLocalConfig.Globals.LogState_Success
+        Try
+            objLocalConfig.Connection_Blob.Close()
+        Catch ex As Exception
+
+        End Try
         objLocalConfig.Connection_Blob.Open()
         objCMD = New SqlClient.SqlCommand("SELECT Data_Blob.PathName() FROM semtbl_Blob WHERE GUID_Blob='" & objSemItem_File.GUID.ToString & "'", objLocalConfig.Connection_Blob, objTX)
         pathObj = objCMD.ExecuteScalar()

@@ -11,6 +11,8 @@ Public Class clsFileWork
     Private procA_PathToWatch_Of_BaseConfig As New ds_FilesystemManagementTableAdapters.proc_PathToWatch_Of_BaseConfigTableAdapter
 
     Private procA_File_OutChecked As New ds_FilesystemManagementTableAdapters.proc_File_OutCheckedTableAdapter
+    Private fltblA_Compare As New ds_FilesystemManagementTableAdapters.fltbl_CompareTableAdapter
+    Private fltblT_Compare As New ds_FilesystemManagement.fltbl_CompareDataTable
 
     Private objSemItem_Server As clsSemItem
     Private strPathToWatch As String
@@ -34,6 +36,121 @@ Public Class clsFileWork
             Return objSemItem_Server
         End Get
     End Property
+
+    Public Function get_HashStrings_Folder(ByVal strPath As String) As clsSemItem
+        Dim objSemItem_Result As clsSemItem
+        
+
+        fltblA_Compare.Fill_Files_in_Folder(fltblT_Compare, _
+                                            strPath)
+
+        objSemItem_Result = get_HasString_Folder_loc(strPath)
+        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+            fltblA_Compare.del_NotFound_Files(strPath)
+
+            
+        End If
+
+        Return objSemItem_Result
+    End Function
+
+    Private Function get_HasString_Folder_loc(ByVal strPath As String) As clsSemItem
+        Dim objSemItem_Result As clsSemItem
+        Dim strFolder As String
+        Dim strFile As String
+        Dim strHash As String
+        Dim objDRs_Folders() As DataRow
+        Dim objSemItem_File As clsSemItem
+        Dim objDR_File As DataRow
+
+        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+        For Each strFolder In IO.Directory.GetDirectories(strPath)
+            For Each strFile In IO.Directory.GetFiles(strFolder)
+                objDRs_Folders = fltblT_Compare.Select("Path='" & strFolder.Replace("'", "''") & "' AND Name='" & IO.Path.GetFileName(strFile).Replace("'", "''") & "'")
+                If objDRs_Folders.Count > 0 Then
+                    objDRs_Folders(0).Item("Found") = 1
+                    strHash = getHashOfFile(strFile)
+                    objDRs_Folders(0).Item("HashString") = strHash
+                    objSemItem_File = objBlobConnection.File_Of_Hash(strHash)
+                    If Not objSemItem_File Is Nothing Then
+                        fltblA_Compare.upd_GUIDFile(strFolder, IO.Path.GetFileName(strFile), objSemItem_File.GUID, strHash)
+                    Else
+                        fltblA_Compare.upd_GUIDFile(strFolder, IO.Path.GetFileName(strFile), Nothing, strHash)
+                    End If
+                    Try
+
+                    Catch ex As Exception
+
+                    End Try
+
+                Else
+                    strHash = getHashOfFile(strFile)
+                    objSemItem_File = objBlobConnection.File_Of_Hash(strHash)
+                    If Not objSemItem_File Is Nothing Then
+                        fltblA_Compare.Insert(strFolder, IO.Path.GetFileName(strFile), strHash, 1, objSemItem_File.GUID)
+                    Else
+                        fltblA_Compare.Insert(strFolder, IO.Path.GetFileName(strFile), strHash, 1, Nothing)
+                    End If
+
+                End If
+            Next
+
+
+
+        Next
+
+
+        Return objSemItem_Result
+
+
+    End Function
+
+    Private Function getHashOfFile(ByVal strPath As String) As String
+        Dim objFileStream As New IO.FileStream(strPath, IO.FileMode.Open, IO.FileAccess.Read)
+        Dim objBinaryReader As New IO.BinaryReader(objFileStream)
+        Dim strHash_File
+        Dim byteFile() As Byte
+
+        If objFileStream.Length > 4000 Then
+            ReDim byteFile(4000)
+            objFileStream.Seek(0, IO.SeekOrigin.Begin)
+            For i = 0 To 2000
+                byteFile(i) = objBinaryReader.ReadByte
+            Next
+
+            strHash_File = getHash(byteFile, 2000)
+            objFileStream.Seek(-2001, IO.SeekOrigin.End)
+            For i = 0 To 2000
+                byteFile(i) = objBinaryReader.ReadByte
+            Next
+            strHash_File = strHash_File & getHash(byteFile, 2000)
+        Else
+            ReDim byteFile(objFileStream.Length)
+            For i = 0 To objFileStream.Length - 1
+                byteFile(i) = objFileStream.ReadByte
+            Next
+
+            strHash_File = getHash(byteFile, objFileStream.Length - 1)
+
+        End If
+        objBinaryReader.Close()
+        objFileStream.Close()
+        Return strHash_File
+    End Function
+
+    Private Function getHash(ByVal byteFile() As Byte, ByVal intLength As Integer) As String
+        Dim byteHash() As Byte
+        Dim strHash As String
+        Dim objMD5 As Security.Cryptography.MD5
+
+        objMD5 = New Security.Cryptography.MD5CryptoServiceProvider
+        byteHash = objMD5.ComputeHash(byteFile, 0, intLength - 1)
+        strHash = BitConverter.ToString(byteHash)
+
+        Return strHash
+
+    End Function
+
     Public Function get_Path_FileSystemObject(ByVal objSemItem_FileSystemObject As clsSemItem, Optional ByVal boolBlobPath As Boolean = True) As String
         Dim strPath As String = ""
         Dim objDRC_Rel As DataRowCollection
@@ -415,6 +532,8 @@ Public Class clsFileWork
         funcA_TokenToken.Connection = objLocalConfig.Connection_DB
         funcA_TokenTree_By_GUIDTokenBase_GUIDTokenRel_GUIDRelationType_Level.Connection = objLocalConfig.Connection_DB
         funcA_TokenAttribute_Named_By_GUIDToken.Connection = objLocalConfig.Connection_DB
+
+        fltblA_Compare.Connection = objLocalConfig.Connection_Plugin
 
         objTransaction_FileSystemObject = New clsTransaction_Insert_FileSystemObject(objLocalConfig)
         objBlobConnection = New clsBlobConnection(objLocalConfig)
