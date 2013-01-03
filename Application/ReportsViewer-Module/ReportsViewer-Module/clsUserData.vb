@@ -438,5 +438,6 @@ Public Class clsUserData
         semtblA_Token.Connection = objLocalConfig.Connection_DB
         procA_XMLConfig.Connection = objLocalConfig.Connection_Plugin
         procA_XML_Variable.Connection = objLocalConfig.Connection_Plugin
+        procA_ReportFields.Connection = objLocalConfig.Connection_Plugin
     End Sub
 End Class
