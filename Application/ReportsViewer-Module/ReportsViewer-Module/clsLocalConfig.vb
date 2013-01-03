@@ -23,6 +23,7 @@ Public Class clsLocalConfig
     Private objSemItem_User As clsSemItem
     Private strFilter As String
     Private intFilter As Integer
+    Private strSort As String
 
     'Attributes
     Private objSemItem_attribute_dbPostfix As New clsSemItem
@@ -474,6 +475,15 @@ Public Class clsLocalConfig
         End Get
         Set(ByVal value As Integer)
             intFilter = value
+        End Set
+    End Property
+
+    Public Property Sort As String
+        Get
+            Return strSort
+        End Get
+        Set(ByVal value As String)
+            strSort = value
         End Set
     End Property
 

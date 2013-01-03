@@ -795,6 +795,14 @@ Public Class UserControl_Report
         End If
     End Sub
 
+    Private Sub DataGridView_Reports_ColumnHeaderMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellMouseEventArgs) Handles DataGridView_Reports.ColumnHeaderMouseClick
+        objLocalConfig.Sort = DataGridView_Reports.SortedColumn.DataPropertyName
+        If DataGridView_Reports.SortOrder = SortOrder.Descending Then
+            objLocalConfig.Sort = objLocalConfig.Sort & " DESC"
+        End If
+        ToolStripTextBox_Sort.Text = objLocalConfig.Sort
+    End Sub
+
     Private Sub DataGridView_Reports_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles DataGridView_Reports.KeyDown
         Select Case e.KeyCode
             Case Keys.F5
@@ -856,5 +864,26 @@ Public Class UserControl_Report
         End Select
         
 
+    End Sub
+
+    Private Sub DataGridView_Reports_Sorted(ByVal sender As Object, ByVal e As System.EventArgs) Handles DataGridView_Reports.Sorted
+
+
+    End Sub
+
+
+    Private Sub ToolStripTextBox_Sort_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ToolStripTextBox_Sort.KeyDown
+        Select Case e.KeyCode
+            Case Keys.Enter, Keys.Return
+                objLocalConfig.Sort = ToolStripTextBox_Sort.Text
+                Try
+                    BindingSource_Reports.Sort = objLocalConfig.Sort
+                Catch ex As Exception
+                    BindingSource_Reports.Sort = ""
+                    ToolStripTextBox_Sort.Text = ""
+                End Try
+            Case Else
+
+        End Select
     End Sub
 End Class
