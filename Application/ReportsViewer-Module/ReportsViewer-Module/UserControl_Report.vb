@@ -277,25 +277,31 @@ Public Class UserControl_Report
             FilterToolStripMenuItem.Enabled = True
             CopyNameToolStripMenuItem.Enabled = True
             objDRs_Report = objUserData.ReportFields_procT.Select("Name_DBColumn='" & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName & "'")
-            objDRs_Type = objUserData.ReportFields_procT.Select("GUID_ReportField='" & objDRs_Report(0).Item("GUID_ReportField_Type").ToString & "'")
-            If objDRs_Type.Count > 0 Then
-                objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
-                objDRV_Selected = objDGVR_Selected.DataBoundItem
-
-                Select Case objDRV_Selected.Item(objDRs_Type(0).Item("Name_DBColumn"))
-                    Case objLocalConfig.SemItem_Type_File.GUID
-                        FilesToolStripMenuItem.Enabled = True
-                    Case objLocalConfig.SemItem_Type_Password.GUID
-                        DecodePasswordToolStripMenuItem.Enabled = True
-
-
-                End Select
-
-            End If
-
             If objDRs_Report.Count > 0 Then
-                FieldToFilterToolStripMenuItem.Enabled = True
-                FieldToSortToolStripMenuItem.Enabled = True
+                If Not IsDBNull(objDRs_Report(0).Item("GUID_ReportField_Type")) Then
+                    objDRs_Type = objUserData.ReportFields_procT.Select("GUID_ReportField='" & objDRs_Report(0).Item("GUID_ReportField_Type").ToString & "'")
+                    If objDRs_Type.Count > 0 Then
+                        objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
+                        objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+                        Select Case objDRV_Selected.Item(objDRs_Type(0).Item("Name_DBColumn"))
+                            Case objLocalConfig.SemItem_Type_File.GUID
+                                FilesToolStripMenuItem.Enabled = True
+                            Case objLocalConfig.SemItem_Type_Password.GUID
+                                DecodePasswordToolStripMenuItem.Enabled = True
+
+
+                        End Select
+
+                    End If
+                End If
+            End If
+            
+            
+            FieldToFilterToolStripMenuItem.Enabled = True
+            FieldToSortToolStripMenuItem.Enabled = True
+            If objDRs_Report.Count > 0 Then
+                
                 objDRs_Report = objUserData.ReportFields_procT.Select("GUID_ReportField_Leaded='" & objDRs_Report(0).Item("GUID_ReportField").ToString & "'")
                 If objDRs_Report.Count > 0 Then
                     If objDRs_Report(0).Item("GUID_FieldType") = objLocalConfig.SemItem_Token_Field_Type_GUID.GUID Then
@@ -899,6 +905,6 @@ Public Class UserControl_Report
     End Sub
 
     Private Sub FieldToSortToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FieldToSortToolStripMenuItem.Click
-        ToolStripTextBox_Sort.Text = ToolStripTextBox_Filter.Text & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName
+        ToolStripTextBox_Sort.Text = ToolStripTextBox_Sort.Text & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName
     End Sub
 End Class
