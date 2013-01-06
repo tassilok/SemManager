@@ -1884,6 +1884,9 @@ Public Class UserControl_SchemaView
                 objSemItem_SchemaItem.GUID_Parent = objLocalConfig.SemItem_Type_Triggers_in_Schema.GUID
             Case cint_ImageID_TableItem
                 objSemItem_SchemaItem.GUID_Parent = objLocalConfig.SemItem_Type_Tables_in_Schema.GUID
+            Case cint_ImageID_SynonymItem
+                objSemItem_SchemaItem.GUID_Parent = objLocalConfig.SemItem_Type_Synonyms_in_Schemas.GUID
+
         End Select
 
         objSemItem_SchemaItem.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID

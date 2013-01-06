@@ -6,11 +6,11 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D214E4EA-D520-477E-9AB9-41A8C94DA2E3}</ProjectGuid>
+    <ProjectGuid>{B1D25783-9C9A-490C-8905-B71B0AC60B3A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>ReportsTest.My.MyApplication</StartupObject>
-    <RootNamespace>ReportsTest</RootNamespace>
-    <AssemblyName>ReportsViewer-Module</AssemblyName>
+    <StartupObject>Splunk_Connector_Module.My.MyApplication</StartupObject>
+    <RootNamespace>Splunk_Connector_Module</RootNamespace>
+    <AssemblyName>Splunk-Connector-Module</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -24,7 +24,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>ReportsViewer-Module.xml</DocumentationFile>
+    <DocumentationFile>Splunk-Connector-Module.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -34,7 +34,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>ReportsViewer-Module.xml</DocumentationFile>
+    <DocumentationFile>Splunk-Connector-Module.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -50,22 +50,6 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ClassLibrary_ShellWork, Version=0.1.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\SemModules\Semantic-Management\ClassLibrary_ShellWork.dll</HintPath>
-    </Reference>
-    <Reference Include="Filesystem-Management">
-      <HintPath>..\..\Filesystem-Management\Filesystem-Management\bin\Debug\Filesystem-Management.exe</HintPath>
-    </Reference>
-    <Reference Include="MediaViewer-Module">
-      <HintPath>..\..\MediaViewer-Module\Image-Module\bin\Debug\MediaViewer-Module.exe</HintPath>
-    </Reference>
-    <Reference Include="Schema-Manager">
-      <HintPath>..\..\Schema-Manager\Schema-Manager\bin\Debug\Schema-Manager.exe</HintPath>
-    </Reference>
-    <Reference Include="Security-Module">
-      <HintPath>..\..\Security-Module\Security-Module\bin\Debug\Security-Module.exe</HintPath>
-    </Reference>
     <Reference Include="Sem-Manager">
       <HintPath>..\..\Sem-Manager\Sem-Manager\bin\Debug\Sem-Manager.exe</HintPath>
     </Reference>
@@ -73,8 +57,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -95,32 +77,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsLocalConfig.vb" />
-    <Compile Include="clsReportXMLExport.vb" />
-    <Compile Include="clsSplunk.vb" />
-    <Compile Include="clsTransaction_Reports.vb" />
-    <Compile Include="clsUserData.vb" />
-    <Compile Include="DataSet_Reports.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet_Reports.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="frmFilterSort.Designer.vb">
-      <DependentUpon>frmFilterSort.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmFilterSort.vb">
+    <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMain.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmMain.Designer.vb">
-      <DependentUpon>frmMain.vb</DependentUpon>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmMediaShow.Designer.vb">
-      <DependentUpon>frmMediaShow.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmMediaShow.vb">
+    <Compile Include="Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -138,22 +99,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="UserControl_Report.Designer.vb">
-      <DependentUpon>UserControl_Report.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControl_Report.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="frmFilterSort.resx">
-      <DependentUpon>frmFilterSort.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmMain.resx">
-      <DependentUpon>frmMain.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmMediaShow.resx">
-      <DependentUpon>frmMediaShow.vb</DependentUpon>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -161,23 +110,9 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_Report.resx">
-      <DependentUpon>UserControl_Report.vb</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="DataSet_Reports.xsc">
-      <DependentUpon>DataSet_Reports.xsd</DependentUpon>
-    </None>
-    <None Include="DataSet_Reports.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet_Reports.Designer.vb</LastGenOutput>
-    </None>
-    <None Include="DataSet_Reports.xss">
-      <DependentUpon>DataSet_Reports.xsd</DependentUpon>
-    </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -187,26 +122,6 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Config_sem.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
-    <None Include="Resources\bb_wrld_.png" />
-    <None Include="Resources\Key.png" />
-    <None Include="Resources\generic_picture.png" />
-    <None Include="Resources\1683_Lightbulb_32x32.png" />
-    <None Include="Resources\pdf_preview.png" />
-    <None Include="Resources\images.jpg" />
-    <None Include="Resources\GenVideoDoc_32x32_72.png" />
-    <None Include="Resources\Blu-RayMovieDisk.png" />
-    <None Include="Resources\AudioCD.png" />
-    <None Include="Resources\112_ArrowCurve_Blue_Right_32x32_72.png" />
-    <None Include="Resources\Video.png" />
-    <None Include="Resources\CopyHS.png" />
-    <None Include="Resources\CopyHH.bmp" />
-    <None Include="Resources\010_LowPriority_32x32_72.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
