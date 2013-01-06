@@ -33,6 +33,7 @@ Partial Class frmMain
         Me.AddReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GetColumnsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExportXMLToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExportToSplunkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -104,28 +105,34 @@ Partial Class frmMain
         '
         'ContextMenuStrip_Reports
         '
-        Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddReportToolStripMenuItem, Me.GetColumnsToolStripMenuItem, Me.ExportXMLToolStripMenuItem})
+        Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddReportToolStripMenuItem, Me.GetColumnsToolStripMenuItem, Me.ExportXMLToolStripMenuItem, Me.ExportToSplunkToolStripMenuItem})
         Me.ContextMenuStrip_Reports.Name = "ContextMenuStrip_Reports"
-        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(153, 92)
+        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(166, 114)
         '
         'AddReportToolStripMenuItem
         '
         Me.AddReportToolStripMenuItem.Name = "AddReportToolStripMenuItem"
-        Me.AddReportToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AddReportToolStripMenuItem.Size = New System.Drawing.Size(165, 22)
         Me.AddReportToolStripMenuItem.Text = "x_Add Report"
         '
         'GetColumnsToolStripMenuItem
         '
         Me.GetColumnsToolStripMenuItem.Name = "GetColumnsToolStripMenuItem"
-        Me.GetColumnsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.GetColumnsToolStripMenuItem.Size = New System.Drawing.Size(165, 22)
         Me.GetColumnsToolStripMenuItem.Text = "x_Get Columns"
         '
         'ExportXMLToolStripMenuItem
         '
         Me.ExportXMLToolStripMenuItem.Enabled = False
         Me.ExportXMLToolStripMenuItem.Name = "ExportXMLToolStripMenuItem"
-        Me.ExportXMLToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ExportXMLToolStripMenuItem.Size = New System.Drawing.Size(165, 22)
         Me.ExportXMLToolStripMenuItem.Text = "x_export XML"
+        '
+        'ExportToSplunkToolStripMenuItem
+        '
+        Me.ExportToSplunkToolStripMenuItem.Name = "ExportToSplunkToolStripMenuItem"
+        Me.ExportToSplunkToolStripMenuItem.Size = New System.Drawing.Size(165, 22)
+        Me.ExportToSplunkToolStripMenuItem.Text = "x_export to Splunk"
         '
         'frmMain
         '
@@ -158,5 +165,6 @@ Partial Class frmMain
     Friend WithEvents GetColumnsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AddReportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ExportXMLToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ExportToSplunkToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

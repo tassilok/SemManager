@@ -191,10 +191,12 @@ Public Class clsUserData
     Public Function get_Data_XMLConfig(ByVal SemItem_User As clsSemItem) As clsSemItem
         Dim objSemItem_Result As clsSemItem
 
+
         objSemItem_User = SemItem_User
 
         procA_XMLConfig.Fill(procT_XMLConfig, _
                              objLocalConfig.SemItem_Attribute_XML_Text.GUID, _
+                             objLocalConfig.SemItem_Attribute_Row_Header.GUID, _
                              objLocalConfig.SemItem_Type_XML_Config.GUID, _
                              objLocalConfig.SemItem_Type_XML.GUID, _
                              objLocalConfig.SemItem_type_User.GUID, _
@@ -208,6 +210,7 @@ Public Class clsUserData
 
         procA_XML_Variable.Fill(procT_XML_Variable, _
                                 objSemItem_User.GUID)
+
 
         objSemItem_Result = objLocalConfig.Globals.LogState_Success
 
@@ -439,5 +442,6 @@ Public Class clsUserData
         procA_XMLConfig.Connection = objLocalConfig.Connection_Plugin
         procA_XML_Variable.Connection = objLocalConfig.Connection_Plugin
         procA_ReportFields.Connection = objLocalConfig.Connection_Plugin
+
     End Sub
 End Class

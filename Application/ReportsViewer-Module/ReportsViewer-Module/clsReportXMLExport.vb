@@ -11,6 +11,8 @@ Public Class clsReportXMLExport
 
     Private objSemItem_Report As clsSemItem
 
+    Private boolRowHeader As Boolean
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
         initialize()
@@ -59,7 +61,7 @@ Public Class clsReportXMLExport
                         objDataTable = objDataSet.Tables(0)
 
                         objSemItem_Result = objUserData.get_Data_XMLConfig(objLocalConfig.SemItem_User)
-                        
+
                     End If
 
                 End If
@@ -131,6 +133,7 @@ Public Class clsReportXMLExport
 
                 End If
 
+
                 objDRs_Var_Table = objUserData.XML_Variable_ProcT.Select("GUID_XML='" & objSemItem_Text_Table.GUID.ToString & "' AND GUID_Variable='" & objLocalConfig.SemItem_Token_Variable_ROWCOUNT.GUID.ToString & "'")
                 If objDRs_Var_Table.Count > 0 Then
                     lngRowCount = objDataTable.Rows.Count + 1
@@ -161,21 +164,30 @@ Public Class clsReportXMLExport
                     objDRs_Var_Row = objUserData.XML_Variable_ProcT.Select("GUID_XML='" & objSemItem_Text_Row.GUID.ToString & "' AND GUID_Variable='" & objLocalConfig.SemItem_Token_Variable_CELL_LIST.GUID.ToString & "'")
                     If objDRs_Var_Row.Count > 0 Then
 
-                        If boolHeader = False Then
-                            objTextWriter.WriteLine(strRow.Substring(0, strRow.IndexOf("@" & objLocalConfig.SemItem_Token_Variable_CELL_LIST.Name & "@")))
-                            For Each objDR_Col In objUserData.ReportFields_procT.Rows
-                                strCell = objSemItem_Text_Cell.Additional1
-                                If objDR_Col.Item("invisible") = False Then
-                                    objDRs_Var_Cell = objUserData.XML_Variable_ProcT.Select("GUID_XML='" & objSemItem_Text_Cell.GUID.ToString & "' AND GUID_Variable='" & objLocalConfig.SemItem_Token_Variable_CELL_VALUE.GUID.ToString & "'")
-                                    If objDRs_Var_Cell.Count > 0 Then
-                                        strCell = strCell.Replace("@" & objLocalConfig.SemItem_Token_Variable_CELL_VALUE.Name & "@", Web.HttpUtility.HtmlEncode(objDR_Col.Item("Name_ReportField").ToString))
-                                        objTextWriter.WriteLine(strCell)
+                        If objUserData.XMLConfig_procT.Rows(0).Item("RowHeader") = True Then
+                            If boolHeader = False Then
+                                objTextWriter.WriteLine(strRow.Substring(0, strRow.IndexOf("@" & objLocalConfig.SemItem_Token_Variable_CELL_LIST.Name & "@")))
+                                For Each objDR_Col In objUserData.ReportFields_procT.Rows
+                                    strCell = objSemItem_Text_Cell.Additional1
+                                    If objDR_Col.Item("invisible") = False Then
+                                        objDRs_Var_Cell = objUserData.XML_Variable_ProcT.Select("GUID_XML='" & objSemItem_Text_Cell.GUID.ToString & "' AND GUID_Variable='" & objLocalConfig.SemItem_Token_Variable_CELL_VALUE.GUID.ToString & "'")
+                                        If objDRs_Var_Cell.Count > 0 Then
+                                            strCell = strCell.Replace("@" & objLocalConfig.SemItem_Token_Variable_CELL_VALUE.Name & "@", Web.HttpUtility.HtmlEncode(objDR_Col.Item("Name_ReportField").ToString))
+                                            objTextWriter.WriteLine(strCell)
+                                        End If
                                     End If
+                                Next
+                                boolHeader = True
+                                objTextWriter.WriteLine(strRow.Substring(strRow.IndexOf("@" & objLocalConfig.SemItem_Token_Variable_CELL_LIST.Name & "@") + Len("@" & objLocalConfig.SemItem_Token_Variable_CELL_LIST.Name & "@")))
+                                l = l + 1
+                                strRow = objSemItem_Text_Row.Additional1
+                                objDRs_Var_Row = objUserData.XML_Variable_ProcT.Select("GUID_XML='" & objSemItem_Text_Row.GUID.ToString & "' AND GUID_Variable='" & objLocalConfig.SemItem_Token_Variable_id.GUID.ToString & "'")
+                                If objDRs_Var_Row.Count > 0 Then
+                                    strRow = strRow.Replace("@" & objLocalConfig.SemItem_Token_Variable_id.Name & "@", l)
                                 End If
-                            Next
-                            boolHeader = True
-                            objTextWriter.WriteLine(strRow.Substring(strRow.IndexOf("@" & objLocalConfig.SemItem_Token_Variable_CELL_LIST.Name & "@") + Len("@" & objLocalConfig.SemItem_Token_Variable_CELL_LIST.Name & "@")))
+                            End If
                         End If
+                        
 
                         objTextWriter.WriteLine(strRow.Substring(0, strRow.IndexOf("@" & objLocalConfig.SemItem_Token_Variable_CELL_LIST.Name & "@")))
                         For Each objDR_Col In objUserData.ReportFields_procT.Rows
@@ -214,7 +226,7 @@ Public Class clsReportXMLExport
     End Function
 
     Private Sub get_Data()
-        
+
         objDataTable.Clear()
 
         objUserData.initiaize_ReportFields(objSemItem_Report)
@@ -226,5 +238,6 @@ Public Class clsReportXMLExport
 
     Private Sub set_DBConnection()
         objUserData = New clsUserData(objLocalConfig)
+
     End Sub
 End Class

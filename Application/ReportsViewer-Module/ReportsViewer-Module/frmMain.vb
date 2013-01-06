@@ -8,6 +8,8 @@ Public Class frmMain
 
     Private objUserData As clsUserData
 
+    Private objSplunk As clsSplunk
+
     Private objDLGAttribute_VARCHAR255 As dlgAttribute_Varchar255
 
     Private funcA_TokenToken As New ds_TokenTableAdapters.func_TokenTokenTableAdapter
@@ -99,6 +101,7 @@ Public Class frmMain
         objTransaction_Reports = New clsTransaction_Reports(objLocalConfig)
         funcA_TokenToken.Connection = objLocalConfig.Connection_DB
         objReportXMLExport = New clsReportXMLExport(objLocalConfig)
+        objSplunk = New clsSplunk(objLocalConfig)
     End Sub
 
     Private Sub TreeView_Report_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_Report.AfterSelect
@@ -155,12 +158,14 @@ Public Class frmMain
         GetColumnsToolStripMenuItem.Enabled = False
         AddReportToolStripMenuItem.Enabled = False
         ExportXMLToolStripMenuItem.Enabled = False
+        ExportToSplunkToolStripMenuItem.Enabled = False
 
         objTreeNode = TreeView_Report.SelectedNode
 
         If Not objTreeNode Is Nothing Then
             AddReportToolStripMenuItem.Enabled = True
             If objTreeNode.ImageIndex = cint_ImageID_Report Then
+                ExportToSplunkToolStripMenuItem.Enabled = True
                 GetColumnsToolStripMenuItem.Enabled = True
                 If Not objLocalConfig.SemItem_User Is Nothing Then
                     If objUserData.XMLConfig_procT.Rows.Count = 1 Then
@@ -295,6 +300,29 @@ Public Class frmMain
                 End If
             Else
                 MsgBox("Das File kann nicht exportiert werden!", MsgBoxStyle.Exclamation)
+            End If
+        End If
+    End Sub
+
+    Private Sub ExportToSplunkToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExportToSplunkToolStripMenuItem.Click
+        Dim objTreeNode As TreeNode
+        Dim objSemItem_Report As New clsSemItem
+        Dim objSemItem_Result As clsSemItem
+
+        objTreeNode = TreeView_Report.SelectedNode
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = cint_ImageID_Report Then
+                objSemItem_Report.GUID = New Guid(objTreeNode.Name)
+                objSemItem_Report.Name = objTreeNode.Text
+                objSemItem_Report.GUID_Parent = objLocalConfig.SemItem_Type_Reports.GUID
+                objSemItem_Report.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                objSemItem_Result = objSplunk.write_Report(objSemItem_Report)
+                If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Error.GUID Then
+                    MsgBox("Der Report kann leider nicht zu Splunk exportiert werden!", MsgBoxStyle.Exclamation)
+                Else
+                    MsgBox("Der Report wurde zu Splunk exportiert!", MsgBoxStyle.Information)
+                End If
             End If
         End If
     End Sub

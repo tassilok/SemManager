@@ -33,6 +33,7 @@ Public Class clsLocalConfig
     Private objSemItem_Attribute_Value As New clsSemItem
     Private objSemItem_Attribute_is_Null As New clsSemItem
     Private objSemItem_Attribute_XML_Text As New clsSemItem
+    Private objSemItem_Attribute_Row_Header As New clsSemItem
 
 
     'RelationTypes
@@ -134,6 +135,12 @@ Public Class clsLocalConfig
     Public ReadOnly Property SemItem_Attribute_XML_Text() As clsSemItem
         Get
             Return objSemItem_Attribute_XML_Text
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_Attribute_Row_Header() As clsSemItem
+        Get
+            Return objSemItem_Attribute_Row_Header
         End Get
     End Property
 
@@ -547,6 +554,23 @@ Public Class clsLocalConfig
         Dim objDRC_RelData As DataRowCollection
         Dim objDRs_ConfigItem() As DataRow
         Dim objDRC_Ref As DataRowCollection
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Attribute_Row_Header'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Attribute_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Attribute_Row_Header.GUID = objDRC_Ref(0).Item("GUID_Attribute")
+                objSemItem_Attribute_Row_Header.Name = objDRC_Ref(0).Item("Name_Attribute")
+                objSemItem_Attribute_Row_Header.GUID_Parent = objDRC_Ref(0).Item("GUID_AttributeType")
+                objSemItem_Attribute_Row_Header.GUID_Type = objGlobals.ObjectReferenceType_Attribute.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
 
         objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Attribute_XML_Text'")
         If objDRs_ConfigItem.Length > 0 Then

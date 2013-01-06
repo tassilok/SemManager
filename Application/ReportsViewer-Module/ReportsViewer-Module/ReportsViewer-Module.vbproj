@@ -98,6 +98,7 @@
   <ItemGroup>
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsReportXMLExport.vb" />
+    <Compile Include="clsSplunk.vb" />
     <Compile Include="clsTransaction_Reports.vb" />
     <Compile Include="clsUserData.vb" />
     <Compile Include="DataSet_Reports.Designer.vb">
