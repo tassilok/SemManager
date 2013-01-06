@@ -134,6 +134,7 @@ Partial Class frmSemManager_BU
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Types = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Token = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Tokentree = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_AttribRel = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_TokenRel = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Filter = New System.Windows.Forms.ToolStripButton()
@@ -142,10 +143,10 @@ Partial Class frmSemManager_BU
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReportsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BindingSource_TokenRel = New System.Windows.Forms.BindingSource(Me.components)
-        Me.BindingSource_TokenAtt = New System.Windows.Forms.BindingSource(Me.components)
         Me.Timer_TokenAttribute = New System.Windows.Forms.Timer(Me.components)
         Me.Timer_TokenRelation = New System.Windows.Forms.Timer(Me.components)
+        Me.BindingSource_TokenRel = New System.Windows.Forms.BindingSource(Me.components)
+        Me.BindingSource_TokenAtt = New System.Windows.Forms.BindingSource(Me.components)
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.LeftToolStripPanel.SuspendLayout()
@@ -1215,10 +1216,10 @@ Partial Class frmSemManager_BU
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Types, Me.ToolStripButton_Token, Me.ToolStripButton_AttribRel, Me.ToolStripButton_TokenRel, Me.ToolStripButton_Filter, Me.ToolStripSeparator1, Me.ToolStripButton_ModuleView})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Types, Me.ToolStripButton_Token, Me.ToolStripButton_Tokentree, Me.ToolStripButton_AttribRel, Me.ToolStripButton_TokenRel, Me.ToolStripButton_Filter, Me.ToolStripSeparator1, Me.ToolStripButton_ModuleView})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 3)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(24, 150)
+        Me.ToolStrip1.Size = New System.Drawing.Size(24, 173)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Types
@@ -1246,6 +1247,16 @@ Partial Class frmSemManager_BU
         Me.ToolStripButton_Token.Size = New System.Drawing.Size(22, 20)
         Me.ToolStripButton_Token.Text = "ToolStripButton2"
         Me.ToolStripButton_Token.ToolTipText = "Toggle Tokenlist"
+        '
+        'ToolStripButton_Tokentree
+        '
+        Me.ToolStripButton_Tokentree.CheckOnClick = True
+        Me.ToolStripButton_Tokentree.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Tokentree.Image = Global.Sem_Manager.My.Resources.Resources.XSDSchema_SequenceIcon
+        Me.ToolStripButton_Tokentree.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Tokentree.Name = "ToolStripButton_Tokentree"
+        Me.ToolStripButton_Tokentree.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_Tokentree.Text = "x_Tokentree"
         '
         'ToolStripButton_AttribRel
         '
@@ -1549,4 +1560,5 @@ Partial Class frmSemManager_BU
     Friend WithEvents ToolStripProgressBar_TokenRelation As System.Windows.Forms.ToolStripProgressBar
     Friend WithEvents Timer_TokenAttribute As System.Windows.Forms.Timer
     Friend WithEvents Timer_TokenRelation As System.Windows.Forms.Timer
+    Friend WithEvents ToolStripButton_Tokentree As System.Windows.Forms.ToolStripButton
 End Class

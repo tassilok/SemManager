@@ -41,6 +41,8 @@
     Private objSemItem_Token_Thread1 As clsSemItem
     Private objSemItem_Token_Thread2 As clsSemItem
 
+    Private objSemItem_Selected As clsSemItem
+
     Private objThread_TokenRelation As Threading.Thread
     Private objThread_TokenAttribute As Threading.Thread
 
@@ -143,7 +145,7 @@
     End Sub
 
     Private Sub TypeTree_Selection_Changed() Handles objUserControl_TypeTree.selected_Item
-        Dim objSemItem_Selected
+
         Dim boolModule As Boolean = False
         Dim objModules() As clsModule
         Dim objModule As clsModule
@@ -207,7 +209,10 @@
             objUserControl_SemItemList_TokenList.clear_List()
             objUserControl_SemItemList_TokenList.initialize_Simple(objSemItem_Selected, objLocalConfig.Globals)
             objUserControl_SemItemList_TokenList.ModuleView = ToolStripButton_ModuleView.Checked
-            objUserControl_TokenTree.initialize(objSemItem_Selected)
+            If SplitContainer_Token.Panel2Collapsed = False Then
+                objUserControl_TokenTree.initialize(objSemItem_Selected)
+            End If
+
             If Not objSemItem_Token_Left Is Nothing Then
                 objUserControl_SemItemList_TokenList.SemItem_Other = objSemItem_Token_Left
             End If
@@ -218,7 +223,10 @@
             objUserControl_SemItemList_TokenList.clear_List()
             procT_TokenRel_With_Or.Clear()
             funcT_TokenAttribute_Named_By_GUIDToken.Clear()
-            objUserControl_TokenTree.initialize(Nothing)
+            If SplitContainer_Token.Panel2Collapsed = False Then
+                objUserControl_TokenTree.initialize(Nothing)
+            End If
+
         End If
 
 
@@ -317,7 +325,7 @@
         objSplashScreen.Show()
         objSplashScreen.Refresh()
 
-
+        SplitContainer_Token.Panel2Collapsed = True
         ToolStripButton_Filter.Checked = False
 
         get_Modules()
@@ -351,7 +359,6 @@
         objUserControl_TokenTree.Dock = DockStyle.Fill
         SplitContainer_Token.Panel2.Controls.Add(objUserControl_TokenTree)
 
-
         objSemItem_SemItemList_Attribute.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Attribute.GUID
         objUserControl_SemItemList_Attributes = New UserControl_SemItemList
         objUserControl_SemItemList_Attributes.Applyable = True
@@ -382,7 +389,10 @@
         If objUserControl_SemItemList_TokenList.DataGridViewRowCollection_Selected.Count = 1 Then
             objDGVR_Selected = objUserControl_SemItemList_TokenList.DataGridViewRowCollection_Selected(0)
             objDRV_Selected = objDGVR_Selected.DataBoundItem
-            objUserControl_TokenTree.find_Node(objDRV_Selected.Item("GUID_Token"))
+            If SplitContainer_Token.Panel2Collapsed = False Then
+                objUserControl_TokenTree.find_Node(objDRV_Selected.Item("GUID_Token"))
+            End If
+
             objSemItem_Token = New clsSemItem
             objSemItem_Token.GUID = objDRV_Selected.Item("GUID_Token")
             objSemItem_Token.Name = objDRV_Selected.Item("Name_Token")
@@ -1304,6 +1314,15 @@
             ToolStripProgressBar_TokenRelation.Value = 0
         Else
             ToolStripProgressBar_TokenRelation.Value = 50
+        End If
+    End Sub
+
+    Private Sub ToolStripButton_Tokentree_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripButton_Tokentree.CheckStateChanged
+        If ToolStripButton_Tokentree.Checked = True Then
+            SplitContainer_Token.Panel2Collapsed = False
+            objUserControl_TokenTree.initialize(objSemItem_Selected)
+        Else
+            SplitContainer_Token.Panel2Collapsed = True
         End If
     End Sub
 End Class
