@@ -7,6 +7,7 @@ Public Class clsLocalConfig
     Private objConnection_Config As SqlClient.SqlConnection
     Private objConnection_Plugin As SqlClient.SqlConnection
 
+    Private funcA_TokenToken As New ds_TokenTableAdapters.func_TokenTokenTableAdapter
     Private procA_TokenAttribute_Varchar255 As New ds_TokenAttributeTableAdapters.TokenAttribute_Varchar255TableAdapter
 
     Private funcA_SoftwareDevelopment_Config As New ds_DevelopmentConfigTableAdapters.func_SoftwareDevelopment_ConfigTableAdapter
@@ -19,9 +20,13 @@ Public Class clsLocalConfig
 
 
     Private objGUID_Development As Guid
+    Private objSemItem_BaseConfig As New clsSemItem
 
+    'Attributes
     Private objSemItem_attribute_dbPostfix As New clsSemItem
     Private objSemItem_Attribute_XML_Text As New clsSemItem
+
+    'RelationTypes
     Private objSemItem_RelationType_belonging_Field_Template As New clsSemItem
     Private objSemItem_RelationType_belonging_Report_Template As New clsSemItem
     Private objSemItem_RelationType_belonging_Row_Template As New clsSemItem
@@ -29,12 +34,16 @@ Public Class clsLocalConfig
     Private objSemItem_RelationType_belongsTo As New clsSemItem
     Private objSemItem_RelationType_contains As New clsSemItem
     Private objSemItem_RelationType_offered_by As New clsSemItem
+
+    'Token
     Private objSemItem_Token_Variable_CELL_LIST As New clsSemItem
     Private objSemItem_Token_Variable_CELL_NAME As New clsSemItem
     Private objSemItem_Token_Variable_CELL_VALUE As New clsSemItem
     Private objSemItem_Token_Variable_DATETIME_TZ As New clsSemItem
     Private objSemItem_Token_Variable_REPORT As New clsSemItem
     Private objSemItem_Token_Variable_ROW_LIST As New clsSemItem
+
+    'Types
     Private objSemItem_Type_Module As New clsSemItem
     Private objSemItem_Type_Port As New clsSemItem
     Private objSemItem_Type_Server As New clsSemItem
@@ -44,6 +53,7 @@ Public Class clsLocalConfig
     Private objSemItem_Type_XML As New clsSemItem
 
 
+    'Attributes
     Public ReadOnly Property SemItem_attribute_dbPostfix() As clsSemItem
         Get
             Return objSemItem_attribute_dbPostfix
@@ -56,6 +66,7 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    'RelationType
     Public ReadOnly Property SemItem_RelationType_belonging_Field_Template() As clsSemItem
         Get
             Return objSemItem_RelationType_belonging_Field_Template
@@ -98,6 +109,8 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+
+    'Token
     Public ReadOnly Property SemItem_Token_Variable_CELL_LIST() As clsSemItem
         Get
             Return objSemItem_Token_Variable_CELL_LIST
@@ -134,6 +147,7 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    'Types
     Public ReadOnly Property SemItem_Type_Module() As clsSemItem
         Get
             Return objSemItem_Type_Module
@@ -177,6 +191,11 @@ Public Class clsLocalConfig
     End Property
 
 
+    Public ReadOnly Property SemItem_BaseConfig As clsSemItem
+        Get
+            Return objSemItem_BaseConfig
+        End Get
+    End Property
 
     Public ReadOnly Property Connection_DB() As SqlClient.SqlConnection
         Get
@@ -208,6 +227,7 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub set_DBConnection()
+        funcA_TokenToken.Connection = objConnection_DB
         funcA_SoftwareDevelopment_Config.Connection = objConnection_Config
 
         procA_TokenAttribute_Varchar255.Connection = objConnection_Config
@@ -226,8 +246,8 @@ Public Class clsLocalConfig
 
         get_Config_Attributes()
         get_Config_RelationTypes()
-        get_Config_Token()
         get_Config_Types()
+        get_Config_Token()
 
 
     End Sub
@@ -245,6 +265,10 @@ Public Class clsLocalConfig
                 objSemItem_attribute_dbPostfix.Name = objDRC_Ref(0).Item("Name_Attribute")
                 objSemItem_attribute_dbPostfix.GUID_Parent = objDRC_Ref(0).Item("GUID_AttributeType")
                 objSemItem_attribute_dbPostfix.GUID_Type = objGlobals.ObjectReferenceType_Attribute.GUID
+
+                objDRC_RelData = procA_TokenAttribute_Varchar255.GetData_By_GUIDAttribute_And_GUIDToken(objGUID_Development, objSemItem_attribute_dbPostfix.GUID).Rows
+
+                objConnection_Plugin = New SqlClient.SqlConnection(objGlobals.get_DB_ConnectionString(objDRC_RelData(0).Item("Val")))
             Else
                 Err.Raise(1, "Config not set")
             End If
@@ -508,7 +532,27 @@ Public Class clsLocalConfig
             Err.Raise(1, "Config not set")
         End If
 
+        funcA_TokenToken.Connection = objConnection_Config
+        objDRC_RelData = funcA_TokenToken.GetData_TokenToken_RightLeft(objGUID_Development, _
+                                                                       objSemItem_RelationType_offered_by.GUID, _
+                                                                       objSemItem_Type_Module.GUID).Rows
+        If objDRC_RelData.Count > 0 Then
+            objDRC_RelData = funcA_TokenToken.GetData_TokenToken_RightLeft(objDRC_RelData(0).Item("GUID_Token_Left"), _
+                                                                           objSemItem_RelationType_belongsTo.GUID, _
+                                                                           objSemItem_Type_Splunk_Connector_Module.GUID).Rows
+            If objDRC_RelData.Count > 0 Then
+                objSemItem_BaseConfig = New clsSemItem
+                objSemItem_BaseConfig.GUID = objDRC_RelData(0).Item("GUID_Token_Left")
+                objSemItem_BaseConfig.Name = objDRC_RelData(0).Item("Name_Token_Left")
+                objSemItem_BaseConfig.GUID_Parent = objSemItem_Type_Splunk_Connector_Module.GUID
+                objSemItem_BaseConfig.GUID_Type = objGlobals.ObjectReferenceType_Token.GUID
 
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+        Else
+            Err.Raise(1, "Config not set")
+        End If
     End Sub
 
     Private Sub get_Config_Types()

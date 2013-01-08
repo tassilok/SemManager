@@ -53,6 +53,17 @@ Namespace My
                 Return defaultInstance
             End Get
         End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=localhost\sqlexpress;Initial Catalog=sem_db_home_splunk_connector_mod"& _ 
+            "ule;Integrated Security=True")>  _
+        Public ReadOnly Property sem_db_home_splunk_connector_moduleConnectionString() As String
+            Get
+                Return CType(Me("sem_db_home_splunk_connector_moduleConnectionString"),String)
+            End Get
+        End Property
     End Class
 End Namespace
 

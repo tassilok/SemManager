@@ -50,6 +50,9 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ReportsViewer-Module">
+      <HintPath>..\..\ReportsViewer-Module\ReportsViewer-Module\bin\Debug\ReportsViewer-Module.exe</HintPath>
+    </Reference>
     <Reference Include="Sem-Manager">
       <HintPath>..\..\Sem-Manager\Sem-Manager\bin\Debug\Sem-Manager.exe</HintPath>
     </Reference>
@@ -57,6 +60,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -77,11 +81,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsLocalConfig.vb" />
-    <Compile Include="Form1.vb">
+    <Compile Include="clsSplunk.vb" />
+    <Compile Include="clsUserData.vb" />
+    <Compile Include="DataSet_Splunk.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet_Splunk.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.vb">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <Compile Include="frmMain.Designer.vb">
+      <DependentUpon>frmMain.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -101,8 +112,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -113,6 +124,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="DataSet_Splunk.xsc">
+      <DependentUpon>DataSet_Splunk.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet_Splunk.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet_Splunk.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="DataSet_Splunk.xss">
+      <DependentUpon>DataSet_Splunk.xsd</DependentUpon>
+    </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -122,6 +144,11 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config_sem.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
