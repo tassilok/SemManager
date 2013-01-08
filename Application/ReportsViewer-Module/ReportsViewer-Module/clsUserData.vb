@@ -188,6 +188,11 @@ Public Class clsUserData
         set_DBConnection()
     End Sub
 
+    Public Sub New(ByVal Globals As clsGlobals)
+        objLocalConfig = New clsLocalConfig(Globals)
+        set_DBConnection()
+    End Sub
+
     Public Function get_Data_XMLConfig(ByVal SemItem_User As clsSemItem) As clsSemItem
         Dim objSemItem_Result As clsSemItem
 

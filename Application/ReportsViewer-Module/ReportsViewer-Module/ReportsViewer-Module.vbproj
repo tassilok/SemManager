@@ -69,6 +69,9 @@
     <Reference Include="Sem-Manager">
       <HintPath>..\..\Sem-Manager\Sem-Manager\bin\Debug\Sem-Manager.exe</HintPath>
     </Reference>
+    <Reference Include="Splunk-Connector-Module">
+      <HintPath>..\..\Splunk-Connector-Module\Splunk-Connector-Module\bin\Debug\Splunk-Connector-Module.exe</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
