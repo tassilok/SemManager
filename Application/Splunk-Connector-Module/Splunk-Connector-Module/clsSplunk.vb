@@ -161,7 +161,10 @@ Public Class clsSplunk
                                         Next
 
                                         strWrite = strRow.Substring(strRow.IndexOf("@" & objLocalConfig.SemItem_Token_Variable_CELL_LIST.Name & "@") + Len("@" & objLocalConfig.SemItem_Token_Variable_CELL_LIST.Name & "@"))
-                                        objNetworkStream.Write(System.Text.Encoding.UTF8.GetBytes(strWrite), 0, System.Text.Encoding.UTF8.GetBytes(strWrite).Length - 1)
+                                        If strWrite <> "" Then
+                                            objNetworkStream.Write(System.Text.Encoding.UTF8.GetBytes(strWrite), 0, System.Text.Encoding.UTF8.GetBytes(strWrite).Length - 1)
+                                        End If
+
                                     End If
                                     
 
