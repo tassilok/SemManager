@@ -1,6 +1,5 @@
 ﻿Imports Sem_Manager
 Imports Security_Module
-Imports Splunk_Connector_Module
 Public Class frmMain
     Private cint_ImageID_Root As Integer = 0
     Private cint_ImageID_Report As Integer = 1
@@ -20,7 +19,7 @@ Public Class frmMain
 
     Private objTransaction_Reports As clsTransaction_Reports
     Private objReportXMLExport As clsReportXMLExport
-    Private objSplunk As Splunk_Connector_Module.clsSplunk
+    Private objSplunk As clsSplunkPrepare
     
     Private objTreeNode_Root As TreeNode
 
@@ -102,7 +101,7 @@ Public Class frmMain
         objTransaction_Reports = New clsTransaction_Reports(objLocalConfig)
         funcA_TokenToken.Connection = objLocalConfig.Connection_DB
         objReportXMLExport = New clsReportXMLExport(objLocalConfig)
-        objSplunk = New Splunk_Connector_Module.clsSplunk(objLocalConfig.Globals)
+        objSplunk = New clsSplunkPrepare(objLocalConfig)
     End Sub
 
     Private Sub TreeView_Report_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_Report.AfterSelect

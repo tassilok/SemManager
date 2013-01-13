@@ -69,9 +69,6 @@
     <Reference Include="Sem-Manager">
       <HintPath>..\..\Sem-Manager\Sem-Manager\bin\Debug\Sem-Manager.exe</HintPath>
     </Reference>
-    <Reference Include="Splunk-Connector-Module">
-      <HintPath>..\..\Splunk-Connector-Module\Splunk-Connector-Module\bin\Debug\Splunk-Connector-Module.exe</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -99,7 +96,7 @@
   <ItemGroup>
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsReportXMLExport.vb" />
-    <Compile Include="clsSplunk.vb" />
+    <Compile Include="clsSplunkPrepare.vb" />
     <Compile Include="clsTransaction_Reports.vb" />
     <Compile Include="clsUserData.vb" />
     <Compile Include="DataSet_Reports.Designer.vb">
@@ -210,6 +207,12 @@
     <None Include="Resources\CopyHS.png" />
     <None Include="Resources\CopyHH.bmp" />
     <None Include="Resources\010_LowPriority_32x32_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Splunk-Connector-Module\Splunk-Connector-Module\Splunk-Connector-Module.vbproj">
+      <Project>{B1D25783-9C9A-490C-8905-B71B0AC60B3A}</Project>
+      <Name>Splunk-Connector-Module</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

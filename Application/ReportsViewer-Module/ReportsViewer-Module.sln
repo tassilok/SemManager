@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ReportsViewer-Module", "ReportsViewer-Module\ReportsViewer-Module.vbproj", "{D214E4EA-D520-477E-9AB9-41A8C94DA2E3}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Splunk-Connector-Module", "..\Splunk-Connector-Module\Splunk-Connector-Module\Splunk-Connector-Module.vbproj", "{B1D25783-9C9A-490C-8905-B71B0AC60B3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,16 @@ Global
 		{D214E4EA-D520-477E-9AB9-41A8C94DA2E3}.Release|Mixed Platforms.Build.0 = Release|x86
 		{D214E4EA-D520-477E-9AB9-41A8C94DA2E3}.Release|x86.ActiveCfg = Release|x86
 		{D214E4EA-D520-477E-9AB9-41A8C94DA2E3}.Release|x86.Build.0 = Release|x86
+		{B1D25783-9C9A-490C-8905-B71B0AC60B3A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{B1D25783-9C9A-490C-8905-B71B0AC60B3A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{B1D25783-9C9A-490C-8905-B71B0AC60B3A}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{B1D25783-9C9A-490C-8905-B71B0AC60B3A}.Debug|x86.ActiveCfg = Debug|x86
+		{B1D25783-9C9A-490C-8905-B71B0AC60B3A}.Debug|x86.Build.0 = Debug|x86
+		{B1D25783-9C9A-490C-8905-B71B0AC60B3A}.Release|Any CPU.ActiveCfg = Release|x86
+		{B1D25783-9C9A-490C-8905-B71B0AC60B3A}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{B1D25783-9C9A-490C-8905-B71B0AC60B3A}.Release|Mixed Platforms.Build.0 = Release|x86
+		{B1D25783-9C9A-490C-8905-B71B0AC60B3A}.Release|x86.ActiveCfg = Release|x86
+		{B1D25783-9C9A-490C-8905-B71B0AC60B3A}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

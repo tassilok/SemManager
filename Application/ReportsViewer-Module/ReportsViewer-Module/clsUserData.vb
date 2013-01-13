@@ -28,6 +28,9 @@ Public Class clsUserData
     Private procA_XML_Variable As New DataSet_ReportsTableAdapters.proc_XML_VariableTableAdapter
     Private procT_XML_Variable As New DataSet_Reports.proc_XML_VariableDataTable
 
+    Private procA_ReportFieldTypes As New DataSet_ReportsTableAdapters.proc_ReportFieldTypesTableAdapter
+    Private procT_ReportFieldTypes As New DataSet_Reports.proc_ReportFieldTypesDataTable
+
     Private objTransaction_Reports As clsTransaction_Reports
 
     Private objSemItem_Report As clsSemItem
@@ -43,6 +46,11 @@ Public Class clsUserData
     Private boolData_Report As Boolean
     Private boolData_ReportFields As Boolean
 
+    Public ReadOnly Property FieldTypes_procT As DataSet_Reports.proc_ReportFieldTypesDataTable
+        Get
+            Return procT_ReportFieldTypes
+        End Get
+    End Property
     Public ReadOnly Property ReportFields_procT As DataSet_Reports.proc_ReportFieldsDataTable
         Get
             Return procT_ReportFields
@@ -226,15 +234,17 @@ Public Class clsUserData
         Dim objConnection As SqlClient.SqlConnection
         Dim objSemItem_Result As clsSemItem
         Dim objSemItem_View As New clsSemItem
+        Dim objDRs_FieldType() As DataRow
         Dim objDRs_View() As DataRow
         Dim objDRs_Exists() As DataRow
         Dim objDR_Column As DataRow
         Dim objDRC_Column As DataRowCollection
         Dim objSemItem_DBColumn As New clsSemItem
         Dim objSemItem_ReportField As New clsSemItem
+        Dim objSemItem_Type As New clsSemItem
         Dim intToDo As Integer
         Dim intDone As Integer
-
+        Dim boolVisible As Boolean
 
         get_Data_Report(objSemItem_Report)
         objDRs_View = procT_Report.Select("GUID_Report='" & objSemItem_Report.GUID.ToString & "'")
@@ -254,7 +264,10 @@ Public Class clsUserData
                 dtblA_Columns.Fill(dtblT_Columns, _
                                    objSemItem_View.Name)
 
+
                 If dtblT_Columns.Rows.Count > 0 Then
+                    get_Data_ReportFieldTypes()
+
                     procA_ReportFields.Fill(procT_ReportFields, _
                                             objLocalConfig.SemItem_Attribute_invisible.GUID, _
                                             objLocalConfig.SemItem_Type_Report_Field.GUID, _
@@ -273,6 +286,21 @@ Public Class clsUserData
                     intToDo = dtblT_Columns.Rows.Count
                     intDone = 0
                     For Each objDR_Column In dtblT_Columns.Rows
+                        objDRs_FieldType = procT_ReportFieldTypes.Select("Name_DataTypes__Ms_SQL_='" & objDR_Column.Item("name_type") & "'")
+                        If objDRs_FieldType.Count > 0 Then
+                            boolVisible = objDRs_FieldType(0).Item("Visible")
+                            objSemItem_Type.GUID = objDRs_FieldType(0).Item("GUID_Field_Type")
+                            objSemItem_Type.Name = objDRs_FieldType(0).Item("Name_Field_Type")
+                            objSemItem_Type.GUID_Parent = objLocalConfig.SemItem_Type_Field_Type.GUID
+                            objSemItem_Type.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                        Else
+                            boolVisible = True
+                            objSemItem_Type = Nothing
+                        End If
+
+
+
                         objDRs_Exists = procT_ReportFields.Select("Name_DBColumn='" & objDR_Column.Item("name") & "'")
                         If objDRs_Exists.Count = 0 Then
                             objDRC_Column = semtblA_Token.GetData_Token_By_Name_And_GUIDType(objLocalConfig.SemItem_Type_DB_Columns.GUID, _
@@ -312,7 +340,38 @@ Public Class clsUserData
                                             objSemItem_Result = objTransaction_Reports.save_005_ReportField_To_DBColumn(objSemItem_DBColumn, _
                                                                                                                         objSemItem_ReportField)
                                             If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
-                                                intDone = intDone + 1
+                                                objSemItem_Result = objTransaction_Reports.save_008_ReportField__Visibility(boolVisible, objSemItem_ReportField)
+                                                If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                                    objSemItem_Result = objTransaction_Reports.save_009_ReportField_to_FieldType(objSemItem_Type, _
+                                                                                                                                 objSemItem_ReportField)
+                                                    If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                                        intDone = intDone + 1
+                                                    Else
+                                                        objSemItem_Result = objTransaction_Reports.del_008_ReportField__Visibility
+                                                        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                                            objSemItem_Result = objTransaction_Reports.del_005_ReportField_To_Report
+                                                            If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                                                objSemItem_Result = objTransaction_Reports.del_004_ReportField_To_Report
+                                                                If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                                                    objTransaction_Reports.del_003_ReportField()
+                                                                End If
+                                                            End If
+                                                        End If
+                                                        
+                                                    End If
+
+
+                                                Else
+                                                    objSemItem_Result = objTransaction_Reports.del_005_ReportField_To_Report
+                                                    If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                                        objSemItem_Result = objTransaction_Reports.del_004_ReportField_To_Report
+                                                        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                                            objTransaction_Reports.del_003_ReportField()
+                                                        End If
+                                                    End If
+
+                                                End If
+
                                             Else
                                                 objSemItem_Result = objTransaction_Reports.del_004_ReportField_To_Report
                                                 If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
@@ -374,6 +433,15 @@ Public Class clsUserData
         objSemItem_Report = SemItem_Report
         objThread_Data_ReportFields = New Threading.Thread(AddressOf get_Data_ReportFields)
         objThread_Data_ReportFields.Start()
+    End Sub
+
+    Private Sub get_Data_ReportFieldTypes()
+        procA_ReportFieldTypes.Fill(procT_ReportFieldTypes, _
+                                    objLocalConfig.SemItem_Attribute_visible.GUID, _
+                                    objLocalConfig.SemItem_Type_Field_Type.GUID, _
+                                    objLocalConfig.SemItem_Type_DataTypes__Ms_SQL_.GUID, _
+                                    objLocalConfig.SemItem_RelationType_is_of_Type.GUID)
+
     End Sub
 
     Private Sub get_Data_ReportFields()
@@ -447,6 +515,7 @@ Public Class clsUserData
         procA_XMLConfig.Connection = objLocalConfig.Connection_Plugin
         procA_XML_Variable.Connection = objLocalConfig.Connection_Plugin
         procA_ReportFields.Connection = objLocalConfig.Connection_Plugin
+        procA_ReportFieldTypes.Connection = objLocalConfig.Connection_Plugin
 
     End Sub
 End Class

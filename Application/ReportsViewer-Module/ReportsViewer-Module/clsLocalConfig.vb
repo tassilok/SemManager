@@ -34,6 +34,7 @@ Public Class clsLocalConfig
     Private objSemItem_Attribute_is_Null As New clsSemItem
     Private objSemItem_Attribute_XML_Text As New clsSemItem
     Private objSemItem_Attribute_Row_Header As New clsSemItem
+    Private objSemItem_Attribute_visible As New clsSemItem
 
 
     'RelationTypes
@@ -75,6 +76,7 @@ Public Class clsLocalConfig
     Private objSemItem_Type_Variable As New clsSemItem
     Private objSemItem_Type_XML As New clsSemItem
     Private objSemItem_type_User As New clsSemItem
+    Private objSemItem_Type_DataTypes__Ms_SQL_ As New clsSemItem
 
     
     'Token
@@ -90,10 +92,12 @@ Public Class clsLocalConfig
     Private objSemItem_Token_Variable_CELL_LIST As New clsSemItem
     Private objSemItem_Token_Variable_id As New clsSemItem
     Private objSemItem_Token_Variable_REPORT_20 As New clsSemItem
+    Private objSemItem_Token_Variable_REPORT As New clsSemItem
     Private objSemItem_Token_Variable_ROWCOUNT As New clsSemItem
     Private objSemItem_Token_Variable_AUTHOR As New clsSemItem
     Private objSemItem_Token_Variable_COLCOUNT As New clsSemItem
     Private objSemItem_Token_Variable_DATETIME_TZ As New clsSemItem
+    Private objSemItem_Token_Field_Type_DateTime As New clsSemItem
 
     'Attributes
     Public ReadOnly Property SemItem_attribute_dbPostfix() As clsSemItem
@@ -141,6 +145,12 @@ Public Class clsLocalConfig
     Public ReadOnly Property SemItem_Attribute_Row_Header() As clsSemItem
         Get
             Return objSemItem_Attribute_Row_Header
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_Attribute_visible() As clsSemItem
+        Get
+            Return objSemItem_Attribute_visible
         End Get
     End Property
 
@@ -359,6 +369,12 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property SemItem_Type_DataTypes__Ms_SQL_() As clsSemItem
+        Get
+            Return objSemItem_Type_DataTypes__Ms_SQL_
+        End Get
+    End Property
+
 
     'Token
     Public ReadOnly Property SemItem_Token_Report_Type_View() As clsSemItem
@@ -457,6 +473,19 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property SemItem_Token_Variable_REPORT() As clsSemItem
+        Get
+            Return objSemItem_Token_Variable_REPORT
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_Token_Field_Type_DateTime() As clsSemItem
+        Get
+            Return objSemItem_Token_Field_Type_DateTime
+        End Get
+    End Property
+
+
 
     Public Property SemItem_User As clsSemItem
         Get
@@ -554,6 +583,23 @@ Public Class clsLocalConfig
         Dim objDRC_RelData As DataRowCollection
         Dim objDRs_ConfigItem() As DataRow
         Dim objDRC_Ref As DataRowCollection
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Attribute_visible'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Attribute_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Attribute_visible.GUID = objDRC_Ref(0).Item("GUID_Attribute")
+                objSemItem_Attribute_visible.Name = objDRC_Ref(0).Item("Name_Attribute")
+                objSemItem_Attribute_visible.GUID_Parent = objDRC_Ref(0).Item("GUID_AttributeType")
+                objSemItem_Attribute_visible.GUID_Type = objGlobals.ObjectReferenceType_Attribute.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
 
         objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Attribute_Row_Header'")
         If objDRs_ConfigItem.Length > 0 Then
@@ -916,6 +962,41 @@ Public Class clsLocalConfig
         Dim objDRs_ConfigItem() As DataRow
         Dim objDRC_Ref As DataRowCollection
 
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Token_Field_Type_DateTime'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Token_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Token_Field_Type_DateTime.GUID = objDRC_Ref(0).Item("GUID_Token")
+                objSemItem_Token_Field_Type_DateTime.Name = objDRC_Ref(0).Item("Name_Token")
+                objSemItem_Token_Field_Type_DateTime.GUID_Parent = objDRC_Ref(0).Item("GUID_Type")
+                objSemItem_Token_Field_Type_DateTime.GUID_Type = objGlobals.ObjectReferenceType_Token.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Token_Variable_REPORT'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Token_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Token_Variable_REPORT.GUID = objDRC_Ref(0).Item("GUID_Token")
+                objSemItem_Token_Variable_REPORT.Name = objDRC_Ref(0).Item("Name_Token")
+                objSemItem_Token_Variable_REPORT.GUID_Parent = objDRC_Ref(0).Item("GUID_Type")
+                objSemItem_Token_Variable_REPORT.GUID_Type = objGlobals.ObjectReferenceType_Token.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
         objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Token_Variable_REPORT_20'")
         If objDRs_ConfigItem.Length > 0 Then
             objDRC_Ref = procA_OR_Token_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
@@ -1183,6 +1264,25 @@ Public Class clsLocalConfig
         Dim objDRC_RelData As DataRowCollection
         Dim objDRs_ConfigItem() As DataRow
         Dim objDRC_Ref As DataRowCollection
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Type_DataTypes__Ms_SQL_'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Type_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Type_DataTypes__Ms_SQL_.GUID = objDRC_Ref(0).Item("GUID_Type")
+                objSemItem_Type_DataTypes__Ms_SQL_.Name = objDRC_Ref(0).Item("Name_Type")
+                If Not IsDBNull(objDRC_Ref(0).Item("GUID_Type_Parent")) Then
+                    objSemItem_Type_DataTypes__Ms_SQL_.GUID_Parent = objDRC_Ref(0).Item("GUID_Type_Parent")
+                End If
+                objSemItem_Type_DataTypes__Ms_SQL_.GUID_Type = objGlobals.ObjectReferenceType_Type.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
 
         objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='type_User'")
         If objDRs_ConfigItem.Length > 0 Then

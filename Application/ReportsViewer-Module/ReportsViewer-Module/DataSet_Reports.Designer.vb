@@ -37,6 +37,8 @@ Partial Public Class DataSet_Reports
     
     Private tableproc_XML_Variable As proc_XML_VariableDataTable
     
+    Private tableproc_ReportFieldTypes As proc_ReportFieldTypesDataTable
+    
     Private tabledtblSort As dtblSortDataTable
     
     Private tabledtblFilter As dtblFilterDataTable
@@ -87,6 +89,9 @@ Partial Public Class DataSet_Reports
             End If
             If (Not (ds.Tables("proc_XML_Variable")) Is Nothing) Then
                 MyBase.Tables.Add(New proc_XML_VariableDataTable(ds.Tables("proc_XML_Variable")))
+            End If
+            If (Not (ds.Tables("proc_ReportFieldTypes")) Is Nothing) Then
+                MyBase.Tables.Add(New proc_ReportFieldTypesDataTable(ds.Tables("proc_ReportFieldTypes")))
             End If
             If (Not (ds.Tables("dtblSort")) Is Nothing) Then
                 MyBase.Tables.Add(New dtblSortDataTable(ds.Tables("dtblSort")))
@@ -168,6 +173,16 @@ Partial Public Class DataSet_Reports
     Public ReadOnly Property proc_XML_Variable() As proc_XML_VariableDataTable
         Get
             Return Me.tableproc_XML_Variable
+        End Get
+    End Property
+    
+    <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+     Global.System.ComponentModel.Browsable(false),  _
+     Global.System.ComponentModel.DesignerSerializationVisibility(Global.System.ComponentModel.DesignerSerializationVisibility.Content)>  _
+    Public ReadOnly Property proc_ReportFieldTypes() As proc_ReportFieldTypesDataTable
+        Get
+            Return Me.tableproc_ReportFieldTypes
         End Get
     End Property
     
@@ -276,6 +291,9 @@ Partial Public Class DataSet_Reports
             If (Not (ds.Tables("proc_XML_Variable")) Is Nothing) Then
                 MyBase.Tables.Add(New proc_XML_VariableDataTable(ds.Tables("proc_XML_Variable")))
             End If
+            If (Not (ds.Tables("proc_ReportFieldTypes")) Is Nothing) Then
+                MyBase.Tables.Add(New proc_ReportFieldTypesDataTable(ds.Tables("proc_ReportFieldTypes")))
+            End If
             If (Not (ds.Tables("dtblSort")) Is Nothing) Then
                 MyBase.Tables.Add(New dtblSortDataTable(ds.Tables("dtblSort")))
             End If
@@ -350,6 +368,12 @@ Partial Public Class DataSet_Reports
                 Me.tableproc_XML_Variable.InitVars
             End If
         End If
+        Me.tableproc_ReportFieldTypes = CType(MyBase.Tables("proc_ReportFieldTypes"),proc_ReportFieldTypesDataTable)
+        If (initTable = true) Then
+            If (Not (Me.tableproc_ReportFieldTypes) Is Nothing) Then
+                Me.tableproc_ReportFieldTypes.InitVars
+            End If
+        End If
         Me.tabledtblSort = CType(MyBase.Tables("dtblSort"),dtblSortDataTable)
         If (initTable = true) Then
             If (Not (Me.tabledtblSort) Is Nothing) Then
@@ -384,6 +408,8 @@ Partial Public Class DataSet_Reports
         MyBase.Tables.Add(Me.tableproc_XMLConfig)
         Me.tableproc_XML_Variable = New proc_XML_VariableDataTable()
         MyBase.Tables.Add(Me.tableproc_XML_Variable)
+        Me.tableproc_ReportFieldTypes = New proc_ReportFieldTypesDataTable()
+        MyBase.Tables.Add(Me.tableproc_ReportFieldTypes)
         Me.tabledtblSort = New dtblSortDataTable()
         MyBase.Tables.Add(Me.tabledtblSort)
         Me.tabledtblFilter = New dtblFilterDataTable()
@@ -423,6 +449,12 @@ Partial Public Class DataSet_Reports
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
     Private Function ShouldSerializeproc_XML_Variable() As Boolean
+        Return false
+    End Function
+    
+    <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+    Private Function ShouldSerializeproc_ReportFieldTypes() As Boolean
         Return false
     End Function
     
@@ -513,6 +545,9 @@ Partial Public Class DataSet_Reports
     
     <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
     Public Delegate Sub proc_XML_VariableRowChangeEventHandler(ByVal sender As Object, ByVal e As proc_XML_VariableRowChangeEvent)
+    
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+    Public Delegate Sub proc_ReportFieldTypesRowChangeEventHandler(ByVal sender As Object, ByVal e As proc_ReportFieldTypesRowChangeEvent)
     
     <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
     Public Delegate Sub dtblSortRowChangeEventHandler(ByVal sender As Object, ByVal e As dtblSortRowChangeEvent)
@@ -1767,6 +1802,8 @@ Partial Public Class DataSet_Reports
         
         Private columnname As Global.System.Data.DataColumn
         
+        Private columnname_type As Global.System.Data.DataColumn
+        
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub New()
@@ -1811,6 +1848,14 @@ Partial Public Class DataSet_Reports
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property name_typeColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnname_type
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Browsable(false)>  _
         Public ReadOnly Property Count() As Integer
@@ -1847,9 +1892,9 @@ Partial Public Class DataSet_Reports
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function Adddtbl_ColumnsRow(ByVal name As String) As dtbl_ColumnsRow
+        Public Overloads Function Adddtbl_ColumnsRow(ByVal name As String, ByVal name_type As String) As dtbl_ColumnsRow
             Dim rowdtbl_ColumnsRow As dtbl_ColumnsRow = CType(Me.NewRow,dtbl_ColumnsRow)
-            Dim columnValuesArray() As Object = New Object() {name}
+            Dim columnValuesArray() As Object = New Object() {name, name_type}
             rowdtbl_ColumnsRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowdtbl_ColumnsRow)
             Return rowdtbl_ColumnsRow
@@ -1873,6 +1918,7 @@ Partial Public Class DataSet_Reports
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Friend Sub InitVars()
             Me.columnname = MyBase.Columns("name")
+            Me.columnname_type = MyBase.Columns("name_type")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -1880,7 +1926,11 @@ Partial Public Class DataSet_Reports
         Private Sub InitClass()
             Me.columnname = New Global.System.Data.DataColumn("name", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnname)
+            Me.columnname_type = New Global.System.Data.DataColumn("name_type", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnname_type)
             Me.columnname.MaxLength = 128
+            Me.columnname_type.AllowDBNull = false
+            Me.columnname_type.MaxLength = 128
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -2773,6 +2823,331 @@ Partial Public Class DataSet_Reports
             Dim attribute2 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
             attribute2.Name = "tableTypeName"
             attribute2.FixedValue = "proc_XML_VariableDataTable"
+            type.Attributes.Add(attribute2)
+            type.Particle = sequence
+            Dim dsSchema As Global.System.Xml.Schema.XmlSchema = ds.GetSchemaSerializable
+            If xs.Contains(dsSchema.TargetNamespace) Then
+                Dim s1 As Global.System.IO.MemoryStream = New Global.System.IO.MemoryStream()
+                Dim s2 As Global.System.IO.MemoryStream = New Global.System.IO.MemoryStream()
+                Try 
+                    Dim schema As Global.System.Xml.Schema.XmlSchema = Nothing
+                    dsSchema.Write(s1)
+                    Dim schemas As Global.System.Collections.IEnumerator = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator
+                    Do While schemas.MoveNext
+                        schema = CType(schemas.Current,Global.System.Xml.Schema.XmlSchema)
+                        s2.SetLength(0)
+                        schema.Write(s2)
+                        If (s1.Length = s2.Length) Then
+                            s1.Position = 0
+                            s2.Position = 0
+                            
+                            Do While ((s1.Position <> s1.Length)  _
+                                        AndAlso (s1.ReadByte = s2.ReadByte))
+                                
+                                
+                            Loop
+                            If (s1.Position = s1.Length) Then
+                                Return type
+                            End If
+                        End If
+                        
+                    Loop
+                Finally
+                    If (Not (s1) Is Nothing) Then
+                        s1.Close
+                    End If
+                    If (Not (s2) Is Nothing) Then
+                        s2.Close
+                    End If
+                End Try
+            End If
+            xs.Add(dsSchema)
+            Return type
+        End Function
+    End Class
+    
+    '''<summary>
+    '''Represents the strongly named DataTable class.
+    '''</summary>
+    <Global.System.Serializable(),  _
+     Global.System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")>  _
+    Partial Public Class proc_ReportFieldTypesDataTable
+        Inherits Global.System.Data.TypedTableBase(Of proc_ReportFieldTypesRow)
+        
+        Private columnGUID_Field_Type As Global.System.Data.DataColumn
+        
+        Private columnName_Field_Type As Global.System.Data.DataColumn
+        
+        Private columnGUID_TokenAttribute_Visible As Global.System.Data.DataColumn
+        
+        Private columnVisible As Global.System.Data.DataColumn
+        
+        Private columnGUID_DataTypes__Ms_SQL_ As Global.System.Data.DataColumn
+        
+        Private columnName_DataTypes__Ms_SQL_ As Global.System.Data.DataColumn
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub New()
+            MyBase.New
+            Me.TableName = "proc_ReportFieldTypes"
+            Me.BeginInit
+            Me.InitClass
+            Me.EndInit
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Sub New(ByVal table As Global.System.Data.DataTable)
+            MyBase.New
+            Me.TableName = table.TableName
+            If (table.CaseSensitive <> table.DataSet.CaseSensitive) Then
+                Me.CaseSensitive = table.CaseSensitive
+            End If
+            If (table.Locale.ToString <> table.DataSet.Locale.ToString) Then
+                Me.Locale = table.Locale
+            End If
+            If (table.Namespace <> table.DataSet.Namespace) Then
+                Me.Namespace = table.Namespace
+            End If
+            Me.Prefix = table.Prefix
+            Me.MinimumCapacity = table.MinimumCapacity
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Sub New(ByVal info As Global.System.Runtime.Serialization.SerializationInfo, ByVal context As Global.System.Runtime.Serialization.StreamingContext)
+            MyBase.New(info, context)
+            Me.InitVars
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property GUID_Field_TypeColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnGUID_Field_Type
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Name_Field_TypeColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnName_Field_Type
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property GUID_TokenAttribute_VisibleColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnGUID_TokenAttribute_Visible
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property VisibleColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnVisible
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property GUID_DataTypes__Ms_SQL_Column() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnGUID_DataTypes__Ms_SQL_
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Name_DataTypes__Ms_SQL_Column() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnName_DataTypes__Ms_SQL_
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Browsable(false)>  _
+        Public ReadOnly Property Count() As Integer
+            Get
+                Return Me.Rows.Count
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Default ReadOnly Property Item(ByVal index As Integer) As proc_ReportFieldTypesRow
+            Get
+                Return CType(Me.Rows(index),proc_ReportFieldTypesRow)
+            End Get
+        End Property
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event proc_ReportFieldTypesRowChanging As proc_ReportFieldTypesRowChangeEventHandler
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event proc_ReportFieldTypesRowChanged As proc_ReportFieldTypesRowChangeEventHandler
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event proc_ReportFieldTypesRowDeleting As proc_ReportFieldTypesRowChangeEventHandler
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event proc_ReportFieldTypesRowDeleted As proc_ReportFieldTypesRowChangeEventHandler
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Overloads Sub Addproc_ReportFieldTypesRow(ByVal row As proc_ReportFieldTypesRow)
+            Me.Rows.Add(row)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Overloads Function Addproc_ReportFieldTypesRow(ByVal GUID_Field_Type As System.Guid, ByVal Name_Field_Type As String, ByVal GUID_TokenAttribute_Visible As System.Guid, ByVal Visible As Boolean, ByVal GUID_DataTypes__Ms_SQL_ As System.Guid, ByVal Name_DataTypes__Ms_SQL_ As String) As proc_ReportFieldTypesRow
+            Dim rowproc_ReportFieldTypesRow As proc_ReportFieldTypesRow = CType(Me.NewRow,proc_ReportFieldTypesRow)
+            Dim columnValuesArray() As Object = New Object() {GUID_Field_Type, Name_Field_Type, GUID_TokenAttribute_Visible, Visible, GUID_DataTypes__Ms_SQL_, Name_DataTypes__Ms_SQL_}
+            rowproc_ReportFieldTypesRow.ItemArray = columnValuesArray
+            Me.Rows.Add(rowproc_ReportFieldTypesRow)
+            Return rowproc_ReportFieldTypesRow
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Overrides Function Clone() As Global.System.Data.DataTable
+            Dim cln As proc_ReportFieldTypesDataTable = CType(MyBase.Clone,proc_ReportFieldTypesDataTable)
+            cln.InitVars
+            Return cln
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Function CreateInstance() As Global.System.Data.DataTable
+            Return New proc_ReportFieldTypesDataTable()
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Sub InitVars()
+            Me.columnGUID_Field_Type = MyBase.Columns("GUID_Field_Type")
+            Me.columnName_Field_Type = MyBase.Columns("Name_Field_Type")
+            Me.columnGUID_TokenAttribute_Visible = MyBase.Columns("GUID_TokenAttribute_Visible")
+            Me.columnVisible = MyBase.Columns("Visible")
+            Me.columnGUID_DataTypes__Ms_SQL_ = MyBase.Columns("GUID_DataTypes__Ms_SQL_")
+            Me.columnName_DataTypes__Ms_SQL_ = MyBase.Columns("Name_DataTypes__Ms_SQL_")
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Private Sub InitClass()
+            Me.columnGUID_Field_Type = New Global.System.Data.DataColumn("GUID_Field_Type", GetType(Global.System.Guid), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnGUID_Field_Type)
+            Me.columnName_Field_Type = New Global.System.Data.DataColumn("Name_Field_Type", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnName_Field_Type)
+            Me.columnGUID_TokenAttribute_Visible = New Global.System.Data.DataColumn("GUID_TokenAttribute_Visible", GetType(Global.System.Guid), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnGUID_TokenAttribute_Visible)
+            Me.columnVisible = New Global.System.Data.DataColumn("Visible", GetType(Boolean), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnVisible)
+            Me.columnGUID_DataTypes__Ms_SQL_ = New Global.System.Data.DataColumn("GUID_DataTypes__Ms_SQL_", GetType(Global.System.Guid), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnGUID_DataTypes__Ms_SQL_)
+            Me.columnName_DataTypes__Ms_SQL_ = New Global.System.Data.DataColumn("Name_DataTypes__Ms_SQL_", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnName_DataTypes__Ms_SQL_)
+            Me.columnGUID_Field_Type.AllowDBNull = false
+            Me.columnName_Field_Type.AllowDBNull = false
+            Me.columnName_Field_Type.MaxLength = 255
+            Me.columnGUID_TokenAttribute_Visible.AllowDBNull = false
+            Me.columnVisible.AllowDBNull = false
+            Me.columnGUID_DataTypes__Ms_SQL_.AllowDBNull = false
+            Me.columnName_DataTypes__Ms_SQL_.AllowDBNull = false
+            Me.columnName_DataTypes__Ms_SQL_.MaxLength = 255
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function Newproc_ReportFieldTypesRow() As proc_ReportFieldTypesRow
+            Return CType(Me.NewRow,proc_ReportFieldTypesRow)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Function NewRowFromBuilder(ByVal builder As Global.System.Data.DataRowBuilder) As Global.System.Data.DataRow
+            Return New proc_ReportFieldTypesRow(builder)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Function GetRowType() As Global.System.Type
+            Return GetType(proc_ReportFieldTypesRow)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowChanged(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowChanged(e)
+            If (Not (Me.proc_ReportFieldTypesRowChangedEvent) Is Nothing) Then
+                RaiseEvent proc_ReportFieldTypesRowChanged(Me, New proc_ReportFieldTypesRowChangeEvent(CType(e.Row,proc_ReportFieldTypesRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowChanging(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowChanging(e)
+            If (Not (Me.proc_ReportFieldTypesRowChangingEvent) Is Nothing) Then
+                RaiseEvent proc_ReportFieldTypesRowChanging(Me, New proc_ReportFieldTypesRowChangeEvent(CType(e.Row,proc_ReportFieldTypesRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowDeleted(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowDeleted(e)
+            If (Not (Me.proc_ReportFieldTypesRowDeletedEvent) Is Nothing) Then
+                RaiseEvent proc_ReportFieldTypesRowDeleted(Me, New proc_ReportFieldTypesRowChangeEvent(CType(e.Row,proc_ReportFieldTypesRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowDeleting(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowDeleting(e)
+            If (Not (Me.proc_ReportFieldTypesRowDeletingEvent) Is Nothing) Then
+                RaiseEvent proc_ReportFieldTypesRowDeleting(Me, New proc_ReportFieldTypesRowChangeEvent(CType(e.Row,proc_ReportFieldTypesRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub Removeproc_ReportFieldTypesRow(ByVal row As proc_ReportFieldTypesRow)
+            Me.Rows.Remove(row)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Shared Function GetTypedTableSchema(ByVal xs As Global.System.Xml.Schema.XmlSchemaSet) As Global.System.Xml.Schema.XmlSchemaComplexType
+            Dim type As Global.System.Xml.Schema.XmlSchemaComplexType = New Global.System.Xml.Schema.XmlSchemaComplexType()
+            Dim sequence As Global.System.Xml.Schema.XmlSchemaSequence = New Global.System.Xml.Schema.XmlSchemaSequence()
+            Dim ds As DataSet_Reports = New DataSet_Reports()
+            Dim any1 As Global.System.Xml.Schema.XmlSchemaAny = New Global.System.Xml.Schema.XmlSchemaAny()
+            any1.Namespace = "http://www.w3.org/2001/XMLSchema"
+            any1.MinOccurs = New Decimal(0)
+            any1.MaxOccurs = Decimal.MaxValue
+            any1.ProcessContents = Global.System.Xml.Schema.XmlSchemaContentProcessing.Lax
+            sequence.Items.Add(any1)
+            Dim any2 As Global.System.Xml.Schema.XmlSchemaAny = New Global.System.Xml.Schema.XmlSchemaAny()
+            any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1"
+            any2.MinOccurs = New Decimal(1)
+            any2.ProcessContents = Global.System.Xml.Schema.XmlSchemaContentProcessing.Lax
+            sequence.Items.Add(any2)
+            Dim attribute1 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
+            attribute1.Name = "namespace"
+            attribute1.FixedValue = ds.Namespace
+            type.Attributes.Add(attribute1)
+            Dim attribute2 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
+            attribute2.Name = "tableTypeName"
+            attribute2.FixedValue = "proc_ReportFieldTypesDataTable"
             type.Attributes.Add(attribute2)
             type.Particle = sequence
             Dim dsSchema As Global.System.Xml.Schema.XmlSchema = ds.GetSchemaSerializable
@@ -4244,6 +4619,17 @@ Partial Public Class DataSet_Reports
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property name_type() As String
+            Get
+                Return CType(Me(Me.tabledtbl_Columns.name_typeColumn),String)
+            End Get
+            Set
+                Me(Me.tabledtbl_Columns.name_typeColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Function IsnameNull() As Boolean
             Return Me.IsNull(Me.tabledtbl_Columns.nameColumn)
         End Function
@@ -4514,6 +4900,88 @@ Partial Public Class DataSet_Reports
             End Get
             Set
                 Me(Me.tableproc_XML_Variable.Name_VariableColumn) = value
+            End Set
+        End Property
+    End Class
+    
+    '''<summary>
+    '''Represents strongly named DataRow class.
+    '''</summary>
+    Partial Public Class proc_ReportFieldTypesRow
+        Inherits Global.System.Data.DataRow
+        
+        Private tableproc_ReportFieldTypes As proc_ReportFieldTypesDataTable
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Sub New(ByVal rb As Global.System.Data.DataRowBuilder)
+            MyBase.New(rb)
+            Me.tableproc_ReportFieldTypes = CType(Me.Table,proc_ReportFieldTypesDataTable)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property GUID_Field_Type() As System.Guid
+            Get
+                Return CType(Me(Me.tableproc_ReportFieldTypes.GUID_Field_TypeColumn),Global.System.Guid)
+            End Get
+            Set
+                Me(Me.tableproc_ReportFieldTypes.GUID_Field_TypeColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Name_Field_Type() As String
+            Get
+                Return CType(Me(Me.tableproc_ReportFieldTypes.Name_Field_TypeColumn),String)
+            End Get
+            Set
+                Me(Me.tableproc_ReportFieldTypes.Name_Field_TypeColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property GUID_TokenAttribute_Visible() As System.Guid
+            Get
+                Return CType(Me(Me.tableproc_ReportFieldTypes.GUID_TokenAttribute_VisibleColumn),Global.System.Guid)
+            End Get
+            Set
+                Me(Me.tableproc_ReportFieldTypes.GUID_TokenAttribute_VisibleColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Visible() As Boolean
+            Get
+                Return CType(Me(Me.tableproc_ReportFieldTypes.VisibleColumn),Boolean)
+            End Get
+            Set
+                Me(Me.tableproc_ReportFieldTypes.VisibleColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property GUID_DataTypes__Ms_SQL_() As System.Guid
+            Get
+                Return CType(Me(Me.tableproc_ReportFieldTypes.GUID_DataTypes__Ms_SQL_Column),Global.System.Guid)
+            End Get
+            Set
+                Me(Me.tableproc_ReportFieldTypes.GUID_DataTypes__Ms_SQL_Column) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Name_DataTypes__Ms_SQL_() As String
+            Get
+                Return CType(Me(Me.tableproc_ReportFieldTypes.Name_DataTypes__Ms_SQL_Column),String)
+            End Get
+            Set
+                Me(Me.tableproc_ReportFieldTypes.Name_DataTypes__Ms_SQL_Column) = value
             End Set
         End Property
     End Class
@@ -4887,6 +5355,42 @@ Partial Public Class DataSet_Reports
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public ReadOnly Property Row() As proc_XML_VariableRow
+            Get
+                Return Me.eventRow
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Action() As Global.System.Data.DataRowAction
+            Get
+                Return Me.eventAction
+            End Get
+        End Property
+    End Class
+    
+    '''<summary>
+    '''Row event argument class
+    '''</summary>
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+    Public Class proc_ReportFieldTypesRowChangeEvent
+        Inherits Global.System.EventArgs
+        
+        Private eventRow As proc_ReportFieldTypesRow
+        
+        Private eventAction As Global.System.Data.DataRowAction
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub New(ByVal row As proc_ReportFieldTypesRow, ByVal action As Global.System.Data.DataRowAction)
+            MyBase.New
+            Me.eventRow = row
+            Me.eventAction = action
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Row() As proc_ReportFieldTypesRow
             Get
                 Return Me.eventRow
             End Get
@@ -6027,6 +6531,7 @@ Namespace DataSet_ReportsTableAdapters
             tableMapping.SourceTable = "Table"
             tableMapping.DataSetTable = "dtbl_Columns"
             tableMapping.ColumnMappings.Add("name", "name")
+            tableMapping.ColumnMappings.Add("name_type", "name_type")
             Me._adapter.TableMappings.Add(tableMapping)
         End Sub
         
@@ -6043,8 +6548,10 @@ Namespace DataSet_ReportsTableAdapters
             Me._commandCollection = New Global.System.Data.SqlClient.SqlCommand(0) {}
             Me._commandCollection(0) = New Global.System.Data.SqlClient.SqlCommand()
             Me._commandCollection(0).Connection = Me.Connection
-            Me._commandCollection(0).CommandText = "SELECT sys.columns.name"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"FROM sys.columns"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"INNER JOIN sys.objects ON sys.objects."& _ 
-                "object_id = sys.columns.object_id"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"WHERE sys.objects.name=@Name_View"
+            Me._commandCollection(0).CommandText = "SELECT sys.columns.name,sys.types.name AS name_type"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"FROM sys.columns"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"INNER JOIN"& _ 
+                " sys.types ON sys.types.system_type_id = sys.columns.system_type_id"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"INNER JOIN "& _ 
+                "sys.objects ON sys.objects.object_id = sys.columns.object_id"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"WHERE sys.objects."& _ 
+                "name=@Name_View"
             Me._commandCollection(0).CommandType = Global.System.Data.CommandType.Text
             Me._commandCollection(0).Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Name_View", Global.System.Data.SqlDbType.NVarChar, 256, Global.System.Data.ParameterDirection.Input, 0, 0, "name", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
         End Sub
@@ -6589,6 +7096,229 @@ Namespace DataSet_ReportsTableAdapters
                 Me.Adapter.SelectCommand.Parameters(1).Value = Global.System.DBNull.Value
             End If
             Dim dataTable As DataSet_Reports.proc_XML_VariableDataTable = New DataSet_Reports.proc_XML_VariableDataTable()
+            Me.Adapter.Fill(dataTable)
+            Return dataTable
+        End Function
+    End Class
+    
+    '''<summary>
+    '''Represents the connection and commands used to retrieve and save data.
+    '''</summary>
+    <Global.System.ComponentModel.DesignerCategoryAttribute("code"),  _
+     Global.System.ComponentModel.ToolboxItem(true),  _
+     Global.System.ComponentModel.DataObjectAttribute(true),  _
+     Global.System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner"& _ 
+        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"),  _
+     Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
+    Partial Public Class proc_ReportFieldTypesTableAdapter
+        Inherits Global.System.ComponentModel.Component
+        
+        Private WithEvents _adapter As Global.System.Data.SqlClient.SqlDataAdapter
+        
+        Private _connection As Global.System.Data.SqlClient.SqlConnection
+        
+        Private _transaction As Global.System.Data.SqlClient.SqlTransaction
+        
+        Private _commandCollection() As Global.System.Data.SqlClient.SqlCommand
+        
+        Private _clearBeforeFill As Boolean
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub New()
+            MyBase.New
+            Me.ClearBeforeFill = true
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Friend ReadOnly Property Adapter() As Global.System.Data.SqlClient.SqlDataAdapter
+            Get
+                If (Me._adapter Is Nothing) Then
+                    Me.InitAdapter
+                End If
+                Return Me._adapter
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Property Connection() As Global.System.Data.SqlClient.SqlConnection
+            Get
+                If (Me._connection Is Nothing) Then
+                    Me.InitConnection
+                End If
+                Return Me._connection
+            End Get
+            Set
+                Me._connection = value
+                If (Not (Me.Adapter.InsertCommand) Is Nothing) Then
+                    Me.Adapter.InsertCommand.Connection = value
+                End If
+                If (Not (Me.Adapter.DeleteCommand) Is Nothing) Then
+                    Me.Adapter.DeleteCommand.Connection = value
+                End If
+                If (Not (Me.Adapter.UpdateCommand) Is Nothing) Then
+                    Me.Adapter.UpdateCommand.Connection = value
+                End If
+                Dim i As Integer = 0
+                Do While (i < Me.CommandCollection.Length)
+                    If (Not (Me.CommandCollection(i)) Is Nothing) Then
+                        CType(Me.CommandCollection(i),Global.System.Data.SqlClient.SqlCommand).Connection = value
+                    End If
+                    i = (i + 1)
+                Loop
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Property Transaction() As Global.System.Data.SqlClient.SqlTransaction
+            Get
+                Return Me._transaction
+            End Get
+            Set
+                Me._transaction = value
+                Dim i As Integer = 0
+                Do While (i < Me.CommandCollection.Length)
+                    Me.CommandCollection(i).Transaction = Me._transaction
+                    i = (i + 1)
+                Loop
+                If ((Not (Me.Adapter) Is Nothing)  _
+                            AndAlso (Not (Me.Adapter.DeleteCommand) Is Nothing)) Then
+                    Me.Adapter.DeleteCommand.Transaction = Me._transaction
+                End If
+                If ((Not (Me.Adapter) Is Nothing)  _
+                            AndAlso (Not (Me.Adapter.InsertCommand) Is Nothing)) Then
+                    Me.Adapter.InsertCommand.Transaction = Me._transaction
+                End If
+                If ((Not (Me.Adapter) Is Nothing)  _
+                            AndAlso (Not (Me.Adapter.UpdateCommand) Is Nothing)) Then
+                    Me.Adapter.UpdateCommand.Transaction = Me._transaction
+                End If
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected ReadOnly Property CommandCollection() As Global.System.Data.SqlClient.SqlCommand()
+            Get
+                If (Me._commandCollection Is Nothing) Then
+                    Me.InitCommandCollection
+                End If
+                Return Me._commandCollection
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property ClearBeforeFill() As Boolean
+            Get
+                Return Me._clearBeforeFill
+            End Get
+            Set
+                Me._clearBeforeFill = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Private Sub InitAdapter()
+            Me._adapter = New Global.System.Data.SqlClient.SqlDataAdapter()
+            Dim tableMapping As Global.System.Data.Common.DataTableMapping = New Global.System.Data.Common.DataTableMapping()
+            tableMapping.SourceTable = "Table"
+            tableMapping.DataSetTable = "proc_ReportFieldTypes"
+            tableMapping.ColumnMappings.Add("GUID_Field_Type", "GUID_Field_Type")
+            tableMapping.ColumnMappings.Add("Name_Field_Type", "Name_Field_Type")
+            tableMapping.ColumnMappings.Add("GUID_TokenAttribute_Visible", "GUID_TokenAttribute_Visible")
+            tableMapping.ColumnMappings.Add("Visible", "Visible")
+            tableMapping.ColumnMappings.Add("GUID_DataTypes__Ms_SQL_", "GUID_DataTypes__Ms_SQL_")
+            tableMapping.ColumnMappings.Add("Name_DataTypes__Ms_SQL_", "Name_DataTypes__Ms_SQL_")
+            Me._adapter.TableMappings.Add(tableMapping)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Private Sub InitConnection()
+            Me._connection = New Global.System.Data.SqlClient.SqlConnection()
+            Me._connection.ConnectionString = Global.ReportsTest.My.MySettings.Default.sem_db_home_reportsviewer_moduleConnectionString
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Private Sub InitCommandCollection()
+            Me._commandCollection = New Global.System.Data.SqlClient.SqlCommand(0) {}
+            Me._commandCollection(0) = New Global.System.Data.SqlClient.SqlCommand()
+            Me._commandCollection(0).Connection = Me.Connection
+            Me._commandCollection(0).CommandText = "dbo.proc_ReportFieldTypes"
+            Me._commandCollection(0).CommandType = Global.System.Data.CommandType.StoredProcedure
+            Me._commandCollection(0).Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@RETURN_VALUE", Global.System.Data.SqlDbType.Int, 4, Global.System.Data.ParameterDirection.ReturnValue, 10, 0, Nothing, Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._commandCollection(0).Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@GUID_Attribute_Visible", Global.System.Data.SqlDbType.UniqueIdentifier, 16, Global.System.Data.ParameterDirection.Input, 0, 0, Nothing, Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._commandCollection(0).Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@GUID_Type_FieldType", Global.System.Data.SqlDbType.UniqueIdentifier, 16, Global.System.Data.ParameterDirection.Input, 0, 0, Nothing, Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._commandCollection(0).Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@GUID_Type_MSSQLTypes", Global.System.Data.SqlDbType.UniqueIdentifier, 16, Global.System.Data.ParameterDirection.Input, 0, 0, Nothing, Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._commandCollection(0).Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@GUID_RelationType_isOfType", Global.System.Data.SqlDbType.UniqueIdentifier, 16, Global.System.Data.ParameterDirection.Input, 0, 0, Nothing, Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
+         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Fill, true)>  _
+        Public Overloads Overridable Function Fill(ByVal dataTable As DataSet_Reports.proc_ReportFieldTypesDataTable, ByVal GUID_Attribute_Visible As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_FieldType As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_MSSQLTypes As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_isOfType As Global.System.Nullable(Of Global.System.Guid)) As Integer
+            Me.Adapter.SelectCommand = Me.CommandCollection(0)
+            If (GUID_Attribute_Visible.HasValue = true) Then
+                Me.Adapter.SelectCommand.Parameters(1).Value = CType(GUID_Attribute_Visible.Value,System.Guid)
+            Else
+                Me.Adapter.SelectCommand.Parameters(1).Value = Global.System.DBNull.Value
+            End If
+            If (GUID_Type_FieldType.HasValue = true) Then
+                Me.Adapter.SelectCommand.Parameters(2).Value = CType(GUID_Type_FieldType.Value,System.Guid)
+            Else
+                Me.Adapter.SelectCommand.Parameters(2).Value = Global.System.DBNull.Value
+            End If
+            If (GUID_Type_MSSQLTypes.HasValue = true) Then
+                Me.Adapter.SelectCommand.Parameters(3).Value = CType(GUID_Type_MSSQLTypes.Value,System.Guid)
+            Else
+                Me.Adapter.SelectCommand.Parameters(3).Value = Global.System.DBNull.Value
+            End If
+            If (GUID_RelationType_isOfType.HasValue = true) Then
+                Me.Adapter.SelectCommand.Parameters(4).Value = CType(GUID_RelationType_isOfType.Value,System.Guid)
+            Else
+                Me.Adapter.SelectCommand.Parameters(4).Value = Global.System.DBNull.Value
+            End If
+            If (Me.ClearBeforeFill = true) Then
+                dataTable.Clear
+            End If
+            Dim returnValue As Integer = Me.Adapter.Fill(dataTable)
+            Return returnValue
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
+         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.[Select], true)>  _
+        Public Overloads Overridable Function GetData(ByVal GUID_Attribute_Visible As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_FieldType As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_Type_MSSQLTypes As Global.System.Nullable(Of Global.System.Guid), ByVal GUID_RelationType_isOfType As Global.System.Nullable(Of Global.System.Guid)) As DataSet_Reports.proc_ReportFieldTypesDataTable
+            Me.Adapter.SelectCommand = Me.CommandCollection(0)
+            If (GUID_Attribute_Visible.HasValue = true) Then
+                Me.Adapter.SelectCommand.Parameters(1).Value = CType(GUID_Attribute_Visible.Value,System.Guid)
+            Else
+                Me.Adapter.SelectCommand.Parameters(1).Value = Global.System.DBNull.Value
+            End If
+            If (GUID_Type_FieldType.HasValue = true) Then
+                Me.Adapter.SelectCommand.Parameters(2).Value = CType(GUID_Type_FieldType.Value,System.Guid)
+            Else
+                Me.Adapter.SelectCommand.Parameters(2).Value = Global.System.DBNull.Value
+            End If
+            If (GUID_Type_MSSQLTypes.HasValue = true) Then
+                Me.Adapter.SelectCommand.Parameters(3).Value = CType(GUID_Type_MSSQLTypes.Value,System.Guid)
+            Else
+                Me.Adapter.SelectCommand.Parameters(3).Value = Global.System.DBNull.Value
+            End If
+            If (GUID_RelationType_isOfType.HasValue = true) Then
+                Me.Adapter.SelectCommand.Parameters(4).Value = CType(GUID_RelationType_isOfType.Value,System.Guid)
+            Else
+                Me.Adapter.SelectCommand.Parameters(4).Value = Global.System.DBNull.Value
+            End If
+            Dim dataTable As DataSet_Reports.proc_ReportFieldTypesDataTable = New DataSet_Reports.proc_ReportFieldTypesDataTable()
             Me.Adapter.Fill(dataTable)
             Return dataTable
         End Function
