@@ -199,6 +199,84 @@ Public Class UserControl_References
     Private funcA_TokenAttribute_Named_By_GUIDToken As New ds_TokenAttributeTableAdapters.func_TokenAttribute_Named_By_GUIDTokenTableAdapter
     Private procA_ProcessThins_Of_ProcessLocDataTable As New ds_ProcessTableAdapters.proc_ProcessThins_Of_ProcessLocTableAdapter
 
+    Public ReadOnly Property tbl_Application As ds_Token.func_TokenTokenDataTable
+        Get
+            Return semtblT_Application
+        End Get
+    End Property
+
+    Public ReadOnly Property tbl_Belonging As ds_ObjectReference.func_Token_ORDataTable
+        Get
+            Return semtblT_Belonging
+        End Get
+    End Property
+
+    Public ReadOnly Property tbl_Document As ds_ObjectReference.func_Token_ORDataTable
+        Get
+            Return semtblT_Document
+        End Get
+    End Property
+
+    Public ReadOnly Property tbl_File As ds_Token.func_TokenTokenDataTable
+        Get
+            Return semtblT_File
+        End Get
+    End Property
+
+    Public ReadOnly Property tbl_Folder As ds_Token.func_TokenTokenDataTable
+        Get
+            Return semtblT_Folder
+        End Get
+    End Property
+
+    Public ReadOnly Property tbl_Group As ds_Token.func_TokenTokenDataTable
+        Get
+            Return semtblT_Group
+        End Get
+    End Property
+
+    Public ReadOnly Property tbl_Manual As ds_Token.func_TokenTokenDataTable
+        Get
+            Return semtblT_Manual
+        End Get
+    End Property
+
+    Public ReadOnly Property tbl_Media As ds_Token.func_TokenTokenDataTable
+        Get
+            Return semtblT_Media
+        End Get
+    End Property
+
+    Public ReadOnly Property tbl_Needs As ds_ObjectReference.func_Token_ORDataTable
+        Get
+            Return semtblT_Needs
+        End Get
+    End Property
+
+    Public ReadOnly Property tbl_NeedsChild As ds_ObjectReference.func_Token_ORDataTable
+        Get
+            Return semtblT_NeedsChild
+        End Get
+    End Property
+
+    Public ReadOnly Property tbl_Responsiblity As ds_Token.func_TokenTokenDataTable
+        Get
+            Return semtblT_Responsiblity
+        End Get
+    End Property
+
+    Public ReadOnly Property tbl_Role As ds_Token.func_TokenTokenDataTable
+        Get
+            Return semtblT_Role
+        End Get
+    End Property
+
+    Public ReadOnly Property tbl_User As ds_Token.func_TokenTokenDataTable
+        Get
+            Return semtblT_User
+        End Get
+    End Property
+
     Private Sub applied_File(ByVal objDGVSRC_Files As DataGridViewSelectedRowCollection, ByVal strRowName_GUID As String) Handles objFrm_FileSystemManagement.applied_FileSystemItem_DataGrid
         Dim objDGVR_File As DataGridViewRow
         Dim objDRV_File As DataRowView
@@ -216,7 +294,7 @@ Public Class UserControl_References
             semtblT_File.Rows.Add(objDRV_File.Item("GUID_File"), _
                                   objDRV_File.Item("Name_File"), _
                                   objDRV_File.Item("GUID_Type_File"))
-            
+
 
 
         Next
@@ -243,7 +321,7 @@ Public Class UserControl_References
         Else
             MsgBox("Die Datei kann nicht hinzugefügt werden!", MsgBoxStyle.Exclamation)
         End If
-        
+
     End Sub
 
     Private Sub applied_Folder(ByVal objSemItem_FileSystemObject As clsSemItem) Handles objFrm_FileSystemManagement.applied_FileSystemItem_Tree
@@ -275,7 +353,7 @@ Public Class UserControl_References
         Else
             MsgBox("Der Ordner kann nicht hinzugefügt werden!", MsgBoxStyle.Exclamation)
         End If
-        
+
 
     End Sub
 
@@ -406,6 +484,17 @@ Public Class UserControl_References
 
         ToolStripProgressBar_References.Maximum = 18
         Timer_References.Start()
+    End Sub
+
+    Public Sub get_References_SUB(ByVal SemItem_Process As clsSemItem, Optional ByVal SemItem_ProcessLog As clsSemItem = Nothing)
+
+        objSemItem_Process = SemItem_Process
+        objSemItem_ProcessLog = SemItem_ProcessLog
+
+        clear_Tables()
+        abort_Thread()
+        get_ProcessRefs()
+
     End Sub
 
     Private Sub clear_Tables()
@@ -1128,7 +1217,7 @@ Public Class UserControl_References
                                                                              objLocalConfig.SemItem_RelationType_contains.GUID, _
                                                                              objLocalConfig.SemItem_RelationType_belonging_Material.GUID, _
                                                                              objSemItem_ProcessLogRef.GUID)
-            
+
         Else
             intRowLog_Material = -1
         End If
@@ -1378,7 +1467,7 @@ Public Class UserControl_References
             End If
 
             If boolDone_Needs = True And intRowDone_Needs < intRowCount_Needs Then
-                
+
                 Select Case semtblT_Needs.Rows(intRowDone_belonging).Item("GUID_ItemType")
                     Case objLocalConfig.Globals.ObjectReferenceType_Attribute.GUID
                         If intRowDone_Needs < intRowLog_Needs And intRowLog_Needs > 0 Then
@@ -1693,7 +1782,7 @@ Public Class UserControl_References
                     End If
                 End If
             Case cint_ImageID_Belongings
-               
+
                 objFrmSemManager = New frmSemManager(objLocalConfig.Globals)
                 objFrmSemManager.Applyabale = True
                 objFrmSemManager.ShowDialog(Me)
@@ -1978,12 +2067,12 @@ Public Class UserControl_References
                                                                                    intImage, intImage)
                                             End If
                                         Next
-                                        
+
                                     Else
                                         objTransaction_References.del_003_ORRef()
                                     End If
                                 End If
-                                
+
 
                             Case objLocalConfig.Globals.ObjectReferenceType_RelationType.GUID
                             Case objLocalConfig.Globals.ObjectReferenceType_Attribute.GUID
@@ -1992,7 +2081,7 @@ Public Class UserControl_References
                     Else
                         MsgBox("Die Process-Ref kann nicht gespeichert werden!", MsgBoxStyle.Exclamation)
                     End If
-                    
+
                 End If
             Case cint_ImageID_Refs
 
@@ -2222,7 +2311,7 @@ Public Class UserControl_References
                 End If
         End Select
     End Sub
-    
+
 
     Private Sub RemoveToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveToolStripMenuItem.Click
         Dim objTreeNode As TreeNode
@@ -2343,7 +2432,7 @@ Public Class UserControl_References
             Else
                 MsgBox("Die Referenz konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
             End If
-            
+
         End If
     End Sub
 
@@ -2430,7 +2519,7 @@ Public Class UserControl_References
 
 
             End If
-            
+
         End If
     End Sub
 End Class

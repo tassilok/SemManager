@@ -4,8 +4,11 @@ Imports OrganisationalTransactions
 Public Class clsImageInfo
     Private objBlobConnection As clsBlobConnection
     Private objLocalConfig As clsLocalConfig
+    Private procA_Image_Of_Or As New ds_ImageModuleTableAdapters.proc_Image_Of_OrTableAdapter
+    Private procT_Image_Of_Or As New ds_ImageModule.proc_Image_Of_OrDataTable
     Private procA_Images_And_Files As New ds_ImageModuleTableAdapters.proc_Images_And_FilesTableAdapter
     Private funcA_TokenToken As New ds_TokenTableAdapters.func_TokenTokenTableAdapter
+    Private semfuncA_ObjectReference As New ds_ObjectReferenceTableAdapters.semfunc_ObjectReferenceTableAdapter
 
     Private semtblA_Token As New ds_SemDBTableAdapters.semtbl_TokenTableAdapter
 
@@ -16,8 +19,20 @@ Public Class clsImageInfo
     Private objSemItem_Month As clsSemItem
     Private objSemItem_Day As clsSemItem
 
+    Public ReadOnly Property Rows_Images() As DataRowCollection
+        Get
+            Return procT_Image_Of_Or.Rows
+        End Get
+    End Property
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
+
+        initialize()
+    End Sub
+
+    Public Sub New(ByVal Globals As clsGlobals)
+        objLocalConfig = New clsLocalConfig(Globals)
 
         initialize()
     End Sub
@@ -26,6 +41,25 @@ Public Class clsImageInfo
         set_DBConnection()
     End Sub
 
+    Public Function get_Images(ByVal SemItem_Ref As clsSemItem) As clsSemItem
+        Dim objDRC_OR As DataRowCollection
+        Dim objSemItem_Result As clsSemItem
+
+        objDRC_OR = semfuncA_ObjectReference.GetData_By_GUID_Ref(SemItem_Ref.GUID).Rows
+        If objDRC_OR.Count > 0 Then
+            procA_Image_Of_Or.Fill(procT_Image_Of_Or, _
+                                   objLocalConfig.SemItem_Type_Images__Graphic_.GUID, _
+                                   objLocalConfig.SemItem_Type_File.GUID, _
+                                   objLocalConfig.SemItem_RelationType_belongsTo.GUID, _
+                                   objLocalConfig.SemItem_RelationType_belonging_Source.GUID, _
+                                   objDRC_OR(0).Item("GUID_ObjectReference"))
+            objSemItem_Result = objLocalConfig.Globals.LogState_Success
+        Else
+            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+        End If
+
+        Return objSemItem_Result
+    End Function
 
     Public Sub start_Getting_Chronical()
         Dim objDRC_Images As DataRowCollection
@@ -171,6 +205,8 @@ Public Class clsImageInfo
         semtblA_Token.Connection = objLocalConfig.Connection_DB
         procA_Images_And_Files.Connection = objLocalConfig.Connection_Plugin
         funcA_TokenToken.Connection = objLocalConfig.Connection_DB
+        procA_Image_Of_Or.Connection = objLocalConfig.Connection_Plugin
+        semfuncA_ObjectReference.Connection = objLocalConfig.Connection_DB
 
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
         objTransaction_Image = New clsTransaction_Imagevb(objLocalConfig)

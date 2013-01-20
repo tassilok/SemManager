@@ -47,7 +47,7 @@
     <ApplicationIcon>WINWORD_1.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Filesystem-Management, Version=0.1.0.75, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Filesystem-Management, Version=0.1.0.76, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <ExecutableExtension>.exe</ExecutableExtension>
       <HintPath>..\..\Filesystem-Management\Filesystem-Management\bin\Debug\Filesystem-Management.exe</HintPath>

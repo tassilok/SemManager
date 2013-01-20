@@ -1,5 +1,6 @@
 ﻿Imports Sem_Manager
 Imports MediaViewer_Module
+Imports HTMLExport_Module
 Public Class UserControl_Process
 
     Private Const cint_ImageID_Root As Integer = 0
@@ -16,6 +17,7 @@ Public Class UserControl_Process
 
     Private semtblA_Token As New ds_SemDBTableAdapters.semtbl_TokenTableAdapter
     Private funcA_TokenToken As New ds_TokenTableAdapters.func_TokenTokenTableAdapter
+    Private funcA_TokenAttribute_Named_By_GUIDToken As New ds_TokenAttributeTableAdapters.func_TokenAttribute_Named_By_GUIDTokenTableAdapter
     Private procA_Processes_Public As New ds_ProcessTableAdapters.proc_Processes_PublicTableAdapter
     Private procA_TokenToken_LeftRight_Tree As New ds_TokenTableAdapters.proc_TokenToken_LeftRight_TreeTableAdapter
     Private procT_TokenToken_LeftRight_Tree As New ds_Token.proc_TokenToken_LeftRight_TreeDataTable
@@ -28,13 +30,16 @@ Public Class UserControl_Process
 
     Private objFrm_TokenEdit As frmTokenEdit
     Private objFrmProcessModule As frmProcessModule
+    Private objImageWork As clsImageInfo
     Private objDlgAttribute_VARCHAR255 As dlgAttribute_Varchar255
     Private objTransaction_Process As clsTransaction_Process
     Private objThread_Process As Threading.Thread
 
+    Private objHTMLCreation As clsHTMLCreation
 
     Private objSemItem_Result As clsSemItem
     Private objSemItems_Language() As clsSemItem
+
 
     Private boolDo_Read_Process As Boolean
     Private boolMark As Boolean
@@ -62,6 +67,7 @@ Public Class UserControl_Process
     Public ReadOnly Property SemItem_Result As clsSemItem
         Get
             Return objSemItem_Result
+
         End Get
     End Property
 
@@ -181,6 +187,7 @@ Public Class UserControl_Process
     Private Sub set_DBConnection()
         semtblA_Token.Connection = objLocalConfig.Connection_DB
         funcA_TokenToken.Connection = objLocalConfig.Connection_DB
+        funcA_TokenAttribute_Named_By_GUIDToken.Connection = objLocalConfig.Connection_DB
         procA_Processes_Public.Connection = objLocalConfig.Connection_Plugin
         procA_TokenToken_LeftRight_Tree.Connection = objLocalConfig.Connection_DB
         procA_get_new_Position_Process.Connection = objLocalConfig.Connection_Plugin
@@ -188,6 +195,9 @@ Public Class UserControl_Process
         procA_supported_Languages.Connection = objLocalConfig.Connection_Plugin
 
         objTransaction_Process = New clsTransaction_Process(objLocalConfig)
+        objHTMLCreation = New clsHTMLCreation(objLocalConfig.Globals, Nothing, Me)
+
+        objImageWork = New clsImageInfo(objLocalConfig.Globals)
     End Sub
 
     Private Sub Timer_Process_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Process.Tick
@@ -436,6 +446,7 @@ Public Class UserControl_Process
             CreateNewToolStripMenuItem.Enabled = True
             SelectExistingToolStripMenuItem.Enabled = True
             If objTreeNode.ImageIndex = cint_ImageID_Process Then
+                ExportHTMLToolStripMenuItem.Enabled = True
                 ApplyToolStripMenuItem.Enabled = True
                 RemoveToolStripMenuItem.Enabled = True
             End If
@@ -962,5 +973,579 @@ Public Class UserControl_Process
         End If
 
         fill_TabPages(objSemItem_Process)
+    End Sub
+
+    Private Sub ExportHTMLToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExportHTMLToolStripMenuItem.Click
+        Dim objTreeNode As TreeNode
+        Dim objSemItem_Process As New clsSemItem
+        Dim objSemItem_Result As clsSemItem
+        Dim strLine As String
+        Dim intLevel As Integer
+
+        objTreeNode = TreeView_Process.SelectedNode
+
+        If Not objTreeNode Is Nothing Then
+
+            objSemItem_Result = objHTMLCreation.initilialize_ExportFolder()
+
+            If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                objSemItem_Result = objHTMLCreation.open_TextWriter(objTreeNode.Name)
+                If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                    strLine = objHTMLCreation.get_HTML_Intro()
+                    objHTMLCreation.write_Line(strLine)
+
+
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_DocumentInit, False)
+                    objHTMLCreation.write_Line(strLine)
+
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Head, False)
+                    objHTMLCreation.write_Line(strLine)
+
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Title, False)
+                    objHTMLCreation.write_Line(strLine)
+
+                    objHTMLCreation.write_Line(objHTMLCreation.encode_HTML(objTreeNode.Text))
+
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Title, True)
+                    objHTMLCreation.write_Line(strLine)
+
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Head, True)
+                    objHTMLCreation.write_Line(strLine)
+
+
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Body, False)
+                    objHTMLCreation.write_Line(strLine)
+
+                    objSemItem_Process.GUID = New Guid(objTreeNode.Name)
+                    objSemItem_Process.Name = objTreeNode.Text
+                    objSemItem_Process.GUID_Parent = objLocalConfig.SemItem_Type_Process.GUID
+                    objSemItem_Process.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                    intLevel = 1
+
+                    strLine = objHTMLCreation.get_HTML_Heading(intLevel, False)
+                    objHTMLCreation.write_Line(strLine)
+
+                    strLine = objHTMLCreation.encode_HTML(objSemItem_Process.Name)
+                    objHTMLCreation.write_Line(strLine)
+                    strLine = objHTMLCreation.get_HTML_Heading(intLevel, True)
+                    objHTMLCreation.write_Line(strLine)
+
+                    export_HTML_Description(objSemItem_Process)
+                    export_HTML_Requirements(objSemItem_Process)
+                    export_HTML_Images(objSemItem_Process)
+
+                    export_HTML_Process(objSemItem_Process, intLevel)
+
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Body, True)
+                    objHTMLCreation.write_Line(strLine)
+
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_DocumentInit, False)
+                    objHTMLCreation.write_Line(strLine)
+
+                    objHTMLCreation.close_TextWriter()
+                End If
+
+                
+
+            End If
+            
+        End If
+    End Sub
+
+    Private Sub export_HTML_Process(ByVal SemItem_Process As clsSemItem, ByVal intLevel As Integer)
+        Dim objSemItem_Process_Sub As New clsSemItem
+
+        Dim objDRC_Processes As DataRowCollection
+        Dim objDR_Process As DataRow
+
+        Dim strLine As String
+
+        objDRC_Processes = funcA_TokenToken.GetData_LeftRight_Ordered_By_GUIDs(SemItem_Process.GUID, _
+                                                                               objLocalConfig.SemItem_Type_Process.GUID, _
+                                                                               objLocalConfig.SemItem_RelationType_superordinate.GUID, _
+                                                                         True).Rows
+        For Each objDR_Process In objDRC_Processes
+            objSemItem_Process_Sub.GUID = objDR_Process.Item("GUID_Token_Right")
+            objSemItem_Process_Sub.Name = objDR_Process.Item("Name_Token_Right")
+            objSemItem_Process_Sub.GUID_Parent = objLocalConfig.SemItem_Type_Process.GUID
+            objSemItem_Process_Sub.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+            strLine = objHTMLCreation.get_HTML_Heading(intLevel, False)
+            objHTMLCreation.write_Line(strLine)
+            strLine = objHTMLCreation.encode_HTML(objSemItem_Process_Sub.Name)
+            objHTMLCreation.write_Line(strLine)
+            strLine = objHTMLCreation.get_HTML_Heading(intLevel, True)
+            objHTMLCreation.write_Line(strLine)
+
+            export_HTML_Description(objSemItem_Process_Sub)
+            export_HTML_Requirements(objSemItem_Process_Sub)
+            export_HTML_Images(objSemItem_Process_Sub)
+
+            export_HTML_Process(objSemItem_Process_Sub, intLevel + 1)
+        Next
+
+    End Sub
+    Private Function export_HTML_Images(ByVal SemItem_Process As clsSemItem) As clsSemItem
+        Dim objSemIteM_Result As clsSemItem
+        Dim objDR_Image As DataRow
+        Dim objSemItem_File As New clsSemItem
+        Dim strLine As String
+
+        objSemIteM_Result = objImageWork.get_Images(SemItem_Process)
+        If objSemIteM_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+            strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Table, False)
+            objHTMLCreation.write_Line(strLine)
+            For Each objDR_Image In objImageWork.Rows_Images
+                objSemItem_File.GUID = objDR_Image.Item("GUID_File")
+                objSemItem_File.Name = objDR_Image.Item("Name_File")
+                objSemItem_File.GUID_Parent = objLocalConfig.SemItem_Type_File.GUID
+                objSemItem_File.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                objSemIteM_Result = objHTMLCreation.export_File(objSemItem_File)
+                If objSemIteM_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
+                    objHTMLCreation.write_Line(strLine)
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                    objHTMLCreation.write_Line(strLine)
+                    objHTMLCreation.add_Attribute(objHTMLCreation.SemItem_Attribute_SRC.Name, objSemIteM_Result.Additional1)
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Images, False)
+                    objHTMLCreation.write_Line(strLine)
+
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                    objHTMLCreation.write_Line(strLine)
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
+                    objHTMLCreation.write_Line(strLine)
+                End If
+            Next
+            strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Table, True)
+            objHTMLCreation.write_Line(strLine)
+        End If
+
+        Return objSemIteM_Result
+    End Function
+    Private Sub export_HTML_Description(ByVal SemItem_Process As clsSemItem)
+        Dim objDRC_Description As DataRowCollection
+        Dim strLine As String
+
+        objDRC_Description = funcA_TokenAttribute_Named_By_GUIDToken.GetData_By_GUIDToken_And_GUIDAttribute(SemItem_Process.GUID, _
+                                                                                                            objLocalConfig.SemItem_Attribute_Description.GUID).Rows
+
+        If objDRC_Description.Count > 0 Then
+            strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Paragraph, False)
+
+            strLine = objHTMLCreation.encode_HTML(objDRC_Description(0).Item("Val_VARCHARMAX"))
+            objHTMLCreation.write_Line(strLine)
+
+            strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Paragraph, True)
+            objHTMLCreation.write_Line(strLine)
+        End If
+    End Sub
+
+    Private Sub export_HTML_Requirements(ByVal SemItem_Process As clsSemItem)
+        Dim objDR_Item As DataRow
+        Dim strLine As String
+
+        objUserControl_References.get_References_SUB(SemItem_Process)
+
+        If objUserControl_References.tbl_Application.Count > 0 Or _
+            objUserControl_References.tbl_Belonging.Count > 0 Or _
+            objUserControl_References.tbl_Document.Count > 0 Or _
+            objUserControl_References.tbl_File.Count > 0 Or _
+            objUserControl_References.tbl_Group.Count > 0 Or _
+            objUserControl_References.tbl_Manual.Count > 0 Or _
+            objUserControl_References.tbl_Media.Count > 0 Or _
+            objUserControl_References.tbl_Needs.Count > 0 Or _
+            objUserControl_References.tbl_NeedsChild.Count > 0 Or _
+            objUserControl_References.tbl_NeedsChild.Count > 0 Or _
+            objUserControl_References.tbl_Responsiblity.Count > 0 Or _
+            objUserControl_References.tbl_Role.Count > 0 Or _
+            objUserControl_References.tbl_User.Count > 0 Then
+            objHTMLCreation.add_Attribute(objHTMLCreation.SemItem_Attribute_Border.Name, "1")
+
+            strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Table, False)
+            objHTMLCreation.write_Line(strLine)
+
+            strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
+            objHTMLCreation.write_Line(strLine)
+
+            strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+            objHTMLCreation.write_Line(strLine)
+
+            strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & "Type" & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
+            objHTMLCreation.write_Line(strLine)
+
+            strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+            objHTMLCreation.write_Line(strLine)
+
+            strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+            objHTMLCreation.write_Line(strLine)
+
+            strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & "Requirement" & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
+            objHTMLCreation.write_Line(strLine)
+
+            strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+            objHTMLCreation.write_Line(strLine)
+
+            strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
+            objHTMLCreation.write_Line(strLine)
+
+
+            For Each objDR_Item In objUserControl_References.tbl_Application.Rows
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_Type_Application.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
+                objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each objDR_Item In objUserControl_References.tbl_Belonging.Rows
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_RelationType_belonging_Sem_Item.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Ref"))
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
+                objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each objDR_Item In objUserControl_References.tbl_Document.Rows
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_RelationType_needed_Documentation.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Ref"))
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
+                objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each objDR_Item In objUserControl_References.tbl_File.Rows
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_Type_File.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
+                objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each objDR_Item In objUserControl_References.tbl_Folder.Rows
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_type_Folder.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
+                objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each objDR_Item In objUserControl_References.tbl_Group.Rows
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_Type_Group.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
+                objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each objDR_Item In objUserControl_References.tbl_Manual.Rows
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_Type_Manual.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
+                objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each objDR_Item In objUserControl_References.tbl_Media.Rows
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_Type_Media.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
+                objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each objDR_Item In objUserControl_References.tbl_Needs.Rows
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_RelationType_needs.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Ref"))
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
+                objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each objDR_Item In objUserControl_References.tbl_NeedsChild.Rows
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_RelationType_needs_Child.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Ref"))
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
+                objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each objDR_Item In objUserControl_References.tbl_Responsiblity.Rows
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_Type_responsibility.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
+                objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each objDR_Item In objUserControl_References.tbl_Role.Rows
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_Type_Role.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
+                objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each objDR_Item In objUserControl_References.tbl_User.Rows
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_type_User.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
+                objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
+                objHTMLCreation.write_Line(strLine)
+            Next
+
+            strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Table, True)
+            objHTMLCreation.write_Line(strLine)
+        End If
+
+        
     End Sub
 End Class
