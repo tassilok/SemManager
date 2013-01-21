@@ -1247,9 +1247,23 @@ Public Class UserControl_SceneTree
                 End If
 
             Case Keys.Up
-                If e.Control Then
-
+                objTreeNode_Selected = TreeView_Scenes.SelectedNode
+                If Not objTreeNode_Selected Is Nothing Then
+                    If e.Control Then
+                        move_Scene(True, objTreeNode_Selected)
+                    End If
                 End If
+                
+
+            Case Keys.Down
+                objTreeNode_Selected = TreeView_Scenes.SelectedNode
+                If Not objTreeNode_Selected Is Nothing Then
+                    If e.Control Then
+                        move_Scene(False, objTreeNode_Selected)
+
+                    End If
+                End If
+                
         End Select
     End Sub
 
@@ -1367,5 +1381,114 @@ Public Class UserControl_SceneTree
                     objFrmTokenEdit.ShowDialog(Me)
             End Select
         End If
+    End Sub
+
+    Private Sub move_Scene(ByVal boolUP As Boolean, ByVal objTreeNode_Scene As TreeNode)
+        Dim objTreeNode_Parent As TreeNode
+        Dim objTreeNode_Scene_New As TreeNode
+        Dim objTreeNodes() As TreeNode
+        Dim funcT_TokenToken As New ds_Token.func_TokenTokenDataTable
+        Dim objDRs_Scenes1() As DataRow
+        Dim objDRs_Scenes2() As DataRow
+        Dim objDR_Scene As DataRow
+        Dim objSemItem_Kapitel As New clsSemItem
+        Dim objSemItem_Scene_Old As New clsSemItem
+        Dim objSemItem_Scene_New As New clsSemItem
+        Dim objSemItem_Result As clsSemItem
+        Dim intOrderID_old As Integer
+        Dim intOrderID_new As Integer
+
+        objTreeNode_Parent = objTreeNode_Scene.Parent
+
+        If objTreeNode_Parent.ImageIndex = cint_ImageiD_Level2Rel_Close Then
+            objSemItem_Kapitel.GUID = New Guid(objTreeNode_Parent.Name)
+            objSemItem_Kapitel.Name = objTreeNode_Parent.Text
+            objSemItem_Kapitel.GUID_Parent = objLocalConfig.SemItem_Type_Kapitel.GUID
+            objSemItem_Kapitel.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+
+            funcA_TokenToken.Fill_LeftRight_Ordered_By_GUIDs(funcT_TokenToken, _
+                                                     New Guid(objTreeNode_Parent.Name), _
+                                                     objLocalConfig.SemItem_Type_Szene.GUID, _
+                                                     objLocalConfig.SemItem_RelationType_contains.GUID, True)
+            
+
+
+            objDRs_Scenes1 = funcT_TokenToken.Select("GUID_Token_Right='" & objTreeNode_Scene.Name & "'")
+            If objDRs_Scenes1.Count > 0 Then
+                objSemItem_Scene_Old.GUID = New Guid(objTreeNode_Scene.Name)
+                objSemItem_Scene_Old.Name = objTreeNode_Scene.Text
+                objSemItem_Scene_Old.GUID_Parent = objLocalConfig.SemItem_Type_Szene.GUID
+                objSemItem_Scene_Old.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                intOrderID_old = objDRs_Scenes1(0).Item("OrderID")
+
+
+                If boolUP = True Then
+                    objDRs_Scenes2 = funcT_TokenToken.Select("OrderID<" & intOrderID_old)
+                Else
+                    objDRs_Scenes2 = funcT_TokenToken.Select("OrderID>" & intOrderID_old)
+                End If
+
+                If objDRs_Scenes2.Count > 0 Then
+                    If boolUP = True Then
+                        objSemItem_Scene_New.GUID = objDRs_Scenes2(objDRs_Scenes2.Count - 1).Item("GUID_Token_Right")
+                        objSemItem_Scene_New.Name = objDRs_Scenes2(objDRs_Scenes2.Count - 1).Item("Name_Token_Right")
+                    Else
+                        objSemItem_Scene_New.GUID = objDRs_Scenes2(0).Item("GUID_Token_Right")
+                        objSemItem_Scene_New.Name = objDRs_Scenes2(0).Item("Name_Token_Right")
+                    End If
+                    
+                    objSemItem_Scene_New.GUID_Parent = objLocalConfig.SemItem_Type_Szene.GUID
+                    objSemItem_Scene_New.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                    objTreeNodes = objTreeNode_Parent.Nodes.Find(objSemItem_Scene_New.GUID.ToString, False)
+                    If objTreeNodes.Count > 0 Then
+                        If boolUP = True Then
+                            intOrderID_new = objDRs_Scenes2(objDRs_Scenes2.Count - 1).Item("OrderID")
+
+                        Else
+                            intOrderID_new = objDRs_Scenes2(0).Item("OrderID")
+                        End If
+
+                        objSemItem_Scene_Old.Level = intOrderID_new
+                        objSemItem_Scene_New.Level = intOrderID_old
+
+                        objSemItem_Result = objTransaction_Scene.save_002_Chapter_To_Scene(objSemItem_Kapitel, objSemItem_Scene_Old)
+                        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                            objSemItem_Result = objTransaction_Scene.save_002_Chapter_To_Scene(objSemItem_Kapitel, objSemItem_Scene_New)
+                            If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                funcA_TokenToken.Fill_LeftRight_Ordered_By_GUIDs(funcT_TokenToken, _
+                                                         New Guid(objTreeNode_Parent.Name), _
+                                                         objLocalConfig.SemItem_Type_Szene.GUID, _
+                                                         objLocalConfig.SemItem_RelationType_contains.GUID, True)
+
+                                objTreeNode_Parent.Nodes.Clear()
+                                For Each objDR_Scene In funcT_TokenToken.Rows
+                                    objTreeNode_Parent.Nodes.Add(objDR_Scene.Item("GUID_Token_Right").ToString, _
+                                                                 objDR_Scene.Item("Name_Token_Right"), _
+                                                                 cint_ImageID_Scene, cint_ImageID_Scene)
+                                Next
+                                objTreeNodes = objTreeNode_Parent.Nodes.Find(objSemItem_Scene_Old.GUID.ToString, False)
+                                If objTreeNodes.Count > 0 Then
+                                    TreeView_Scenes.SelectedNode = objTreeNodes(0)
+                                End If
+                            Else
+                                MsgBox("Leider konnte die Szene nicht verschoben werden!", MsgBoxStyle.Exclamation)
+                            End If
+                        Else
+                            MsgBox("Leider konnte die Szene nicht verschoben werden!", MsgBoxStyle.Exclamation)
+                        End If
+                    Else
+                        MsgBox("Die Ansicht ist nicht mehr aktuell. Aktualisieren Sie bitte die Ansicht!", MsgBoxStyle.Exclamation)
+                    End If
+
+
+
+                End If
+            End If
+        End If
+
+
     End Sub
 End Class
