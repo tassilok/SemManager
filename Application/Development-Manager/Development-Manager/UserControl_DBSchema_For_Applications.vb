@@ -472,6 +472,12 @@ Public Class UserControl_DBSchema_For_Applications
                 strStep = "Token"
                 intToDo = semtblT_Token.Rows.Count
                 intDone = 0
+                strSQL = objDBWork.get_SQL_Use_Database(strDatabase)
+                objTextWriter.WriteLine(strSQL)
+                strSQL = objDBWork.get_SQL_GO
+                objTextWriter.WriteLine(strSQL)
+                intDone = 1
+
 
                 For Each objDR_Token In semtblT_Token.Rows
                     objSemWork.add_Token(objDR_Token.Item("GUID_Token"))

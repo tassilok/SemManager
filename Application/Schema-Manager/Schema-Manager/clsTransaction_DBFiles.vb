@@ -75,6 +75,9 @@ Public Class clsTransaction_DBFiles
             objSemItem_Result = objBlobConnection.save_File_To_Blob(objSemItem_File, objSemItem_File.Additional1)
             If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Error.GUID Then
                 semprocA_DBWork_Del_Token.GetData(objSemItem_File.GUID)
+            ElseIf objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Relation.GUID Then
+                objSemItem_Result = objLocalConfig.Globals.LogState_Success
+                objSemItem_File.GUID = objSemItem_Result.GUID_Related
             End If
         Else
             objSemItem_Result = objLocalConfig.Globals.LogState_Error
