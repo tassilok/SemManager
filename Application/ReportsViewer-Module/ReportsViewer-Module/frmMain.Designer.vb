@@ -140,6 +140,7 @@ Partial Class frmMain
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(771, 492)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmMain"
         Me.Text = "x_Reports"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)

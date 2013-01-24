@@ -22,6 +22,7 @@ Partial Class frmMediaShow
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMediaShow))
         Me.SuspendLayout()
         '
         'frmMediaShow
@@ -29,6 +30,7 @@ Partial Class frmMediaShow
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(478, 404)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmMediaShow"
         Me.Text = "frmMediaShow"
         Me.ResumeLayout(False)

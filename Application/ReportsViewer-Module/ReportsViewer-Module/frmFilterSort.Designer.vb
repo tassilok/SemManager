@@ -101,6 +101,7 @@ Partial Class frmFilterSort
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(929, 437)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmFilterSort"
         Me.Text = "frmFilterSort"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
