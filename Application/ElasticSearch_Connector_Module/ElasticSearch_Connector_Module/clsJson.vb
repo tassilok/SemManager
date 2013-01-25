@@ -8,6 +8,7 @@ Public Class clsJson
 
     Public Function convert_XML_To_Json_ForElasticSearch(ByVal objXMLImport As clsSemItem, ByVal objSemItem_Index As clsSemItem, ByVal objSemItem_TypeElasticSearch As clsSemItem, ByVal objXML As Xml.XmlDocument) As String
         Dim strJson As String = ""
+        Dim strFields As String = ""
         Dim objDRC_XMLNode_Row As DataRowCollection
         Dim objDRC_XMLNodes_Col As DataRowCollection
         Dim objDR_XMLNode_Col As DataRow
@@ -30,15 +31,20 @@ Public Class clsJson
             If objDRC_XMLNodes_Col.Count > 0 Then
                 objXMLNodeList = objXML.GetElementsByTagName(objDRC_XMLNode_Row(0).Item("Name_Token_Right"))
                 For Each objXMLNode In objXMLNodeList
-                    strJson = strJson & "{ ""index"" : { ""_index"" : """ & objSemItem_Index.Name & """, ""_type"" : """ & objSemItem_TypeElasticSearch.Name & """, ""_id"" : """ & lngID & """} }" & vbCrLf
+                    strFields = ""
                     For Each objDR_XMLNode_Col In objDRC_XMLNodes_Col
                         objXMLNodeLis_col = objXMLNode.GetElementsByTagName(objDR_XMLNode_Col.Item("Name_XMLNode"))
                         If objXMLNodeLis_col.Count > 0 Then
                             objXMLNode_col = objXMLNodeLis_col(0)
-                            strJson = strJson & "{ """ & objDR_XMLNode_Col.Item("Name_XMLNode") & """ : """ & objXMLNode_col.InnerText & """ }" & vbCrLf
+                            If strFields <> "" Then
+                                strFields = strFields & " , "
+                            End If
+                            strFields = strFields & objDR_XMLNode_Col.Item("Name_XMLNode") & """ : """ & objXMLNode_col.InnerText & """"
                         End If
 
                     Next
+                    strJson = strJson & strFields
+                    strJson = strJson & " } "
                     lngID = lngID + 1
 
                 Next
