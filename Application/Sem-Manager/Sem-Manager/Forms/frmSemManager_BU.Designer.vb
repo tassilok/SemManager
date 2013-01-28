@@ -496,7 +496,7 @@ Partial Class frmSemManager_BU
         Me.SplitContainer1.Panel2.Controls.Add(Me.Label_NameTokenOtherLBL)
         Me.SplitContainer1.Panel2.Controls.Add(Me.Label_GUIDTokenOtherLBL)
         Me.SplitContainer1.Size = New System.Drawing.Size(827, 95)
-        Me.SplitContainer1.SplitterDistance = 394
+        Me.SplitContainer1.SplitterDistance = 393
         Me.SplitContainer1.TabIndex = 0
         '
         'TextBox_NameRelationType
@@ -505,7 +505,7 @@ Partial Class frmSemManager_BU
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameRelationType.Location = New System.Drawing.Point(119, 122)
         Me.TextBox_NameRelationType.Name = "TextBox_NameRelationType"
-        Me.TextBox_NameRelationType.Size = New System.Drawing.Size(268, 20)
+        Me.TextBox_NameRelationType.Size = New System.Drawing.Size(267, 20)
         Me.TextBox_NameRelationType.TabIndex = 16
         '
         'TextBox_GUIDRelationType
@@ -514,7 +514,7 @@ Partial Class frmSemManager_BU
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDRelationType.Location = New System.Drawing.Point(118, 98)
         Me.TextBox_GUIDRelationType.Name = "TextBox_GUIDRelationType"
-        Me.TextBox_GUIDRelationType.Size = New System.Drawing.Size(269, 20)
+        Me.TextBox_GUIDRelationType.Size = New System.Drawing.Size(268, 20)
         Me.TextBox_GUIDRelationType.TabIndex = 15
         '
         'TextBox_NameType
@@ -523,7 +523,7 @@ Partial Class frmSemManager_BU
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameType.Location = New System.Drawing.Point(87, 74)
         Me.TextBox_NameType.Name = "TextBox_NameType"
-        Me.TextBox_NameType.Size = New System.Drawing.Size(300, 20)
+        Me.TextBox_NameType.Size = New System.Drawing.Size(299, 20)
         Me.TextBox_NameType.TabIndex = 14
         '
         'TextBox_GUIDType
@@ -532,7 +532,7 @@ Partial Class frmSemManager_BU
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDType.Location = New System.Drawing.Point(87, 50)
         Me.TextBox_GUIDType.Name = "TextBox_GUIDType"
-        Me.TextBox_GUIDType.Size = New System.Drawing.Size(300, 20)
+        Me.TextBox_GUIDType.Size = New System.Drawing.Size(299, 20)
         Me.TextBox_GUIDType.TabIndex = 13
         '
         'TextBox_NameToken
@@ -541,7 +541,7 @@ Partial Class frmSemManager_BU
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameToken.Location = New System.Drawing.Point(87, 27)
         Me.TextBox_NameToken.Name = "TextBox_NameToken"
-        Me.TextBox_NameToken.Size = New System.Drawing.Size(300, 20)
+        Me.TextBox_NameToken.Size = New System.Drawing.Size(299, 20)
         Me.TextBox_NameToken.TabIndex = 12
         '
         'TextBox_GUIDToken
@@ -550,7 +550,7 @@ Partial Class frmSemManager_BU
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDToken.Location = New System.Drawing.Point(87, 4)
         Me.TextBox_GUIDToken.Name = "TextBox_GUIDToken"
-        Me.TextBox_GUIDToken.Size = New System.Drawing.Size(300, 20)
+        Me.TextBox_GUIDToken.Size = New System.Drawing.Size(299, 20)
         Me.TextBox_GUIDToken.TabIndex = 11
         '
         'Label_NameRelationTypeLBL
@@ -615,7 +615,7 @@ Partial Class frmSemManager_BU
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameTypeOther.Location = New System.Drawing.Point(86, 74)
         Me.TextBox_NameTypeOther.Name = "TextBox_NameTypeOther"
-        Me.TextBox_NameTypeOther.Size = New System.Drawing.Size(336, 20)
+        Me.TextBox_NameTypeOther.Size = New System.Drawing.Size(337, 20)
         Me.TextBox_NameTypeOther.TabIndex = 16
         '
         'TextBox_GUIDTypeOther
@@ -624,7 +624,7 @@ Partial Class frmSemManager_BU
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDTypeOther.Location = New System.Drawing.Point(86, 50)
         Me.TextBox_GUIDTypeOther.Name = "TextBox_GUIDTypeOther"
-        Me.TextBox_GUIDTypeOther.Size = New System.Drawing.Size(336, 20)
+        Me.TextBox_GUIDTypeOther.Size = New System.Drawing.Size(337, 20)
         Me.TextBox_GUIDTypeOther.TabIndex = 15
         '
         'TextBox_NameTokenOther
@@ -633,7 +633,7 @@ Partial Class frmSemManager_BU
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameTokenOther.Location = New System.Drawing.Point(86, 27)
         Me.TextBox_NameTokenOther.Name = "TextBox_NameTokenOther"
-        Me.TextBox_NameTokenOther.Size = New System.Drawing.Size(336, 20)
+        Me.TextBox_NameTokenOther.Size = New System.Drawing.Size(337, 20)
         Me.TextBox_NameTokenOther.TabIndex = 14
         '
         'TextBox_GUIDTokenOther
@@ -642,7 +642,7 @@ Partial Class frmSemManager_BU
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDTokenOther.Location = New System.Drawing.Point(86, 4)
         Me.TextBox_GUIDTokenOther.Name = "TextBox_GUIDTokenOther"
-        Me.TextBox_GUIDTokenOther.Size = New System.Drawing.Size(336, 20)
+        Me.TextBox_GUIDTokenOther.Size = New System.Drawing.Size(337, 20)
         Me.TextBox_GUIDTokenOther.TabIndex = 13
         '
         'Label_NameTypeOtherLBL
@@ -742,7 +742,7 @@ Partial Class frmSemManager_BU
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.SplitContainer_AttribRelTokenRel)
         Me.SplitContainer2.Size = New System.Drawing.Size(1152, 441)
-        Me.SplitContainer2.SplitterDistance = 558
+        Me.SplitContainer2.SplitterDistance = 557
         Me.SplitContainer2.TabIndex = 0
         '
         'SplitContainer_TypeToken
@@ -759,8 +759,8 @@ Partial Class frmSemManager_BU
         'SplitContainer_TypeToken.Panel2
         '
         Me.SplitContainer_TypeToken.Panel2.Controls.Add(Me.SplitContainer_Token)
-        Me.SplitContainer_TypeToken.Size = New System.Drawing.Size(558, 441)
-        Me.SplitContainer_TypeToken.SplitterDistance = 257
+        Me.SplitContainer_TypeToken.Size = New System.Drawing.Size(557, 441)
+        Me.SplitContainer_TypeToken.SplitterDistance = 256
         Me.SplitContainer_TypeToken.TabIndex = 0
         '
         'ToolStrip2
@@ -768,7 +768,7 @@ Partial Class frmSemManager_BU
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.ToolStrip2.Location = New System.Drawing.Point(0, 412)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(253, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(252, 25)
         Me.ToolStrip2.TabIndex = 0
         Me.ToolStrip2.Text = "ToolStrip2"
         '
@@ -797,7 +797,7 @@ Partial Class frmSemManager_BU
         'SplitContainer_AttribRelTokenRel.Panel2
         '
         Me.SplitContainer_AttribRelTokenRel.Panel2.Controls.Add(Me.SplitContainer_TokAttTokRel)
-        Me.SplitContainer_AttribRelTokenRel.Size = New System.Drawing.Size(590, 441)
+        Me.SplitContainer_AttribRelTokenRel.Size = New System.Drawing.Size(591, 441)
         Me.SplitContainer_AttribRelTokenRel.SplitterDistance = 280
         Me.SplitContainer_AttribRelTokenRel.TabIndex = 0
         '
@@ -981,7 +981,7 @@ Partial Class frmSemManager_BU
         'SplitContainer_TokAttTokRel.Panel2
         '
         Me.SplitContainer_TokAttTokRel.Panel2.Controls.Add(Me.ToolStripContainer2)
-        Me.SplitContainer_TokAttTokRel.Size = New System.Drawing.Size(306, 441)
+        Me.SplitContainer_TokAttTokRel.Size = New System.Drawing.Size(307, 441)
         Me.SplitContainer_TokAttTokRel.SplitterDistance = 226
         Me.SplitContainer_TokAttTokRel.TabIndex = 0
         '
@@ -992,7 +992,7 @@ Partial Class frmSemManager_BU
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_RelationTypes.Location = New System.Drawing.Point(3, 21)
         Me.Panel_RelationTypes.Name = "Panel_RelationTypes"
-        Me.Panel_RelationTypes.Size = New System.Drawing.Size(296, 197)
+        Me.Panel_RelationTypes.Size = New System.Drawing.Size(297, 197)
         Me.Panel_RelationTypes.TabIndex = 3
         '
         'Label_RelationTypes
@@ -1014,13 +1014,13 @@ Partial Class frmSemManager_BU
         'ToolStripContainer2.ContentPanel
         '
         Me.ToolStripContainer2.ContentPanel.Controls.Add(Me.DataGridView_Relations)
-        Me.ToolStripContainer2.ContentPanel.Size = New System.Drawing.Size(302, 157)
+        Me.ToolStripContainer2.ContentPanel.Size = New System.Drawing.Size(303, 157)
         Me.ToolStripContainer2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer2.LeftToolStripPanelVisible = False
         Me.ToolStripContainer2.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer2.Name = "ToolStripContainer2"
         Me.ToolStripContainer2.RightToolStripPanelVisible = False
-        Me.ToolStripContainer2.Size = New System.Drawing.Size(302, 207)
+        Me.ToolStripContainer2.Size = New System.Drawing.Size(303, 207)
         Me.ToolStripContainer2.TabIndex = 0
         Me.ToolStripContainer2.Text = "ToolStripContainer2"
         '
@@ -1064,7 +1064,7 @@ Partial Class frmSemManager_BU
         Me.DataGridView_Relations.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_Relations.Name = "DataGridView_Relations"
         Me.DataGridView_Relations.ReadOnly = True
-        Me.DataGridView_Relations.Size = New System.Drawing.Size(302, 157)
+        Me.DataGridView_Relations.Size = New System.Drawing.Size(303, 157)
         Me.DataGridView_Relations.TabIndex = 0
         '
         'ContextMenuStrip_TokRel

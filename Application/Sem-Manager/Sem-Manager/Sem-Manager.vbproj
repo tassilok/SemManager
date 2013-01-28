@@ -602,6 +602,7 @@
     <None Include="Resources\RelationTypes gpride_jean_victor_balin_.png" />
     <None Include="Resources\Procedures.png" />
     <None Include="Resources\XSDSchema_SequenceIcon.png" />
+    <None Include="Resources\base_checkmark_32.png" />
     <Content Include="Vogelschwarm%2520klein.ico" />
     <None Include="Resources\saveHS.png" />
     <None Include="Resources\Export_to_DB.png" />

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>PlainElastic.Net</id>
+    <version>1.0.25</version>
+    <authors>Alexander Yegorov</authors>
+    <owners>Alexander Yegorov</owners>
+    <licenseUrl>https://github.com/Yegoroff/PlainElastic.Net/blob/master/license.txt</licenseUrl>
+    <projectUrl>https://github.com/Yegoroff/PlainElastic.Net</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Plain ElasticSearch .Net client.</description>
+    <tags>ElasticSearch Elastic</tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="4.0.5" />
+    </dependencies>
+    <references>
+      <reference file="PlainElastic.Net.dll" />
+    </references>
+  </metadata>
+</package>

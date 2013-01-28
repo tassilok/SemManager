@@ -19,6 +19,7 @@
     Private funcT_TokenToken As New ds_Token.func_TokenTokenDataTable
     Private objTreeNode_Parent As TreeNode
     Private objThread_Tree As Threading.Thread
+    Private objSemItems_Token() As clsSemItem
     Private boolTopDown As Boolean
     Private intRowID As Integer
     Private boolDataGet As Boolean
@@ -26,6 +27,70 @@
     Private GUID_Node As Guid
 
     Public Event selected_Node(ByVal SemItem_Node As clsSemItem)
+    Public Event applied_Token()
+
+    Public ReadOnly Property SemItems_Selected() As clsSemItem()
+        Get
+            Return objSemItems_Token
+        End Get
+    End Property
+
+    Private Sub get_Selected(Optional ByVal objTreeNode As TreeNode = Nothing)
+        Dim objTreeNodes As TreeNodeCollection = Nothing
+        Dim objTreeNode_Sub As TreeNode
+        Dim i As Integer
+
+        If ToolStripButton_Checkboxes.Checked = True Then
+            If objTreeNode Is Nothing Then
+                objTreeNodes = TreeView_TokenTree.Nodes
+
+            Else
+                objTreeNodes = objTreeNode.Nodes
+            End If
+
+            If Not objTreeNodes Is Nothing Then
+                For Each objTreeNode_Sub In objTreeNodes
+                    If objTreeNode_Sub.Checked = True Then
+                        If objSemItems_Token Is Nothing Then
+                            i = 0
+                            ReDim Preserve objSemItems_Token(i)
+                        Else
+                            i = objSemItems_Token.Count
+                            ReDim Preserve objSemItems_Token(i)
+                        End If
+
+                        objSemItems_Token(i) = New clsSemItem
+                        objSemItems_Token(i).GUID = New Guid(objTreeNode_Sub.Name)
+                        objSemItems_Token(i).Name = objTreeNode_Sub.Text
+                        objSemItems_Token(i).GUID_Parent = objSemItem_Parent.GUID
+                        objSemItems_Token(i).GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                    End If
+                    get_Selected(objTreeNode_Sub)
+                Next
+            End If
+        Else
+            objTreeNode = TreeView_TokenTree.SelectedNode
+            ReDim Preserve objSemItems_Token(0)
+            objSemItems_Token(i) = New clsSemItem
+            objSemItems_Token(i).GUID = New Guid(objTreeNode.Name)
+            objSemItems_Token(i).Name = objTreeNode.Text
+            objSemItems_Token(i).GUID_Parent = objSemItem_Parent.GUID
+            objSemItems_Token(i).GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+        End If
+        
+        
+    End Sub
+
+    Public Property applyable As Boolean
+        Get
+            Return ApplyToolStripMenuItem.Visible
+        End Get
+        Set(ByVal value As Boolean)
+            ApplyToolStripMenuItem.Visible = value
+        End Set
+    End Property
 
     Public Sub New(ByVal Globals As clsGlobals)
 
@@ -144,6 +209,23 @@
 
         End If
         boolDataGet = True
+    End Sub
+
+    Private Sub TreeView_TokenTree_AfterCheck(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_TokenTree.AfterCheck
+
+        check_Children(e.Node)
+
+    End Sub
+
+    Private Sub check_Children(ByVal objTreeNode As TreeNode)
+        Dim objTreeNode_Sub As TreeNode
+
+        If Control.ModifierKeys = Keys.Control Then
+            For Each objTreeNode_Sub In objTreeNode.Nodes
+                objTreeNode_Sub.Checked = objTreeNode.Checked
+            Next
+        End If
+
     End Sub
 
     Private Sub TreeView_TokenTree_AfterExpand(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_TokenTree.AfterExpand
@@ -429,5 +511,27 @@
             End If
 
         End If
+    End Sub
+
+    Private Sub ToolStripButton_Checkboxes_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripButton_Checkboxes.CheckStateChanged
+        If ToolStripButton_Checkboxes.Checked = True Then
+            TreeView_TokenTree.CheckBoxes = True
+        Else
+            TreeView_TokenTree.CheckBoxes = False
+        End If
+    End Sub
+
+    Private Sub ToolStripButton_Checkboxes_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Checkboxes.Click
+
+    End Sub
+
+    Private Sub ApplyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApplyToolStripMenuItem.Click
+        If ToolStripButton_Checkboxes.Checked = True Then
+            get_Selected()
+        Else
+            get_Selected(TreeView_TokenTree.SelectedNode)
+        End If
+
+        RaiseEvent applied_Token()
     End Sub
 End Class

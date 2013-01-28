@@ -1,5 +1,6 @@
 ﻿Imports Sem_Manager
 Imports RestSharp
+<<<<<<< HEAD
 Imports ElasticSearch
 Public Class clsElasticSearch
     Dim objLocalConfig As clsLocalConfig
@@ -7,6 +8,14 @@ Public Class clsElasticSearch
     Private procA_XMLNodes_ColConfig As New DataSet_ElasticSearchConnectorTableAdapters.proc_XMLNodes_ColConfigTableAdapter
     Private procT_XMLNodes_ColConfig As New DataSet_ElasticSearchConnector.proc_XMLNodes_ColConfigDataTable
 
+=======
+Imports PlainElastic
+
+Public Class clsElasticSearch
+    Dim objLocalConfig As clsLocalConfig
+
+    Private semtblA_Type As New ds_SemDBTableAdapters.semtbl_TypeTableAdapter
+>>>>>>> Some Changes
     Private funcA_TokenToken As New ds_TokenTableAdapters.func_TokenTokenTableAdapter
     Private funcT_Indexes As New ds_Token.func_TokenTokenDataTable
 
@@ -18,7 +27,9 @@ Public Class clsElasticSearch
     Private objRestClient As RestClient
     Private objRestRequest As RestRequest
     Private objRestResponse As RestResponse
-    Private objFileWebRequest As Net.FileWebRequest
+    Private objFileWebRequest As System.Net.FileWebRequest
+    Private objElConn As PlainElastic.Net.ElasticConnection
+    Private objBulkBuilder As PlainElastic.Net.BulkBuilder
 
     Private objSemItem_ServerPort As clsSemItem
     Private objSemItem_Port As clsSemItem
@@ -34,32 +45,60 @@ Public Class clsElasticSearch
     Private Sub set_DBConnection()
         funcA_TokenToken.Connection = objLocalConfig.Connection_DB
         procA_XMLImport.Connection = objLocalConfig.Connection_Plugin
+<<<<<<< HEAD
         procA_XMLNodes_ColConfig.Connection = objLocalConfig.Connection_Plugin
+=======
+        semtblA_Type.Connection = objLocalConfig.Connection_DB
+>>>>>>> Some Changes
         objJson = New clsJson(objLocalConfig)
     End Sub
+
+    Private Function initialize_ElConn() As clsSemItem
+        Dim objSemItem_Result As clsSemItem
+        Try
+            objElConn = New PlainElastic.Net.ElasticConnection(objSemItem_Server.Name, objSemItem_Port.Name)
+            objSemItem_Result = objLocalConfig.Globals.LogState_Success
+        Catch ex As Exception
+            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+        End Try
+
+        Return objSemItem_Result
+    End Function
+
+    Private Function finalize_ElConn() As clsSemItem
+        Dim objSemItem_Result As clsSemItem
+        Try
+            objElConn = Nothing
+            objSemItem_Result = objLocalConfig.Globals.LogState_Success
+        Catch ex As Exception
+            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+        End Try
+
+        Return objSemItem_Result
+    End Function
 
     Public Sub get_Data_XMLImport()
         Dim objDRC_XMLImport As DataRowCollection
         objDRC_XMLImport = procA_XMLImport.GetData(objLocalConfig.SemItem_User.GUID, _
-                             objLocalConfig.SemItem_Type_XMLImport.GUID, _
+                             objLocalConfig.SemItem_Type_XML_Import.GUID, _
                              objLocalConfig.SemItem_Type_Url.GUID, _
-                             objLocalConfig.SemItem_Type_Types_Elastic_Search.GUID, _
-                             objLocalConfig.SemItem_RelationType_belongs_to.GUID, _
+                             objLocalConfig.SemItem_Type_Types__Elastic_Search_.GUID, _
+                             objLocalConfig.SemItem_RelationType_belongsTo.GUID, _
                              objLocalConfig.SemItem_RelationType_belonging_Source.GUID, _
-                             objLocalConfig.SemItem_RelationType_isOfType.GUID).Rows
+                             objLocalConfig.SemItem_RelationType_is_of_Type.GUID).Rows
 
         objSemItem_XMLImport = Nothing
         If objDRC_XMLImport.Count > 0 Then
             objSemItem_XMLImport = New clsSemItem
             objSemItem_XMLImport.GUID = objDRC_XMLImport(0).Item("GUID_XMLImport")
             objSemItem_XMLImport.Name = objDRC_XMLImport(0).Item("Name_XMLImport")
-            objSemItem_XMLImport.GUID_Parent = objLocalConfig.SemItem_Type_XMLImport.GUID
+            objSemItem_XMLImport.GUID_Parent = objLocalConfig.SemItem_Type_XML_Import.GUID
             objSemItem_XMLImport.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
 
             objSemItem_TypeElasticSearch = New clsSemItem
             objSemItem_TypeElasticSearch.GUID = objDRC_XMLImport(0).Item("GUID_TypeElasticSearch")
             objSemItem_TypeElasticSearch.Name = objDRC_XMLImport(0).Item("Name_TypeElasticSearch")
-            objSemItem_TypeElasticSearch.GUID_Parent = objLocalConfig.SemItem_Type_Types_Elastic_Search.GUID
+            objSemItem_TypeElasticSearch.GUID_Parent = objLocalConfig.SemItem_Type_Types__Elastic_Search_.GUID
             objSemItem_TypeElasticSearch.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
 
         End If
@@ -257,30 +296,94 @@ Public Class clsElasticSearch
     End Sub
 
     Private Sub initialize_RestClient()
-        objRestClient = New RestClient("http://" & objSemItem_Server.Name & ":" & objSemItem_Port.Name)
+        'objRestClient = New RestClient("http://" & objSemItem_Server.Name & ":" & objSemItem_Port.Name)
+        objRestClient = New RestClient("http://localhost:" & objSemItem_Port.Name)
     End Sub
 
     Private Sub get_Data_Indexes()
         funcA_TokenToken.Fill_TokenToken_RightLeft(funcT_Indexes, _
                                                    objSemItem_ServerPort.GUID, _
-                                                   objLocalConfig.SemItem_RelationType_belongs_to.GUID, _
-                                                   objLocalConfig.SemItem_Type_IndexesElasticSearch.GUID)
+                                                   objLocalConfig.SemItem_RelationType_belongsTo.GUID, _
+                                                   objLocalConfig.SemItem_Type_Indexes__Elastic_Search_.GUID)
 
     End Sub
+
+    Public Function export_Types() As clsSemItem
+        Dim objDRC_Types As DataRowCollection
+        Dim i As Integer
+        Dim objSemItem_Result As clsSemItem
+        Dim strBulkCommand As String
+        Dim objSemItems_Type() As clsSemItem
+        Dim strJson As String = ""
+        Dim strJsonTmp As String
+        Dim lngPack As Long
+        Dim objTextWriter As IO.TextWriter
+
+
+        If objSemItem_XMLImport Is Nothing Then
+            get_Data_XMLImport()
+        End If
+
+        lngPack = 0
+        objDRC_Types = semtblA_Type.GetData().Rows
+        For i = 0 To objDRC_Types.Count - 1
+            strJsonTmp = objJson.Json_Document
+            strJsonTmp = strJsonTmp.Replace("@" & objLocalConfig.SemItem_Token_Variable_INDEX.Name & "@", objSemItem_Index.Name)
+            strJsonTmp = strJsonTmp.Replace("@" & objLocalConfig.SemItem_Token_Variable_TYPE.Name & "@", objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name)
+            strJsonTmp = strJsonTmp.Replace("@" & objLocalConfig.SemItem_Token_Variable_ID.Name & "@", objDRC_Types(i).Item("GUID_Type").ToString)
+            strJson = strJson & strJsonTmp & vbCrLf
+
+            strJsonTmp = objJson.Json_Attribute
+            strJsonTmp = strJsonTmp.Replace("@" & objLocalConfig.SemItem_Token_Variable_FIELD.Name & "@", "Name")
+            strJsonTmp = strJsonTmp.Replace("@" & objLocalConfig.SemItem_Token_Variable_VALUE.Name & "@", """" & Web.HttpUtility.HtmlEncode(objDRC_Types(i).Item("Name_Type").ToString) & """")
+            strJson = strJson & strJsonTmp & vbCrLf
+            strJsonTmp = objJson.Json_Attribute
+            strJsonTmp = strJsonTmp.Replace("@" & objLocalConfig.SemItem_Token_Variable_FIELD.Name & "@", "ÍD_Type_Parent")
+            strJsonTmp = strJsonTmp.Replace("@" & objLocalConfig.SemItem_Token_Variable_VALUE.Name & "@", """" & objDRC_Types(i).Item("GUID_Type_Parent").ToString & """")
+            strJson = strJson & strJsonTmp & vbCrLf
+
+            If lngPack = 10000 Then
+                initialize_RestClient()
+                objTextWriter = New IO.StreamWriter("C:\Temp\json.txt", False)
+                objTextWriter.Write(strJson)
+                objTextWriter.Close()
+                objRestRequest = New RestRequest("_bulk", Method.POST)
+                objRestRequest.AddFile("request", "C:\Temp\json.txt")
+                objRestResponse = objRestClient.Execute(objRestRequest)
+
+                strJson = ""
+                lngPack = 0
+            End If
+
+            lngPack = lngPack + 1
+        Next
+
+        If strJson <> "" Then
+            initialize_RestClient()
+            objTextWriter = New IO.StreamWriter("C:\Temp\json.txt", False)
+            objTextWriter.Write(strJson)
+            objTextWriter.Close()
+            objRestRequest = New RestRequest("_bulk", Method.POST)
+            objRestRequest.AddFile("request", "C:\Temp\json.txt")
+            objRestResponse = objRestClient.Execute(objRestRequest)
+        End If
+
+        Return objSemItem_Result
+    End Function
 
     Private Sub get_Data_ServerPort()
         Dim objDRC_ServerPort As DataRowCollection
         Dim objDRC_Index As DataRowCollection
 
         objDRC_ServerPort = funcA_TokenToken.GetData_LeftRight_Ordered_By_GUIDs(objLocalConfig.SemItem_BaseConfig.GUID, _
-                                                                          objLocalConfig.SemItem_Type_ServerPort.GUID, _
-                                                                          objLocalConfig.SemItem_RelationType_belonging_resource.GUID, True).Rows
+                                                                          objLocalConfig.SemItem_Type_Server_Port.GUID, _
+                                                                          objLocalConfig.SemItem_RelationType_belonging_Resources.GUID, True).Rows
 
         If objDRC_ServerPort.Count > 0 Then
             objSemItem_ServerPort = New clsSemItem
             objSemItem_ServerPort.GUID = objDRC_ServerPort(0).Item("GUID_Token_Right")
             objSemItem_ServerPort.Name = objDRC_ServerPort(0).Item("Name_Token_Right")
-            objSemItem_ServerPort.GUID_Parent = objLocalConfig.SemItem_Type_ServerPort.GUID
+            objSemItem_ServerPort.GUID_Parent = objLocalConfig.SemItem_Type_Server_Port.GUID
             objSemItem_ServerPort.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
 
             objDRC_ServerPort = funcA_TokenToken.GetData_TokenToken_LeftRight(objSemItem_ServerPort.GUID, _
@@ -304,13 +407,13 @@ Public Class clsElasticSearch
                     objSemItem_Server.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
 
                     objDRC_Index = funcA_TokenToken.GetData_RightLeft_Ordered_By_GUIDs(objSemItem_ServerPort.GUID, _
-                                                                                       objLocalConfig.SemItem_Type_IndexesElasticSearch.GUID, _
-                                                                                       objLocalConfig.SemItem_RelationType_belongs_to.GUID, True).Rows
+                                                                                       objLocalConfig.SemItem_Type_Indexes__Elastic_Search_.GUID, _
+                                                                                       objLocalConfig.SemItem_RelationType_belongsTo.GUID, True).Rows
                     If objDRC_Index.Count > 0 Then
                         objSemItem_Index = New clsSemItem
                         objSemItem_Index.GUID = objDRC_Index(0).Item("GUID_Token_Left")
                         objSemItem_Index.Name = objDRC_Index(0).Item("Name_Token_Left")
-                        objSemItem_Index.GUID_Parent = objLocalConfig.SemItem_Type_IndexesElasticSearch.GUID
+                        objSemItem_Index.GUID_Parent = objLocalConfig.SemItem_Type_Indexes__Elastic_Search_.GUID
                         objSemItem_Index.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
                     Else
 
@@ -346,5 +449,9 @@ Public Class clsElasticSearch
     Private Sub initialize()
         get_Data_ServerPort()
         get_Data_Indexes()
+    End Sub
+
+    Protected Overrides Sub Finalize()
+        MyBase.Finalize()
     End Sub
 End Class

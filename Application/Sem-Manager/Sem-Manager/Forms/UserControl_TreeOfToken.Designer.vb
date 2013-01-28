@@ -42,7 +42,9 @@ Partial Class UserControl_TreeOfToken
         Me.ToolStripButton_SortedByOrder = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_TopDown = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Refresh = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Checkboxes = New System.Windows.Forms.ToolStripButton()
         Me.Timer_Tree = New System.Windows.Forms.Timer(Me.components)
+        Me.ApplyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -80,13 +82,13 @@ Partial Class UserControl_TreeOfToken
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLBL, Me.ToolStripLabel_LBL, Me.ToolStripSeparator1, Me.ToolStripProgressBar_Tree})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(84, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(81, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripLabel_CountLBL
         '
         Me.ToolStripLabel_CountLBL.Name = "ToolStripLabel_CountLBL"
-        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(53, 22)
+        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(52, 22)
         Me.ToolStripLabel_CountLBL.Text = "x_Count:"
         '
         'ToolStripLabel_LBL
@@ -118,9 +120,9 @@ Partial Class UserControl_TreeOfToken
         '
         'ContextMenuStrip_Tree
         '
-        Me.ContextMenuStrip_Tree.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.FilterToolStripMenuItem})
+        Me.ContextMenuStrip_Tree.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.FilterToolStripMenuItem, Me.ApplyToolStripMenuItem})
         Me.ContextMenuStrip_Tree.Name = "ContextMenuStrip_Tree"
-        Me.ContextMenuStrip_Tree.Size = New System.Drawing.Size(153, 92)
+        Me.ContextMenuStrip_Tree.Size = New System.Drawing.Size(118, 92)
         '
         'NewToolStripMenuItem
         '
@@ -143,16 +145,16 @@ Partial Class UserControl_TreeOfToken
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_RelationType, Me.ToolStripTextBox_RelationType, Me.ToolStripButton_Change, Me.ToolStripButton_SortedByOrder, Me.ToolStripButton_TopDown, Me.ToolStripButton_Refresh})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_RelationType, Me.ToolStripTextBox_RelationType, Me.ToolStripButton_Change, Me.ToolStripButton_SortedByOrder, Me.ToolStripButton_TopDown, Me.ToolStripButton_Refresh, Me.ToolStripButton_Checkboxes})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(476, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(482, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_RelationType
         '
         Me.ToolStripLabel_RelationType.Name = "ToolStripLabel_RelationType"
-        Me.ToolStripLabel_RelationType.Size = New System.Drawing.Size(89, 22)
+        Me.ToolStripLabel_RelationType.Size = New System.Drawing.Size(86, 22)
         Me.ToolStripLabel_RelationType.Text = "x_RelationType:"
         '
         'ToolStripTextBox_RelationType
@@ -200,9 +202,26 @@ Partial Class UserControl_TreeOfToken
         Me.ToolStripButton_Refresh.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_Refresh.Text = "ToolStripButton1"
         '
+        'ToolStripButton_Checkboxes
+        '
+        Me.ToolStripButton_Checkboxes.CheckOnClick = True
+        Me.ToolStripButton_Checkboxes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Checkboxes.Image = Global.Sem_Manager.My.Resources.Resources.base_checkmark_32
+        Me.ToolStripButton_Checkboxes.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Checkboxes.Name = "ToolStripButton_Checkboxes"
+        Me.ToolStripButton_Checkboxes.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_Checkboxes.Text = "ToolStripButton1"
+        '
         'Timer_Tree
         '
         Me.Timer_Tree.Interval = 300
+        '
+        'ApplyToolStripMenuItem
+        '
+        Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
+        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ApplyToolStripMenuItem.Text = "x_Apply"
+        Me.ApplyToolStripMenuItem.Visible = False
         '
         'UserControl_TreeOfToken
         '
@@ -245,5 +264,7 @@ Partial Class UserControl_TreeOfToken
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripProgressBar_Tree As System.Windows.Forms.ToolStripProgressBar
     Friend WithEvents FilterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripButton_Checkboxes As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ApplyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

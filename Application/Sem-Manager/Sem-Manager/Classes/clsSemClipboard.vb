@@ -14,7 +14,43 @@
     Private objLocalConfig_Semmanager As clsLocalConfig_SemManager
 
     Private objSemItem_OR As New clsSemItem
+    Public Function clearClipboard(ByVal SemItem_ItemType As clsSemItem) As clsSemItem
+        Dim objSemItem_RelationType As clsSemItem
+        Dim objSemItem_Result As clsSemItem
+        Dim objDRC_LogState As DataRowCollection
+        Dim objDRC_Clipboard As DataRowCollection
+        Dim objDR_Clipboard As DataRow
 
+        Select Case SemItem_ItemType.GUID
+            Case objLocalConfig_Semmanager.Globals.ObjectReferenceType_Attribute.GUID
+                objSemItem_RelationType = objLocalConfig_Semmanager.SemItem_RelationType_belonging_Attribute
+
+            Case objLocalConfig_Semmanager.Globals.ObjectReferenceType_RelationType.GUID
+                objSemItem_RelationType = objLocalConfig_Semmanager.SemItem_RelationType_RelationType
+
+            Case objLocalConfig_Semmanager.Globals.ObjectReferenceType_Token.GUID
+                objSemItem_RelationType = objLocalConfig_Semmanager.SemItem_RelationType_belonging_Token
+
+            Case objLocalConfig_Semmanager.Globals.ObjectReferenceType_Type.GUID
+                objSemItem_RelationType = objLocalConfig_Semmanager.SemItem_RelationType_belonging_Type
+
+        End Select
+
+        objDRC_Clipboard = funcA_Token_OR.GetData_By_GUIDTokenLeft_And_GUIDRelationType(objLocalConfig_Semmanager.SemItem_BaseConfig.GUID, _
+                                                                                        objSemItem_RelationType.GUID).Rows
+
+        objSemItem_Result = objLocalConfig_Semmanager.Globals.LogState_Success
+        For Each objDR_Clipboard In objDRC_Clipboard
+            objDRC_LogState = semprocA_DBWork_Del_TokenOr.GetData(objLocalConfig_Semmanager.SemItem_BaseConfig.GUID, _
+                                                                  objDR_Clipboard.Item("GUID_ObjectReference"), _
+                                                                  objSemItem_RelationType.GUID).Rows
+            If objDRC_LogState(0).Item("GUID_Token") = objLocalConfig_Semmanager.Globals.LogState_Error.GUID Then
+                objSemItem_Result = objLocalConfig_Semmanager.Globals.LogState_Error
+            End If
+        Next
+
+        Return objSemItem_Result
+    End Function
     Public Function addToClipboard(ByVal SemItem_Item As clsSemItem) As clsSemItem
         Dim objSemItem_Result As clsSemItem
         Dim objDRC_Clipboard As DataRowCollection

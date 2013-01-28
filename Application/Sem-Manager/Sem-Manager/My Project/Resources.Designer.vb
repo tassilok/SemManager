@@ -116,6 +116,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property base_checkmark_32() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("base_checkmark_32", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property bb_home_() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("bb_home_", resourceCulture)

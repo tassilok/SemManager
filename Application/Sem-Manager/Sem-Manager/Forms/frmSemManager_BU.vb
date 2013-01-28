@@ -108,6 +108,31 @@
         End If
     End Sub
 
+    Private Sub applied_TokenOfTree() Handles objUserControl_TokenTree.applied_Token
+        Dim objSemItem_Token As clsSemItem
+        Dim objSemItem_Result As clsSemItem
+        Dim intToDo As Integer
+        Dim intDone As Integer
+
+        intToDo = objUserControl_TokenTree.SemItems_Selected.Count
+        intDone = 0
+        For Each objSemItem_Token In objUserControl_TokenTree.SemItems_Selected
+            objSemItem_Right = New clsSemItem
+            objSemItem_Right.GUID = objSemItem_Token.GUID
+            objSemItem_Right.Name = objSemItem_Token.Name
+            objSemItem_Right.GUID_Parent = objSemItem_Token.GUID_Parent
+            objSemItem_Right.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+            objSemItem_Result = save_Relation()
+            If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                intDone = intDone + 1
+            End If
+        Next
+
+        If intDone < intToDo Then
+            MsgBox("Es konnten nur " & intDone & " Elemente verknüpft werden!", MsgBoxStyle.Information)
+        End If
+    End Sub
     Private Sub applied_Token() Handles objUserControl_SemItemList_TokenList.Applied_Item
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
@@ -119,7 +144,6 @@
             intToDo = objUserControl_SemItemList_TokenList.DataGridViewRowCollection_Selected.Count
             intDone = 0
             For Each objDGVR_Selected In objUserControl_SemItemList_TokenList.DataGridViewRowCollection_Selected
-                objDGVR_Selected = objUserControl_SemItemList_TokenList.DataGridViewRowCollection_Selected(0)
                 objDRV_Selected = objDGVR_Selected.DataBoundItem
                 objSemItem_Right = New clsSemItem
                 objSemItem_Right.GUID = objDRV_Selected.Item("GUID_Token")
@@ -210,6 +234,7 @@
             objUserControl_SemItemList_TokenList.initialize_Simple(objSemItem_Selected, objLocalConfig.Globals)
             objUserControl_SemItemList_TokenList.ModuleView = ToolStripButton_ModuleView.Checked
             If SplitContainer_Token.Panel2Collapsed = False Then
+                objUserControl_TokenTree.applyable = True
                 objUserControl_TokenTree.initialize(objSemItem_Selected)
             End If
 
@@ -1320,9 +1345,30 @@
     Private Sub ToolStripButton_Tokentree_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripButton_Tokentree.CheckStateChanged
         If ToolStripButton_Tokentree.Checked = True Then
             SplitContainer_Token.Panel2Collapsed = False
+            objUserControl_TokenTree.applyable = True
             objUserControl_TokenTree.initialize(objSemItem_Selected)
         Else
             SplitContainer_Token.Panel2Collapsed = True
         End If
+    End Sub
+
+
+    Private Sub ToolStripStatusLabel_TokenRelRelation_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripStatusLabel_TokenRelRelation.Click
+        objSemItem_RelationType = Nothing
+        ToolStripStatusLabel_TokenRelRelation.Text = "-"
+    End Sub
+
+    Private Sub ToolStripStatusLabel_TokenRelLeft_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripStatusLabel_TokenRelLeft.Click
+        Dim objSemItem_Result As clsSemItem
+        Dim objSemItem_Token As clsSemItem
+        objSemItem_Token = Nothing
+        objSemItem_Result = objSemClipboard.clearClipboard(objLocalConfig.Globals.ObjectReferenceType_Token)
+        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+            ToolStripStatusLabel_TokenRelLeft.Text = "-"
+        Else
+            objSemItem_Right = objSemClipboard.getFromClipboard(objLocalConfig.Globals.ObjectReferenceType_Token, True)
+            ToolStripStatusLabel_TokenRelLeft.Text = objSemItem_Right.Name
+        End If
+
     End Sub
 End Class

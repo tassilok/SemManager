@@ -16,12 +16,12 @@ Public Class clsXMLImport
     Private Sub get_Data_XMLImport()
         procA_XMLImport.Fill(procT_XMLImport, _
                              objLocalConfig.SemItem_User.GUID, _
-                             objLocalConfig.SemItem_Type_XMLImport.GUID, _
+                             objLocalConfig.SemItem_Type_XML_Import.GUID, _
                              objLocalConfig.SemItem_Type_Url.GUID, _
-                             objLocalConfig.SemItem_Type_Types_Elastic_Search.GUID, _
-                             objLocalConfig.SemItem_RelationType_belongs_to.GUID, _
+                             objLocalConfig.SemItem_Type_Types__Elastic_Search_.GUID, _
+                             objLocalConfig.SemItem_RelationType_belongsTo.GUID, _
                              objLocalConfig.SemItem_RelationType_belonging_Source.GUID, _
-                             objLocalConfig.SemItem_RelationType_isOfType.GUID)
+                             objLocalConfig.SemItem_RelationType_is_of_Type.GUID)
 
     End Sub
 

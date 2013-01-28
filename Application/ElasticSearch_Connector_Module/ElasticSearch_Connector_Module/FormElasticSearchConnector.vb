@@ -29,7 +29,16 @@ Public Class Form_ElasticSearchConnector
 
             objXMLImport = New clsXMLImport(objLocalConfig, objLocalConfig.SemItem_User)
             objElasticSarech = New clsElasticSearch(objLocalConfig)
+
+            test_Import_Types()
         End If
+    End Sub
+
+    Private Sub test_Import_Types()
+        Dim objSemItem_Result As clsSemItem
+
+        objSemItem_Result = objElasticSarech.export_Types()
+
     End Sub
 
     Private Sub test_Import()
@@ -39,13 +48,17 @@ Public Class Form_ElasticSearchConnector
 
         objSemItem_XMLImport.GUID = New Guid("518f3f07-46e8-4e87-b7e6-53653f744ffb")
         objSemItem_XMLImport.Name = "User-Agents"
-        objSemItem_XMLImport.GUID_Parent = objLocalConfig.SemItem_Type_XMLImport.GUID
+        objSemItem_XMLImport.GUID_Parent = objLocalConfig.SemItem_Type_XML_Import.GUID
         objSemItem_XMLImport.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
 
         objXML = objXMLImport.get_XML_Of_WebResource(objSemItem_XMLImport)
 
         objSemItem_Result = objElasticSarech.insert_XML(objXML, objSemItem_XMLImport)
 
+
+    End Sub
+
+    Private Sub test_SemImport()
 
     End Sub
 
