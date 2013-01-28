@@ -37,7 +37,20 @@ Public Class Form_ElasticSearchConnector
     Private Sub test_Import_Types()
         Dim objSemItem_Result As clsSemItem
 
+        objSemItem_Result = objElasticSarech.export_DataTypes()
+        objSemItem_Result = objElasticSarech.export_ItemTypes()
+        objSemItem_Result = objElasticSarech.export_Attributes()
+        objSemItem_Result = objElasticSarech.export_RelationTypes()
         objSemItem_Result = objElasticSarech.export_Types()
+        objSemItem_Result = objElasticSarech.export_Token()
+        objSemItem_Result = objElasticSarech.export_TokenAttribute(objLocalConfig.Globals.AttributeType_Bool.GUID)
+        objSemItem_Result = objElasticSarech.export_TokenAttribute(objLocalConfig.Globals.AttributeType_Date.GUID)
+        objSemItem_Result = objElasticSarech.export_TokenAttribute(objLocalConfig.Globals.AttributeType_Datetime.GUID)
+        objSemItem_Result = objElasticSarech.export_TokenAttribute(objLocalConfig.Globals.AttributeType_Int.GUID)
+        objSemItem_Result = objElasticSarech.export_TokenAttribute(objLocalConfig.Globals.AttributeType_Real.GUID)
+        objSemItem_Result = objElasticSarech.export_TokenAttribute(objLocalConfig.Globals.AttributeType_String.GUID)
+        objSemItem_Result = objElasticSarech.export_TokenAttribute(objLocalConfig.Globals.AttributeType_Time.GUID)
+        objSemItem_Result = objElasticSarech.export_TokenAttribute(objLocalConfig.Globals.AttributeType_Varchar255.GUID)
 
     End Sub
 

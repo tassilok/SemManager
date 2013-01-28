@@ -50,32 +50,38 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Aga.Controls">
+      <HintPath>..\..\..\..\ElasticSearch.Net\libs\Aga.Controls.dll</HintPath>
+    </Reference>
     <Reference Include="ElasticSearch.Client">
       <HintPath>..\..\..\..\ElasticSearch.Net\ElasticSearch.Client\bin\Debug\ElasticSearch.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Json.Net.3.5">
+      <HintPath>..\..\..\..\ElasticSearch.Net\libs\Json.Net.3.5.dll</HintPath>
+    </Reference>
     <Reference Include="Json.Net.4.5">
-      <HintPath>..\..\..\..\ElasticSearch.Net\ElasticSearch.Client\bin\Debug\Json.Net.4.5.dll</HintPath>
+      <HintPath>..\..\..\..\ElasticSearch.Net\libs\Json.Net.4.5.dll</HintPath>
+    </Reference>
+    <Reference Include="JsonViewer">
+      <HintPath>..\..\..\..\ElasticSearch.Net\libs\JsonViewer.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\..\..\..\ElasticSearch.Net\ElasticSearch.Client\bin\Debug\log4net.dll</HintPath>
+      <HintPath>..\..\..\..\ElasticSearch.Net\libs\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Lucene.Net.2.9">
-      <HintPath>..\..\..\..\ElasticSearch.Net\ElasticSearch.Client\bin\Debug\Lucene.Net.2.9.dll</HintPath>
+      <HintPath>..\..\..\..\ElasticSearch.Net\libs\Lucene.Net.2.9.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Contracts">
-      <HintPath>..\..\..\..\ElasticSearch.Net\ElasticSearch.Client\bin\Debug\Microsoft.Contracts.dll</HintPath>
+      <HintPath>..\..\..\..\ElasticSearch.Net\libs\Microsoft.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="NetReflector">
-      <HintPath>..\..\..\..\ElasticSearch.Net\ElasticSearch.Client\bin\Debug\NetReflector.dll</HintPath>
+      <HintPath>..\..\..\..\ElasticSearch.Net\libs\NetReflector.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="PlainElastic.Net">
-      <HintPath>..\packages\PlainElastic.Net.1.0.25\lib\Net40\PlainElastic.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\packages\RestSharp.104.1\lib\net4-client\RestSharp.dll</HintPath>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\..\ElasticSearch.Net\libs\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Security-Module">
       <HintPath>..\..\Security-Module\Security-Module\bin\Debug\Security-Module.exe</HintPath>

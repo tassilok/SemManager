@@ -1,11 +1,21 @@
 ﻿Imports Sem_Manager
-Imports RestSharp
 Imports ElasticSearch
-Imports PlainElastic
 Public Class clsElasticSearch
     Dim objLocalConfig As clsLocalConfig
 
+    Private semtblA_Attribute As New ds_SemDBTableAdapters.semtbl_AttributeTableAdapter
     Private semtblA_Type As New ds_SemDBTableAdapters.semtbl_TypeTableAdapter
+    Private semtblA_Token As New ds_SemDBTableAdapters.semtbl_TokenTableAdapter
+    Private semtblA_RelationType As New ds_SemDBTableAdapters.semtbl_RelationTypeTableAdapter
+
+    Private TokenAAttribute_Bit As New ds_TokenAttributeTableAdapters.TokenAttribute_BitTableAdapter
+    Private TokenAAttribute_Date As New ds_TokenAttributeTableAdapters.TokenAttribute_DateTableAdapter
+    Private TokenAAttribute_Datetime As New ds_TokenAttributeTableAdapters.TokenAttribute_DatetimeTableAdapter
+    Private TokenAAttribute_Int As New ds_TokenAttributeTableAdapters.TokenAttribute_IntTableAdapter
+    Private TokenAAttribute_Real As New ds_TokenAttributeTableAdapters.TokenAttribute_RealTableAdapter
+    Private TokenAAttribute_Time As New ds_TokenAttributeTableAdapters.TokenAttribute_TimeTableAdapter
+    Private TokenAAttribute_Varchar255 As New ds_TokenAttributeTableAdapters.TokenAttribute_Varchar255TableAdapter
+    Private TokenAAttribute_VarcharMax As New ds_TokenAttributeTableAdapters.TokenAttribute_VarcharMAXTableAdapter
 
     Private procA_XMLNodes_ColConfig As New DataSet_ElasticSearchConnectorTableAdapters.proc_XMLNodes_ColConfigTableAdapter
     Private procT_XMLNodes_ColConfig As New DataSet_ElasticSearchConnector.proc_XMLNodes_ColConfigDataTable
@@ -18,12 +28,9 @@ Public Class clsElasticSearch
 
     Private objJson As clsJson
 
-    Private objRestClient As RestClient
-    Private objRestRequest As RestRequest
-    Private objRestResponse As RestResponse
-    Private objFileWebRequest As System.Net.FileWebRequest
-    Private objElConn As PlainElastic.Net.ElasticConnection
-    Private objBulkBuilder As PlainElastic.Net.BulkBuilder
+    'Private objFileWebRequest As System.Net.FileWebRequest
+
+    Private objElConn As ElasticSearch.Client.ElasticSearchClient
 
     Private objSemItem_ServerPort As clsSemItem
     Private objSemItem_Port As clsSemItem
@@ -32,22 +39,36 @@ Public Class clsElasticSearch
     Private objSemItem_XMLImport As clsSemItem
     Private objSemItem_TypeElasticSearch As clsSemItem
 
-    Private objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
 
     Private lngRowID As Long
 
     Private Sub set_DBConnection()
+
         funcA_TokenToken.Connection = objLocalConfig.Connection_DB
         procA_XMLImport.Connection = objLocalConfig.Connection_Plugin
         procA_XMLNodes_ColConfig.Connection = objLocalConfig.Connection_Plugin
+        semtblA_Token.Connection = objLocalConfig.Connection_DB
         semtblA_Type.Connection = objLocalConfig.Connection_DB
+        semtblA_Attribute.Connection = objLocalConfig.Connection_DB
+        semtblA_RelationType.Connection = objLocalConfig.Connection_DB
+
+        TokenAAttribute_Bit.Connection = objLocalConfig.Connection_DB
+        TokenAAttribute_Date.Connection = objLocalConfig.Connection_DB
+        TokenAAttribute_Datetime.Connection = objLocalConfig.Connection_DB
+        TokenAAttribute_Int.Connection = objLocalConfig.Connection_DB
+        TokenAAttribute_Real.Connection = objLocalConfig.Connection_DB
+        TokenAAttribute_Time.Connection = objLocalConfig.Connection_DB
+        TokenAAttribute_Varchar255.Connection = objLocalConfig.Connection_DB
+        TokenAAttribute_VarcharMax.Connection = objLocalConfig.Connection_DB
+
         objJson = New clsJson(objLocalConfig)
     End Sub
 
     Private Function initialize_ElConn() As clsSemItem
         Dim objSemItem_Result As clsSemItem
         Try
-            objElConn = New PlainElastic.Net.ElasticConnection(objSemItem_Server.Name, objSemItem_Port.Name)
+            objElConn = New ElasticSearch.Client.ElasticSearchClient("localhost")
+
             objSemItem_Result = objLocalConfig.Globals.LogState_Success
         Catch ex As Exception
             objSemItem_Result = objLocalConfig.Globals.LogState_Error
@@ -245,6 +266,7 @@ Public Class clsElasticSearch
         Dim objXMLNode As Xml.XmlElement
         Dim objXMLNodeLis_col As Xml.XmlNodeList
         Dim objXMLNode_col As Xml.XmlElement
+        Dim objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
 
         Dim lngID As Long = 1
 
@@ -286,10 +308,10 @@ Public Class clsElasticSearch
 
     End Sub
 
-    Private Sub initialize_RestClient()
-        'objRestClient = New RestClient("http://" & objSemItem_Server.Name & ":" & objSemItem_Port.Name)
-        objRestClient = New RestClient("http://localhost:" & objSemItem_Port.Name)
-    End Sub
+    'Private Sub initialize_RestClient()
+    '    'objRestClient = New RestClient("http://" & objSemItem_Server.Name & ":" & objSemItem_Port.Name)
+    '    objRestClient = New RestClient("http://localhost:" & objSemItem_Port.Name)
+    'End Sub
 
     Private Sub get_Data_Indexes()
         funcA_TokenToken.Fill_TokenToken_RightLeft(funcT_Indexes, _
@@ -299,65 +321,643 @@ Public Class clsElasticSearch
 
     End Sub
 
-    Public Function export_Types() As clsSemItem
-        Dim objDRC_Types As DataRowCollection
+    Public Function export_Attributes() As clsSemItem
+        Dim objDRC_Attribute As DataRowCollection
         Dim i As Integer
         Dim objSemItem_Result As clsSemItem
-        Dim strBulkCommand As String
-        Dim objSemItems_Type() As clsSemItem
         Dim strJson As String = ""
-        Dim strJsonTmp As String
         Dim lngPack As Long
-        Dim objTextWriter As IO.TextWriter
+        Dim objDict As Dictionary(Of String, Object)
+        Dim objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+        Dim strGUID_AttributeType As String
 
+        objSemItem_Result = objLocalConfig.Globals.LogState_Success
 
         If objSemItem_XMLImport Is Nothing Then
             get_Data_XMLImport()
         End If
+        initialize_ElConn()
+        Try
+            objElConn.CreateIndex(objSemItem_Index.Name)
+        Catch ex As Exception
+            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+        End Try
 
-        lngPack = 0
-        objDRC_Types = semtblA_Type.GetData().Rows
-        For i = 0 To objDRC_Types.Count - 1
-            strJsonTmp = objJson.Json_Document
-            strJsonTmp = strJsonTmp.Replace("@" & objLocalConfig.SemItem_Token_Variable_INDEX.Name & "@", objSemItem_Index.Name)
-            strJsonTmp = strJsonTmp.Replace("@" & objLocalConfig.SemItem_Token_Variable_TYPE.Name & "@", objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name)
-            strJsonTmp = strJsonTmp.Replace("@" & objLocalConfig.SemItem_Token_Variable_ID.Name & "@", objDRC_Types(i).Item("GUID_Type").ToString)
-            strJson = strJson & strJsonTmp & vbCrLf
+        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+            lngPack = 0
+            objDRC_Attribute = semtblA_Attribute.GetData().Rows
 
-            strJsonTmp = objJson.Json_Attribute
-            strJsonTmp = strJsonTmp.Replace("@" & objLocalConfig.SemItem_Token_Variable_FIELD.Name & "@", "Name")
-            strJsonTmp = strJsonTmp.Replace("@" & objLocalConfig.SemItem_Token_Variable_VALUE.Name & "@", """" & Web.HttpUtility.HtmlEncode(objDRC_Types(i).Item("Name_Type").ToString) & """")
-            strJson = strJson & strJsonTmp & vbCrLf
-            strJsonTmp = objJson.Json_Attribute
-            strJsonTmp = strJsonTmp.Replace("@" & objLocalConfig.SemItem_Token_Variable_FIELD.Name & "@", "ÍD_Type_Parent")
-            strJsonTmp = strJsonTmp.Replace("@" & objLocalConfig.SemItem_Token_Variable_VALUE.Name & "@", """" & objDRC_Types(i).Item("GUID_Type_Parent").ToString & """")
-            strJson = strJson & strJsonTmp & vbCrLf
+            For i = 0 To objDRC_Attribute.Count - 1
+                objDict = New Dictionary(Of String, Object)
+                objDict.Add("Name", objDRC_Attribute(i).Item("Name_Attribute").ToString)
+                Select Case objDRC_Attribute(i).Item("GUID_AttributeType")
+                    Case objLocalConfig.Globals.AttributeType_Bool.GUID
+                        strGUID_AttributeType = objLocalConfig.Globals.AttributeType_Bool.GUID.ToString
+                    Case objLocalConfig.Globals.AttributeType_Date.GUID
+                        strGUID_AttributeType = objLocalConfig.Globals.AttributeType_Datetime.GUID.ToString
+                    Case objLocalConfig.Globals.AttributeType_Datetime.GUID
+                        strGUID_AttributeType = objLocalConfig.Globals.AttributeType_Datetime.GUID.ToString
+                    Case objLocalConfig.Globals.AttributeType_Time.GUID
+                        strGUID_AttributeType = objLocalConfig.Globals.AttributeType_Time.GUID.ToString
+                    Case objLocalConfig.Globals.AttributeType_Int.GUID
+                        strGUID_AttributeType = objLocalConfig.Globals.AttributeType_Int.GUID.ToString
+                    Case objLocalConfig.Globals.AttributeType_Real.GUID
+                        strGUID_AttributeType = objLocalConfig.Globals.AttributeType_Real.GUID.ToString
+                    Case objLocalConfig.Globals.AttributeType_String.GUID
+                        strGUID_AttributeType = objLocalConfig.Globals.AttributeType_String.GUID.ToString
+                    Case objLocalConfig.Globals.AttributeType_Time.GUID
+                        strGUID_AttributeType = objLocalConfig.Globals.AttributeType_Datetime.GUID.ToString
+                    Case objLocalConfig.Globals.AttributeType_Varchar255.GUID
+                        strGUID_AttributeType = objLocalConfig.Globals.AttributeType_String.GUID.ToString
+                End Select
+                objDict.Add("ID_DataType", strGUID_AttributeType)
+                objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Attribute.GUID.ToString)
 
-            If lngPack = 10000 Then
-                initialize_RestClient()
-                objTextWriter = New IO.StreamWriter("C:\Temp\json.txt", False)
-                objTextWriter.Write(strJson)
-                objTextWriter.Close()
-                objRestRequest = New RestRequest("_bulk", Method.POST)
-                objRestRequest.AddFile("request", "C:\Temp\json.txt")
-                objRestResponse = objRestClient.Execute(objRestRequest)
+                ReDim Preserve objBulkObjects(lngPack)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objDRC_Attribute(i).Item("GUID_Attribute").ToString, objDict)
+                objDict = Nothing
 
-                strJson = ""
-                lngPack = 0
+
+                If lngPack = 10000 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                    End Try
+
+                    lngPack = 0
+                End If
+
+                lngPack = lngPack + 1
+            Next
+
+            If Not objBulkObjects Is Nothing Then
+                If objBulkObjects.Count > 0 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+                    End Try
+                End If
+
             End If
+        End If
+
+
+        Return objSemItem_Result
+    End Function
+    Public Function export_Token() As clsSemItem
+        Dim objDRC_Token As DataRowCollection
+        Dim i As Integer
+        Dim objSemItem_Result As clsSemItem
+        Dim strJson As String = ""
+        Dim lngPack As Long
+        Dim objDict As Dictionary(Of String, Object)
+        Dim objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+
+        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+
+        If objSemItem_XMLImport Is Nothing Then
+            get_Data_XMLImport()
+        End If
+        initialize_ElConn()
+        Try
+            objElConn.CreateIndex(objSemItem_Index.Name)
+        Catch ex As Exception
+            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+        End Try
+
+        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+            lngPack = 0
+            objDRC_Token = semtblA_Token.GetData().Rows
+
+            For i = 0 To objDRC_Token.Count - 1
+                objDict = New Dictionary(Of String, Object)
+                objDict.Add("Name", objDRC_Token(i).Item("Name_Token").ToString)
+                objDict.Add("ID_Class", objDRC_Token(i).Item("GUID_Type").ToString)
+                objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Object.GUID.ToString)
+
+                ReDim Preserve objBulkObjects(lngPack)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objDRC_Token(i).Item("GUID_Token").ToString, objDict)
+                objDict = Nothing
+
+
+                If lngPack = 10000 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                    End Try
+
+                    lngPack = 0
+                End If
+
+                lngPack = lngPack + 1
+            Next
+
+            If Not objBulkObjects Is Nothing Then
+                If objBulkObjects.Count > 0 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+                    End Try
+                End If
+
+            End If
+        End If
+
+
+        Return objSemItem_Result
+    End Function
+
+
+    Public Function export_RelationTypes() As clsSemItem
+        Dim objDRC_RelationTypes As DataRowCollection
+        Dim i As Integer
+        Dim objSemItem_Result As clsSemItem
+        Dim strJson As String = ""
+        Dim lngPack As Long
+        Dim objDict As Dictionary(Of String, Object)
+        Dim objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+
+        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+
+        If objSemItem_XMLImport Is Nothing Then
+            get_Data_XMLImport()
+        End If
+        initialize_ElConn()
+        Try
+            objElConn.CreateIndex(objSemItem_Index.Name)
+        Catch ex As Exception
+            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+        End Try
+
+        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+            lngPack = 0
+            objDRC_RelationTypes = semtblA_RelationType.GetData().Rows
+
+            For i = 0 To objDRC_RelationTypes.Count - 1
+                objDict = New Dictionary(Of String, Object)
+                objDict.Add("Name", objDRC_RelationTypes(i).Item("Name_RelationType").ToString)
+                objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_RelationType.GUID.ToString)
+
+                ReDim Preserve objBulkObjects(lngPack)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objDRC_RelationTypes(i).Item("GUID_RelationType").ToString, objDict)
+                objDict = Nothing
+
+
+                If lngPack = 10000 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                    End Try
+
+                    lngPack = 0
+                End If
+
+                lngPack = lngPack + 1
+            Next
+
+            If Not objBulkObjects Is Nothing Then
+                If objBulkObjects.Count > 0 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+                    End Try
+                End If
+
+            End If
+        End If
+
+
+        Return objSemItem_Result
+    End Function
+
+    Public Function export_TokenAttribute(ByVal GUID_AttributeType) As clsSemItem
+        Dim objDRC_TokenAttribute As DataRowCollection
+        Dim i As Integer
+        Dim objSemItem_Result As clsSemItem
+        Dim strJson As String = ""
+        Dim lngPack As Long
+        Dim objDict As Dictionary(Of String, Object)
+        Dim objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+        Dim strGUID_AttributeType As String
+
+        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+
+        If objSemItem_XMLImport Is Nothing Then
+            get_Data_XMLImport()
+        End If
+        initialize_ElConn()
+        Try
+            objElConn.CreateIndex(objSemItem_Index.Name)
+        Catch ex As Exception
+            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+        End Try
+
+        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+            lngPack = 0
+            Select Case GUID_AttributeType
+                Case objLocalConfig.Globals.AttributeType_Bool.GUID
+                    objDRC_TokenAttribute = TokenAAttribute_Bit.GetData().Rows
+                    strGUID_AttributeType = objLocalConfig.Globals.AttributeType_Bool.GUID.ToString
+                Case objLocalConfig.Globals.AttributeType_Date.GUID
+                    objDRC_TokenAttribute = TokenAAttribute_Date.GetData().Rows
+                    strGUID_AttributeType = objLocalConfig.Globals.AttributeType_Datetime.GUID.ToString
+                Case objLocalConfig.Globals.AttributeType_Datetime.GUID
+                    objDRC_TokenAttribute = TokenAAttribute_Datetime.GetData().Rows
+                    strGUID_AttributeType = objLocalConfig.Globals.AttributeType_Datetime.GUID.ToString
+                Case objLocalConfig.Globals.AttributeType_Time.GUID
+                    objDRC_TokenAttribute = TokenAAttribute_Time.GetData().Rows
+                    strGUID_AttributeType = objLocalConfig.Globals.AttributeType_Datetime.GUID.ToString
+                Case objLocalConfig.Globals.AttributeType_Int.GUID
+                    objDRC_TokenAttribute = TokenAAttribute_Int.GetData().Rows
+                    strGUID_AttributeType = objLocalConfig.Globals.AttributeType_Int.GUID.ToString
+                Case objLocalConfig.Globals.AttributeType_Real.GUID
+                    objDRC_TokenAttribute = TokenAAttribute_Real.GetData().Rows
+                    strGUID_AttributeType = objLocalConfig.Globals.AttributeType_Real.GUID.ToString
+                Case objLocalConfig.Globals.AttributeType_String.GUID
+                    objDRC_TokenAttribute = TokenAAttribute_VarcharMax.GetData().Rows
+                    strGUID_AttributeType = objLocalConfig.Globals.AttributeType_String.GUID.ToString
+                Case objLocalConfig.Globals.AttributeType_Varchar255.GUID
+                    objDRC_TokenAttribute = TokenAAttribute_Varchar255.GetData().Rows
+                    strGUID_AttributeType = objLocalConfig.Globals.AttributeType_String.GUID.ToString
+
+            End Select
+
+
+            For i = 0 To objDRC_TokenAttribute.Count - 1
+                objDict = New Dictionary(Of String, Object)
+
+                objDict.Add("Val", objDRC_TokenAttribute(i).Item("Val"))
+                objDict.Add("ID_Attribute", objDRC_TokenAttribute(i).Item("GUID_Attribute").ToString)
+                objDict.Add("OrderID", objDRC_TokenAttribute(i).Item("OrderID"))
+                objDict.Add("ID_AttributeType", strGUID_AttributeType)
+                objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.GUID.ToString)
+
+                ReDim Preserve objBulkObjects(lngPack)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString, objDict)
+                objDict = Nothing
+
+
+                If lngPack = 10000 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                    End Try
+
+                    lngPack = 0
+                End If
+
+                lngPack = lngPack + 1
+            Next
+
+            If Not objBulkObjects Is Nothing Then
+                If objBulkObjects.Count > 0 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+                    End Try
+                End If
+
+            End If
+        End If
+
+
+        Return objSemItem_Result
+    End Function
+
+    Public Function export_Types() As clsSemItem
+        Dim objDRC_Types As DataRowCollection
+        Dim i As Integer
+        Dim objSemItem_Result As clsSemItem
+        Dim strJson As String = ""
+        Dim lngPack As Long
+        Dim objDict As Dictionary(Of String, Object)
+        Dim objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+
+        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+
+        If objSemItem_XMLImport Is Nothing Then
+            get_Data_XMLImport()
+        End If
+        initialize_ElConn()
+        Try
+            objElConn.CreateIndex(objSemItem_Index.Name)
+        Catch ex As Exception
+            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+        End Try
+
+        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+            lngPack = 0
+            objDRC_Types = semtblA_Type.GetData().Rows
+
+            For i = 0 To objDRC_Types.Count - 1
+                objDict = New Dictionary(Of String, Object)
+                objDict.Add("Name", objDRC_Types(i).Item("Name_Type").ToString)
+                objDict.Add("ID_Parent", objDRC_Types(0).Item("GUID_Type_Parent").ToString)
+                objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Class.GUID.ToString)
+
+                ReDim Preserve objBulkObjects(lngPack)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objDRC_Types(i).Item("GUID_Type").ToString, objDict)
+                objDict = Nothing
+
+
+                If lngPack = 10000 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                    End Try
+
+                    lngPack = 0
+                End If
+
+                lngPack = lngPack + 1
+            Next
+
+            If Not objBulkObjects Is Nothing Then
+                If objBulkObjects.Count > 0 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+                    End Try
+                End If
+
+            End If
+        End If
+        
+
+        Return objSemItem_Result
+    End Function
+
+    Public Function export_DataTypes() As clsSemItem
+        Dim i As Integer
+        Dim objSemItem_Result As clsSemItem
+        Dim strJson As String = ""
+        Dim lngPack As Long
+        Dim objDict As Dictionary(Of String, Object)
+        Dim objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+
+        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+
+        If objSemItem_XMLImport Is Nothing Then
+            get_Data_XMLImport()
+        End If
+        initialize_ElConn()
+        Try
+            objElConn.CreateIndex(objSemItem_Index.Name)
+        Catch ex As Exception
+            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+        End Try
+
+        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+            lngPack = 0
+
+
+
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("Name", objLocalConfig.Globals.AttributeType_Bool.Name)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString)
+
+            ReDim Preserve objBulkObjects(lngPack)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.Globals.AttributeType_Bool.GUID.ToString, objDict)
+            objDict = Nothing
 
             lngPack = lngPack + 1
-        Next
 
-        If strJson <> "" Then
-            initialize_RestClient()
-            objTextWriter = New IO.StreamWriter("C:\Temp\json.txt", False)
-            objTextWriter.Write(strJson)
-            objTextWriter.Close()
-            objRestRequest = New RestRequest("_bulk", Method.POST)
-            objRestRequest.AddFile("request", "C:\Temp\json.txt")
-            objRestResponse = objRestClient.Execute(objRestRequest)
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("Name", objLocalConfig.Globals.AttributeType_Datetime.Name)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString)
+
+            ReDim Preserve objBulkObjects(lngPack)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.Globals.AttributeType_Datetime.GUID.ToString, objDict)
+            objDict = Nothing
+
+            lngPack = lngPack + 1
+
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("Name", objLocalConfig.Globals.AttributeType_Int.Name)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString)
+
+            ReDim Preserve objBulkObjects(lngPack)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.Globals.AttributeType_Int.GUID.ToString, objDict)
+            objDict = Nothing
+
+            lngPack = lngPack + 1
+
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("Name", objLocalConfig.Globals.AttributeType_Real.Name)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString)
+
+            ReDim Preserve objBulkObjects(lngPack)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.Globals.AttributeType_Real.GUID.ToString, objDict)
+            objDict = Nothing
+
+            lngPack = lngPack + 1
+
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("Name", objLocalConfig.Globals.AttributeType_String.Name)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString)
+
+            ReDim Preserve objBulkObjects(lngPack)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.Globals.AttributeType_String.GUID.ToString, objDict)
+            objDict = Nothing
+
+            lngPack = lngPack + 1
+
+            Try
+                objOPResult = objElConn.Bulk(objBulkObjects)
+                objBulkObjects = Nothing
+            Catch ex As Exception
+                objSemItem_Result = objLocalConfig.Globals.LogState_Error
+            End Try
+
+
+
+
+
+
+
+
         End If
+
+
+        Return objSemItem_Result
+    End Function
+
+    Public Function export_ItemTypes() As clsSemItem
+        Dim i As Integer
+        Dim objSemItem_Result As clsSemItem
+        Dim strJson As String = ""
+        Dim lngPack As Long
+        Dim objDict As Dictionary(Of String, Object)
+        Dim objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+
+        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+
+        If objSemItem_XMLImport Is Nothing Then
+            get_Data_XMLImport()
+        End If
+        initialize_ElConn()
+        Try
+            objElConn.CreateIndex(objSemItem_Index.Name)
+        Catch ex As Exception
+            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+        End Try
+
+        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+            lngPack = 0
+
+
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Attribute.Name)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+
+            ReDim Preserve objBulkObjects(lngPack)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_Attribute.GUID.ToString, objDict)
+            objDict = Nothing
+
+            lngPack = lngPack + 1
+
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.Name)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+
+            ReDim Preserve objBulkObjects(lngPack)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.GUID.ToString, objDict)
+            objDict = Nothing
+
+            lngPack = lngPack + 1
+
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Class.Name)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+
+            ReDim Preserve objBulkObjects(lngPack)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_Class.GUID.ToString, objDict)
+            objDict = Nothing
+
+            lngPack = lngPack + 1
+
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Class_Attribute.Name)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+
+            ReDim Preserve objBulkObjects(lngPack)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_Class_Attribute.GUID.ToString, objDict)
+            objDict = Nothing
+
+            lngPack = lngPack + 1
+
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Class_Ontology.Name)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+
+            ReDim Preserve objBulkObjects(lngPack)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_Class_Ontology.GUID.ToString, objDict)
+            objDict = Nothing
+
+            lngPack = lngPack + 1
+
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Class_Relation.Name)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+
+            ReDim Preserve objBulkObjects(lngPack)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_Class_Relation.GUID.ToString, objDict)
+            objDict = Nothing
+
+            lngPack = lngPack + 1
+
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_DataType.Name)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+
+            ReDim Preserve objBulkObjects(lngPack)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString, objDict)
+            objDict = Nothing
+
+            lngPack = lngPack + 1
+
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.Name)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+
+            ReDim Preserve objBulkObjects(lngPack)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString, objDict)
+            objDict = Nothing
+
+            lngPack = lngPack + 1
+
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Object.Name)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+
+            ReDim Preserve objBulkObjects(lngPack)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_Object.GUID.ToString, objDict)
+            objDict = Nothing
+
+            lngPack = lngPack + 1
+
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Object_Ontology.Name)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+
+            ReDim Preserve objBulkObjects(lngPack)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_Object_Ontology.GUID.ToString, objDict)
+            objDict = Nothing
+
+            lngPack = lngPack + 1
+
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_RelationType.Name)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+
+            ReDim Preserve objBulkObjects(lngPack)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_RelationType.GUID.ToString, objDict)
+            objDict = Nothing
+
+            lngPack = lngPack + 1
+            Try
+                objOPResult = objElConn.Bulk(objBulkObjects)
+                objBulkObjects = Nothing
+            Catch ex As Exception
+                objSemItem_Result = objLocalConfig.Globals.LogState_Error
+            End Try
+
+
+
+
+
+
+
+
+        End If
+
 
         Return objSemItem_Result
     End Function
