@@ -1,21 +1,15 @@
 ﻿Imports Sem_Manager
 Imports RestSharp
-<<<<<<< HEAD
 Imports ElasticSearch
-Public Class clsElasticSearch
-    Dim objLocalConfig As clsLocalConfig
-
-    Private procA_XMLNodes_ColConfig As New DataSet_ElasticSearchConnectorTableAdapters.proc_XMLNodes_ColConfigTableAdapter
-    Private procT_XMLNodes_ColConfig As New DataSet_ElasticSearchConnector.proc_XMLNodes_ColConfigDataTable
-
-=======
 Imports PlainElastic
-
 Public Class clsElasticSearch
     Dim objLocalConfig As clsLocalConfig
 
     Private semtblA_Type As New ds_SemDBTableAdapters.semtbl_TypeTableAdapter
->>>>>>> Some Changes
+
+    Private procA_XMLNodes_ColConfig As New DataSet_ElasticSearchConnectorTableAdapters.proc_XMLNodes_ColConfigTableAdapter
+    Private procT_XMLNodes_ColConfig As New DataSet_ElasticSearchConnector.proc_XMLNodes_ColConfigDataTable
+
     Private funcA_TokenToken As New ds_TokenTableAdapters.func_TokenTokenTableAdapter
     Private funcT_Indexes As New ds_Token.func_TokenTokenDataTable
 
@@ -45,11 +39,8 @@ Public Class clsElasticSearch
     Private Sub set_DBConnection()
         funcA_TokenToken.Connection = objLocalConfig.Connection_DB
         procA_XMLImport.Connection = objLocalConfig.Connection_Plugin
-<<<<<<< HEAD
         procA_XMLNodes_ColConfig.Connection = objLocalConfig.Connection_Plugin
-=======
         semtblA_Type.Connection = objLocalConfig.Connection_DB
->>>>>>> Some Changes
         objJson = New clsJson(objLocalConfig)
     End Sub
 
@@ -105,145 +96,145 @@ Public Class clsElasticSearch
 
     End Sub
 
-    Public Function insert_XML(ByVal objXML As Xml.XmlDocument, ByVal objXMLImport As clsSemItem) As clsSemItem
-        Dim strJson As String
-        Dim objSemItem_Result As clsSemItem
-        Dim objWebRequest As Net.HttpWebRequest
-        Dim objStream As IO.Stream
-        Dim objWebResponse As Net.WebResponse
-        Dim objStreamReader As IO.StreamReader
-        Dim objElasticSearch As ElasticSearch.Client.ElasticSearchClient
-        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
-        Dim objBulkObject As ElasticSearch.Client.Domain.BulkObject
-        Dim strResponse As String
-        Dim objDRC_XMLNode_Row As DataRowCollection
-        Dim objXMLNodeList As Xml.XmlNodeList
-        Dim objXMLNode As Xml.XmlElement
-        Dim objDRC_XMLNodes_Col As DataRowCollection
-        Dim objDR_XMLNodes_Col As DataRow
-        Dim objXMLNodeLis_col As Xml.XmlNodeList
-        Dim objXMLNode_col As Xml.XmlElement
-        Dim objDict As Dictionary(Of String, Object)
-        Dim bytes() As Byte
-        Dim intCount As Integer
-        Dim intItem As Integer
-        Dim strFields As String
+    'Public Function insert_XML(ByVal objXML As Xml.XmlDocument, ByVal objXMLImport As clsSemItem) As clsSemItem
+    '    Dim strJson As String
+    '    Dim objSemItem_Result As clsSemItem
+    '    Dim objWebRequest As Net.HttpWebRequest
+    '    Dim objStream As IO.Stream
+    '    Dim objWebResponse As Net.webresponse
+    '    Dim objStreamReader As IO.StreamReader
+    '    Dim objElasticSearch As ElasticSearch.Client.ElasticSearchClient
+    '    Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+    '    Dim objBulkObject As ElasticSearch.Client.Domain.BulkObject
+    '    Dim strResponse As String
+    '    Dim objDRC_XMLNode_Row As DataRowCollection
+    '    Dim objXMLNodeList As Xml.XmlNodeList
+    '    Dim objXMLNode As Xml.XmlElement
+    '    Dim objDRC_XMLNodes_Col As DataRowCollection
+    '    Dim objDR_XMLNodes_Col As DataRow
+    '    Dim objXMLNodeLis_col As Xml.XmlNodeList
+    '    Dim objXMLNode_col As Xml.XmlElement
+    '    Dim objDict As Dictionary(Of String, Object)
+    '    Dim bytes() As Byte
+    '    Dim intCount As Integer
+    '    Dim intItem As Integer
+    '    Dim strFields As String
 
-        If objSemItem_XMLImport Is Nothing Then
-            get_Data_XMLImport()
-        End If
+    '    If objSemItem_XMLImport Is Nothing Then
+    '        get_Data_XMLImport()
+    '    End If
 
-        If Not objSemItem_XMLImport Is Nothing Then
-            objSemItem_Result = objLocalConfig.Globals.LogState_Success
+    '    If Not objSemItem_XMLImport Is Nothing Then
+    '        objSemItem_Result = objLocalConfig.Globals.LogState_Success
 
-            'strJson = objJson.convert_XML_To_Json_ForElasticSearch(objXMLImport, objSemItem_Index, objSemItem_TypeElasticSearch, objXML)
-            objDRC_XMLNode_Row = funcA_TokenToken.GetData_TokenToken_LeftRight(objXMLImport.GUID, _
-                                                                           objLocalConfig.SemItem_RelationType_RowConfig.GUID, _
-                                                                           objLocalConfig.SemItem_Type_XMLNode.GUID).Rows
+    '        'strJson = objJson.convert_XML_To_Json_ForElasticSearch(objXMLImport, objSemItem_Index, objSemItem_TypeElasticSearch, objXML)
+    '        objDRC_XMLNode_Row = funcA_TokenToken.GetData_TokenToken_LeftRight(objXMLImport.GUID, _
+    '                                                                       objLocalConfig.SemItem_RelationType_Row_Config.GUID, _
+    '                                                                       objLocalConfig.SemItem_Type_XML_Nodes.GUID).Rows
 
-            If objDRC_XMLNode_Row.Count > 0 Then
-                objXMLNodeList = objXML.GetElementsByTagName(objDRC_XMLNode_Row(0).Item("Name_Token_Right"))
-                objDRC_XMLNodes_Col = procA_XMLNodes_ColConfig.GetData(objLocalConfig.SemItem_Type_XMLNode.GUID, _
-                                                               objLocalConfig.SemItem_Type_FieldType.GUID, _
-                                                               objLocalConfig.SemItem_RelationType_ColConfig.GUID, _
-                                                               objLocalConfig.SemItem_RelationType_isOfType.GUID, _
-                                                               objXMLImport.GUID).Rows
-                lngRowID = 0
-                'objElasticSearch = New ElasticSearch.Client.ElasticSearchClient(objSemItem_Server.Name, Integer.Parse(objSemItem_Port.Name), Client.Config.TransportType.Http, False)
-                Try
+    '        If objDRC_XMLNode_Row.Count > 0 Then
+    '            objXMLNodeList = objXML.GetElementsByTagName(objDRC_XMLNode_Row(0).Item("Name_Token_Right"))
+    '            objDRC_XMLNodes_Col = procA_XMLNodes_ColConfig.GetData(objLocalConfig.SemItem_Type_XML_Nodes.GUID, _
+    '                                                           objLocalConfig.SemItem_Type_Field_Type.GUID, _
+    '                                                           objLocalConfig.SemItem_RelationType_Col_Config.GUID, _
+    '                                                           objLocalConfig.SemItem_RelationType_is_of_Type.GUID, _
+    '                                                           objXMLImport.GUID).Rows
+    '            lngRowID = 0
+    '            'objElasticSearch = New ElasticSearch.Client.ElasticSearchClient(objSemItem_Server.Name, Integer.Parse(objSemItem_Port.Name), Client.Config.TransportType.Http, False)
+    '            Try
 
-                    objElasticSearch = New ElasticSearch.Client.ElasticSearchClient("Explido")
+    '                objElasticSearch = New ElasticSearch.Client.ElasticSearchClient("Explido")
 
-                    Try
-                        objElasticSearch.DeleteIndex(objSemItem_Index.Name)
+    '                Try
+    '                    objElasticSearch.DeleteIndex(objSemItem_Index.Name)
 
-                    Catch ex As Exception
-                        MsgBox(objSemItem_Index.Name)
-                    End Try
-                    Try
-                        objElasticSearch.CreateIndex(objSemItem_Index.Name)
-                    Catch ex As Exception
-                        MsgBox(objSemItem_Index.Name)
-                    End Try
-                    While lngRowID < objXMLNodeList.Count
-                        If lngRowID + 500 < objXMLNodeList.Count Then
-                            intCount = 500
-                        Else
-                            intCount = objXMLNodeList.Count - lngRowID
-                        End If
-                        intItem = 0
-                        While intCount >= 0
-                            objXMLNode = objXMLNodeList(lngRowID)
-                            objDict = New Dictionary(Of String, Object)
-                            For Each objDR_XMLNode_Col In objDRC_XMLNodes_Col
-                                objXMLNodeLis_col = objXMLNode.GetElementsByTagName(objDR_XMLNode_Col.Item("Name_XMLNode"))
-                                If objXMLNodeLis_col.Count > 0 Then
-                                    objXMLNode_col = objXMLNodeLis_col(0)
-
-
-                                    objDict.Add(objDR_XMLNode_Col.Item("Name_XMLNode"), objXMLNode_col.InnerText)
-                                    'strFields = strFields & "" & objDR_XMLNode_Col.Item("Name_XMLNode") & """ : """ & objXMLNode_col.InnerText & """"
-                                End If
-
-                            Next
-
-                            If objDict.Count > 0 Then
-                                ReDim Preserve objBulkObjects(intItem)
-                                objBulkObjects(intItem) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objSemItem_TypeElasticSearch.Name, lngRowID, objDict)
-                            End If
-                            lngRowID = lngRowID + 1
-                            intCount = intCount - 1
-                            intItem = intItem + 1
-                        End While
-                        Try
-                            objOPResult = objElasticSearch.Bulk(objBulkObjects)
-                        Catch ex As Exception
-                            MsgBox(ex.Message)
-                        End Try
-
-                        'MsgBox(objOPResult.JsonString)
-
-                    End While
-                Catch ex As Exception
-                    MsgBox(ex.Message)
-                End Try
-
-                
-            End If
-            'objElasticSearch = New ElasticSearch.Client.ElasticSearchClient(objSemItem_Server.Name, objSemItem_Port.Name, Client.Config.TransportType.Http, False)
+    '                Catch ex As Exception
+    '                    MsgBox(objSemItem_Index.Name)
+    '                End Try
+    '                Try
+    '                    objElasticSearch.CreateIndex(objSemItem_Index.Name)
+    '                Catch ex As Exception
+    '                    MsgBox(objSemItem_Index.Name)
+    '                End Try
+    '                While lngRowID < objXMLNodeList.Count
+    '                    If lngRowID + 500 < objXMLNodeList.Count Then
+    '                        intCount = 500
+    '                    Else
+    '                        intCount = objXMLNodeList.Count - lngRowID
+    '                    End If
+    '                    intItem = 0
+    '                    While intCount >= 0
+    '                        objXMLNode = objXMLNodeList(lngRowID)
+    '                        objDict = New Dictionary(Of String, Object)
+    '                        For Each objDR_XMLNode_Col In objDRC_XMLNodes_Col
+    '                            objXMLNodeLis_col = objXMLNode.GetElementsByTagName(objDR_XMLNode_Col.Item("Name_XMLNode"))
+    '                            If objXMLNodeLis_col.Count > 0 Then
+    '                                objXMLNode_col = objXMLNodeLis_col(0)
 
 
-            'get_BulkObjects(objXMLImport, objSemItem_Index, objSemItem_TypeElasticSearch, objXML)
-            
+    '                                objDict.Add(objDR_XMLNode_Col.Item("Name_XMLNode"), objXMLNode_col.InnerText)
+    '                                'strFields = strFields & "" & objDR_XMLNode_Col.Item("Name_XMLNode") & """ : """ & objXMLNode_col.InnerText & """"
+    '                            End If
 
-            'objTextWriter = New IO.StreamWriter("C:\Temp\json.txt")
-            'objTextWriter.Write(strJson)
-            'objTextWriter.Close()
+    '                        Next
 
-            'objRestRequest = New RestRequest("_bulk", Method.POST)
-            'objRestRequest.AddFile("request", "C:\Temp\json.txt")
-            'initialize_RestClient()
-            'objWebRequest = Net.HttpWebRequest.Create("http://" & objSemItem_Server.Name & ":" & objSemItem_Port.Name)
-            'objWebRequest.Method = "POST"
-            'objStream = objWebRequest.GetRequestStream()
+    '                        If objDict.Count > 0 Then
+    '                            ReDim Preserve objBulkObjects(intItem)
+    '                            objBulkObjects(intItem) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objSemItem_TypeElasticSearch.Name, lngRowID, objDict)
+    '                        End If
+    '                        lngRowID = lngRowID + 1
+    '                        intCount = intCount - 1
+    '                        intItem = intItem + 1
+    '                    End While
+    '                    Try
+    '                        objOPResult = objElasticSearch.Bulk(objBulkObjects)
+    '                    Catch ex As Exception
+    '                        MsgBox(ex.Message)
+    '                    End Try
 
-            'bytes = System.Text.Encoding.UTF8.GetBytes(strJson)
-            'objStream.Write(bytes, 0, bytes.Count - 1)
-            'objStream.Close()
-            'objWebResponse = objWebRequest.GetResponse
-            'objStreamReader = New IO.StreamReader(objWebResponse.GetResponseStream(), True)
-            'strResponse = objStreamReader.ReadToEnd()
+    '                    'MsgBox(objOPResult.JsonString)
 
-            'objWebclient.UploadFile("http://" & objSemItem_Server.Name & ":" & objSemItem_Port.Name, "C:\Temp\json.txt")
-            'objRestResponse = objRestClient.Execute(objRestRequest)
+    '                End While
+    '            Catch ex As Exception
+    '                MsgBox(ex.Message)
+    '            End Try
 
-        Else
-            objSemItem_Result = objLocalConfig.Globals.LogState_Error
-        End If
-        
 
-        Return objSemItem_Result
-    End Function
+    '        End If
+    '        'objElasticSearch = New ElasticSearch.Client.ElasticSearchClient(objSemItem_Server.Name, objSemItem_Port.Name, Client.Config.TransportType.Http, False)
+
+
+    '        'get_BulkObjects(objXMLImport, objSemItem_Index, objSemItem_TypeElasticSearch, objXML)
+
+
+    '        'objTextWriter = New IO.StreamWriter("C:\Temp\json.txt")
+    '        'objTextWriter.Write(strJson)
+    '        'objTextWriter.Close()
+
+    '        'objRestRequest = New RestRequest("_bulk", Method.POST)
+    '        'objRestRequest.AddFile("request", "C:\Temp\json.txt")
+    '        'initialize_RestClient()
+    '        'objWebRequest = Net.HttpWebRequest.Create("http://" & objSemItem_Server.Name & ":" & objSemItem_Port.Name)
+    '        'objWebRequest.Method = "POST"
+    '        'objStream = objWebRequest.GetRequestStream()
+
+    '        'bytes = System.Text.Encoding.UTF8.GetBytes(strJson)
+    '        'objStream.Write(bytes, 0, bytes.Count - 1)
+    '        'objStream.Close()
+    '        'objWebResponse = objWebRequest.GetResponse
+    '        'objStreamReader = New IO.StreamReader(objWebResponse.GetResponseStream(), True)
+    '        'strResponse = objStreamReader.ReadToEnd()
+
+    '        'objWebclient.UploadFile("http://" & objSemItem_Server.Name & ":" & objSemItem_Port.Name, "C:\Temp\json.txt")
+    '        'objRestResponse = objRestClient.Execute(objRestRequest)
+
+    '    Else
+    '        objSemItem_Result = objLocalConfig.Globals.LogState_Error
+    '    End If
+
+
+    '    Return objSemItem_Result
+    'End Function
 
     Public Sub get_BulkObjects(ByVal objXMLImport As clsSemItem, ByVal objSemItem_Index As clsSemItem, ByVal objSemItem_TypeElasticSearch As clsSemItem, ByVal objXML As Xml.XmlDocument)
         Dim strJson As String = ""
@@ -257,10 +248,10 @@ Public Class clsElasticSearch
 
         Dim lngID As Long = 1
 
-        
 
 
-        
+
+
         If objDRC_XMLNodes_Col.Count > 0 Then
 
             For Each objXMLNode In objXMLNodeList

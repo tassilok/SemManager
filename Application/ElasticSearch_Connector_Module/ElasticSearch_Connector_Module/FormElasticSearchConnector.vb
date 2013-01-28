@@ -53,7 +53,7 @@ Public Class Form_ElasticSearchConnector
 
         objXML = objXMLImport.get_XML_Of_WebResource(objSemItem_XMLImport)
 
-        objSemItem_Result = objElasticSarech.insert_XML(objXML, objSemItem_XMLImport)
+        'objSemItem_Result = objElasticSarech.insert_XML(objXML, objSemItem_XMLImport)
 
 
     End Sub
