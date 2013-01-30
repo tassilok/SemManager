@@ -90,7 +90,7 @@
         objOItem_Class_Selected = Nothing
         ToolStripTextBox_ID.Text = ""
         If objTreeNode.ImageIndex = cint_ImageID_Class_Closed Then
-            objOItem_Class_Selected = New clsOntologyItem(objTreeNode.Name, objTreeNode.Text, objLocalConfig.Globals.OType_Class.GUID)
+            objOItem_Class_Selected = New clsOntologyItem(objTreeNode.Name, objTreeNode.Text, objLocalConfig.Globals.Type_Class)
             RaiseEvent selected_Class(objOItem_Class_Selected)
             ToolStripTextBox_ID.Text = objTreeNode.Name
         End If

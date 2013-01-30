@@ -68,22 +68,56 @@ Public Class clsDBLevel
 
     Private Sub initialize_Client()
 
-        objElConn = New ElasticSearch.Client.ElasticSearchClient(objLocalConfig.Globals.Cluster)
+        objElConn = New ElasticSearch.Client.ElasticSearchClient(objLocalConfig.Globals.Server, objLocalConfig.Globals.Port, Client.Config.TransportType.Thrift, False)
+        'objElConn = New ElasticSearch.Client.ElasticSearchClient("ontology_db")
     End Sub
 
-    Public Function get_Data_RelationTypes(Optional ByVal OItem_RelType As clsOntologyItem = Nothing, Optional ByVal boolTable As Boolean = False) As clsOntologyItem
+    Public Function get_Data_RelationTypes(Optional ByVal OList_RelType As List(Of clsOntologyItem) = Nothing, Optional ByVal boolTable As Boolean = False) As clsOntologyItem
         Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
         Dim objHit As ElasticSearch.Client.Domain.Hits
+        Dim objFieldQuery_ID As New clsFieldQuery
+        Dim objFieldQuery_Name As New clsFieldQuery
+        Dim oItem As clsOntologyItem
         Dim intCount As Integer
         Dim intPos As Integer
 
         intCount = 0
-        If OItem_RelType Is Nothing Then
-            objBoolQuery.Add(New TermQuery(New Term("ID_ItemType", objLocalConfig.Globals.OType_RelationType.GUID.ToString)), BooleanClause.Occur.MUST)
+        If OList_RelType Is Nothing Then
+            objBoolQuery.Add(New TermQuery(New Term("ID_Item", "*")), BooleanClause.Occur.MUST)
         Else
-            
+            For Each oItem In OList_RelType
+                If oItem.GUID <> "" Then
+                    objFieldQuery_ID.Field = "ID_Item"
+
+                    If objFieldQuery_ID.Query <> "" Then
+                        objFieldQuery_ID.Query = objFieldQuery_ID.Query & " OR "
+                    End If
+
+                    objFieldQuery_ID.Query = objFieldQuery_ID.Query & oItem.GUID
+
+
+                End If
+
+                If oItem.Name <> "" Then
+                    objFieldQuery_Name.Field = objLocalConfig.Globals.Field_Name_Item
+
+                    If objFieldQuery_Name.Query <> "" Then
+                        objFieldQuery_Name.Query = objFieldQuery_Name.Query & " OR "
+                    End If
+
+                    objFieldQuery_Name.Query = objFieldQuery_Name.Query & oItem.Name
+                End If
+            Next
+            If objFieldQuery_ID.Field <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objFieldQuery_ID.Field, objFieldQuery_ID.Query)), BooleanClause.Occur.MUST)
+            End If
+
+            If objFieldQuery_Name.Field <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objFieldQuery_Name.Field, objFieldQuery_Name.Query)), BooleanClause.Occur.MUST)
+            End If
+
         End If
 
         otblT_RelationTypes.Clear()
@@ -94,7 +128,7 @@ Public Class clsDBLevel
         While intCount > 0
 
             intCount = 0
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_RelationType, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
             objList = objSearchResult.GetHits.Hits
             'Dim a = From obja In objList
             'Where (Not obja.Source("@fields")("ex_cid") Is Nothing)
@@ -107,7 +141,7 @@ Public Class clsDBLevel
                 If boolTable = False Then
                     objOntologyList_RelationTypes.Add(New clsOntologyItem(objHit.Id.ToString, _
                                                                 objHit.Source("Name_Item").ToString, _
-                                                                objLocalConfig.Globals.OType_RelationType.GUID))
+                                                                objLocalConfig.Globals.Type_RelationType))
                 Else
                     otblT_RelationTypes.Rows.Add(New Guid(objHit.Id.ToString), _
                                                                 objHit.Source("Name_Item").ToString)
@@ -126,18 +160,62 @@ Public Class clsDBLevel
 
     End Function
 
-    Public Function get_Data_Attributes(Optional ByVal OItem_RelType As clsOntologyItem = Nothing, Optional ByVal boolTable As Boolean = False) As clsOntologyItem
+    Public Function get_Data_AttributeType(Optional ByVal OList_AttType As List(Of clsOntologyItem) = Nothing, Optional ByVal boolTable As Boolean = False) As clsOntologyItem
         Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
+        Dim objOItem_AttType As clsOntologyItem
+        Dim objFieldQuery_ID As New clsFieldQuery
+        Dim objFieldQuery_Name As New clsFieldQuery
+        Dim objFieldQuery_ID_DataType As New clsFieldQuery
+
         Dim objHit As ElasticSearch.Client.Domain.Hits
         Dim intCount As Integer
         Dim intPos As Integer
 
         intCount = 0
-        If OItem_RelType Is Nothing Then
-            objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_ItemType, objLocalConfig.Globals.OType_Attribute.GUID.ToString)), BooleanClause.Occur.MUST)
+        If OList_AttType Is Nothing Then
+            objBoolQuery.Add(New TermQuery(New Term("ID_Item", "*")), BooleanClause.Occur.MUST)
         Else
+            For Each objOItem_AttType In OList_AttType
+                If objOItem_AttType.GUID <> "" Then
+                    objFieldQuery_ID.Field = "id"
+                    If objFieldQuery_ID.Query <> "" Then
+                        objFieldQuery_ID.Query = objFieldQuery_ID.Query & " OR "
+                    End If
+                    objFieldQuery_ID.Query = objFieldQuery_ID.Query & objOItem_AttType.GUID
+
+                End If
+
+                If objOItem_AttType.Name <> "" Then
+                    objFieldQuery_Name.Field = objLocalConfig.Globals.Field_Name_Item
+                    If objFieldQuery_Name.Query <> "" Then
+                        objFieldQuery_Name.Query = objFieldQuery_Name.Query & " OR "
+                    End If
+                    objFieldQuery_Name.Query = objFieldQuery_Name.Query & objOItem_AttType.Name
+
+                End If
+
+                If objOItem_AttType.GUID_Parent <> "" Then
+                    objFieldQuery_ID_DataType.Field = objLocalConfig.Globals.Field_ID_DataType
+                    If objFieldQuery_ID_DataType.Query <> "" Then
+                        objFieldQuery_ID_DataType.Query = objFieldQuery_ID_DataType.Query & " OR "
+                    End If
+                    objFieldQuery_ID_DataType.Query = objFieldQuery_ID_DataType.Query & objOItem_AttType.GUID_Parent
+
+                End If
+            Next
+            If objFieldQuery_ID.Field <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objFieldQuery_ID.Field, objFieldQuery_ID.Query)), BooleanClause.Occur.MUST)
+            End If
+
+            If objFieldQuery_Name.Field <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objFieldQuery_Name.Field, objFieldQuery_ID.Query)), BooleanClause.Occur.MUST)
+            End If
+
+            If objFieldQuery_ID_DataType.Field <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objFieldQuery_ID_DataType.Field, objFieldQuery_ID_DataType.Query)), BooleanClause.Occur.MUST)
+            End If
 
         End If
 
@@ -149,7 +227,7 @@ Public Class clsDBLevel
         While intCount > 0
 
             intCount = 0
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_AttributeType, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
             objList = objSearchResult.GetHits.Hits
             'Dim a = From obja In objList
             'Where (Not obja.Source("@fields")("ex_cid") Is Nothing)
@@ -163,7 +241,7 @@ Public Class clsDBLevel
                     objOntologyList_Attributes.Add(New clsOntologyItem(objHit.Id.ToString, _
                                                                 objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
                                                                 objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString, _
-                                                                objLocalConfig.Globals.OType_Attribute.GUID))
+                                                                objLocalConfig.Globals.Type_AttributeType))
                 Else
                     otblT_Attributes.Rows.Add(New Guid(objHit.Id.ToString), _
                                                                 objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
@@ -183,7 +261,7 @@ Public Class clsDBLevel
 
     End Function
 
-    Public Function get_Data_Objects(Optional ByVal oList_Objects As List(of clsOntologyItem), Optional ByVal boolTable As Boolean = False) As clsOntologyItem
+    Public Function get_Data_Objects(Optional ByVal oList_Objects As List(Of clsOntologyItem) = Nothing, Optional ByVal boolTable As Boolean = False) As clsOntologyItem
         Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
@@ -192,23 +270,69 @@ Public Class clsDBLevel
         Dim strQuery As String = ""
         Dim intCount As Integer
         Dim intPos As Integer
+        Dim objFieldQuery_ID As New clsFieldQuery
+        Dim objFieldQuery_Name As New clsFieldQuery
+        Dim objFieldQuery_Class As New clsFieldQuery
+        Dim objOItem As clsOntologyItem
+
+        
 
         intCount = 0
         If oList_Objects Is Nothing Then
-            objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_ItemType, objLocalConfig.Globals.OType_Object.GUID.ToString)), BooleanClause.Occur.MUST)
+            objBoolQuery.Add(New TermQuery(New Term("ID_Item", "*")), BooleanClause.Occur.MUST)
         Else
-            objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_ItemType, objLocalConfig.Globals.OType_Object.GUID.ToString)), BooleanClause.Occur.MUST)
 
-            For Each objOItem_Object In oList_Objects
-                If objLocalConfig.Globals.is_GUID(objOItem_Object.GUID_Parent.ToString) Then
-                    If strQuery <> "" Then
-                        strQuery = strQuery & " OR "
+            For Each objOItem In oList_Objects
+                If Not objOItem.GUID = "" Then
+                    If objFieldQuery_ID.Field = "" Then
+                        objFieldQuery_ID.Field = "ID_Item"
                     End If
-                    strQuery = strQuery & objOItem_Object.GUID_Parent
+
+                    If objFieldQuery_ID.Query <> "" Then
+                        objFieldQuery_ID.Query = objFieldQuery_ID.Query & " OR "
+                    End If
+
+                    objFieldQuery_ID.Query = objFieldQuery_ID.Query & objOItem.GUID
                 End If
+
+                If Not objOItem.Name = "" Then
+                    If objFieldQuery_Name.Field = "" Then
+                        objFieldQuery_Name.Field = objLocalConfig.Globals.Field_Name_Item
+                    End If
+
+                    If objFieldQuery_Name.Query <> "" Then
+                        objFieldQuery_Name.Query = objFieldQuery_Name.Query & " OR "
+                    End If
+
+                    objFieldQuery_Name.Query = objFieldQuery_Name.Query & "*" & objOItem.Name & "*"
+                End If
+
+                If Not objOItem.GUID_Parent = "" Then
+                    If objFieldQuery_Class.Field = "" Then
+                        objFieldQuery_Class.Field = objLocalConfig.Globals.Field_ID_Class
+                    End If
+
+                    If objFieldQuery_Class.Query <> "" Then
+                        objFieldQuery_Class.Query = objFieldQuery_Class.Query & " OR "
+                    End If
+
+                    objFieldQuery_Class.Query = objFieldQuery_Class.Query & objOItem.GUID_Parent
+                End If
+
             Next
-            objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Class, strQuery)), BooleanClause.Occur.MUST)
-            
+            If objFieldQuery_ID.Field <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objFieldQuery_ID.Field, objFieldQuery_ID.Query)), BooleanClause.Occur.MUST)
+            End If
+
+            If objFieldQuery_Name.Field <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objFieldQuery_Name.Field, objFieldQuery_Name.Query)), BooleanClause.Occur.MUST)
+            End If
+
+            If objFieldQuery_Class.Field <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objFieldQuery_Class.Field, objFieldQuery_Class.Query)), BooleanClause.Occur.MUST)
+            End If
+
+
         End If
 
         otblT_Objects.Clear()
@@ -219,7 +343,7 @@ Public Class clsDBLevel
         While intCount > 0
 
             intCount = 0
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Object, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
             objList = objSearchResult.GetHits.Hits
             'Dim a = From obja In objList
             'Where (Not obja.Source("@fields")("ex_cid") Is Nothing)
@@ -233,7 +357,7 @@ Public Class clsDBLevel
                     objOntologyList_Objects.Add(New clsOntologyItem(objHit.Id.ToString, _
                                                                 objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
                                                                 objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
-                                                                objLocalConfig.Globals.OType_Object.GUID))
+                                                                objLocalConfig.Globals.Type_Object))
                 Else
                     otblT_Objects.Rows.Add(New Guid(objHit.Id.ToString), _
                                                                 objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
@@ -253,17 +377,59 @@ Public Class clsDBLevel
 
     End Function
 
-    Public Function get_Data_Classes(Optional ByVal OItem_Classes As clsOntologyItem = Nothing, Optional ByVal boolTable As Boolean = False) As clsOntologyItem
+    Public Function get_Data_Classes(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing, Optional ByVal boolTable As Boolean = False) As clsOntologyItem
         Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
         Dim objHit As ElasticSearch.Client.Domain.Hits
+        Dim objOItem As clsOntologyItem
+        Dim objFieldQuery_ID As New clsFieldQuery
+        Dim objFieldQuery_Name As New clsFieldQuery
+        Dim objFieldQuery_ID_Parent As New clsFieldQuery
         Dim intCount As Integer
         Dim intPos As Integer
 
         intCount = 0
-        If OItem_Classes Is Nothing Then
-            objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_ItemType, objLocalConfig.Globals.OType_Class.GUID.ToString)), BooleanClause.Occur.MUST)
+        If OList_Classes Is Nothing Then
+            objBoolQuery.Add(New TermQuery(New Term("ID_Item", "*")), BooleanClause.Occur.MUST)
+        Else
+            For Each objOItem In OList_Classes
+                If objOItem.GUID <> "" Then
+                    objFieldQuery_ID.Field = "ID_Item"
+                    If objFieldQuery_ID.Query <> "" Then
+                        objFieldQuery_ID.Query = objFieldQuery_ID.Query & " OR "
+                    End If
+                    objFieldQuery_ID.Query = objFieldQuery_ID.Query & objOItem.GUID
+                End If
+
+                If objOItem.Name <> "" Then
+                    objFieldQuery_Name.Field = objLocalConfig.Globals.Field_Name_Item
+                    If objFieldQuery_Name.Query <> "" Then
+                        objFieldQuery_Name.Query = objFieldQuery_Name.Query & " OR "
+                    End If
+                    objFieldQuery_Name.Query = objFieldQuery_Name.Query & objOItem.Name
+                End If
+
+                If objOItem.GUID_Parent <> "" Then
+                    objFieldQuery_ID_Parent.Field = objLocalConfig.Globals.Field_ID_Parent
+                    If objFieldQuery_ID_Parent.Query <> "" Then
+                        objFieldQuery_ID_Parent.Query = objFieldQuery_ID_Parent.Query & " OR "
+                    End If
+                    objFieldQuery_ID_Parent.Query = objFieldQuery_ID_Parent.Query & objOItem.GUID_Parent
+                End If
+            Next
+
+            If objFieldQuery_ID.Field <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objFieldQuery_ID.Field, objFieldQuery_ID.Query)), BooleanClause.Occur.MUST)
+            End If
+
+            If objFieldQuery_Name.Field <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objFieldQuery_Name.Field, objFieldQuery_Name.Query)), BooleanClause.Occur.MUST)
+            End If
+
+            If objFieldQuery_ID_Parent.Field <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objFieldQuery_ID_Parent.Field, objFieldQuery_ID_Parent.Query)), BooleanClause.Occur.MUST)
+            End If
         End If
 
 
@@ -274,7 +440,7 @@ Public Class clsDBLevel
         While intCount > 0
 
             intCount = 0
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Class, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
             objList = objSearchResult.GetHits.Hits
             'Dim a = From obja In objList
             'Where (Not obja.Source("@fields")("ex_cid") Is Nothing)
@@ -288,12 +454,12 @@ Public Class clsDBLevel
                     If Not objHit.Source("ID_Parent") = "" Then
                         objOntologyList_Classes.Add(New clsOntologyItem(objHit.Id.ToString, _
                                                                     objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
-                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Right).ToString, _
-                                                                    objLocalConfig.Globals.OType_Class.GUID))
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Parent).ToString, _
+                                                                    objLocalConfig.Globals.Type_Class))
                     Else
                         objOntologyList_Classes.Add(New clsOntologyItem(objHit.Id.ToString, _
                                                                     objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
-                                                                    objLocalConfig.Globals.OType_Class.GUID))
+                                                                    objLocalConfig.Globals.Type_Class))
                     End If
                 Else
                     If Not objHit.Source("ID_Parent") = "" Then

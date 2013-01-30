@@ -33,41 +33,38 @@
     End Sub
 
     Private Sub get_Data()
-
+        Dim oList_Items As New List(Of clsOntologyItem)
         If Not objOItem_Parent Is Nothing Then
-            Select Case objOItem_Parent.GUID_Type
-                Case objLocalConfig.Globals.OType_Class.GUID
-                    objDBLevel.get_Data_Objects(objOItem_Parent, True)
+            Select Case objOItem_Parent.Type
+                Case objLocalConfig.Globals.Type_Object
+                    oList_Items.Add(objOItem_Parent)
+                    objDBLevel.get_Data_Objects(oList_Items, True)
                     BindingSource_Token.DataSource = objDBLevel.tbl_Objects
                     DataGridView_Items.DataSource = BindingSource_Token
                     DataGridView_Items.Columns(0).Visible = False
                     DataGridView_Items.Columns(2).Visible = False
                     DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
                     ToolStripLabel_Count.Text = DataGridView_Items.RowCount
-                Case objLocalConfig.Globals.OType_KindOfOntology.GUID
-                    Select Case objOItem_Parent.GUID
-                        Case objLocalConfig.Globals.OType_RelationType.GUID
-                            objDBLevel.get_Data_RelationTypes(Nothing, True)
-                            BindingSource_RelationType.DataSource = objDBLevel.tbl_RelationTypes
-                            DataGridView_Items.DataSource = BindingSource_RelationType
-                            DataGridView_Items.Columns(0).Visible = False
-                            DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
-                            ToolStripLabel_Count.Text = DataGridView_Items.RowCount
-                        Case objLocalConfig.Globals.OType_Attribute.GUID
-                            objDBLevel.get_Data_Attributes(Nothing, True)
-                            BindingSource_Attribute.DataSource = objDBLevel.tbl_Attributes
-                            DataGridView_Items.DataSource = BindingSource_Attribute
-                            DataGridView_Items.Columns(0).Visible = False
-                            DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
-                            ToolStripLabel_Count.Text = DataGridView_Items.RowCount
-                    End Select
-                    
+                Case objLocalConfig.Globals.Type_RelationType
+                    objDBLevel.get_Data_RelationTypes(Nothing, True)
+                    BindingSource_RelationType.DataSource = objDBLevel.tbl_RelationTypes
+                    DataGridView_Items.DataSource = BindingSource_RelationType
+                    DataGridView_Items.Columns(0).Visible = False
+                    DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
+                    ToolStripLabel_Count.Text = DataGridView_Items.RowCount
+                Case objLocalConfig.Globals.Type_AttributeType
+                    objDBLevel.get_Data_AttributeType(Nothing, True)
+                    BindingSource_Attribute.DataSource = objDBLevel.tbl_Attributes
+                    DataGridView_Items.DataSource = BindingSource_Attribute
+                    DataGridView_Items.Columns(0).Visible = False
+                    DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
+                    ToolStripLabel_Count.Text = DataGridView_Items.RowCount
             End Select
 
         Else
 
         End If
-        
+
     End Sub
 
     Private Sub configure_TabPages()

@@ -1,7 +1,42 @@
 ﻿Imports System.Text.RegularExpressions
 Public Class clsGlobals
+
+
+    Private cstrField_ID_Parent_Right As String = "ID_Parent_Right"
+    Private cstrField_ID_Ontology As String = "ID_Ontology"
+    Private cstrField_OrderID As String = "OrderID"
+    Private cstrField_ID_Right As String = "ID_Right"
+    Private cstrField_ID_Parent_Left As String = "ID_Parent_Left"
+    Private cstrField_ID_RelationType As String = "ID_RelationType"
+    Private cstrField_Name_RelationType As String = "Name_RelationType"
+    Private cstrField_Name_ID_Object As String = "ID_Object"
+    Private cstrField_Name_AttributeType As String = "AttributeType"
+    Private cstrField_Name_Item As String = "Name_Item"
+    Private cstrField_ID_DataType As String = "ID_DataType"
+    Private cstrField_ID_Parent As String = "ID_Parent"
+    Private cstrField_ID_Class As String = "ID_Class"
+    Private cstrField_Val_Int As String = "Val_Int"
+    Private cstrField_Val_Bool As String = "Val_Bool"
+    Private cstrField_Val_Real As String = "Val_Real"
+    Private cstrField_ID_AttributeType As String = "ID_AttributeType"
+    Private cstrField_Val_String As String = "Val_String"
+    Private cstrField_Val_Datetime As String = "Val_Datetime"
+
+
+
+    private cstrType_ObjectRel = "ObjectRel"
+    Private cstrType_Class = "Class"
+    Private cstrType_DataType = "DataType"
+    Private cstrType_Object = "Object"
+    Private cstrType_ObjectAtt = "ObjectAtt"
+    Private cstrType_RelationType = "RelationType"
+    Private cstrType_AttributeType = "AttributeType"
+
+    
     Private strEL_Server As String
+    Private strEL_Port As String
     Private strEL_Index As String
+
 
     Private cintSearchRange As Integer = 20000
 
@@ -30,15 +65,11 @@ Public Class clsGlobals
 
     Private dtblT_Config As New DataSet_Config.dtbl_BaseConfigDataTable
 
-    Private objType_ObjectRel As New clsDocType
-    Private objType_DataType As New clsDocType
-    Private objType_ItemType As New clsDocType
-    Private objType_ObjectAtt As New clsDocType
-    Private objType_Class As New clsDocType
-    Private objType_AttributeType As New clsDocType
-    Private objType_Object As New clsDocType
-
-    
+    Public ReadOnly Property Port As String
+        Get
+            Return strEL_Port
+        End Get
+    End Property
 
     Public ReadOnly Property SearchRange As Integer
         Get
@@ -58,7 +89,161 @@ Public Class clsGlobals
         End Get
     End Property
 
-    
+    Public ReadOnly Property Type_AttributeType As String
+        Get
+            Return cstrType_AttributeType
+        End Get
+    End Property
+
+    Public ReadOnly Property Type_Class As String
+        Get
+            Return cstrType_Class
+        End Get
+    End Property
+
+    Public ReadOnly Property Type_DataType As String
+        Get
+            Return cstrType_DataType
+        End Get
+    End Property
+
+    Public ReadOnly Property Type_Object As String
+        Get
+            Return cstrType_Object
+        End Get
+    End Property
+
+    Public ReadOnly Property Type_ObjectAtt As String
+        Get
+            Return cstrType_ObjectAtt
+        End Get
+    End Property
+
+    Public ReadOnly Property Type_ObjectRel As String
+        Get
+            Return cstrType_ObjectRel
+        End Get
+    End Property
+
+    Public ReadOnly Property Type_RelationType As String
+        Get
+            Return cstrType_RelationType
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_ID_AttributeType As String
+        Get
+            Return cstrField_ID_AttributeType
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_ID_Class As String
+        Get
+            Return cstrField_ID_Class
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_ID_DataType As String
+        Get
+            Return cstrField_ID_DataType
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_ID_Ontology As String
+        Get
+            Return cstrField_ID_Ontology
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_ID_Parent As String
+        Get
+            Return cstrField_ID_Parent
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_ID_Parent_Left As String
+        Get
+            Return cstrField_ID_Parent_Left
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_ID_Parent_Right As String
+        Get
+            Return cstrField_ID_Parent_Right
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_ID_RelationType As String
+        Get
+            Return cstrField_ID_RelationType
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_ID_Right As String
+        Get
+            Return cstrField_ID_Right
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_Name_AttributeType As String
+        Get
+            Return cstrField_Name_AttributeType
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_Name_ID_Object As String
+        Get
+            Return cstrField_Name_ID_Object
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_Name_Item As String
+        Get
+            Return cstrField_Name_Item
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_Name_RelationType As String
+        Get
+            Return cstrField_Name_RelationType
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_OrderID As String
+        Get
+            Return cstrField_OrderID
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_Val_Bool As String
+        Get
+            Return cstrField_Val_Bool
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_Val_Datetime As String
+        Get
+            Return cstrField_Val_Datetime
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_Val_Int As String
+        Get
+            Return cstrField_Val_Int
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_Val_Real As String
+        Get
+            Return cstrField_Val_Real
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_Val_String As String
+        Get
+            Return cstrField_Val_String
+        End Get
+    End Property
 
     Public ReadOnly Property Root As clsOntologyItem
         Get
@@ -145,12 +330,13 @@ Public Class clsGlobals
     End Property
 
     Private Sub set_TypeFields()
-        objType_AttributeType.Doc = 
-
+        
     End Sub
 
+
+
     Private Sub set_LogStates()
-        objOItem_Class_Logstate = New clsOntologyItem("1d9568af-b6da-4990-8f4d-907dfdd30749", "Logstate", objOItem_Type_Class.GUID)
+        objOItem_Class_Logstate = New clsOntologyItem("1d9568af-b6da-4990-8f4d-907dfdd30749", "Logstate", cstrType_Class)
 
         objLogState_Delete = New clsOntologyItem("BB6A9555-3AF6-40FC-9FB0-489D2678DFF2", "Delete", objOItem_Class_Logstate.GUID)
         objLogState_Error = New clsOntologyItem("cc714341-7631-4b78-b8f4-385db073635f", "Error", objOItem_Class_Logstate.GUID)
@@ -164,11 +350,11 @@ Public Class clsGlobals
     End Sub
 
     Private Sub set_DataTypes()
-        objOItem_DType_Bool = New clsOntologyItem("dd858f27-d5e1-4363-a5c3-3e561e432333", "Bool", objOItem_Type_DataType.GUID)
-        objOItem_DType_DateTime = New clsOntologyItem("905fda81-788f-4e3d-8329-3e55ae984b9e", "Datetime", objOItem_Type_DataType.GUID)
-        objOItem_DType_Int = New clsOntologyItem("3a4f5b7b-da75-4980-933e-fbc33cc51439", "Int", objOItem_Type_DataType.GUID)
-        objOItem_DType_Real = New clsOntologyItem("a1244d0e-187f-46ee-8574-2fc334077b7d", "Real", objOItem_Type_DataType.GUID)
-        objOItem_DType_String = New clsOntologyItem("64530b52-d96c-4df1-86fe-183f44513450", "String", objOItem_Type_DataType.GUID)
+        objOItem_DType_Bool = New clsOntologyItem("dd858f27-d5e1-4363-a5c3-3e561e432333", "Bool", cstrType_DataType)
+        objOItem_DType_DateTime = New clsOntologyItem("905fda81-788f-4e3d-8329-3e55ae984b9e", "Datetime", cstrType_DataType)
+        objOItem_DType_Int = New clsOntologyItem("3a4f5b7b-da75-4980-933e-fbc33cc51439", "Int", cstrType_DataType)
+        objOItem_DType_Real = New clsOntologyItem("a1244d0e-187f-46ee-8574-2fc334077b7d", "Real", cstrType_DataType)
+        objOItem_DType_String = New clsOntologyItem("64530b52-d96c-4df1-86fe-183f44513450", "String", cstrType_DataType)
 
     End Sub
 
@@ -195,7 +381,14 @@ Public Class clsGlobals
 
             objDRs_ConfigItem = dtblT_Config.Select("ConfigItem_Name='Server'")
             If objDRs_ConfigItem.Count > 0 Then
-                strEL_Type = objDRs_ConfigItem(0).Item("ConfigItem_Value")
+                strEL_Server = objDRs_ConfigItem(0).Item("ConfigItem_Value")
+            Else
+                Err.Raise(1, "Config")
+            End If
+
+            objDRs_ConfigItem = dtblT_Config.Select("ConfigItem_Name='Port'")
+            If objDRs_ConfigItem.Count > 0 Then
+                strEL_Port = objDRs_ConfigItem(0).Item("ConfigItem_Value")
             Else
                 Err.Raise(1, "Config")
             End If
@@ -207,9 +400,10 @@ Public Class clsGlobals
         objOItem_Class_Root = New clsOntologyItem("49fdcd27-e105-4770-941d-7485dcad08c1", "Root", "dbbfc1a0-0c2e-4836-8434-0a7b7a8b4b52")
         strRegEx_GUID = "[A-Za-z0-9]{8}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{12}"
         get_ConfigData()
-        set_OTypes()
         set_DataTypes()
         set_LogStates()
         set_TypeFields()
     End Sub
 End Class
+
+

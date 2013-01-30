@@ -55,6 +55,21 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="otbl_ObjectRel" msprop:Generator_TableClassName="otbl_ObjectRelDataTable" msprop:Generator_TableVarName="tableotbl_ObjectRel" msprop:Generator_TablePropName="otbl_ObjectRel" msprop:Generator_RowDeletingName="otbl_ObjectRelRowDeleting" msprop:Generator_UserTableName="otbl_ObjectRel" msprop:Generator_RowChangingName="otbl_ObjectRelRowChanging" msprop:Generator_RowEvHandlerName="otbl_ObjectRelRowChangeEventHandler" msprop:Generator_RowDeletedName="otbl_ObjectRelRowDeleted" msprop:Generator_RowEvArgName="otbl_ObjectRelRowChangeEvent" msprop:Generator_RowChangedName="otbl_ObjectRelRowChanged" msprop:Generator_RowClassName="otbl_ObjectRelRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_Object" msprop:Generator_ColumnVarNameInTable="columnID_Object" msprop:Generator_ColumnPropNameInRow="ID_Object" msprop:Generator_ColumnPropNameInTable="ID_ObjectColumn" msprop:Generator_UserColumnName="ID_Object" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_Object" msprop:Generator_ColumnVarNameInTable="columnName_Object" msprop:Generator_ColumnPropNameInRow="Name_Object" msprop:Generator_ColumnPropNameInTable="Name_ObjectColumn" msprop:Generator_UserColumnName="Name_Object" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_Parent_Object" msprop:Generator_ColumnVarNameInTable="columnID_Parent_Object" msprop:Generator_ColumnPropNameInRow="ID_Parent_Object" msprop:Generator_ColumnPropNameInTable="ID_Parent_ObjectColumn" msprop:Generator_UserColumnName="ID_Parent_Object" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_Parent_Object" msprop:Generator_ColumnVarNameInTable="columnName_Parent_Object" msprop:Generator_ColumnPropNameInRow="Name_Parent_Object" msprop:Generator_ColumnPropNameInTable="Name_Parent_ObjectColumn" msprop:Generator_UserColumnName="Name_Parent_Object" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_RelationType" msprop:Generator_ColumnVarNameInTable="columnID_RelationType" msprop:Generator_ColumnPropNameInRow="ID_RelationType" msprop:Generator_ColumnPropNameInTable="ID_RelationTypeColumn" msprop:Generator_UserColumnName="ID_RelationType" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_RelationType" msprop:Generator_ColumnVarNameInTable="columnName_RelationType" msprop:Generator_ColumnPropNameInRow="Name_RelationType" msprop:Generator_ColumnPropNameInTable="Name_RelationTypeColumn" msprop:Generator_UserColumnName="Name_RelationType" type="xs:string" minOccurs="0" />
+              <xs:element name="OrderID" msprop:Generator_ColumnVarNameInTable="columnOrderID" msprop:Generator_ColumnPropNameInRow="OrderID" msprop:Generator_ColumnPropNameInTable="OrderIDColumn" msprop:Generator_UserColumnName="OrderID" type="xs:long" minOccurs="0" />
+              <xs:element name="ID_ItemType" msprop:Generator_ColumnVarNameInTable="columnID_ItemType" msprop:Generator_ColumnPropNameInRow="ID_ItemType" msprop:Generator_ColumnPropNameInTable="ID_ItemTypeColumn" msprop:Generator_UserColumnName="ID_ItemType" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_ItemType" msprop:Generator_ColumnVarNameInTable="columnName_ItemType" msprop:Generator_ColumnPropNameInRow="Name_ItemType" msprop:Generator_ColumnPropNameInTable="Name_ItemTypeColumn" msprop:Generator_UserColumnName="Name_ItemType" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">

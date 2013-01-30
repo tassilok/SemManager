@@ -10,7 +10,7 @@
     Private strCaption As String
     Private strAdditional1 As String
     Private strAdditional2 As String
-    Private objGUID_Type As String
+    Private strType As String
     Private strFilter As String
     Private intImageID As Integer
     Private intVersion As Integer
@@ -157,12 +157,12 @@
             strCaption = value
         End Set
     End Property
-    Public Property GUID_Type() As String
+    Public Property Type() As String
         Get
-            Return objGUID_Type
+            Return strType
         End Get
         Set(ByVal value As String)
-            objGUID_Type = value
+            strType = value
         End Set
     End Property
     Public Property Filter() As String
@@ -224,24 +224,24 @@
         End Set
     End Property
 
-    Public Sub New(ByVal GUID_Item As String, ByVal Name_Item As String, ByVal GUID_Type As String)
+    Public Sub New(ByVal GUID_Item As String, ByVal Name_Item As String, ByVal Type As String)
         GUID = GUID_Item
         Name = Name_Item
-        Me.GUID_Type = GUID_Type
+        Me.Type = Type
     End Sub
-    Public Sub New(ByVal GUID_Item As String, ByVal Name_Item As String, ByVal GUID_Item_Parent As String, ByVal GUID_Type As String)
+    Public Sub New(ByVal GUID_Item As String, ByVal Name_Item As String, ByVal GUID_Item_Parent As String, ByVal Type As String)
         GUID = GUID_Item
         Name = Name_Item
         GUID_Parent = GUID_Item_Parent
-        Me.GUID_Type = GUID_Type
+        Me.Type = Type
     End Sub
 
-    Public Sub New(ByVal GUID_Item As String, ByVal Name_Item As String, ByVal GUID_Relation As String, ByVal GUID_Related As String, ByVal GUID_Type As String)
+    Public Sub New(ByVal GUID_Item As String, ByVal Name_Item As String, ByVal GUID_Relation As String, ByVal GUID_Related As String, ByVal Type As String)
         GUID = GUID_Item
         Name = Name_Item
         Me.GUID_Relation = GUID_Relation
         Me.GUID_Related = GUID_Related
-        Me.GUID_Type = GUID_Type
+        Me.Type = Type
     End Sub
 
 End Class

@@ -356,6 +356,7 @@ Public Class clsElasticSearch
 
             For i = 0 To objDRC_Attribute.Count - 1
                 objDict = New Dictionary(Of String, Object)
+                objDict.Add("ID_Item", objDRC_Attribute(i).Item("GUID_Attribute").ToString)
                 objDict.Add("Name_Item", objDRC_Attribute(i).Item("Name_Attribute").ToString)
                 Select Case objDRC_Attribute(i).Item("GUID_AttributeType")
                     Case objLocalConfig.Globals.AttributeType_Bool.GUID
@@ -442,6 +443,7 @@ Public Class clsElasticSearch
 
             For i = 0 To objDRC_Token.Count - 1
                 objDict = New Dictionary(Of String, Object)
+                objDict.Add("ID_Item", objDRC_Token(i).Item("GUID_Token").ToString)
                 objDict.Add("Name_Item", objDRC_Token(i).Item("Name_Token").ToString)
                 objDict.Add("ID_Class", objDRC_Token(i).Item("GUID_Type").ToString)
 
@@ -696,6 +698,7 @@ Public Class clsElasticSearch
 
             For i = 0 To objDRC_RelationTypes.Count - 1
                 objDict = New Dictionary(Of String, Object)
+                objDict.Add("ID_Item", objDRC_RelationTypes(i).Item("GUID_RelationType").ToString)
                 objDict.Add("Name_Item", objDRC_RelationTypes(i).Item("Name_RelationType").ToString)
 
                 ReDim Preserve objBulkObjects(lngPack)
@@ -745,6 +748,7 @@ Public Class clsElasticSearch
         Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
         Dim strGUID_AttributeType As String
         Dim strVal_RowName As String
+        Dim strVal_Name As String
 
         objSemItem_Result = objLocalConfig.Globals.LogState_Success
 
@@ -800,9 +804,29 @@ Public Class clsElasticSearch
                 objDict = New Dictionary(Of String, Object)
 
                 objDict.Add(strVal_RowName, objDRC_TokenAttribute(i).Item("Val"))
-                objDict.Add("ID_Attribute", objDRC_TokenAttribute(i).Item("GUID_Attribute").ToString)
+                Select Case strVal_RowName
+                    Case "Val_Bool"
+                        If objDRC_TokenAttribute(i).Item("Val") = True Then
+                            objDict.Add("Val_Name", "True")
+
+                        Else
+                            objDict.Add("Val_Name", "False")
+
+                        End If
+                    Case "Val_Datetime"
+                        objDict.Add("Val_Name", objDRC_TokenAttribute(i).Item("Val").ToString)
+                    Case "Val_Int"
+                        objDict.Add("Val_Name", objDRC_TokenAttribute(i).Item("Val").ToString)
+                    Case "Val_Real"
+                        objDict.Add("Val_Name", objDRC_TokenAttribute(i).Item("Val").ToString)
+                    Case "Val_String"
+                        objDict.Add("Val_Name", objDRC_TokenAttribute(i).Item("Val").ToString)
+
+                End Select
+                objDict.Add("ID_Item", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString)
+                objDict.Add("ID_AttributeType", objDRC_TokenAttribute(i).Item("GUID_Attribute").ToString)
                 objDict.Add("OrderID", objDRC_TokenAttribute(i).Item("OrderID"))
-                objDict.Add("ID_AttributeType", strGUID_AttributeType)
+                objDict.Add("ID_DataType", strGUID_AttributeType)
 
 
                 ReDim Preserve objBulkObjects(lngPack)
@@ -869,6 +893,7 @@ Public Class clsElasticSearch
 
             For i = 0 To objDRC_Types.Count - 1
                 objDict = New Dictionary(Of String, Object)
+                objDict.Add("ID_Item", objDRC_Types(i).Item("GUID_Type").ToString)
                 objDict.Add("Name_Item", objDRC_Types(i).Item("Name_Type").ToString)
                 objDict.Add("ID_Parent", objDRC_Types(i).Item("GUID_Type_Parent").ToString)
 
@@ -936,6 +961,7 @@ Public Class clsElasticSearch
 
 
             objDict = New Dictionary(Of String, Object)
+            objDict.Add("ID_Item", objLocalConfig.Globals.AttributeType_Bool.GUID)
             objDict.Add("Name_Item", objLocalConfig.Globals.AttributeType_Bool.Name)
 
             ReDim Preserve objBulkObjects(lngPack)
@@ -945,7 +971,8 @@ Public Class clsElasticSearch
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("Name", objLocalConfig.Globals.AttributeType_Datetime.Name)
+            objDict.Add("ID_Item", objLocalConfig.Globals.AttributeType_Datetime.GUID)
+            objDict.Add("Name_Item", objLocalConfig.Globals.AttributeType_Datetime.Name)
 
             ReDim Preserve objBulkObjects(lngPack)
             objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_Datetime.GUID.ToString, objDict)
@@ -954,7 +981,8 @@ Public Class clsElasticSearch
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("Name", objLocalConfig.Globals.AttributeType_Int.Name)
+            objDict.Add("ID_Item", objLocalConfig.Globals.AttributeType_Int.GUID)
+            objDict.Add("Name_Item", objLocalConfig.Globals.AttributeType_Int.Name)
 
             ReDim Preserve objBulkObjects(lngPack)
             objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_Int.GUID.ToString, objDict)
@@ -963,7 +991,8 @@ Public Class clsElasticSearch
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("Name", objLocalConfig.Globals.AttributeType_Real.Name)
+            objDict.Add("ID_Item", objLocalConfig.Globals.AttributeType_Real.GUID)
+            objDict.Add("Name_Item", objLocalConfig.Globals.AttributeType_Real.Name)
 
             ReDim Preserve objBulkObjects(lngPack)
             objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_Real.GUID.ToString, objDict)
@@ -972,7 +1001,8 @@ Public Class clsElasticSearch
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("Name", objLocalConfig.Globals.AttributeType_String.Name)
+            objDict.Add("ID_Item", objLocalConfig.Globals.AttributeType_String.GUID)
+            objDict.Add("Name_Item", objLocalConfig.Globals.AttributeType_String.Name)
 
             ReDim Preserve objBulkObjects(lngPack)
             objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_String.GUID.ToString, objDict)
@@ -1026,6 +1056,7 @@ Public Class clsElasticSearch
 
 
             objDict = New Dictionary(Of String, Object)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Attribute.GUID)
             objDict.Add("Name_Item", objLocalConfig.SemItem_Token_KindOfOntology_Attribute.Name)
 
             ReDim Preserve objBulkObjects(lngPack)
@@ -1035,6 +1066,7 @@ Public Class clsElasticSearch
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.GUID)
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.Name)
 
             ReDim Preserve objBulkObjects(lngPack)
@@ -1044,6 +1076,7 @@ Public Class clsElasticSearch
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Class.GUID)
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Class.Name)
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
@@ -1054,6 +1087,7 @@ Public Class clsElasticSearch
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Class_Attribute.GUID)
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Class_Attribute.Name)
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
@@ -1064,6 +1098,7 @@ Public Class clsElasticSearch
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Class_Ontology.GUID)
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Class_Ontology.Name)
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
@@ -1074,6 +1109,7 @@ Public Class clsElasticSearch
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Class_Relation.GUID)
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Class_Relation.Name)
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
@@ -1084,6 +1120,7 @@ Public Class clsElasticSearch
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID)
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_DataType.Name)
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
@@ -1094,6 +1131,7 @@ Public Class clsElasticSearch
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID)
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.Name)
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
@@ -1104,6 +1142,7 @@ Public Class clsElasticSearch
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Object.GUID)
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Object.Name)
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
@@ -1114,6 +1153,7 @@ Public Class clsElasticSearch
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Object_Ontology.GUID)
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Object_Ontology.Name)
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
@@ -1124,6 +1164,7 @@ Public Class clsElasticSearch
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_RelationType.GUID)
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_RelationType.Name)
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
