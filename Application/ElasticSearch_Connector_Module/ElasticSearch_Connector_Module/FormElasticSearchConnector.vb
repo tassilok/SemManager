@@ -51,7 +51,8 @@ Public Class Form_ElasticSearchConnector
         objSemItem_Result = objElasticSarech.export_TokenAttribute(objLocalConfig.Globals.AttributeType_String.GUID)
         objSemItem_Result = objElasticSarech.export_TokenAttribute(objLocalConfig.Globals.AttributeType_Time.GUID)
         objSemItem_Result = objElasticSarech.export_TokenAttribute(objLocalConfig.Globals.AttributeType_Varchar255.GUID)
-
+        objSemItem_Result = objElasticSarech.export_TokenRel()
+        objSemItem_Result = objElasticSarech.export_Token_OR()
     End Sub
 
     Private Sub test_Import()
