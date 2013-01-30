@@ -38,7 +38,7 @@ Public Class Form_ElasticSearchConnector
         Dim objSemItem_Result As clsSemItem
 
         objSemItem_Result = objElasticSarech.export_DataTypes()
-        objSemItem_Result = objElasticSarech.export_ItemTypes()
+        'objSemItem_Result = objElasticSarech.export_ItemTypes()
         objSemItem_Result = objElasticSarech.export_Attributes()
         objSemItem_Result = objElasticSarech.export_RelationTypes()
         objSemItem_Result = objElasticSarech.export_Types()

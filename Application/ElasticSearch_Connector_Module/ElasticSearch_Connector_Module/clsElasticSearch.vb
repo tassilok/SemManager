@@ -378,10 +378,9 @@ Public Class clsElasticSearch
                         strGUID_AttributeType = objLocalConfig.Globals.AttributeType_String.GUID.ToString
                 End Select
                 objDict.Add("ID_DataType", strGUID_AttributeType)
-                objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Attribute.GUID.ToString)
 
                 ReDim Preserve objBulkObjects(lngPack)
-                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objDRC_Attribute(i).Item("GUID_Attribute").ToString, objDict)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "AttributeType", objDRC_Attribute(i).Item("GUID_Attribute").ToString, objDict)
                 objDict = Nothing
 
 
@@ -445,10 +444,9 @@ Public Class clsElasticSearch
                 objDict = New Dictionary(Of String, Object)
                 objDict.Add("Name_Item", objDRC_Token(i).Item("Name_Token").ToString)
                 objDict.Add("ID_Class", objDRC_Token(i).Item("GUID_Type").ToString)
-                objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Object.GUID.ToString)
 
                 ReDim Preserve objBulkObjects(lngPack)
-                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objDRC_Token(i).Item("GUID_Token").ToString, objDict)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "Object", objDRC_Token(i).Item("GUID_Token").ToString, objDict)
                 objDict = Nothing
 
 
@@ -521,10 +519,9 @@ Public Class clsElasticSearch
                 objDict.Add("ID_Ontology", objLocalConfig.SemItem_Token_KindOfOntology_Object.GUID.ToString)
                 objDict.Add("ID_RelationType", objDRC_TokenRel(i).Item("GUID_RelationType").ToString)
                 objDict.Add("OrderID", objDRC_TokenRel(i).Item("OrderID").ToString)
-                objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Object_Ontology.GUID.ToString)
 
                 ReDim Preserve objBulkObjects(lngPack)
-                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objDRC_TokenRel(i).Item("GUID_Token_Left").ToString & "_" & objDRC_TokenRel(i).Item("GUID_Token_Right").ToString & "_" & objDRC_TokenRel(i).Item("GUID_RelationType").ToString, objDict)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ObjectRel", objDRC_TokenRel(i).Item("GUID_Token_Left").ToString & "_" & objDRC_TokenRel(i).Item("GUID_Token_Right").ToString & "_" & objDRC_TokenRel(i).Item("GUID_RelationType").ToString, objDict)
                 objDict = Nothing
 
 
@@ -631,10 +628,10 @@ Public Class clsElasticSearch
                             objDict.Add("ID_Ontology", objLocalConfig.SemItem_Token_KindOfOntology_Class.GUID.ToString)
 
                     End Select
-                    objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Object_Ontology.GUID.ToString)
+
 
                     ReDim Preserve objBulkObjects(lngPack)
-                    objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objDRC_TokenOR(i).Item("GUID_Token_Left").ToString & "_" & objDRs_OR(0).Item("GUID_Ref").ToString & "_" & objDRC_TokenOR(i).Item("GUID_RelationType").ToString, objDict)
+                    objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ObjectRel", objDRC_TokenOR(i).Item("GUID_Token_Left").ToString & "_" & objDRs_OR(0).Item("GUID_Ref").ToString & "_" & objDRC_TokenOR(i).Item("GUID_RelationType").ToString, objDict)
                     objDict = Nothing
 
 
@@ -700,10 +697,9 @@ Public Class clsElasticSearch
             For i = 0 To objDRC_RelationTypes.Count - 1
                 objDict = New Dictionary(Of String, Object)
                 objDict.Add("Name_Item", objDRC_RelationTypes(i).Item("Name_RelationType").ToString)
-                objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_RelationType.GUID.ToString)
 
                 ReDim Preserve objBulkObjects(lngPack)
-                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objDRC_RelationTypes(i).Item("GUID_RelationType").ToString, objDict)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "RelationType", objDRC_RelationTypes(i).Item("GUID_RelationType").ToString, objDict)
                 objDict = Nothing
 
 
@@ -807,10 +803,10 @@ Public Class clsElasticSearch
                 objDict.Add("ID_Attribute", objDRC_TokenAttribute(i).Item("GUID_Attribute").ToString)
                 objDict.Add("OrderID", objDRC_TokenAttribute(i).Item("OrderID"))
                 objDict.Add("ID_AttributeType", strGUID_AttributeType)
-                objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.GUID.ToString)
+
 
                 ReDim Preserve objBulkObjects(lngPack)
-                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString, objDict)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ObjectAtt", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString, objDict)
                 objDict = Nothing
 
 
@@ -875,10 +871,10 @@ Public Class clsElasticSearch
                 objDict = New Dictionary(Of String, Object)
                 objDict.Add("Name_Item", objDRC_Types(i).Item("Name_Type").ToString)
                 objDict.Add("ID_Parent", objDRC_Types(i).Item("GUID_Type_Parent").ToString)
-                objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Class.GUID.ToString)
+
 
                 ReDim Preserve objBulkObjects(lngPack)
-                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objDRC_Types(i).Item("GUID_Type").ToString, objDict)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "Class", objDRC_Types(i).Item("GUID_Type").ToString, objDict)
                 objDict = Nothing
 
 
@@ -941,50 +937,45 @@ Public Class clsElasticSearch
 
             objDict = New Dictionary(Of String, Object)
             objDict.Add("Name_Item", objLocalConfig.Globals.AttributeType_Bool.Name)
-            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.Globals.AttributeType_Bool.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_Bool.GUID.ToString, objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
             objDict.Add("Name", objLocalConfig.Globals.AttributeType_Datetime.Name)
-            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.Globals.AttributeType_Datetime.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_Datetime.GUID.ToString, objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
             objDict.Add("Name", objLocalConfig.Globals.AttributeType_Int.Name)
-            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.Globals.AttributeType_Int.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_Int.GUID.ToString, objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
             objDict.Add("Name", objLocalConfig.Globals.AttributeType_Real.Name)
-            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.Globals.AttributeType_Real.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_Real.GUID.ToString, objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
             objDict.Add("Name", objLocalConfig.Globals.AttributeType_String.Name)
-            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.Globals.AttributeType_String.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_String.GUID.ToString, objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
@@ -1036,20 +1027,18 @@ Public Class clsElasticSearch
 
             objDict = New Dictionary(Of String, Object)
             objDict.Add("Name_Item", objLocalConfig.SemItem_Token_KindOfOntology_Attribute.Name)
-            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_Attribute.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Attribute.GUID.ToString, objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.Name)
-            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.GUID.ToString, objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
@@ -1059,7 +1048,7 @@ Public Class clsElasticSearch
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_Class.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Class.GUID.ToString, objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
@@ -1069,7 +1058,7 @@ Public Class clsElasticSearch
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_Class_Attribute.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Class_Attribute.GUID.ToString, objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
@@ -1079,7 +1068,7 @@ Public Class clsElasticSearch
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_Class_Ontology.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Class_Ontology.GUID.ToString, objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
@@ -1089,7 +1078,7 @@ Public Class clsElasticSearch
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_Class_Relation.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Class_Relation.GUID.ToString, objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
@@ -1099,7 +1088,7 @@ Public Class clsElasticSearch
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString, objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
@@ -1109,7 +1098,7 @@ Public Class clsElasticSearch
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString, objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
@@ -1119,7 +1108,7 @@ Public Class clsElasticSearch
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_Object.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Object.GUID.ToString, objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
@@ -1129,7 +1118,7 @@ Public Class clsElasticSearch
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_Object_Ontology.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Object_Ontology.GUID.ToString, objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
@@ -1139,7 +1128,7 @@ Public Class clsElasticSearch
             objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objLocalConfig.SemItem_Token_Types__Elastic_Search__ontologydb.Name, objLocalConfig.SemItem_Token_KindOfOntology_RelationType.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_RelationType.GUID.ToString, objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1

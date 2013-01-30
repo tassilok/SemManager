@@ -53,6 +53,13 @@
                             DataGridView_Items.Columns(0).Visible = False
                             DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
                             ToolStripLabel_Count.Text = DataGridView_Items.RowCount
+                        Case objLocalConfig.Globals.OType_Attribute.GUID
+                            objDBLevel.get_Data_Attributes(Nothing, True)
+                            BindingSource_Attribute.DataSource = objDBLevel.tbl_Attributes
+                            DataGridView_Items.DataSource = BindingSource_Attribute
+                            DataGridView_Items.Columns(0).Visible = False
+                            DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
+                            ToolStripLabel_Count.Text = DataGridView_Items.RowCount
                     End Select
                     
             End Select

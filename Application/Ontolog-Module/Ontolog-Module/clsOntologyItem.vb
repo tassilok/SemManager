@@ -1,16 +1,16 @@
 ﻿Public Class clsOntologyItem
     Private Const cint_LeftRight As Integer = 1
     Private Const cint_RightLeft As Integer = 2
-    Private objOntologyItem_Item As clsOntologyItem
-    Private objGUID_Item As Guid
-    Private objGUID_Parent As Guid
-    Private objGUID_Related As Guid
-    Private objGUID_Relation As Guid
+    Private objOList_Rel As List(Of clsOntologyItem)
+    Private objGUID_Item As String
+    Private objGUID_Parent As String
+    Private objGUID_Related As String
+    Private objGUID_Relation As String
     Private strName As String
     Private strCaption As String
     Private strAdditional1 As String
     Private strAdditional2 As String
-    Private objGUID_Type As Guid
+    Private objGUID_Type As String
     Private strFilter As String
     Private intImageID As Integer
     Private intVersion As Integer
@@ -24,14 +24,19 @@
     Private intMax As Integer
     Private intMax2 As Integer
 
-    Public Property OntologyItem_Item As clsOntologyItem
+
+    Public ReadOnly Property OList_Rel As List(Of clsOntologyItem)
         Get
-            Return objOntologyItem_Item
+            Return objOList_Rel
         End Get
-        Set(ByVal value As clsOntologyItem)
-            objOntologyItem_Item = value
+    End Property
+
+    Public WriteOnly Property add_OItem(ByVal OItem As clsOntologyItem)
+        Set(ByVal value)
+            objOList_Rel.Add(OItem)
         End Set
     End Property
+
     Public Property Rel_ObjectReference() As Boolean
         Get
             Return boolObjectReference
@@ -118,20 +123,20 @@
             intImageID = value
         End Set
     End Property
-    Public Property GUID() As Guid
+    Public Property GUID() As String
         Get
             Return objGUID_Item
         End Get
-        Set(ByVal value As Guid)
+        Set(ByVal value As String)
             objGUID_Item = value
         End Set
     End Property
 
-    Public Property GUID_Parent() As Guid
+    Public Property GUID_Parent() As String
         Get
             Return objGUID_Parent
         End Get
-        Set(ByVal value As Guid)
+        Set(ByVal value As String)
             objGUID_Parent = value
         End Set
     End Property
@@ -152,11 +157,11 @@
             strCaption = value
         End Set
     End Property
-    Public Property GUID_Type() As Guid
+    Public Property GUID_Type() As String
         Get
             Return objGUID_Type
         End Get
-        Set(ByVal value As Guid)
+        Set(ByVal value As String)
             objGUID_Type = value
         End Set
     End Property
@@ -176,19 +181,19 @@
             intVersion = value
         End Set
     End Property
-    Public Property GUID_Related() As Guid
+    Public Property GUID_Related() As String
         Get
             Return objGUID_Related
         End Get
-        Set(ByVal value As Guid)
+        Set(ByVal value As String)
             objGUID_Related = value
         End Set
     End Property
-    Public Property GUID_Relation() As Guid
+    Public Property GUID_Relation() As String
         Get
             Return objGUID_Relation
         End Get
-        Set(ByVal value As Guid)
+        Set(ByVal value As String)
             objGUID_Relation = value
         End Set
     End Property
@@ -219,20 +224,21 @@
         End Set
     End Property
 
-    Public Sub New(ByVal GUID_Item As Guid, ByVal Name_Item As String, ByVal GUID_Type As Guid)
+    Public Sub New(ByVal GUID_Item As String, ByVal Name_Item As String, ByVal GUID_Type As String)
         GUID = GUID_Item
         Name = Name_Item
         Me.GUID_Type = GUID_Type
     End Sub
-    Public Sub New(ByVal GUID_Item As Guid, ByVal Name_Item As String, ByVal GUID_Item_Parent As Guid, ByVal GUID_Type As Guid)
+    Public Sub New(ByVal GUID_Item As String, ByVal Name_Item As String, ByVal GUID_Item_Parent As String, ByVal GUID_Type As String)
         GUID = GUID_Item
         Name = Name_Item
         GUID_Parent = GUID_Item_Parent
         Me.GUID_Type = GUID_Type
     End Sub
 
-    Public Sub New(ByVal GUID_Item As Guid, ByVal GUID_Relation As Guid, ByVal GUID_Related As Guid, ByVal GUID_Type As Guid)
+    Public Sub New(ByVal GUID_Item As String, ByVal Name_Item As String, ByVal GUID_Relation As String, ByVal GUID_Related As String, ByVal GUID_Type As String)
         GUID = GUID_Item
+        Name = Name_Item
         Me.GUID_Relation = GUID_Relation
         Me.GUID_Related = GUID_Related
         Me.GUID_Type = GUID_Type

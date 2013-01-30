@@ -46,6 +46,15 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="otbl_Attributes" msprop:Generator_TableClassName="otbl_AttributesDataTable" msprop:Generator_TableVarName="tableotbl_Attributes" msprop:Generator_TablePropName="otbl_Attributes" msprop:Generator_RowDeletingName="otbl_AttributesRowDeleting" msprop:Generator_UserTableName="otbl_Attributes" msprop:Generator_RowChangingName="otbl_AttributesRowChanging" msprop:Generator_RowEvHandlerName="otbl_AttributesRowChangeEventHandler" msprop:Generator_RowDeletedName="otbl_AttributesRowDeleted" msprop:Generator_RowEvArgName="otbl_AttributesRowChangeEvent" msprop:Generator_RowChangedName="otbl_AttributesRowChanged" msprop:Generator_RowClassName="otbl_AttributesRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_Attribute" msprop:Generator_ColumnVarNameInTable="columnID_Attribute" msprop:Generator_ColumnPropNameInRow="ID_Attribute" msprop:Generator_ColumnPropNameInTable="ID_AttributeColumn" msprop:Generator_UserColumnName="ID_Attribute" type="xs:string" minOccurs="0" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_DataType" msprop:Generator_ColumnVarNameInTable="columnID_DataType" msprop:Generator_ColumnPropNameInRow="ID_DataType" msprop:Generator_ColumnPropNameInTable="ID_DataTypeColumn" msprop:Generator_UserColumnName="ID_DataType" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">

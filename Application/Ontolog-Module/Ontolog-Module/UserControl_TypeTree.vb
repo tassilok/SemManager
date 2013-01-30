@@ -61,7 +61,7 @@
 
        
         Dim a = From obja In objList_Classes
-        Where (obja.GUID_Parent = New Guid(objTreeNode.Name))
+        Where (obja.GUID_Parent = objTreeNode.Name)
 
         For Each b In a
             objTreeNode_Sub = objTreeNode.Nodes.Add(b.GUID.ToString, _
@@ -90,7 +90,7 @@
         objOItem_Class_Selected = Nothing
         ToolStripTextBox_ID.Text = ""
         If objTreeNode.ImageIndex = cint_ImageID_Class_Closed Then
-            objOItem_Class_Selected = New clsOntologyItem(New Guid(objTreeNode.Name), objTreeNode.Text, objLocalConfig.Globals.OType_Class.GUID)
+            objOItem_Class_Selected = New clsOntologyItem(objTreeNode.Name, objTreeNode.Text, objLocalConfig.Globals.OType_Class.GUID)
             RaiseEvent selected_Class(objOItem_Class_Selected)
             ToolStripTextBox_ID.Text = objTreeNode.Name
         End If

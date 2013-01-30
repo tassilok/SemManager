@@ -106,6 +106,8 @@
   <ItemGroup>
     <Compile Include="Classes\clsLocalConfig.vb" />
     <Compile Include="clsDBLevel.vb" />
+    <Compile Include="clsDocType.vb" />
+    <Compile Include="clsFieldQuery.vb" />
     <Compile Include="clsGlobals.vb" />
     <Compile Include="clsOntologyItem.vb" />
     <Compile Include="DataSet_Config.Designer.vb">

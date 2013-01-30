@@ -5,7 +5,11 @@
     <ConfigItem_Value>ontology_db</ConfigItem_Value>
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
-    <ConfigItem_Name>Type</ConfigItem_Name>
-    <ConfigItem_Value>ontologydb</ConfigItem_Value>
+    <ConfigItem_Name>Port</ConfigItem_Name>
+    <ConfigItem_Value>9500</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>server</ConfigItem_Name>
+    <ConfigItem_Value>192.168.203.191</ConfigItem_Value>
   </dtbl_BaseConfig>
 </DocumentElement>
