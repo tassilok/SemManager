@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<DocumentElement>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Index</ConfigItem_Name>
+    <ConfigItem_Value>ontology_db</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Type</ConfigItem_Name>
+    <ConfigItem_Value>ontologydb</ConfigItem_Value>
+  </dtbl_BaseConfig>
+</DocumentElement>

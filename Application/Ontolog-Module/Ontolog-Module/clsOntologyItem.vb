@@ -231,7 +231,7 @@
         Me.GUID_Type = GUID_Type
     End Sub
 
-    Public Sub New(ByVal GUID_Item As Guid, ByVal GUID_Relation As Guid, ByVal GUID_Related As Guid, ByVal GUID_Type)
+    Public Sub New(ByVal GUID_Item As Guid, ByVal GUID_Relation As Guid, ByVal GUID_Related As Guid, ByVal GUID_Type As Guid)
         GUID = GUID_Item
         Me.GUID_Relation = GUID_Relation
         Me.GUID_Related = GUID_Related
