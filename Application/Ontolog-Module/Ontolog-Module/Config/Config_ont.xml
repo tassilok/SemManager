@@ -12,4 +12,16 @@
     <ConfigItem_Name>server</ConfigItem_Name>
     <ConfigItem_Value>localhost</ConfigItem_Value>
   </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>server_report</ConfigItem_Name>
+    <ConfigItem_Value>localhost</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>server_instance</ConfigItem_Name>
+    <ConfigItem_Value>SQLEXPRESS</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>database</ConfigItem_Name>
+    <ConfigItem_Value>ont_db_Reports</ConfigItem_Value>
+  </dtbl_BaseConfig>
 </DocumentElement>

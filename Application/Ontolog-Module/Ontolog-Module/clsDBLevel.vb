@@ -16,6 +16,9 @@ Public Class clsDBLevel
 
     Private oList_DBLevel As List(Of clsDBLevel)
 
+    Private objConnection As SqlClient.SqlConnection
+    Private createA_Table_orgT As New DataSet_ConfigTableAdapters.create_Table_orgTTableAdapter
+
     Private objLocalConfig As clsLocalConfig
 
     Public ReadOnly Property OList_Classes As List(Of clsOntologyItem)
@@ -377,6 +380,74 @@ Public Class clsDBLevel
 
     End Function
 
+    Public Function create_Report(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing) As clsOntologyItem
+        Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
+        Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
+        Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
+        Dim objHit As ElasticSearch.Client.Domain.Hits
+        Dim objOItem As clsOntologyItem
+        Dim objFieldQuery_ID As New clsFieldQuery
+        Dim objFieldQuery_Name As New clsFieldQuery
+        Dim objFieldQuery_ID_Parent As New clsFieldQuery
+        Dim strTable As String
+        Dim intCount As Integer
+        Dim intPos As Integer
+
+        intCount = 0
+        If OList_Classes Is Nothing Then
+            objBoolQuery.Add(New TermQuery(New Term("ID_Item", "*")), BooleanClause.Occur.MUST)
+        Else
+            For Each objOItem In OList_Classes
+                strTable = objLocalConfig.Globals.Session & objOItem.GUID
+                objBoolQuery.Add(New TermQuery(New Term("ID_Item", objOItem.GUID)), BooleanClause.Occur.MUST)
+            Next
+        End If
+
+
+        objOntologyList_Classes.Clear()
+
+        intCount = objLocalConfig.Globals.SearchRange
+        intPos = 0
+        While intCount > 0
+
+            intCount = 0
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Class, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objList = objSearchResult.GetHits.Hits
+            'Dim a = From obja In objList
+            'Where (Not obja.Source("@fields")("ex_cid") Is Nothing)
+            '       Group obja By key = obja.Source("@fields")("ex_cid").First.ToString Into Count() Select key, count = Count
+
+            'For Each b In a
+            '    CidA_Count.Insert(Integer.Parse(b.key), b.count)
+            'Next
+            For Each objHit In objList
+
+                If Not objHit.Source("ID_Parent") = "" Then
+                    otblT_Classes.Rows.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
+                                                                objHit.Source(objLocalConfig.Globals.Field_ID_Parent).ToString))
+                Else
+                    otblT_Classes.Rows.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
+                                                                Nothing))
+                End If
+
+
+
+
+
+
+            Next
+
+            intCount = objList.Count
+
+            objList.Clear()
+            objSearchResult = Nothing
+            objList = Nothing
+            intPos = intPos + intCount
+        End While
+    End Function
+
     Public Function get_Data_Classes(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing, Optional ByVal boolTable As Boolean = False) As clsOntologyItem
         Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
@@ -491,11 +562,24 @@ Public Class clsDBLevel
 
     Public Sub New(ByVal Globals As clsGlobals)
         objLocalConfig = New clsLocalConfig(Globals)
+        set_DBConnection()
         initialize_Client()
     End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
+        set_DBConnection()
         initialize_Client()
     End Sub
+
+    Private Sub set_DBConnection()
+        Dim strConnection As String
+
+        
+        objConnection = New SqlClient.SqlConnection(objLocalConfig.Globals.get_ConnectionStr(objLocalConfig.Globals.Rep_Server, objLocalConfig.Globals.Rep_Instance, objLocalConfig.Globals.Rep_Database))
+
+        createA_Table_orgT.Connection = objConnection
+
+    End Sub
+
 End Class

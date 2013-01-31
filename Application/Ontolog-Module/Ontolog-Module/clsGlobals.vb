@@ -37,6 +37,9 @@ Public Class clsGlobals
     Private strEL_Port As String
     Private strEL_Index As String
 
+    Private strRep_Server As String
+    Private strRep_Instance As String
+    Private strRep_Database As String
 
     Private cintSearchRange As Integer = 20000
 
@@ -65,6 +68,38 @@ Public Class clsGlobals
 
     Private dtblT_Config As New DataSet_Config.dtbl_BaseConfigDataTable
 
+    Private GUID_Session As String
+
+    Public Function get_ConnectionStr(ByVal strServer As String, ByVal strInstance As String, ByVal strDatabase As String) As String
+        Dim strConn As String
+        strConn = "Data Source=" & strServer
+        If strInstance <> "" Then
+            strConn = strConn & "\" & strInstance
+        End If
+        strConn = strConn & ";Initial Catalog=" & strDatabase & ";Integrated Security=True"
+
+        Return strConn
+    End Function
+    Public ReadOnly Property Rep_Server As String
+        Get
+            Return strRep_Server
+        End Get
+    End Property
+    Public ReadOnly Property Rep_Instance As String
+        Get
+            Return strRep_Instance
+        End Get
+    End Property
+    Public ReadOnly Property Rep_Database As String
+        Get
+            Return strRep_Database
+        End Get
+    End Property
+    Public ReadOnly Property Session As String
+        Get
+            Return GUID_Session
+        End Get
+    End Property
     Public ReadOnly Property Port As String
         Get
             Return strEL_Port
@@ -392,6 +427,27 @@ Public Class clsGlobals
             Else
                 Err.Raise(1, "Config")
             End If
+
+            objDRs_ConfigItem = dtblT_Config.Select("ConfigItem_Name='server_report'")
+            If objDRs_ConfigItem.Count > 0 Then
+                strRep_Server = objDRs_ConfigItem(0).Item("ConfigItem_Value")
+            Else
+                Err.Raise(1, "Config")
+            End If
+
+            objDRs_ConfigItem = dtblT_Config.Select("ConfigItem_Name='server_instance'")
+            If objDRs_ConfigItem.Count > 0 Then
+                strRep_Instance = objDRs_ConfigItem(0).Item("ConfigItem_Value")
+            Else
+                Err.Raise(1, "Config")
+            End If
+
+            objDRs_ConfigItem = dtblT_Config.Select("ConfigItem_Name='database'")
+            If objDRs_ConfigItem.Count > 0 Then
+                strRep_Database = objDRs_ConfigItem(0).Item("ConfigItem_Value")
+            Else
+                Err.Raise(1, "Config")
+            End If
         Else
             Err.Raise(1, "Config")
         End If
@@ -399,10 +455,15 @@ Public Class clsGlobals
     Public Sub New()
         objOItem_Class_Root = New clsOntologyItem("49fdcd27-e105-4770-941d-7485dcad08c1", "Root", "dbbfc1a0-0c2e-4836-8434-0a7b7a8b4b52")
         strRegEx_GUID = "[A-Za-z0-9]{8}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{12}"
+        set_Session()
         get_ConfigData()
         set_DataTypes()
         set_LogStates()
         set_TypeFields()
+    End Sub
+
+    Private Sub set_Session()
+        GUID_Session = Guid.NewGuid.ToString
     End Sub
 End Class
 
