@@ -1,7 +1,8 @@
 ﻿Imports System.Text.RegularExpressions
 Public Class clsGlobals
 
-
+    Private cstrField_ID_Item As String = "ID_Item"
+    Private cstrField_ID_Object As String = "ID_Object"
     Private cstrField_ID_Parent_Right As String = "ID_Parent_Right"
     Private cstrField_ID_Ontology As String = "ID_Ontology"
     Private cstrField_OrderID As String = "OrderID"
@@ -9,7 +10,7 @@ Public Class clsGlobals
     Private cstrField_ID_Parent_Left As String = "ID_Parent_Left"
     Private cstrField_ID_RelationType As String = "ID_RelationType"
     Private cstrField_Name_RelationType As String = "Name_RelationType"
-    Private cstrField_Name_ID_Object As String = "ID_Object"
+    Private cstrField_Name_Object As String = "Name_Object"
     Private cstrField_Name_AttributeType As String = "AttributeType"
     Private cstrField_Name_Item As String = "Name_Item"
     Private cstrField_ID_DataType As String = "ID_DataType"
@@ -21,11 +22,17 @@ Public Class clsGlobals
     Private cstrField_ID_AttributeType As String = "ID_AttributeType"
     Private cstrField_Val_String As String = "Val_String"
     Private cstrField_Val_Datetime As String = "Val_Datetime"
+    Private cstrField_ID_Class_Left As String = "ID_Class_Left"
+    Private cstrField_ID_Class_Right As String = "ID_Class_Right"
+    Private cstrField_Min_Forw As String = "Min_forw"
+    Private cstrField_Max_Forw As String = "Max_forw"
+    Private cstrField_Max_Backw As String = "Max_backw"
 
 
 
     private cstrType_ObjectRel = "ObjectRel"
     Private cstrType_Class = "Class"
+    Private cstrType_ClassRel = "ClassRel"
     Private cstrType_DataType = "DataType"
     Private cstrType_Object = "Object"
     Private cstrType_ObjectAtt = "ObjectAtt"
@@ -62,6 +69,9 @@ Public Class clsGlobals
     Private objLogState_Delete As clsOntologyItem
     Private objLogState_Relation As clsOntologyItem
     Private objLogState_Exists As clsOntologyItem
+
+    Private objDirection_LeftRight As clsOntologyItem
+    Private objDirection_RightLeft As clsOntologyItem
 
     Private objELSearchResult As ElasticSearch.Client.Domain.SearchResult
     Private objELQuery As ElasticSearch.Client.QueryDSL.BoolQuery
@@ -166,6 +176,56 @@ Public Class clsGlobals
         End Get
     End Property
 
+    Public ReadOnly Property Type_ClassRel As String
+        Get
+            Return cstrType_ClassRel
+        End Get
+    End Property
+
+
+    'Fields
+    Public ReadOnly Property Field_ID_Object As String
+        Get
+            Return cstrField_ID_Object
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_ID_Item As String
+        Get
+            Return cstrField_ID_Item
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_ID_Class_Left As String
+        Get
+            Return cstrField_ID_Class_Left
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_ID_Class_Right As String
+        Get
+            Return cstrField_ID_Class_Right
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_Max_forw As String
+        Get
+            Return cstrField_Max_Forw
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_Min_forw As String
+        Get
+            Return cstrField_Min_Forw
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_Max_backw As String
+        Get
+            Return cstrField_Max_Backw
+        End Get
+    End Property
+
     Public ReadOnly Property Field_ID_AttributeType As String
         Get
             Return cstrField_ID_AttributeType
@@ -226,9 +286,9 @@ Public Class clsGlobals
         End Get
     End Property
 
-    Public ReadOnly Property Field_Name_ID_Object As String
+    Public ReadOnly Property Field_Name_Object As String
         Get
-            Return cstrField_Name_ID_Object
+            Return cstrField_Name_Object
         End Get
     End Property
 
@@ -364,6 +424,18 @@ Public Class clsGlobals
         End Get
     End Property
 
+    Public ReadOnly Property Direction_LeftRight As clsOntologyItem
+        Get
+            Return objDirection_LeftRight
+        End Get
+    End Property
+
+    Public ReadOnly Property Direction_RightLeft As clsOntologyItem
+        Get
+            Return objDirection_RightLeft
+        End Get
+    End Property
+
     Private Sub set_TypeFields()
         
     End Sub
@@ -452,6 +524,11 @@ Public Class clsGlobals
             Err.Raise(1, "Config")
         End If
     End Sub
+
+    Private Sub set_Directions()
+        objDirection_LeftRight = New clsOntologyItem("cc99d536-5d56-4fd2-9d4f-45b48af33029", "Left-Right", cstrType_Object)
+        objDirection_RightLeft = New clsOntologyItem("061243fc-4c13-4bd5-800c-2c33b70e99b2", "Right-Left", cstrType_Object)
+    End Sub
     Public Sub New()
         objOItem_Class_Root = New clsOntologyItem("49fdcd27-e105-4770-941d-7485dcad08c1", "Root", "dbbfc1a0-0c2e-4836-8434-0a7b7a8b4b52")
         strRegEx_GUID = "[A-Za-z0-9]{8}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{12}"
@@ -460,6 +537,7 @@ Public Class clsGlobals
         set_DataTypes()
         set_LogStates()
         set_TypeFields()
+        set_Directions()
     End Sub
 
     Private Sub set_Session()

@@ -36,6 +36,7 @@ Partial Class UserControl_TypeTree
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_Mark = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_MarkTypes = New System.Windows.Forms.ToolStripTextBox()
+        Me.Timer_Mark = New System.Windows.Forms.Timer(Me.components)
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -72,13 +73,13 @@ Partial Class UserControl_TypeTree
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLBL, Me.ToolStripLabel_Count, Me.ToolStripSeparator1, Me.ToolStripLabel_ID, Me.ToolStripTextBox_ID})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(448, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(417, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripLabel_CountLBL
         '
         Me.ToolStripLabel_CountLBL.Name = "ToolStripLabel_CountLBL"
-        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(53, 22)
+        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(52, 22)
         Me.ToolStripLabel_CountLBL.Text = "x_Count:"
         '
         'ToolStripLabel_Count
@@ -95,7 +96,7 @@ Partial Class UserControl_TypeTree
         'ToolStripLabel_ID
         '
         Me.ToolStripLabel_ID.Name = "ToolStripLabel_ID"
-        Me.ToolStripLabel_ID.Size = New System.Drawing.Size(31, 22)
+        Me.ToolStripLabel_ID.Size = New System.Drawing.Size(34, 22)
         Me.ToolStripLabel_ID.Text = "x_ID:"
         '
         'ToolStripTextBox_ID
@@ -132,19 +133,23 @@ Partial Class UserControl_TypeTree
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_Mark, Me.ToolStripTextBox_MarkTypes})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(361, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(358, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_Mark
         '
         Me.ToolStripLabel_Mark.Name = "ToolStripLabel_Mark"
-        Me.ToolStripLabel_Mark.Size = New System.Drawing.Size(47, 22)
+        Me.ToolStripLabel_Mark.Size = New System.Drawing.Size(46, 22)
         Me.ToolStripLabel_Mark.Text = "x_Mark:"
         '
         'ToolStripTextBox_MarkTypes
         '
         Me.ToolStripTextBox_MarkTypes.Name = "ToolStripTextBox_MarkTypes"
         Me.ToolStripTextBox_MarkTypes.Size = New System.Drawing.Size(300, 25)
+        '
+        'Timer_Mark
+        '
+        Me.Timer_Mark.Interval = 300
         '
         'UserControl_TypeTree
         '
@@ -179,5 +184,6 @@ Partial Class UserControl_TypeTree
     Friend WithEvents ToolStripLabel_ID As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripTextBox_ID As System.Windows.Forms.ToolStripTextBox
+    Friend WithEvents Timer_Mark As System.Windows.Forms.Timer
 
 End Class

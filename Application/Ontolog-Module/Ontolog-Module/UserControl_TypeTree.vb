@@ -95,4 +95,65 @@
             ToolStripTextBox_ID.Text = objTreeNode.Name
         End If
     End Sub
+
+    Private Sub ToolStripTextBox_MarkTypes_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripTextBox_MarkTypes.TextChanged
+        Timer_Mark.Stop()
+        Timer_Mark.Start()
+    End Sub
+
+    Private Sub Timer_Mark_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Mark.Tick
+        Timer_Mark.Stop()
+        filter_Classes()
+    End Sub
+
+    Private Sub filter_Classes()
+
+        clear_Mark(objTreeNode_Root)
+        If ToolStripTextBox_MarkTypes.Text <> "" Then
+            mark_Nodes(ToolStripTextBox_MarkTypes.Text.ToLower)
+        End If
+    End Sub
+
+    Private Sub clear_Mark(ByVal objTreeNode As TreeNode)
+        Dim objTreeNode_Sub As TreeNode
+        objTreeNode.BackColor = Nothing
+
+        For Each objTreeNode_Sub In objTreeNode.Nodes
+            clear_Mark(objTreeNode_Sub)
+        Next
+
+    End Sub
+    Private Sub mark_Nodes(ByVal strFind As String)
+        Dim objTreeNode As TreeNode
+        For Each objTreeNode In TreeView_Types.Nodes
+            mark_Node(objTreeNode, strFind)
+
+        Next
+    End Sub
+    Private Sub expandCollapse_Parents(ByVal objTreeNode As TreeNode, ByVal boolExpand As Boolean)
+        Dim objTreeNode_Parent As TreeNode
+
+        objTreeNode_Parent = objTreeNode
+        Do Until objTreeNode_Parent Is Nothing
+            objTreeNode_Parent = objTreeNode_Parent.Parent
+            If Not objTreeNode_Parent Is Nothing Then
+                If boolExpand = True Then
+                    objTreeNode_Parent.Expand()
+                Else
+                    objTreeNode_Parent.Collapse()
+                End If
+            End If
+        Loop
+    End Sub
+    Private Sub mark_Node(ByVal objTreeNode As TreeNode, ByVal strFind As String)
+        Dim objTreeNode_Sub As TreeNode
+        If objTreeNode.Text.ToLower.Contains(strFind) Then
+            expandCollapse_Parents(objTreeNode, True)
+            objTreeNode.BackColor = Color.Yellow
+        End If
+
+        For Each objTreeNode_Sub In objTreeNode.Nodes
+            mark_Node(objTreeNode_Sub, strFind)
+        Next
+    End Sub
 End Class

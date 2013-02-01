@@ -46,16 +46,16 @@
         <xs:element name="otbl_Objects" msprop:Generator_TableClassName="otbl_ObjectsDataTable" msprop:Generator_TableVarName="tableotbl_Objects" msprop:Generator_TablePropName="otbl_Objects" msprop:Generator_RowDeletingName="otbl_ObjectsRowDeleting" msprop:Generator_UserTableName="otbl_Objects" msprop:Generator_RowChangingName="otbl_ObjectsRowChanging" msprop:Generator_RowEvHandlerName="otbl_ObjectsRowChangeEventHandler" msprop:Generator_RowDeletedName="otbl_ObjectsRowDeleted" msprop:Generator_RowEvArgName="otbl_ObjectsRowChangeEvent" msprop:Generator_RowChangedName="otbl_ObjectsRowChanged" msprop:Generator_RowClassName="otbl_ObjectsRow">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="ID_Object" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnID_Object" msprop:Generator_ColumnPropNameInRow="ID_Object" msprop:Generator_ColumnPropNameInTable="ID_ObjectColumn" msprop:Generator_UserColumnName="ID_Object" type="xs:string" />
+              <xs:element name="ID_Object" msprop:Generator_ColumnVarNameInTable="columnID_Object" msprop:Generator_ColumnPropNameInRow="ID_Object" msprop:Generator_ColumnPropNameInTable="ID_ObjectColumn" msprop:Generator_UserColumnName="ID_Object" type="xs:string" />
               <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
-              <xs:element name="ID_Class" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnID_Class" msprop:Generator_ColumnPropNameInRow="ID_Class" msprop:Generator_ColumnPropNameInTable="ID_ClassColumn" msprop:Generator_UserColumnName="ID_Class" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_Class" msprop:Generator_ColumnVarNameInTable="columnID_Class" msprop:Generator_ColumnPropNameInRow="ID_Class" msprop:Generator_ColumnPropNameInTable="ID_ClassColumn" msprop:Generator_UserColumnName="ID_Class" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
         <xs:element name="otbl_Classes" msprop:Generator_TableClassName="otbl_ClassesDataTable" msprop:Generator_TableVarName="tableotbl_Classes" msprop:Generator_TablePropName="otbl_Classes" msprop:Generator_RowDeletingName="otbl_ClassesRowDeleting" msprop:Generator_UserTableName="otbl_Classes" msprop:Generator_RowChangingName="otbl_ClassesRowChanging" msprop:Generator_RowEvHandlerName="otbl_ClassesRowChangeEventHandler" msprop:Generator_RowDeletedName="otbl_ClassesRowDeleted" msprop:Generator_RowEvArgName="otbl_ClassesRowChangeEvent" msprop:Generator_RowChangedName="otbl_ClassesRowChanged" msprop:Generator_RowClassName="otbl_ClassesRow">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="ID_Class" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnID_Class" msprop:Generator_ColumnPropNameInRow="ID_Class" msprop:Generator_ColumnPropNameInTable="ID_ClassColumn" msprop:Generator_UserColumnName="ID_Class" type="xs:string" />
+              <xs:element name="ID_Class" msprop:Generator_ColumnVarNameInTable="columnID_Class" msprop:Generator_ColumnPropNameInRow="ID_Class" msprop:Generator_ColumnPropNameInTable="ID_ClassColumn" msprop:Generator_UserColumnName="ID_Class" type="xs:string" />
               <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
               <xs:element name="ID_Class_Parent" msprop:Generator_ColumnVarNameInTable="columnID_Class_Parent" msprop:Generator_ColumnPropNameInRow="ID_Class_Parent" msprop:Generator_ColumnPropNameInTable="ID_Class_ParentColumn" msprop:Generator_UserColumnName="ID_Class_Parent" type="xs:string" minOccurs="0" />
             </xs:sequence>
@@ -64,7 +64,7 @@
         <xs:element name="otbl_RelationTypes" msprop:Generator_TableClassName="otbl_RelationTypesDataTable" msprop:Generator_TableVarName="tableotbl_RelationTypes" msprop:Generator_TablePropName="otbl_RelationTypes" msprop:Generator_RowDeletingName="otbl_RelationTypesRowDeleting" msprop:Generator_UserTableName="otbl_RelationTypes" msprop:Generator_RowChangingName="otbl_RelationTypesRowChanging" msprop:Generator_RowEvHandlerName="otbl_RelationTypesRowChangeEventHandler" msprop:Generator_RowDeletedName="otbl_RelationTypesRowDeleted" msprop:Generator_RowEvArgName="otbl_RelationTypesRowChangeEvent" msprop:Generator_RowChangedName="otbl_RelationTypesRowChanged" msprop:Generator_RowClassName="otbl_RelationTypesRow">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="ID_RelationType" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnID_RelationType" msprop:Generator_ColumnPropNameInRow="ID_RelationType" msprop:Generator_ColumnPropNameInTable="ID_RelationTypeColumn" msprop:Generator_UserColumnName="ID_RelationType" type="xs:string" />
+              <xs:element name="ID_RelationType" msprop:Generator_ColumnVarNameInTable="columnID_RelationType" msprop:Generator_ColumnPropNameInRow="ID_RelationType" msprop:Generator_ColumnPropNameInTable="ID_RelationTypeColumn" msprop:Generator_UserColumnName="ID_RelationType" type="xs:string" />
               <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
@@ -72,7 +72,7 @@
         <xs:element name="otbl_Attributes" msprop:Generator_TableClassName="otbl_AttributesDataTable" msprop:Generator_TableVarName="tableotbl_Attributes" msprop:Generator_TablePropName="otbl_Attributes" msprop:Generator_RowDeletingName="otbl_AttributesRowDeleting" msprop:Generator_UserTableName="otbl_Attributes" msprop:Generator_RowChangingName="otbl_AttributesRowChanging" msprop:Generator_RowEvHandlerName="otbl_AttributesRowChangeEventHandler" msprop:Generator_RowDeletedName="otbl_AttributesRowDeleted" msprop:Generator_RowEvArgName="otbl_AttributesRowChangeEvent" msprop:Generator_RowChangedName="otbl_AttributesRowChanged" msprop:Generator_RowClassName="otbl_AttributesRow">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="ID_Attribute" msprop:Generator_ColumnVarNameInTable="columnID_Attribute" msprop:Generator_ColumnPropNameInRow="ID_Attribute" msprop:Generator_ColumnPropNameInTable="ID_AttributeColumn" msprop:Generator_UserColumnName="ID_Attribute" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_Attribute" msprop:Generator_ColumnVarNameInTable="columnID_Attribute" msprop:Generator_ColumnPropNameInRow="ID_Attribute" msprop:Generator_ColumnPropNameInTable="ID_AttributeColumn" msprop:Generator_UserColumnName="ID_Attribute" type="xs:string" />
               <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
               <xs:element name="ID_DataType" msprop:Generator_ColumnVarNameInTable="columnID_DataType" msprop:Generator_ColumnPropNameInRow="ID_DataType" msprop:Generator_ColumnPropNameInTable="ID_DataTypeColumn" msprop:Generator_UserColumnName="ID_DataType" type="xs:string" minOccurs="0" />
             </xs:sequence>
@@ -88,8 +88,11 @@
               <xs:element name="ID_RelationType" msprop:Generator_ColumnVarNameInTable="columnID_RelationType" msprop:Generator_ColumnPropNameInRow="ID_RelationType" msprop:Generator_ColumnPropNameInTable="ID_RelationTypeColumn" msprop:Generator_UserColumnName="ID_RelationType" type="xs:string" minOccurs="0" />
               <xs:element name="Name_RelationType" msprop:Generator_ColumnVarNameInTable="columnName_RelationType" msprop:Generator_ColumnPropNameInRow="Name_RelationType" msprop:Generator_ColumnPropNameInTable="Name_RelationTypeColumn" msprop:Generator_UserColumnName="Name_RelationType" type="xs:string" minOccurs="0" />
               <xs:element name="OrderID" msprop:Generator_ColumnVarNameInTable="columnOrderID" msprop:Generator_ColumnPropNameInRow="OrderID" msprop:Generator_ColumnPropNameInTable="OrderIDColumn" msprop:Generator_UserColumnName="OrderID" type="xs:long" minOccurs="0" />
-              <xs:element name="ID_ItemType" msprop:Generator_ColumnVarNameInTable="columnID_ItemType" msprop:Generator_ColumnPropNameInRow="ID_ItemType" msprop:Generator_ColumnPropNameInTable="ID_ItemTypeColumn" msprop:Generator_UserColumnName="ID_ItemType" type="xs:string" minOccurs="0" />
-              <xs:element name="Name_ItemType" msprop:Generator_ColumnVarNameInTable="columnName_ItemType" msprop:Generator_ColumnPropNameInRow="Name_ItemType" msprop:Generator_ColumnPropNameInTable="Name_ItemTypeColumn" msprop:Generator_UserColumnName="Name_ItemType" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_Ontology" msprop:Generator_ColumnVarNameInTable="columnID_Ontology" msprop:Generator_ColumnPropNameInRow="ID_Ontology" msprop:Generator_ColumnPropNameInTable="ID_OntologyColumn" msprop:Generator_UserColumnName="ID_Ontology" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_Other" msprop:Generator_ColumnVarNameInTable="columnID_Other" msprop:Generator_ColumnPropNameInRow="ID_Other" msprop:Generator_ColumnPropNameInTable="ID_OtherColumn" msprop:Generator_UserColumnName="ID_Other" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_Other" msprop:Generator_ColumnVarNameInTable="columnName_Other" msprop:Generator_ColumnPropNameInRow="Name_Other" msprop:Generator_ColumnPropNameInTable="Name_OtherColumn" msprop:Generator_UserColumnName="Name_Other" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_Parent_Other" msprop:Generator_ColumnVarNameInTable="columnID_Parent_Other" msprop:Generator_ColumnPropNameInRow="ID_Parent_Other" msprop:Generator_ColumnPropNameInTable="ID_Parent_OtherColumn" msprop:Generator_UserColumnName="ID_Parent_Other" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_Parent_Other" msprop:Generator_ColumnVarNameInTable="columnName_Parent_Other" msprop:Generator_ColumnPropNameInRow="Name_Parent_Other" msprop:Generator_ColumnPropNameInTable="Name_Parent_OtherColumn" msprop:Generator_UserColumnName="Name_Parent_Other" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -117,6 +120,10 @@
     <xs:unique name="otbl_RelationTypes_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:otbl_RelationTypes" />
       <xs:field xpath="mstns:ID_RelationType" />
+    </xs:unique>
+    <xs:unique name="otbl_Attributes_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:otbl_Attributes" />
+      <xs:field xpath="mstns:ID_Attribute" />
     </xs:unique>
     <xs:unique name="create_Table_orgT_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:create_Table_orgT" />

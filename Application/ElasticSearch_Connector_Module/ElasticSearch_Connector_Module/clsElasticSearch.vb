@@ -8,6 +8,8 @@ Public Class clsElasticSearch
     Private semtblA_Token As New ds_SemDBTableAdapters.semtbl_TokenTableAdapter
     Private semtblA_RelationType As New ds_SemDBTableAdapters.semtbl_RelationTypeTableAdapter
     Private semtblA_Token_OR As New ds_SemDBTableAdapters.semtbl_Token_ORTableAdapter
+    Private typefuncA_Types_Rel As New ds_TypeTableAdapters.typefunc_Types_RelTableAdapter
+    Private typefuncA_Types_With_Attributes_And_Types As New ds_TypeTableAdapters.typefunc_Types_With_Attributes_And_TypesTableAdapter
     Private funcA_TokenToken As New ds_TokenTableAdapters.func_TokenTokenTableAdapter
     Private semfuncA_ObjectReference As New ds_ObjectReferenceTableAdapters.semfunc_ObjectReferenceTableAdapter
 
@@ -45,7 +47,7 @@ Public Class clsElasticSearch
     Private lngRowID As Long
 
     Private Sub set_DBConnection()
-
+        typefuncA_Types_Rel.Connection = objLocalConfig.Connection_DB
         funcA_TokenToken.Connection = objLocalConfig.Connection_DB
         procA_XMLImport.Connection = objLocalConfig.Connection_Plugin
         procA_XMLNodes_ColConfig.Connection = objLocalConfig.Connection_Plugin
@@ -53,6 +55,7 @@ Public Class clsElasticSearch
         semtblA_Type.Connection = objLocalConfig.Connection_DB
         semtblA_Attribute.Connection = objLocalConfig.Connection_DB
         semtblA_RelationType.Connection = objLocalConfig.Connection_DB
+        typefuncA_Types_With_Attributes_And_Types.Connection = objLocalConfig.Connection_DB
 
         TokenAAttribute_Bit.Connection = objLocalConfig.Connection_DB
         TokenAAttribute_Date.Connection = objLocalConfig.Connection_DB
@@ -744,7 +747,8 @@ Public Class clsElasticSearch
         Dim strJson As String = ""
         Dim lngPack As Long
         Dim objDict As Dictionary(Of String, Object)
-        Dim objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
+        Dim objBulkObjects_AttItems() As ElasticSearch.Client.Domain.BulkObject
+        Dim objBulkObjects_ObjAtt() As ElasticSearch.Client.Domain.BulkObject
         Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
         Dim strGUID_AttributeType As String
         Dim strVal_RowName As String
@@ -825,19 +829,29 @@ Public Class clsElasticSearch
                 End Select
                 objDict.Add("ID_Item", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString)
                 objDict.Add("ID_AttributeType", objDRC_TokenAttribute(i).Item("GUID_Attribute").ToString)
-                objDict.Add("OrderID", objDRC_TokenAttribute(i).Item("OrderID"))
+                
                 objDict.Add("ID_DataType", strGUID_AttributeType)
 
 
-                ReDim Preserve objBulkObjects(lngPack)
-                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ObjectAtt", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString, objDict)
+                ReDim Preserve objBulkObjects_AttItems(lngPack)
+                objBulkObjects_AttItems(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "Attribute", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString, objDict)
                 objDict = Nothing
+                objDict = New Dictionary(Of String, Object)
+                objDict.Add("ID_Object", objDRC_TokenAttribute(i).Item("GUID_Token").ToString)
+                objDict.Add("ID_Class", objDRC_TokenAttribute(i).Item("GUID_Type").ToString)
+                objDict.Add("ID_ObjectAttribute", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString)
+                objDict.Add("OrderID", objDRC_TokenAttribute(i).Item("OrderID"))
 
+                ReDim Preserve objBulkObjects_ObjAtt(lngPack)
+                objBulkObjects_ObjAtt(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ObjectAttribute", objDRC_TokenAttribute(i).Item("GUID_Token").ToString & "_" & objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString, objDict)
+                objDict = Nothing
 
                 If lngPack = 10000 Then
                     Try
-                        objOPResult = objElConn.Bulk(objBulkObjects)
-                        objBulkObjects = Nothing
+                        objOPResult = objElConn.Bulk(objBulkObjects_AttItems)
+                        objOPResult = objElConn.Bulk(objBulkObjects_ObjAtt)
+                        objBulkObjects_AttItems = Nothing
+                        objBulkObjects_ObjAtt = Nothing
                     Catch ex As Exception
                         objSemItem_Result = objLocalConfig.Globals.LogState_Error
                     End Try
@@ -848,11 +862,23 @@ Public Class clsElasticSearch
                 lngPack = lngPack + 1
             Next
 
-            If Not objBulkObjects Is Nothing Then
-                If objBulkObjects.Count > 0 Then
+            If Not objBulkObjects_AttItems Is Nothing Then
+                If objBulkObjects_AttItems.Count > 0 Then
                     Try
-                        objOPResult = objElConn.Bulk(objBulkObjects)
-                        objBulkObjects = Nothing
+                        objOPResult = objElConn.Bulk(objBulkObjects_AttItems)
+                        objBulkObjects_AttItems = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+                    End Try
+                End If
+
+            End If
+
+            If Not objBulkObjects_ObjAtt Is Nothing Then
+                If objBulkObjects_ObjAtt.Count > 0 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects_ObjAtt)
+                        objBulkObjects_AttItems = Nothing
                     Catch ex As Exception
                         objSemItem_Result = objLocalConfig.Globals.LogState_Success
                     End Try
@@ -930,6 +956,148 @@ Public Class clsElasticSearch
             End If
         End If
         
+
+        Return objSemItem_Result
+    End Function
+
+    Public Function export_TypeRel() As clsSemItem
+        Dim objDRC_TypeRel As DataRowCollection
+        Dim i As Integer
+        Dim objSemItem_Result As clsSemItem
+        Dim strJson As String = ""
+        Dim lngPack As Long
+        Dim objDict As Dictionary(Of String, Object)
+        Dim objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+
+        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+
+        If objSemItem_XMLImport Is Nothing Then
+            get_Data_XMLImport()
+        End If
+        initialize_ElConn()
+        Try
+            objElConn.CreateIndex(objSemItem_Index.Name)
+        Catch ex As Exception
+            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+        End Try
+
+        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+            lngPack = 0
+            objDRC_TypeRel = typefuncA_Types_Rel.GetData().Rows
+
+            For i = 0 To objDRC_TypeRel.Count - 1
+                objDict = New Dictionary(Of String, Object)
+                objDict.Add("ID_Class_Left", objDRC_TypeRel(i).Item("GUID_Type_Left").ToString)
+                objDict.Add("ID_Class_Right", objDRC_TypeRel(i).Item("GUID_Type_Right").ToString)
+                objDict.Add("ID_RelationType", objDRC_TypeRel(i).Item("GUID_RelationType").ToString)
+                objDict.Add("Min_forw", objDRC_TypeRel(i).Item("Min_forw"))
+                objDict.Add("Max_forw", objDRC_TypeRel(i).Item("Max_forw"))
+                objDict.Add("Max_backw", objDRC_TypeRel(i).Item("Max_backw"))
+
+
+                ReDim Preserve objBulkObjects(lngPack)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ClassRel", objDRC_TypeRel(i).Item("GUID_Type_Left").ToString & "_" & objDRC_TypeRel(i).Item("GUID_Type_Right").ToString & "_" & objDRC_TypeRel(i).Item("GUID_RelationType").ToString, objDict)
+                objDict = Nothing
+
+
+                If lngPack = 10000 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                    End Try
+
+                    lngPack = 0
+                End If
+
+                lngPack = lngPack + 1
+            Next
+
+            If Not objBulkObjects Is Nothing Then
+                If objBulkObjects.Count > 0 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+                    End Try
+                End If
+
+            End If
+        End If
+
+
+        Return objSemItem_Result
+    End Function
+
+    Public Function export_TypeAtt() As clsSemItem
+        Dim objDRC_TypeAtt As DataRowCollection
+        Dim i As Integer
+        Dim objSemItem_Result As clsSemItem
+        Dim strJson As String = ""
+        Dim lngPack As Long
+        Dim objDict As Dictionary(Of String, Object)
+        Dim objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+
+        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+
+        If objSemItem_XMLImport Is Nothing Then
+            get_Data_XMLImport()
+        End If
+        initialize_ElConn()
+        Try
+            objElConn.CreateIndex(objSemItem_Index.Name)
+        Catch ex As Exception
+            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+        End Try
+
+        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+            lngPack = 0
+            objDRC_TypeAtt = typefuncA_Types_With_Attributes_And_Types.GetData().Rows
+
+            For i = 0 To objDRC_TypeAtt.Count - 1
+                objDict = New Dictionary(Of String, Object)
+                objDict.Add("ID_Class", objDRC_TypeAtt(i).Item("GUID_Type").ToString)
+                objDict.Add("ID_Attribute", objDRC_TypeAtt(i).Item("GUID_Attribute").ToString)
+                objDict.Add("ID_AttributeType", objDRC_TypeAtt(i).Item("GUID_AttributeType").ToString)
+                objDict.Add("Min", objDRC_TypeAtt(i).Item("Min").ToString)
+                objDict.Add("Max", objDRC_TypeAtt(i).Item("Max").ToString)
+
+                ReDim Preserve objBulkObjects(lngPack)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ClassAtt", objDRC_TypeAtt(i).Item("GUID_Type").ToString, objDict)
+                objDict = Nothing
+
+
+                If lngPack = 10000 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                    End Try
+
+                    lngPack = 0
+                End If
+
+                lngPack = lngPack + 1
+            Next
+
+            If Not objBulkObjects Is Nothing Then
+                If objBulkObjects.Count > 0 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+                    End Try
+                End If
+
+            End If
+        End If
+
 
         Return objSemItem_Result
     End Function

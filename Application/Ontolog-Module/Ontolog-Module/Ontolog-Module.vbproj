@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\clsLocalConfig.vb" />
+    <Compile Include="clsClassRel.vb" />
     <Compile Include="clsDBLevel.vb" />
     <Compile Include="clsFieldQuery.vb" />
     <Compile Include="clsGlobals.vb" />
@@ -128,6 +129,9 @@
     <Compile Include="DataSet_Config.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet_Config.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSet_Config.vb">
       <DependentUpon>DataSet_Config.xsd</DependentUpon>
     </Compile>
     <Compile Include="frmMain.vb">

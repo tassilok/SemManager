@@ -38,7 +38,6 @@ Public Class Form_ElasticSearchConnector
         Dim objSemItem_Result As clsSemItem
 
         objSemItem_Result = objElasticSarech.export_DataTypes()
-        'objSemItem_Result = objElasticSarech.export_ItemTypes()
         objSemItem_Result = objElasticSarech.export_Attributes()
         objSemItem_Result = objElasticSarech.export_RelationTypes()
         objSemItem_Result = objElasticSarech.export_Types()
@@ -53,6 +52,8 @@ Public Class Form_ElasticSearchConnector
         objSemItem_Result = objElasticSarech.export_TokenAttribute(objLocalConfig.Globals.AttributeType_Varchar255.GUID)
         objSemItem_Result = objElasticSarech.export_TokenRel()
         objSemItem_Result = objElasticSarech.export_Token_OR()
+        objSemItem_Result = objElasticSarech.export_TypeRel()
+        objSemItem_Result = objElasticSarech.export_TypeAtt()
     End Sub
 
     Private Sub test_Import()
