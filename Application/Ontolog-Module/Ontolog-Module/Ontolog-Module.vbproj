@@ -156,6 +156,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="UserControl_ObjectRel.Designer.vb">
+      <DependentUpon>UserControl_ObjectRel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_ObjectRel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl_OItemList.Designer.vb">
       <DependentUpon>UserControl_OItemList.vb</DependentUpon>
     </Compile>
@@ -178,6 +184,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_ObjectRel.resx">
+      <DependentUpon>UserControl_ObjectRel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_OItemList.resx">
       <DependentUpon>UserControl_OItemList.vb</DependentUpon>

@@ -5,23 +5,39 @@
     Private strName_Parent_Object As String
     Private strID_Other As String
     Private strName_Other As String
-    Private strID_Parent_Left As String
-    Private strName_Parent_Left As String
-    Private strID_Parent_Right As String
-    Private strName_Parent_Right As String
+    Private strID_Parent_Other As String
+    Private strName_Parent_Other As String
     Private strID_RelationType As String
     Private strName_RelationType As String
-    Private strID_Ontology As String
+    Private strOntology As String
+    Private strID_Direction As String
+    Private strName_Direction As String
     Private lngOrderID As Long
-    Private strID_ItemType As String
-    Private strName_ItemType As String
 
-    Public Property ID_Ontology As String
+    Public Property ID_Direction As String
         Get
-            Return strID_Ontology
+            Return strID_Direction
         End Get
         Set(ByVal value As String)
-            strID_Ontology = value
+            strID_Direction = value
+        End Set
+    End Property
+
+    Public Property Name_Direction As String
+        Get
+            Return strName_Direction
+        End Get
+        Set(ByVal value As String)
+            strName_Direction = value
+        End Set
+    End Property
+
+    Public Property Ontology As String
+        Get
+            Return strOntology
+        End Get
+        Set(ByVal value As String)
+            strOntology = value
         End Set
     End Property
     Public Property ID_Object As String
@@ -78,21 +94,21 @@
         End Set
     End Property
 
-    Public Property ID_Parent_Right As String
+    Public Property ID_Parent_Other As String
         Get
-            Return strID_Parent_Right
+            Return strID_Parent_Other
         End Get
         Set(ByVal value As String)
-            strID_Parent_Right = value
+            strID_Parent_Other = value
         End Set
     End Property
 
     Public Property Name_Parent_Right As String
         Get
-            Return strName_Parent_Right
+            Return strName_Parent_Other
         End Get
         Set(ByVal value As String)
-            strName_Parent_Right = value
+            strName_Parent_Other = value
         End Set
     End Property
 
@@ -123,46 +139,55 @@
         End Set
     End Property
 
-    Public Property ID_ItemType As String
-        Get
-            Return strID_ItemType
-        End Get
-        Set(ByVal value As String)
-            strID_ItemType = value
-        End Set
-    End Property
+ 
+    Public Sub New(ByVal ID_Object As String, _
+                   ByVal ID_Parent_Object As String, _
+                   ByVal ID_Other As String, _
+                   ByVal ID_Parent_Other As String, _
+                   ByVal ID_RelationType As String, _
+                   ByVal Ontology As String, _
+                   ByVal ID_Direction As String, _
+                   ByVal OrderID As Long)
 
-    Public Property Name_ItemType As String
-        Get
-            Return strName_ItemType
-        End Get
-        Set(ByVal value As String)
-            strName_ItemType = value
-        End Set
-    End Property
-
-    Public Sub New(ByVal ID_Object As String, ByVal ID_Parent_Left As String, ByVal ID_Right As String, ByVal ID_Parent_Right As String, ByVal ID_RelationType As String, ByVal ID_Ontology As String, ByVal OrderID As Long)
         strID_Object = ID_Object
-        strID_Parent_Left = ID_Parent_Left
+        strID_Parent_Object = ID_Parent_Object
         strID_Other = ID_Other
-        strID_Parent_Right = ID_Parent_Right
+        strID_Parent_Object = ID_Parent_Other
         strID_RelationType = ID_RelationType
-        strID_Ontology = ID_Ontology
+        strOntology = Ontology
+        strID_Direction = ID_Direction
         lngOrderID = OrderID
     End Sub
 
-    Public Sub New(ByVal ID_Object As String, ByVal Name_Object As String, ByVal ID_Parent_Left As String, ByVal Name_Parent_Left As String, ByVal ID_Right As String, ByVal Nam_Right As String, ByVal ID_Parent_Right As String, ByVal Name_Parent_Right As String, ByVal ID_RelationType As String, ByVal Name_RelationType As String, ByVal ID_Ontology As String, ByVal OrderID As Long)
+    Public Sub New(ByVal ID_Object As String, ByVal Name_Object As String, _
+                   ByVal ID_Parent_Object As String, _
+                   ByVal Name_Parent_Object As String, _
+                   ByVal ID_Other As String, _
+                   ByVal Name_Other As String, _
+                   ByVal ID_Parent_Other As String, _
+                   ByVal Name_Parent_Other As String, _
+                   ByVal ID_RelationType As String, _
+                   ByVal Name_RelationType As String, _
+                   ByVal Ontology As String, _
+                   ByVal ID_Direction As String, _
+                   ByVal Name_Direction As String, _
+                   ByVal OrderID As Long)
+
         strID_Object = ID_Object
         strName_Object = Name_Object
-        strID_Parent_Left = ID_Parent_Left
-        strName_Parent_Left = Name_Parent_Left
+        strID_Parent_Other = ID_Parent_Other
+        strName_Parent_Other = Name_Parent_Other
         strID_Other = ID_Other
         strName_Other = Name_Other
-        strID_Parent_Right = ID_Parent_Right
-        strName_Parent_Right = Name_Parent_Right
         strID_RelationType = ID_RelationType
         strName_RelationType = Name_RelationType
-        strID_Ontology = ID_Ontology
+        strOntology = Ontology
+        strID_Direction = ID_Direction
+        strName_Direction = Name_Direction
         lngOrderID = lngOrderID
+    End Sub
+
+    Public Sub New()
+
     End Sub
 End Class

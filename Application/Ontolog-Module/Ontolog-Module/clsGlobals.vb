@@ -3,11 +3,11 @@ Public Class clsGlobals
 
     Private cstrField_ID_Item As String = "ID_Item"
     Private cstrField_ID_Object As String = "ID_Object"
-    Private cstrField_ID_Parent_Right As String = "ID_Parent_Right"
-    Private cstrField_ID_Ontology As String = "ID_Ontology"
+    Private cstrField_ID_Parent_Other As String = "ID_Parent_Other"
+    Private cstrField_Ontology As String = "Ontology"
     Private cstrField_OrderID As String = "OrderID"
-    Private cstrField_ID_Right As String = "ID_Right"
-    Private cstrField_ID_Parent_Left As String = "ID_Parent_Left"
+    Private cstrField_ID_Other As String = "ID_Other"
+    Private cstrField_ID_Parent_Object As String = "ID_Parent_Object"
     Private cstrField_ID_RelationType As String = "ID_RelationType"
     Private cstrField_Name_RelationType As String = "Name_RelationType"
     Private cstrField_Name_Object As String = "Name_Object"
@@ -244,9 +244,9 @@ Public Class clsGlobals
         End Get
     End Property
 
-    Public ReadOnly Property Field_ID_Ontology As String
+    Public ReadOnly Property Field_Ontology As String
         Get
-            Return cstrField_ID_Ontology
+            Return cstrField_Ontology
         End Get
     End Property
 
@@ -256,15 +256,15 @@ Public Class clsGlobals
         End Get
     End Property
 
-    Public ReadOnly Property Field_ID_Parent_Left As String
+    Public ReadOnly Property Field_ID_Parent_Object As String
         Get
-            Return cstrField_ID_Parent_Left
+            Return cstrField_ID_Parent_Object
         End Get
     End Property
 
-    Public ReadOnly Property Field_ID_Parent_Right As String
+    Public ReadOnly Property Field_ID_Parent_Other As String
         Get
-            Return cstrField_ID_Parent_Right
+            Return cstrField_ID_Parent_Other
         End Get
     End Property
 
@@ -274,9 +274,9 @@ Public Class clsGlobals
         End Get
     End Property
 
-    Public ReadOnly Property Field_ID_Right As String
+    Public ReadOnly Property Field_ID_Other As String
         Get
-            Return cstrField_ID_Right
+            Return cstrField_ID_Other
         End Get
     End Property
 
@@ -443,31 +443,31 @@ Public Class clsGlobals
 
 
     Private Sub set_LogStates()
-        objOItem_Class_Logstate = New clsOntologyItem("1d9568af-b6da-4990-8f4d-907dfdd30749", "Logstate", cstrType_Class)
+        objOItem_Class_Logstate = New clsOntologyItem("1d9568afb6da49908f4d907dfdd30749", "Logstate", cstrType_Class)
 
-        objLogState_Delete = New clsOntologyItem("BB6A9555-3AF6-40FC-9FB0-489D2678DFF2", "Delete", objOItem_Class_Logstate.GUID)
-        objLogState_Error = New clsOntologyItem("cc714341-7631-4b78-b8f4-385db073635f", "Error", objOItem_Class_Logstate.GUID)
-        objLogState_Exists = New clsOntologyItem("0b285306-f64d-4444-bffe-627a21687eff", "Exist", objOItem_Class_Logstate.GUID)
-        objLogState_Insert = New clsOntologyItem("a6df6ab2-3590-45b1-b325-35334a2f574a", "Insert", objOItem_Class_Logstate.GUID)
-        objLogState_Nothing = New clsOntologyItem("95666887-fb2a-416e-9624-a48d48dc5446", "Nothing", objOItem_Class_Logstate.GUID)
-        objLogState_Relation = New clsOntologyItem("a46b7472-3c8e-44a8-b785-3913b760db22", "Relation", objOItem_Class_Logstate.GUID)
-        objLogState_Success = New clsOntologyItem("84251164-265e-4e02-94b2-ed7c40a02e56", "Success", objOItem_Class_Logstate.GUID)
-        objLogState_Update = New clsOntologyItem("2bf7e9d6-fb9c-4092-9b16-ecc4fef7c072", "Update", objOItem_Class_Logstate.GUID)
+        objLogState_Delete = New clsOntologyItem("BB6A95553AF640FC9FB0489D2678DFF2", "Delete", objOItem_Class_Logstate.GUID)
+        objLogState_Error = New clsOntologyItem("cc71434176314b78b8f4385db073635f", "Error", objOItem_Class_Logstate.GUID)
+        objLogState_Exists = New clsOntologyItem("0b285306f64d4444bffe627a21687eff", "Exist", objOItem_Class_Logstate.GUID)
+        objLogState_Insert = New clsOntologyItem("a6df6ab2359045b1b32535334a2f574a", "Insert", objOItem_Class_Logstate.GUID)
+        objLogState_Nothing = New clsOntologyItem("95666887fb2a416e-9624a48d48dc5446", "Nothing", objOItem_Class_Logstate.GUID)
+        objLogState_Relation = New clsOntologyItem("a46b74723c8e44a8b7853913b760db22", "Relation", objOItem_Class_Logstate.GUID)
+        objLogState_Success = New clsOntologyItem("84251164265e4e0294b2ed7c40a02e56", "Success", objOItem_Class_Logstate.GUID)
+        objLogState_Update = New clsOntologyItem("2bf7e9d6fb9c40929b16ecc4fef7c072", "Update", objOItem_Class_Logstate.GUID)
 
     End Sub
 
     Private Sub set_DataTypes()
-        objOItem_DType_Bool = New clsOntologyItem("dd858f27-d5e1-4363-a5c3-3e561e432333", "Bool", cstrType_DataType)
-        objOItem_DType_DateTime = New clsOntologyItem("905fda81-788f-4e3d-8329-3e55ae984b9e", "Datetime", cstrType_DataType)
-        objOItem_DType_Int = New clsOntologyItem("3a4f5b7b-da75-4980-933e-fbc33cc51439", "Int", cstrType_DataType)
-        objOItem_DType_Real = New clsOntologyItem("a1244d0e-187f-46ee-8574-2fc334077b7d", "Real", cstrType_DataType)
-        objOItem_DType_String = New clsOntologyItem("64530b52-d96c-4df1-86fe-183f44513450", "String", cstrType_DataType)
+        objOItem_DType_Bool = New clsOntologyItem("dd858f27d5e14363-a5c33e561e432333", "Bool", cstrType_DataType)
+        objOItem_DType_DateTime = New clsOntologyItem("905fda81788f4e3d83293e55ae984b9e", "Datetime", cstrType_DataType)
+        objOItem_DType_Int = New clsOntologyItem("3a4f5b7bda754980933efbc33cc51439", "Int", cstrType_DataType)
+        objOItem_DType_Real = New clsOntologyItem("a1244d0e187f46ee85742fc334077b7d", "Real", cstrType_DataType)
+        objOItem_DType_String = New clsOntologyItem("64530b52d96c4df186fe183f44513450", "String", cstrType_DataType)
 
     End Sub
 
     Public Function is_GUID(ByVal strText As String) As Boolean
         Dim objRegExp As New Regex(strRegEx_GUID)
-        If objRegExp.IsMatch(strText) And Not strText = "00000000-0000-0000-0000-000000000000" Then
+        If objRegExp.IsMatch(strText) And Not strText = "00000000000000000000000000000000" Then
             Return True
         Else
             Return False
@@ -526,12 +526,12 @@ Public Class clsGlobals
     End Sub
 
     Private Sub set_Directions()
-        objDirection_LeftRight = New clsOntologyItem("cc99d536-5d56-4fd2-9d4f-45b48af33029", "Left-Right", cstrType_Object)
-        objDirection_RightLeft = New clsOntologyItem("061243fc-4c13-4bd5-800c-2c33b70e99b2", "Right-Left", cstrType_Object)
+        objDirection_LeftRight = New clsOntologyItem("cc99d5365d564fd29d4f45b48af33029", "Left-Right", cstrType_Object)
+        objDirection_RightLeft = New clsOntologyItem("061243fc4c134bd5800c2c33b70e99b2", "Right-Left", cstrType_Object)
     End Sub
     Public Sub New()
-        objOItem_Class_Root = New clsOntologyItem("49fdcd27-e105-4770-941d-7485dcad08c1", "Root", "dbbfc1a0-0c2e-4836-8434-0a7b7a8b4b52")
-        strRegEx_GUID = "[A-Za-z0-9]{8}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{12}"
+        objOItem_Class_Root = New clsOntologyItem("49fdcd27e1054770941d7485dcad08c1", "Root", "dbbfc1a00c2e483684340a7b7a8b4b52")
+        strRegEx_GUID = "[A-Za-z0-9]{8}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9]{12}"
         set_Session()
         get_ConfigData()
         set_DataTypes()
@@ -541,7 +541,7 @@ Public Class clsGlobals
     End Sub
 
     Private Sub set_Session()
-        GUID_Session = Guid.NewGuid.ToString
+        GUID_Session = Guid.NewGuid.ToString.Replace("-", "")
     End Sub
 End Class
 

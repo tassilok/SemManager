@@ -224,6 +224,15 @@
         End Set
     End Property
 
+    Public Sub New()
+
+    End Sub
+
+    Public Sub New(ByVal GUID_Item As String, ByVal Type As String)
+        GUID = GUID_Item
+        Me.Type = Type
+    End Sub
+
     Public Sub New(ByVal GUID_Item As String, ByVal Name_Item As String, ByVal Type As String)
         GUID = GUID_Item
         Name = Name_Item

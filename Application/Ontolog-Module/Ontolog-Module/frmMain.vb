@@ -5,10 +5,14 @@
     Private WithEvents objUserControl_OObjectList As UserControl_OItemList
     Private WithEvents objUserControl_ORelationTypeList As UserControl_OItemList
     Private WithEvents objUserControl_OAttributeList As UserControl_OItemList
+    Private WithEvents objUserControl_ObjRel As UserControl_ObjectRel
 
     Private objOItem As clsOntologyItem
 
     Private objDBLevel_ObjectRel As clsDBLevel
+
+    Private objOList_ClassRel_LeftRight As New List(Of clsClassRel)
+    Private objOList_ClassRel_RightLeft As New List(Of clsClassRel)
 
     Private objOList_Classes_Right As New List(Of clsOntologyItem)
     Private objOList_RelationTypes_Right As New List(Of clsOntologyItem)
@@ -23,8 +27,8 @@
     Private Sub ObjectList_Selection_Changed() Handles objUserControl_OObjectList.Selection_Changed
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
+        Dim objOList_Item As New List(Of clsOntologyItem)
 
-        objOItem = Nothing
 
         If objUserControl_OObjectList.DataGridViewRowCollection_Selected.Count = 1 Then
             objDGVR_Selected = objUserControl_OObjectList.DataGridViewRowCollection_Selected(0)
@@ -37,9 +41,17 @@
                                            objDRV_Selected.Item("Name"), _
                                            objDRV_Selected.Item("ID_Class"), _
                                            objLocalConfig.Globals.Type_Object)
-            
+
+            objOList_Item.Add(objOItem)
             'get_ObjectRel(objOItem)
             'get_TokenAttribute(objSemItem_Token)
+            objUserControl_ObjRel.initialize_RelList(objOList_Item, _
+                                                     objOList_Classes_Left, _
+                                                     objOList_RelationTypes_Left, _
+                                                     objOList_ClassRel_LeftRight, _
+                                                     objOList_Classes_Right, _
+                                                     objOList_RelationTypes_Right, _
+                                                     objOList_ClassRel_RightLeft)
 
 
 
@@ -56,7 +68,6 @@
         Dim objDBLevel_RightLeft As New clsDBLevel(objLocalConfig)
 
         
-
         objOList_Classes.Add(objOItem_Class)
 
         objOList_Classes_Left.Clear()
@@ -67,11 +78,12 @@
         objDBLevel_LeftRight.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_LeftRight)
         objOList_Classes_Right = objDBLevel_LeftRight.OList_Classes
         objOList_RelationTypes_Right = objDBLevel_LeftRight.OList_RelationTypes
+        objOList_ClassRel_LeftRight = objDBLevel_LeftRight.OList_ClassRel_ID
 
         objDBLevel_RightLeft.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_RightLeft)
         objOList_Classes_Left = objDBLevel_RightLeft.OList_Classes
         objOList_RelationTypes_Left = objDBLevel_RightLeft.OList_RelationTypes
-
+        objOList_ClassRel_RightLeft = objDBLevel_RightLeft.OList_ClassRel_ID
     End Sub
 
     Public Sub New()
@@ -114,6 +126,11 @@
         Panel_Attributes.Controls.Clear()
         objUserControl_OAttributeList.initialize_Simple(objOItem_AttType)
         Panel_Attributes.Controls.Add(objUserControl_OAttributeList)
+
+        objUserControl_ObjRel = New UserControl_ObjectRel(objLocalConfig)
+        objUserControl_ObjRel.Dock = DockStyle.Fill
+        SplitContainer_TokAttTokRel.Panel2.Controls.Clear()
+        SplitContainer_TokAttTokRel.Panel2.Controls.Add(objUserControl_ObjRel)
 
     End Sub
 

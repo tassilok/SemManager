@@ -39,6 +39,8 @@ Partial Public Class DataSet_Config
     
     Private tableotbl_ObjectRel As otbl_ObjectRelDataTable
     
+    Private tableotbl_DataTypes As otbl_DataTypesDataTable
+    
     Private _schemaSerializationMode As Global.System.Data.SchemaSerializationMode = Global.System.Data.SchemaSerializationMode.IncludeSchema
     
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -88,6 +90,9 @@ Partial Public Class DataSet_Config
             End If
             If (Not (ds.Tables("otbl_ObjectRel")) Is Nothing) Then
                 MyBase.Tables.Add(New otbl_ObjectRelDataTable(ds.Tables("otbl_ObjectRel")))
+            End If
+            If (Not (ds.Tables("otbl_DataTypes")) Is Nothing) Then
+                MyBase.Tables.Add(New otbl_DataTypesDataTable(ds.Tables("otbl_DataTypes")))
             End If
             Me.DataSetName = ds.DataSetName
             Me.Prefix = ds.Prefix
@@ -173,6 +178,16 @@ Partial Public Class DataSet_Config
     Public ReadOnly Property otbl_ObjectRel() As otbl_ObjectRelDataTable
         Get
             Return Me.tableotbl_ObjectRel
+        End Get
+    End Property
+    
+    <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+     Global.System.ComponentModel.Browsable(false),  _
+     Global.System.ComponentModel.DesignerSerializationVisibility(Global.System.ComponentModel.DesignerSerializationVisibility.Content)>  _
+    Public ReadOnly Property otbl_DataTypes() As otbl_DataTypesDataTable
+        Get
+            Return Me.tableotbl_DataTypes
         End Get
     End Property
     
@@ -264,6 +279,9 @@ Partial Public Class DataSet_Config
             If (Not (ds.Tables("otbl_ObjectRel")) Is Nothing) Then
                 MyBase.Tables.Add(New otbl_ObjectRelDataTable(ds.Tables("otbl_ObjectRel")))
             End If
+            If (Not (ds.Tables("otbl_DataTypes")) Is Nothing) Then
+                MyBase.Tables.Add(New otbl_DataTypesDataTable(ds.Tables("otbl_DataTypes")))
+            End If
             Me.DataSetName = ds.DataSetName
             Me.Prefix = ds.Prefix
             Me.Namespace = ds.Namespace
@@ -338,6 +356,12 @@ Partial Public Class DataSet_Config
                 Me.tableotbl_ObjectRel.InitVars
             End If
         End If
+        Me.tableotbl_DataTypes = CType(MyBase.Tables("otbl_DataTypes"),otbl_DataTypesDataTable)
+        If (initTable = true) Then
+            If (Not (Me.tableotbl_DataTypes) Is Nothing) Then
+                Me.tableotbl_DataTypes.InitVars
+            End If
+        End If
     End Sub
     
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -362,6 +386,8 @@ Partial Public Class DataSet_Config
         MyBase.Tables.Add(Me.tableotbl_Attributes)
         Me.tableotbl_ObjectRel = New otbl_ObjectRelDataTable()
         MyBase.Tables.Add(Me.tableotbl_ObjectRel)
+        Me.tableotbl_DataTypes = New otbl_DataTypesDataTable()
+        MyBase.Tables.Add(Me.tableotbl_DataTypes)
     End Sub
     
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -403,6 +429,12 @@ Partial Public Class DataSet_Config
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
     Private Function ShouldSerializeotbl_ObjectRel() As Boolean
+        Return false
+    End Function
+    
+    <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+    Private Function ShouldSerializeotbl_DataTypes() As Boolean
         Return false
     End Function
     
@@ -484,6 +516,9 @@ Partial Public Class DataSet_Config
     
     <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
     Public Delegate Sub otbl_ObjectRelRowChangeEventHandler(ByVal sender As Object, ByVal e As otbl_ObjectRelRowChangeEvent)
+    
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+    Public Delegate Sub otbl_DataTypesRowChangeEventHandler(ByVal sender As Object, ByVal e As otbl_DataTypesRowChangeEvent)
     
     '''<summary>
     '''Represents the strongly named DataTable class.
@@ -2177,8 +2212,6 @@ Partial Public Class DataSet_Config
         
         Private columnOrderID As Global.System.Data.DataColumn
         
-        Private columnID_Ontology As Global.System.Data.DataColumn
-        
         Private columnID_Other As Global.System.Data.DataColumn
         
         Private columnName_Other As Global.System.Data.DataColumn
@@ -2186,6 +2219,12 @@ Partial Public Class DataSet_Config
         Private columnID_Parent_Other As Global.System.Data.DataColumn
         
         Private columnName_Parent_Other As Global.System.Data.DataColumn
+        
+        Private columnOntology As Global.System.Data.DataColumn
+        
+        Private columnID_Direction As Global.System.Data.DataColumn
+        
+        Private columnName_Direction As Global.System.Data.DataColumn
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
@@ -2280,14 +2319,6 @@ Partial Public Class DataSet_Config
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property ID_OntologyColumn() As Global.System.Data.DataColumn
-            Get
-                Return Me.columnID_Ontology
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public ReadOnly Property ID_OtherColumn() As Global.System.Data.DataColumn
             Get
                 Return Me.columnID_Other
@@ -2315,6 +2346,30 @@ Partial Public Class DataSet_Config
         Public ReadOnly Property Name_Parent_OtherColumn() As Global.System.Data.DataColumn
             Get
                 Return Me.columnName_Parent_Other
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property OntologyColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnOntology
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property ID_DirectionColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnID_Direction
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Name_DirectionColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnName_Direction
             End Get
         End Property
         
@@ -2355,9 +2410,9 @@ Partial Public Class DataSet_Config
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function Addotbl_ObjectRelRow(ByVal ID_Object As String, ByVal Name_Object As String, ByVal ID_Parent_Object As String, ByVal Name_Parent_Object As String, ByVal ID_RelationType As String, ByVal Name_RelationType As String, ByVal OrderID As Long, ByVal ID_Ontology As String, ByVal ID_Other As String, ByVal Name_Other As String, ByVal ID_Parent_Other As String, ByVal Name_Parent_Other As String) As otbl_ObjectRelRow
+        Public Overloads Function Addotbl_ObjectRelRow(ByVal ID_Object As String, ByVal Name_Object As String, ByVal ID_Parent_Object As String, ByVal Name_Parent_Object As String, ByVal ID_RelationType As String, ByVal Name_RelationType As String, ByVal OrderID As Long, ByVal ID_Other As String, ByVal Name_Other As String, ByVal ID_Parent_Other As String, ByVal Name_Parent_Other As String, ByVal Ontology As String, ByVal ID_Direction As String, ByVal Name_Direction As String) As otbl_ObjectRelRow
             Dim rowotbl_ObjectRelRow As otbl_ObjectRelRow = CType(Me.NewRow,otbl_ObjectRelRow)
-            Dim columnValuesArray() As Object = New Object() {ID_Object, Name_Object, ID_Parent_Object, Name_Parent_Object, ID_RelationType, Name_RelationType, OrderID, ID_Ontology, ID_Other, Name_Other, ID_Parent_Other, Name_Parent_Other}
+            Dim columnValuesArray() As Object = New Object() {ID_Object, Name_Object, ID_Parent_Object, Name_Parent_Object, ID_RelationType, Name_RelationType, OrderID, ID_Other, Name_Other, ID_Parent_Other, Name_Parent_Other, Ontology, ID_Direction, Name_Direction}
             rowotbl_ObjectRelRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowotbl_ObjectRelRow)
             Return rowotbl_ObjectRelRow
@@ -2387,11 +2442,13 @@ Partial Public Class DataSet_Config
             Me.columnID_RelationType = MyBase.Columns("ID_RelationType")
             Me.columnName_RelationType = MyBase.Columns("Name_RelationType")
             Me.columnOrderID = MyBase.Columns("OrderID")
-            Me.columnID_Ontology = MyBase.Columns("ID_Ontology")
             Me.columnID_Other = MyBase.Columns("ID_Other")
             Me.columnName_Other = MyBase.Columns("Name_Other")
             Me.columnID_Parent_Other = MyBase.Columns("ID_Parent_Other")
             Me.columnName_Parent_Other = MyBase.Columns("Name_Parent_Other")
+            Me.columnOntology = MyBase.Columns("Ontology")
+            Me.columnID_Direction = MyBase.Columns("ID_Direction")
+            Me.columnName_Direction = MyBase.Columns("Name_Direction")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -2411,8 +2468,6 @@ Partial Public Class DataSet_Config
             MyBase.Columns.Add(Me.columnName_RelationType)
             Me.columnOrderID = New Global.System.Data.DataColumn("OrderID", GetType(Long), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnOrderID)
-            Me.columnID_Ontology = New Global.System.Data.DataColumn("ID_Ontology", GetType(String), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnID_Ontology)
             Me.columnID_Other = New Global.System.Data.DataColumn("ID_Other", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnID_Other)
             Me.columnName_Other = New Global.System.Data.DataColumn("Name_Other", GetType(String), Nothing, Global.System.Data.MappingType.Element)
@@ -2421,6 +2476,12 @@ Partial Public Class DataSet_Config
             MyBase.Columns.Add(Me.columnID_Parent_Other)
             Me.columnName_Parent_Other = New Global.System.Data.DataColumn("Name_Parent_Other", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnName_Parent_Other)
+            Me.columnOntology = New Global.System.Data.DataColumn("Ontology", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnOntology)
+            Me.columnID_Direction = New Global.System.Data.DataColumn("ID_Direction", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnID_Direction)
+            Me.columnName_Direction = New Global.System.Data.DataColumn("Name_Direction", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnName_Direction)
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -2507,6 +2568,280 @@ Partial Public Class DataSet_Config
             Dim attribute2 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
             attribute2.Name = "tableTypeName"
             attribute2.FixedValue = "otbl_ObjectRelDataTable"
+            type.Attributes.Add(attribute2)
+            type.Particle = sequence
+            Dim dsSchema As Global.System.Xml.Schema.XmlSchema = ds.GetSchemaSerializable
+            If xs.Contains(dsSchema.TargetNamespace) Then
+                Dim s1 As Global.System.IO.MemoryStream = New Global.System.IO.MemoryStream()
+                Dim s2 As Global.System.IO.MemoryStream = New Global.System.IO.MemoryStream()
+                Try 
+                    Dim schema As Global.System.Xml.Schema.XmlSchema = Nothing
+                    dsSchema.Write(s1)
+                    Dim schemas As Global.System.Collections.IEnumerator = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator
+                    Do While schemas.MoveNext
+                        schema = CType(schemas.Current,Global.System.Xml.Schema.XmlSchema)
+                        s2.SetLength(0)
+                        schema.Write(s2)
+                        If (s1.Length = s2.Length) Then
+                            s1.Position = 0
+                            s2.Position = 0
+                            
+                            Do While ((s1.Position <> s1.Length)  _
+                                        AndAlso (s1.ReadByte = s2.ReadByte))
+                                
+                                
+                            Loop
+                            If (s1.Position = s1.Length) Then
+                                Return type
+                            End If
+                        End If
+                        
+                    Loop
+                Finally
+                    If (Not (s1) Is Nothing) Then
+                        s1.Close
+                    End If
+                    If (Not (s2) Is Nothing) Then
+                        s2.Close
+                    End If
+                End Try
+            End If
+            xs.Add(dsSchema)
+            Return type
+        End Function
+    End Class
+    
+    '''<summary>
+    '''Represents the strongly named DataTable class.
+    '''</summary>
+    <Global.System.Serializable(),  _
+     Global.System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")>  _
+    Partial Public Class otbl_DataTypesDataTable
+        Inherits Global.System.Data.TypedTableBase(Of otbl_DataTypesRow)
+        
+        Private columnID_DataType As Global.System.Data.DataColumn
+        
+        Private columnName As Global.System.Data.DataColumn
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub New()
+            MyBase.New
+            Me.TableName = "otbl_DataTypes"
+            Me.BeginInit
+            Me.InitClass
+            Me.EndInit
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Sub New(ByVal table As Global.System.Data.DataTable)
+            MyBase.New
+            Me.TableName = table.TableName
+            If (table.CaseSensitive <> table.DataSet.CaseSensitive) Then
+                Me.CaseSensitive = table.CaseSensitive
+            End If
+            If (table.Locale.ToString <> table.DataSet.Locale.ToString) Then
+                Me.Locale = table.Locale
+            End If
+            If (table.Namespace <> table.DataSet.Namespace) Then
+                Me.Namespace = table.Namespace
+            End If
+            Me.Prefix = table.Prefix
+            Me.MinimumCapacity = table.MinimumCapacity
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Sub New(ByVal info As Global.System.Runtime.Serialization.SerializationInfo, ByVal context As Global.System.Runtime.Serialization.StreamingContext)
+            MyBase.New(info, context)
+            Me.InitVars
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property ID_DataTypeColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnID_DataType
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property NameColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnName
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Browsable(false)>  _
+        Public ReadOnly Property Count() As Integer
+            Get
+                Return Me.Rows.Count
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Default ReadOnly Property Item(ByVal index As Integer) As otbl_DataTypesRow
+            Get
+                Return CType(Me.Rows(index),otbl_DataTypesRow)
+            End Get
+        End Property
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event otbl_DataTypesRowChanging As otbl_DataTypesRowChangeEventHandler
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event otbl_DataTypesRowChanged As otbl_DataTypesRowChangeEventHandler
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event otbl_DataTypesRowDeleting As otbl_DataTypesRowChangeEventHandler
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event otbl_DataTypesRowDeleted As otbl_DataTypesRowChangeEventHandler
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Overloads Sub Addotbl_DataTypesRow(ByVal row As otbl_DataTypesRow)
+            Me.Rows.Add(row)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Overloads Function Addotbl_DataTypesRow(ByVal ID_DataType As String, ByVal Name As String) As otbl_DataTypesRow
+            Dim rowotbl_DataTypesRow As otbl_DataTypesRow = CType(Me.NewRow,otbl_DataTypesRow)
+            Dim columnValuesArray() As Object = New Object() {ID_DataType, Name}
+            rowotbl_DataTypesRow.ItemArray = columnValuesArray
+            Me.Rows.Add(rowotbl_DataTypesRow)
+            Return rowotbl_DataTypesRow
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function FindByID_DataType(ByVal ID_DataType As String) As otbl_DataTypesRow
+            Return CType(Me.Rows.Find(New Object() {ID_DataType}),otbl_DataTypesRow)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Overrides Function Clone() As Global.System.Data.DataTable
+            Dim cln As otbl_DataTypesDataTable = CType(MyBase.Clone,otbl_DataTypesDataTable)
+            cln.InitVars
+            Return cln
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Function CreateInstance() As Global.System.Data.DataTable
+            Return New otbl_DataTypesDataTable()
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Sub InitVars()
+            Me.columnID_DataType = MyBase.Columns("ID_DataType")
+            Me.columnName = MyBase.Columns("Name")
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Private Sub InitClass()
+            Me.columnID_DataType = New Global.System.Data.DataColumn("ID_DataType", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnID_DataType)
+            Me.columnName = New Global.System.Data.DataColumn("Name", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnName)
+            Me.Constraints.Add(New Global.System.Data.UniqueConstraint("Constraint1", New Global.System.Data.DataColumn() {Me.columnID_DataType}, true))
+            Me.columnID_DataType.AllowDBNull = false
+            Me.columnID_DataType.Unique = true
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function Newotbl_DataTypesRow() As otbl_DataTypesRow
+            Return CType(Me.NewRow,otbl_DataTypesRow)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Function NewRowFromBuilder(ByVal builder As Global.System.Data.DataRowBuilder) As Global.System.Data.DataRow
+            Return New otbl_DataTypesRow(builder)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Function GetRowType() As Global.System.Type
+            Return GetType(otbl_DataTypesRow)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowChanged(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowChanged(e)
+            If (Not (Me.otbl_DataTypesRowChangedEvent) Is Nothing) Then
+                RaiseEvent otbl_DataTypesRowChanged(Me, New otbl_DataTypesRowChangeEvent(CType(e.Row,otbl_DataTypesRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowChanging(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowChanging(e)
+            If (Not (Me.otbl_DataTypesRowChangingEvent) Is Nothing) Then
+                RaiseEvent otbl_DataTypesRowChanging(Me, New otbl_DataTypesRowChangeEvent(CType(e.Row,otbl_DataTypesRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowDeleted(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowDeleted(e)
+            If (Not (Me.otbl_DataTypesRowDeletedEvent) Is Nothing) Then
+                RaiseEvent otbl_DataTypesRowDeleted(Me, New otbl_DataTypesRowChangeEvent(CType(e.Row,otbl_DataTypesRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowDeleting(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowDeleting(e)
+            If (Not (Me.otbl_DataTypesRowDeletingEvent) Is Nothing) Then
+                RaiseEvent otbl_DataTypesRowDeleting(Me, New otbl_DataTypesRowChangeEvent(CType(e.Row,otbl_DataTypesRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub Removeotbl_DataTypesRow(ByVal row As otbl_DataTypesRow)
+            Me.Rows.Remove(row)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Shared Function GetTypedTableSchema(ByVal xs As Global.System.Xml.Schema.XmlSchemaSet) As Global.System.Xml.Schema.XmlSchemaComplexType
+            Dim type As Global.System.Xml.Schema.XmlSchemaComplexType = New Global.System.Xml.Schema.XmlSchemaComplexType()
+            Dim sequence As Global.System.Xml.Schema.XmlSchemaSequence = New Global.System.Xml.Schema.XmlSchemaSequence()
+            Dim ds As DataSet_Config = New DataSet_Config()
+            Dim any1 As Global.System.Xml.Schema.XmlSchemaAny = New Global.System.Xml.Schema.XmlSchemaAny()
+            any1.Namespace = "http://www.w3.org/2001/XMLSchema"
+            any1.MinOccurs = New Decimal(0)
+            any1.MaxOccurs = Decimal.MaxValue
+            any1.ProcessContents = Global.System.Xml.Schema.XmlSchemaContentProcessing.Lax
+            sequence.Items.Add(any1)
+            Dim any2 As Global.System.Xml.Schema.XmlSchemaAny = New Global.System.Xml.Schema.XmlSchemaAny()
+            any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1"
+            any2.MinOccurs = New Decimal(1)
+            any2.ProcessContents = Global.System.Xml.Schema.XmlSchemaContentProcessing.Lax
+            sequence.Items.Add(any2)
+            Dim attribute1 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
+            attribute1.Name = "namespace"
+            attribute1.FixedValue = ds.Namespace
+            type.Attributes.Add(attribute1)
+            Dim attribute2 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
+            attribute2.Name = "tableTypeName"
+            attribute2.FixedValue = "otbl_DataTypesDataTable"
             type.Attributes.Add(attribute2)
             type.Particle = sequence
             Dim dsSchema As Global.System.Xml.Schema.XmlSchema = ds.GetSchemaSerializable
@@ -3050,21 +3385,6 @@ Partial Public Class DataSet_Config
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property ID_Ontology() As String
-            Get
-                Try 
-                    Return CType(Me(Me.tableotbl_ObjectRel.ID_OntologyColumn),String)
-                Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte ID_Ontology in Tabelle otbl_ObjectRel ist DBNull.", e)
-                End Try
-            End Get
-            Set
-                Me(Me.tableotbl_ObjectRel.ID_OntologyColumn) = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Property ID_Other() As String
             Get
                 Try 
@@ -3120,6 +3440,51 @@ Partial Public Class DataSet_Config
             End Get
             Set
                 Me(Me.tableotbl_ObjectRel.Name_Parent_OtherColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Ontology() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableotbl_ObjectRel.OntologyColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte Ontology in Tabelle otbl_ObjectRel ist DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableotbl_ObjectRel.OntologyColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property ID_Direction() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableotbl_ObjectRel.ID_DirectionColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte ID_Direction in Tabelle otbl_ObjectRel ist DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableotbl_ObjectRel.ID_DirectionColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Name_Direction() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableotbl_ObjectRel.Name_DirectionColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte Name_Direction in Tabelle otbl_ObjectRel ist DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableotbl_ObjectRel.Name_DirectionColumn) = value
             End Set
         End Property
         
@@ -3209,18 +3574,6 @@ Partial Public Class DataSet_Config
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function IsID_OntologyNull() As Boolean
-            Return Me.IsNull(Me.tableotbl_ObjectRel.ID_OntologyColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub SetID_OntologyNull()
-            Me(Me.tableotbl_ObjectRel.ID_OntologyColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Function IsID_OtherNull() As Boolean
             Return Me.IsNull(Me.tableotbl_ObjectRel.ID_OtherColumn)
         End Function
@@ -3265,6 +3618,96 @@ Partial Public Class DataSet_Config
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub SetName_Parent_OtherNull()
             Me(Me.tableotbl_ObjectRel.Name_Parent_OtherColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsOntologyNull() As Boolean
+            Return Me.IsNull(Me.tableotbl_ObjectRel.OntologyColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetOntologyNull()
+            Me(Me.tableotbl_ObjectRel.OntologyColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsID_DirectionNull() As Boolean
+            Return Me.IsNull(Me.tableotbl_ObjectRel.ID_DirectionColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetID_DirectionNull()
+            Me(Me.tableotbl_ObjectRel.ID_DirectionColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsName_DirectionNull() As Boolean
+            Return Me.IsNull(Me.tableotbl_ObjectRel.Name_DirectionColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetName_DirectionNull()
+            Me(Me.tableotbl_ObjectRel.Name_DirectionColumn) = Global.System.Convert.DBNull
+        End Sub
+    End Class
+    
+    '''<summary>
+    '''Represents strongly named DataRow class.
+    '''</summary>
+    Partial Public Class otbl_DataTypesRow
+        Inherits Global.System.Data.DataRow
+        
+        Private tableotbl_DataTypes As otbl_DataTypesDataTable
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Sub New(ByVal rb As Global.System.Data.DataRowBuilder)
+            MyBase.New(rb)
+            Me.tableotbl_DataTypes = CType(Me.Table,otbl_DataTypesDataTable)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property ID_DataType() As String
+            Get
+                Return CType(Me(Me.tableotbl_DataTypes.ID_DataTypeColumn),String)
+            End Get
+            Set
+                Me(Me.tableotbl_DataTypes.ID_DataTypeColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Name() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableotbl_DataTypes.NameColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte Name in Tabelle otbl_DataTypes ist DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableotbl_DataTypes.NameColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsNameNull() As Boolean
+            Return Me.IsNull(Me.tableotbl_DataTypes.NameColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetNameNull()
+            Me(Me.tableotbl_DataTypes.NameColumn) = Global.System.Convert.DBNull
         End Sub
     End Class
     
@@ -3506,6 +3949,42 @@ Partial Public Class DataSet_Config
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public ReadOnly Property Row() As otbl_ObjectRelRow
+            Get
+                Return Me.eventRow
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Action() As Global.System.Data.DataRowAction
+            Get
+                Return Me.eventAction
+            End Get
+        End Property
+    End Class
+    
+    '''<summary>
+    '''Row event argument class
+    '''</summary>
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+    Public Class otbl_DataTypesRowChangeEvent
+        Inherits Global.System.EventArgs
+        
+        Private eventRow As otbl_DataTypesRow
+        
+        Private eventAction As Global.System.Data.DataRowAction
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub New(ByVal row As otbl_DataTypesRow, ByVal action As Global.System.Data.DataRowAction)
+            MyBase.New
+            Me.eventRow = row
+            Me.eventAction = action
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Row() As otbl_DataTypesRow
             Get
                 Return Me.eventRow
             End Get

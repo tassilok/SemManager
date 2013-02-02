@@ -359,7 +359,7 @@ Public Class clsElasticSearch
 
             For i = 0 To objDRC_Attribute.Count - 1
                 objDict = New Dictionary(Of String, Object)
-                objDict.Add("ID_Item", objDRC_Attribute(i).Item("GUID_Attribute").ToString)
+                objDict.Add("ID_Item", objDRC_Attribute(i).Item("GUID_Attribute").ToString.Replace("-", ""))
                 objDict.Add("Name_Item", objDRC_Attribute(i).Item("Name_Attribute").ToString)
                 Select Case objDRC_Attribute(i).Item("GUID_AttributeType")
                     Case objLocalConfig.Globals.AttributeType_Bool.GUID
@@ -381,7 +381,7 @@ Public Class clsElasticSearch
                     Case objLocalConfig.Globals.AttributeType_Varchar255.GUID
                         strGUID_AttributeType = objLocalConfig.Globals.AttributeType_String.GUID.ToString
                 End Select
-                objDict.Add("ID_DataType", strGUID_AttributeType)
+                objDict.Add("ID_DataType", strGUID_AttributeType.Replace("-", ""))
 
                 ReDim Preserve objBulkObjects(lngPack)
                 objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "AttributeType", objDRC_Attribute(i).Item("GUID_Attribute").ToString, objDict)
@@ -446,12 +446,12 @@ Public Class clsElasticSearch
 
             For i = 0 To objDRC_Token.Count - 1
                 objDict = New Dictionary(Of String, Object)
-                objDict.Add("ID_Item", objDRC_Token(i).Item("GUID_Token").ToString)
+                objDict.Add("ID_Item", objDRC_Token(i).Item("GUID_Token").ToString.Replace("-", ""))
                 objDict.Add("Name_Item", objDRC_Token(i).Item("Name_Token").ToString)
-                objDict.Add("ID_Class", objDRC_Token(i).Item("GUID_Type").ToString)
+                objDict.Add("ID_Class", objDRC_Token(i).Item("GUID_Type").ToString.Replace("-", ""))
 
                 ReDim Preserve objBulkObjects(lngPack)
-                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "Object", objDRC_Token(i).Item("GUID_Token").ToString, objDict)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "Object", objDRC_Token(i).Item("GUID_Token").ToString.Replace("-", ""), objDict)
                 objDict = Nothing
 
 
@@ -517,16 +517,16 @@ Public Class clsElasticSearch
 
             For i = 0 To objDRC_TokenRel.Count - 1
                 objDict = New Dictionary(Of String, Object)
-                objDict.Add("ID_Object", objDRC_TokenRel(i).Item("GUID_Token_Left").ToString)
-                objDict.Add("ID_Parent_Left", objDRC_TokenRel(i).Item("GUID_Type_Left").ToString)
-                objDict.Add("ID_Right", objDRC_TokenRel(i).Item("GUID_Token_Right").ToString)
-                objDict.Add("ID_Parent_Right", objDRC_TokenRel(i).Item("GUID_Type_Right").ToString)
-                objDict.Add("ID_Ontology", objLocalConfig.SemItem_Token_KindOfOntology_Object.GUID.ToString)
-                objDict.Add("ID_RelationType", objDRC_TokenRel(i).Item("GUID_RelationType").ToString)
+                objDict.Add("ID_Object", objDRC_TokenRel(i).Item("GUID_Token_Left").ToString.Replace("-", ""))
+                objDict.Add("ID_Parent_Object", objDRC_TokenRel(i).Item("GUID_Type_Left").ToString.Replace("-", ""))
+                objDict.Add("ID_Other", objDRC_TokenRel(i).Item("GUID_Token_Right").ToString.Replace("-", ""))
+                objDict.Add("ID_Parent_Other", objDRC_TokenRel(i).Item("GUID_Type_Right").ToString.Replace("-", ""))
+                objDict.Add("Ontology", "Object")
+                objDict.Add("ID_RelationType", objDRC_TokenRel(i).Item("GUID_RelationType").ToString.Replace("-", ""))
                 objDict.Add("OrderID", objDRC_TokenRel(i).Item("OrderID").ToString)
 
                 ReDim Preserve objBulkObjects(lngPack)
-                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ObjectRel", objDRC_TokenRel(i).Item("GUID_Token_Left").ToString & "_" & objDRC_TokenRel(i).Item("GUID_Token_Right").ToString & "_" & objDRC_TokenRel(i).Item("GUID_RelationType").ToString, objDict)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ObjectRel", objDRC_TokenRel(i).Item("GUID_Token_Left").ToString.Replace("-", "") & objDRC_TokenRel(i).Item("GUID_Token_Right").ToString.Replace("-", "") & objDRC_TokenRel(i).Item("GUID_RelationType").ToString.Replace("-", ""), objDict)
                 objDict = Nothing
 
 
@@ -606,37 +606,37 @@ Public Class clsElasticSearch
                 If objDRs_OR.Count > 0 And objDRs_Token.Count > 0 Then
 
                     objDict = New Dictionary(Of String, Object)
-                    objDict.Add("ID_Object", objDRs_Token(0).Item("GUID_Token").ToString)
-                    objDict.Add("ID_Parent_Left", objDRs_Token(0).Item("GUID_Type").ToString)
+                    objDict.Add("ID_Object", objDRs_Token(0).Item("GUID_Token").ToString.Replace("-", ""))
+                    objDict.Add("ID_Parent_Object", objDRs_Token(0).Item("GUID_Type").ToString.Replace("-", ""))
 
 
 
-                    objDict.Add("ID_Right", objDRs_OR(0).Item("GUID_Ref").ToString)
-                    objDict.Add("ID_RelationType", objDRC_TokenOR(i).Item("GUID_RelationType").ToString)
+                    objDict.Add("ID_Other", objDRs_OR(0).Item("GUID_Ref").ToString.Replace("-", ""))
+                    objDict.Add("ID_RelationType", objDRC_TokenOR(i).Item("GUID_RelationType").ToString.Replace("-", ""))
                     objDict.Add("OrderID", objDRC_TokenOR(i).Item("OrderID").ToString)
                     Select Case objDRs_OR(0).Item("GUID_ItemType")
                         Case objLocalConfig.Globals.ObjectReferenceType_Attribute.GUID
-                            objDict.Add("ID_Ontology", objLocalConfig.SemItem_Token_KindOfOntology_Attribute.GUID.ToString)
+                            objDict.Add("Ontology", "AttributeType")
                         Case objLocalConfig.Globals.ObjectReferenceType_AttributeType.GUID
-                            objDict.Add("ID_Ontology", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString)
+                            objDict.Add("Ontology", "DataType")
                         Case objLocalConfig.Globals.ObjectReferenceType_RelationType.GUID
-                            objDict.Add("ID_Ontology", objLocalConfig.SemItem_Token_KindOfOntology_RelationType.GUID.ToString)
+                            objDict.Add("Ontology", "RelationType")
                         Case objLocalConfig.Globals.ObjectReferenceType_Token.GUID
-                            objDict.Add("ID_Ontology", objLocalConfig.SemItem_Token_KindOfOntology_Object.GUID.ToString)
+                            objDict.Add("Ontology", "Object")
                             objDRs_Token = semtblT_Token.Select("GUID_Token='" & objDRs_OR(0).Item("GUID_Ref").ToString & "'")
                             If objDRs_Token.Count > 0 Then
-                                objDict.Add("ID_Parent_Right", objDRs_Token(0).Item("GUID_Type").ToString)
+                                objDict.Add("ID_Parent_Other", objDRs_Token(0).Item("GUID_Type").ToString.Replace("-", ""))
                             End If
 
-                        
+
                         Case objLocalConfig.Globals.ObjectReferenceType_Type.GUID
-                            objDict.Add("ID_Ontology", objLocalConfig.SemItem_Token_KindOfOntology_Class.GUID.ToString)
+                            objDict.Add("Ontology", "Class")
 
                     End Select
 
 
                     ReDim Preserve objBulkObjects(lngPack)
-                    objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ObjectRel", objDRC_TokenOR(i).Item("GUID_Token_Left").ToString & "_" & objDRs_OR(0).Item("GUID_Ref").ToString & "_" & objDRC_TokenOR(i).Item("GUID_RelationType").ToString, objDict)
+                    objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ObjectRel", objDRC_TokenOR(i).Item("GUID_Token_Left").ToString.Replace("-", "") & objDRs_OR(0).Item("GUID_Ref").ToString.Replace("-", "") & objDRC_TokenOR(i).Item("GUID_RelationType").ToString.Replace("-", ""), objDict)
                     objDict = Nothing
 
 
@@ -701,11 +701,11 @@ Public Class clsElasticSearch
 
             For i = 0 To objDRC_RelationTypes.Count - 1
                 objDict = New Dictionary(Of String, Object)
-                objDict.Add("ID_Item", objDRC_RelationTypes(i).Item("GUID_RelationType").ToString)
+                objDict.Add("ID_Item", objDRC_RelationTypes(i).Item("GUID_RelationType").ToString.Replace("-", ""))
                 objDict.Add("Name_Item", objDRC_RelationTypes(i).Item("Name_RelationType").ToString)
 
                 ReDim Preserve objBulkObjects(lngPack)
-                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "RelationType", objDRC_RelationTypes(i).Item("GUID_RelationType").ToString, objDict)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "RelationType", objDRC_RelationTypes(i).Item("GUID_RelationType").ToString.Replace("-", ""), objDict)
                 objDict = Nothing
 
 
@@ -827,23 +827,23 @@ Public Class clsElasticSearch
                         objDict.Add("Val_Name", objDRC_TokenAttribute(i).Item("Val").ToString)
 
                 End Select
-                objDict.Add("ID_Item", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString)
-                objDict.Add("ID_AttributeType", objDRC_TokenAttribute(i).Item("GUID_Attribute").ToString)
+                objDict.Add("ID_Item", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""))
+                objDict.Add("ID_AttributeType", objDRC_TokenAttribute(i).Item("GUID_Attribute").ToString.Replace("-", ""))
                 
                 objDict.Add("ID_DataType", strGUID_AttributeType)
 
 
                 ReDim Preserve objBulkObjects_AttItems(lngPack)
-                objBulkObjects_AttItems(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "Attribute", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString, objDict)
+                objBulkObjects_AttItems(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "Attribute", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""), objDict)
                 objDict = Nothing
                 objDict = New Dictionary(Of String, Object)
-                objDict.Add("ID_Object", objDRC_TokenAttribute(i).Item("GUID_Token").ToString)
-                objDict.Add("ID_Class", objDRC_TokenAttribute(i).Item("GUID_Type").ToString)
-                objDict.Add("ID_ObjectAttribute", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString)
+                objDict.Add("ID_Object", objDRC_TokenAttribute(i).Item("GUID_Token").ToString.Replace("-", ""))
+                objDict.Add("ID_Class", objDRC_TokenAttribute(i).Item("GUID_Type").ToString.Replace("-", ""))
+                objDict.Add("ID_ObjectAttribute", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""))
                 objDict.Add("OrderID", objDRC_TokenAttribute(i).Item("OrderID"))
 
                 ReDim Preserve objBulkObjects_ObjAtt(lngPack)
-                objBulkObjects_ObjAtt(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ObjectAttribute", objDRC_TokenAttribute(i).Item("GUID_Token").ToString & "_" & objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString, objDict)
+                objBulkObjects_ObjAtt(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ObjectAttribute", objDRC_TokenAttribute(i).Item("GUID_Token").ToString.Replace("-", "") & objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""), objDict)
                 objDict = Nothing
 
                 If lngPack = 10000 Then
@@ -919,13 +919,13 @@ Public Class clsElasticSearch
 
             For i = 0 To objDRC_Types.Count - 1
                 objDict = New Dictionary(Of String, Object)
-                objDict.Add("ID_Item", objDRC_Types(i).Item("GUID_Type").ToString)
+                objDict.Add("ID_Item", objDRC_Types(i).Item("GUID_Type").ToString.Replace("-", ""))
                 objDict.Add("Name_Item", objDRC_Types(i).Item("Name_Type").ToString)
-                objDict.Add("ID_Parent", objDRC_Types(i).Item("GUID_Type_Parent").ToString)
+                objDict.Add("ID_Parent", objDRC_Types(i).Item("GUID_Type_Parent").ToString.Replace("-", ""))
 
 
                 ReDim Preserve objBulkObjects(lngPack)
-                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "Class", objDRC_Types(i).Item("GUID_Type").ToString, objDict)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "Class", objDRC_Types(i).Item("GUID_Type").ToString.Replace("-", ""), objDict)
                 objDict = Nothing
 
 
@@ -988,16 +988,16 @@ Public Class clsElasticSearch
 
             For i = 0 To objDRC_TypeRel.Count - 1
                 objDict = New Dictionary(Of String, Object)
-                objDict.Add("ID_Class_Left", objDRC_TypeRel(i).Item("GUID_Type_Left").ToString)
-                objDict.Add("ID_Class_Right", objDRC_TypeRel(i).Item("GUID_Type_Right").ToString)
-                objDict.Add("ID_RelationType", objDRC_TypeRel(i).Item("GUID_RelationType").ToString)
+                objDict.Add("ID_Class_Left", objDRC_TypeRel(i).Item("GUID_Type_Left").ToString.Replace("-", ""))
+                objDict.Add("ID_Class_Right", objDRC_TypeRel(i).Item("GUID_Type_Right").ToString.Replace("-", ""))
+                objDict.Add("ID_RelationType", objDRC_TypeRel(i).Item("GUID_RelationType").ToString.Replace("-", ""))
                 objDict.Add("Min_forw", objDRC_TypeRel(i).Item("Min_forw"))
                 objDict.Add("Max_forw", objDRC_TypeRel(i).Item("Max_forw"))
                 objDict.Add("Max_backw", objDRC_TypeRel(i).Item("Max_backw"))
 
 
                 ReDim Preserve objBulkObjects(lngPack)
-                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ClassRel", objDRC_TypeRel(i).Item("GUID_Type_Left").ToString & "_" & objDRC_TypeRel(i).Item("GUID_Type_Right").ToString & "_" & objDRC_TypeRel(i).Item("GUID_RelationType").ToString, objDict)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ClassRel", objDRC_TypeRel(i).Item("GUID_Type_Left").ToString.Replace("-", "") & objDRC_TypeRel(i).Item("GUID_Type_Right").ToString.Replace("-", "") & objDRC_TypeRel(i).Item("GUID_RelationType").ToString.Replace("-", ""), objDict)
                 objDict = Nothing
 
 
@@ -1060,14 +1060,14 @@ Public Class clsElasticSearch
 
             For i = 0 To objDRC_TypeAtt.Count - 1
                 objDict = New Dictionary(Of String, Object)
-                objDict.Add("ID_Class", objDRC_TypeAtt(i).Item("GUID_Type").ToString)
-                objDict.Add("ID_Attribute", objDRC_TypeAtt(i).Item("GUID_Attribute").ToString)
-                objDict.Add("ID_AttributeType", objDRC_TypeAtt(i).Item("GUID_AttributeType").ToString)
+                objDict.Add("ID_Class", objDRC_TypeAtt(i).Item("GUID_Type").ToString.Replace("-", ""))
+                objDict.Add("ID_Attribute", objDRC_TypeAtt(i).Item("GUID_Attribute").ToString.Replace("-", ""))
+                objDict.Add("ID_AttributeType", objDRC_TypeAtt(i).Item("GUID_AttributeType").ToString.Replace("-", ""))
                 objDict.Add("Min", objDRC_TypeAtt(i).Item("Min").ToString)
                 objDict.Add("Max", objDRC_TypeAtt(i).Item("Max").ToString)
 
                 ReDim Preserve objBulkObjects(lngPack)
-                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ClassAtt", objDRC_TypeAtt(i).Item("GUID_Type").ToString, objDict)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ClassAtt", objDRC_TypeAtt(i).Item("GUID_Type").ToString.Replace("-", "") & objDRC_TypeAtt(i).Item("GUID_Attribute").ToString.Replace("-", ""), objDict)
                 objDict = Nothing
 
 
@@ -1129,51 +1129,51 @@ Public Class clsElasticSearch
 
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("ID_Item", objLocalConfig.Globals.AttributeType_Bool.GUID)
+            objDict.Add("ID_Item", objLocalConfig.Globals.AttributeType_Bool.GUID.ToString.Replace("-", ""))
             objDict.Add("Name_Item", objLocalConfig.Globals.AttributeType_Bool.Name)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_Bool.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_Bool.GUID.ToString.Replace("-", ""), objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("ID_Item", objLocalConfig.Globals.AttributeType_Datetime.GUID)
+            objDict.Add("ID_Item", objLocalConfig.Globals.AttributeType_Datetime.GUID.ToString.Replace("-", ""))
             objDict.Add("Name_Item", objLocalConfig.Globals.AttributeType_Datetime.Name)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_Datetime.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_Datetime.GUID.ToString.Replace("-", ""), objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("ID_Item", objLocalConfig.Globals.AttributeType_Int.GUID)
+            objDict.Add("ID_Item", objLocalConfig.Globals.AttributeType_Int.GUID.ToString.Replace("-", ""))
             objDict.Add("Name_Item", objLocalConfig.Globals.AttributeType_Int.Name)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_Int.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_Int.GUID.ToString.Replace("-", ""), objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("ID_Item", objLocalConfig.Globals.AttributeType_Real.GUID)
+            objDict.Add("ID_Item", objLocalConfig.Globals.AttributeType_Real.GUID.ToString.Replace("-", ""))
             objDict.Add("Name_Item", objLocalConfig.Globals.AttributeType_Real.Name)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_Real.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_Real.GUID.ToString.Replace("-", ""), objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("ID_Item", objLocalConfig.Globals.AttributeType_String.GUID)
+            objDict.Add("ID_Item", objLocalConfig.Globals.AttributeType_String.GUID.ToString.Replace("-", ""))
             objDict.Add("Name_Item", objLocalConfig.Globals.AttributeType_String.Name)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_String.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "DataType", objLocalConfig.Globals.AttributeType_String.GUID.ToString.Replace("-", ""), objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
@@ -1224,120 +1224,120 @@ Public Class clsElasticSearch
 
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Attribute.GUID)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Attribute.GUID.ToString.Replace("-", ""))
             objDict.Add("Name_Item", objLocalConfig.SemItem_Token_KindOfOntology_Attribute.Name)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Attribute.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Attribute.GUID.ToString.Replace("-", ""), objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.GUID)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.GUID.ToString.Replace("-", ""))
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.Name)
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_AttributeInstance.GUID.ToString.Replace("-", ""), objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Class.GUID)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Class.GUID.ToString.Replace("-", ""))
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Class.Name)
-            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString.Replace("-", ""))
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Class.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Class.GUID.ToString.Replace("-", ""), objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Class_Attribute.GUID)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Class_Attribute.GUID.ToString.Replace("-", ""))
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Class_Attribute.Name)
-            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString.Replace("-", ""))
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Class_Attribute.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Class_Attribute.GUID.ToString.Replace("-", ""), objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Class_Ontology.GUID)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Class_Ontology.GUID.ToString.Replace("-", ""))
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Class_Ontology.Name)
-            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString.Replace("-", ""))
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Class_Ontology.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Class_Ontology.GUID.ToString.Replace("-", ""), objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Class_Relation.GUID)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Class_Relation.GUID.ToString.Replace("-", ""))
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Class_Relation.Name)
-            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString.Replace("-", ""))
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Class_Relation.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Class_Relation.GUID.ToString.Replace("-", ""), objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString.Replace("-", ""))
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_DataType.Name)
-            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString.Replace("-", ""))
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_DataType.GUID.ToString.Replace("-", ""), objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString.Replace("-", ""))
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.Name)
-            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString.Replace("-", ""))
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString.Replace("-", "").Replace("-", ""), objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Object.GUID)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Object.GUID.ToString.Replace("-", ""))
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Object.Name)
-            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString.Replace("-", ""))
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Object.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Object.GUID.ToString.Replace("-", ""), objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Object_Ontology.GUID)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_Object_Ontology.GUID.ToString.Replace("-", ""))
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_Object_Ontology.Name)
-            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString.Replace("-", ""))
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Object_Ontology.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_Object_Ontology.GUID.ToString.Replace("-", ""), objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
 
             objDict = New Dictionary(Of String, Object)
-            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_RelationType.GUID)
+            objDict.Add("ID_Item", objLocalConfig.SemItem_Token_KindOfOntology_RelationType.GUID.ToString.Replace("-", ""))
             objDict.Add("Name", objLocalConfig.SemItem_Token_KindOfOntology_RelationType.Name)
-            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString)
+            objDict.Add("ID_ItemType", objLocalConfig.SemItem_Token_KindOfOntology_KindOfOntology.GUID.ToString.Replace("-", ""))
 
             ReDim Preserve objBulkObjects(lngPack)
-            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_RelationType.GUID.ToString, objDict)
+            objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ItemType", objLocalConfig.SemItem_Token_KindOfOntology_RelationType.GUID.ToString.Replace("-", ""), objDict)
             objDict = Nothing
 
             lngPack = lngPack + 1
