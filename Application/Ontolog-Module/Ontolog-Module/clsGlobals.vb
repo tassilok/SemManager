@@ -73,12 +73,20 @@ Public Class clsGlobals
     Private objDirection_LeftRight As clsOntologyItem
     Private objDirection_RightLeft As clsOntologyItem
 
+    Private objRelationType_Contains As clsOntologyItem
+
     Private objELSearchResult As ElasticSearch.Client.Domain.SearchResult
     Private objELQuery As ElasticSearch.Client.QueryDSL.BoolQuery
 
     Private dtblT_Config As New DataSet_Config.dtbl_BaseConfigDataTable
 
     Private GUID_Session As String
+
+    Private Sub set_RelationTypes()
+        objRelationType_Contains.GUID = "e971160347db44d8a476fe88290639a4"
+        objRelationType_Contains.Name = "contains"
+        objRelationType_Contains.Type = cstrType_RelationType
+    End Sub
 
     Public Function get_ConnectionStr(ByVal strServer As String, ByVal strInstance As String, ByVal strDatabase As String) As String
         Dim strConn As String
@@ -90,6 +98,13 @@ Public Class clsGlobals
 
         Return strConn
     End Function
+
+    Public ReadOnly Property RelationType_contains As clsOntologyItem
+        Get
+            Return objRelationType_Contains
+        End Get
+    End Property
+
     Public ReadOnly Property Rep_Server As String
         Get
             Return strRep_Server
@@ -538,6 +553,7 @@ Public Class clsGlobals
         set_LogStates()
         set_TypeFields()
         set_Directions()
+        set_RelationTypes()
     End Sub
 
     Private Sub set_Session()

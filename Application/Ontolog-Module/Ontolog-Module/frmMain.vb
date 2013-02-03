@@ -37,9 +37,9 @@
                 'objUserControl_TokenTree.find_Node(objDRV_Selected.Item("GUID_Token"))
             End If
 
-            objOItem = New clsOntologyItem(objDRV_Selected.Item("ID_Object"), _
+            objOItem = New clsOntologyItem(objDRV_Selected.Item("ID_Item"), _
                                            objDRV_Selected.Item("Name"), _
-                                           objDRV_Selected.Item("ID_Class"), _
+                                           objDRV_Selected.Item("ID_Parent"), _
                                            objLocalConfig.Globals.Type_Object)
 
             objOList_Item.Add(objOItem)
@@ -132,9 +132,76 @@
         SplitContainer_TokAttTokRel.Panel2.Controls.Clear()
         SplitContainer_TokAttTokRel.Panel2.Controls.Add(objUserControl_ObjRel)
 
+        configure_Areas()
+    End Sub
+
+    Private Sub configure_Areas()
+        SplitContainer_TypeToken.Panel1Collapsed = Not ToolStripButton_Types.Checked
+
+        SplitContainer_TypeToken.Panel2Collapsed = Not ToolStripButton_Token.Checked
+
+        SplitContainer_Filter_Body.Panel1Collapsed = Not ToolStripButton_Filter.Checked
+
+        SplitContainer2.Panel2Collapsed = Not ToolStripButton_AttributesAndRelations.Checked
+
+        SplitContainer_AttribRelTokenRel.Panel1Collapsed = Not ToolStripButton_AttribRel.Checked
+
+        SplitContainer_AttribRelTokenRel.Panel2Collapsed = Not ToolStripButton_TokenRel.Checked
+
+        SplitContainer_Token.Panel1Collapsed = Not ToolStripButton_Token.Checked
+
+        SplitContainer_Token.Panel2Collapsed = Not ToolStripButton_Tokentree.Checked
+
+
+        ToolStripButton_Types.Checked = Not SplitContainer_TypeToken.Panel1Collapsed
+
+        ToolStripButton_Token.Checked = Not SplitContainer_TypeToken.Panel2Collapsed
+
+
+        ToolStripButton_Filter.Checked = Not SplitContainer_Filter_Body.Panel1Collapsed
+
+        ToolStripButton_AttributesAndRelations.Checked = Not SplitContainer2.Panel2Collapsed
+
+        ToolStripButton_AttribRel.Checked = Not SplitContainer_AttribRelTokenRel.Panel1Collapsed
+
+        ToolStripButton_TokenRel.Checked = Not SplitContainer_AttribRelTokenRel.Panel2Collapsed
+
+        ToolStripButton_Token.Checked = Not SplitContainer_Token.Panel1Collapsed
+
+        ToolStripButton_Tokentree.Checked = Not SplitContainer_Token.Panel2Collapsed
     End Sub
 
     Private Sub set_DBConnection()
         objDBLevel_ObjectRel = New clsDBLevel(objLocalConfig)
+    End Sub
+
+
+    Private Sub ToolStripButton_Types_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripButton_Types.Click
+        configure_Areas()
+    End Sub
+
+    Private Sub ToolStripButton_Token_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripButton_Token.Click
+        configure_Areas()
+    End Sub
+
+    
+    Private Sub ToolStripButton_Filter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Filter.Click
+        configure_Areas()
+    End Sub
+
+    Private Sub ToolStripButton_AttributesAndRelations_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_AttributesAndRelations.Click
+        configure_Areas()
+    End Sub
+
+    Private Sub ToolStripButton_AttribRel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_AttribRel.Click
+        configure_Areas()
+    End Sub
+
+    Private Sub ToolStripButton_TokenRel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_TokenRel.Click
+        configure_Areas()
+    End Sub
+
+    Private Sub ToolStripButton_Tokentree_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Tokentree.Click
+        configure_Areas()
     End Sub
 End Class

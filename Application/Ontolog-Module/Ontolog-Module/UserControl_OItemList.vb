@@ -10,12 +10,16 @@
     Private objOItem_RelationType As clsOntologyItem
     Private objOItem_Other As clsOntologyItem
 
+    Private objThread_List As Threading.Thread
+
     Private boolProgChange As Boolean
 
     Private strRowName_GUID As String
 
-    Dim strName_Filter As String
-    Dim strGUID_Filter As String
+    Private strName_Filter As String
+    Private strGUID_Filter As String
+
+    Private boolFinished As Boolean
 
     Private Event selected_ListItem()
 
@@ -55,45 +59,45 @@
                     oList_Items.Clear()
                     oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objOItem_Parent.GUID_Parent, objLocalConfig.Globals.Type_Object))
                     objDBLevel.get_Data_Objects(oList_Items, True)
-                    BindingSource_Token.DataSource = objDBLevel.tbl_Objects
-                    DataGridView_Items.DataSource = BindingSource_Token
-                    DataGridView_Items.Columns(0).Visible = False
-                    DataGridView_Items.Columns(2).Visible = False
-                    DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
-                    ToolStripLabel_Count.Text = DataGridView_Items.RowCount
-                    strRowName_GUID = "ID_Object"
+                    'objDBLevel.get_Data_Objects(oList_Items)
+                    
                 Case objLocalConfig.Globals.Type_RelationType
                     oList_Items.Clear()
                     oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objLocalConfig.Globals.Type_RelationType))
                     objDBLevel.get_Data_RelationTypes(oList_Items, True)
-                    BindingSource_RelationType.DataSource = objDBLevel.tbl_RelationTypes
-                    DataGridView_Items.DataSource = BindingSource_RelationType
-                    DataGridView_Items.Columns(0).Visible = False
-                    DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
-                    ToolStripLabel_Count.Text = DataGridView_Items.RowCount
-                    strRowName_GUID = "ID_RelationType"
+
                 Case objLocalConfig.Globals.Type_AttributeType
                     oList_Items.Clear()
                     oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objLocalConfig.Globals.Type_AttributeType))
                     objDBLevel.get_Data_AttributeType(oList_Items, True)
-                    BindingSource_Attribute.DataSource = objDBLevel.tbl_AttributeTypes
-                    DataGridView_Items.DataSource = BindingSource_Attribute
-                    DataGridView_Items.Columns(0).Visible = False
-                    DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
-                    ToolStripLabel_Count.Text = DataGridView_Items.RowCount
-                    strRowName_GUID = "ID_AttributeType"
+
             End Select
 
         Else
 
         End If
-
+        boolFinished = True
     End Sub
 
     Private Sub configure_TabPages()
         Select Case TabControl1.SelectedTab.Name
             Case TabPage_List.Name
-                get_Data()
+                Try
+                    objThread_List.Abort()
+                Catch ex As Exception
+
+                End Try
+                objThread_List = New Threading.Thread(AddressOf get_Data)
+                boolFinished = False
+                BindingSource_Attribute.DataSource = Nothing
+                BindingSource_RelationType.DataSource = Nothing
+                BindingSource_Token.DataSource = Nothing
+                BindingSource_Type.DataSource = Nothing
+
+                Timer_List.Start()
+                objThread_List.Start()
+
+
             Case TabPage_Tree.Name
                 If Not objOItem_Parent Is Nothing Then
                     'objUserControl_TreeOfToken.initialize(objSemItem_Parent)
@@ -128,15 +132,17 @@
         Dim objDRV As DataRowView
 
         If DataGridView_Items.SelectedRows.Count = 1 Then
+
             objDGVR = DataGridView_Items.SelectedRows(0)
             objDRV = objDGVR.DataBoundItem
             ToolStripTextBox_GUID.Text = objDRV.Item(strRowName_GUID).ToString
+            If boolProgChange = False Then
+                RaiseEvent Selection_Changed()
+            End If
         Else
             ToolStripTextBox_GUID.Clear()
         End If
-        If boolProgChange = False Then
-            RaiseEvent Selection_Changed()
-        End If
+        
     End Sub
 
     Private Sub ToolStripTextBox_Filter_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripTextBox_Filter.TextChanged
@@ -178,4 +184,50 @@
         End If
 
     End Sub
+
+    Private Sub Timer_List_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_List.Tick
+
+        If boolFinished = True Then
+            If Not objOItem_Parent Is Nothing Then
+                Select Case objOItem_Parent.Type
+                    Case objLocalConfig.Globals.Type_Object
+
+                        BindingSource_Token.DataSource = objDBLevel.tbl_Objects
+                        DataGridView_Items.DataSource = BindingSource_Token
+                        DataGridView_Items.Columns(0).Visible = False
+                        DataGridView_Items.Columns(2).Visible = False
+                        DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
+                        ToolStripLabel_Count.Text = DataGridView_Items.RowCount
+                        strRowName_GUID = "ID_Item"
+                    Case objLocalConfig.Globals.Type_RelationType
+
+
+                        BindingSource_RelationType.DataSource = objDBLevel.tbl_RelationTypes
+                        DataGridView_Items.DataSource = BindingSource_RelationType
+                        DataGridView_Items.Columns(0).Visible = False
+                        DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
+                        ToolStripLabel_Count.Text = DataGridView_Items.RowCount
+                        strRowName_GUID = "ID_Item"
+                    Case objLocalConfig.Globals.Type_AttributeType
+
+
+                        BindingSource_Attribute.DataSource = objDBLevel.tbl_AttributeTypes
+                        DataGridView_Items.DataSource = BindingSource_Attribute
+                        DataGridView_Items.Columns(0).Visible = False
+                        DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
+                        ToolStripLabel_Count.Text = DataGridView_Items.RowCount
+                        strRowName_GUID = "ID_Item"
+                End Select
+
+
+
+            End If
+            ToolStripProgressBar_List.Value = 0
+            Timer_List.Stop()
+        Else
+            ToolStripProgressBar_List.Value = 50
+
+        End If
+    End Sub
 End Class
+

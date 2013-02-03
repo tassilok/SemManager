@@ -122,10 +122,10 @@
     <Compile Include="Classes\clsLocalConfig.vb" />
     <Compile Include="clsClassRel.vb" />
     <Compile Include="clsDBLevel.vb" />
-    <Compile Include="clsFieldQuery.vb" />
     <Compile Include="clsGlobals.vb" />
     <Compile Include="clsObjectRel.vb" />
     <Compile Include="clsOntologyItem.vb" />
+    <Compile Include="clsObjectTree.vb" />
     <Compile Include="DataSet_Config.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -162,6 +162,12 @@
     <Compile Include="UserControl_ObjectRel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControl_ObjectTree.Designer.vb">
+      <DependentUpon>UserControl_ObjectTree.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_ObjectTree.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl_OItemList.Designer.vb">
       <DependentUpon>UserControl_OItemList.vb</DependentUpon>
     </Compile>
@@ -187,6 +193,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_ObjectRel.resx">
       <DependentUpon>UserControl_ObjectRel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_ObjectTree.resx">
+      <DependentUpon>UserControl_ObjectTree.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_OItemList.resx">
       <DependentUpon>UserControl_OItemList.vb</DependentUpon>
@@ -225,6 +234,7 @@
     <Content Include="Config\Config_ont.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\DoubleRightArrowHS.png" />
     <None Include="Resources\XSDSchema_SequenceIcon.png" />
     <None Include="Resources\Vogelschwarm.png" />
     <None Include="Resources\Types_Closed.png" />

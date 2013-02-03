@@ -70,6 +70,8 @@ Partial Class UserControl_OItemList
         Me.BindingSource_Attribute = New System.Windows.Forms.BindingSource(Me.components)
         Me.Timer_Filter = New System.Windows.Forms.Timer(Me.components)
         Me.ToolTip_Item = New System.Windows.Forms.ToolTip(Me.components)
+        Me.Timer_List = New System.Windows.Forms.Timer(Me.components)
+        Me.ToolStripProgressBar_List = New System.Windows.Forms.ToolStripProgressBar()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.ToolStrip_Filter.SuspendLayout()
         Me.ToolStrip2.SuspendLayout()
@@ -152,7 +154,7 @@ Partial Class UserControl_OItemList
         'ToolStrip2
         '
         Me.TableLayoutPanel1.SetColumnSpan(Me.ToolStrip2, 2)
-        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_Count, Me.ToolStripLabel_CountLbl, Me.ToolStripSeparator4, Me.ToolStripLabel_GUID, Me.ToolStripTextBox_GUID})
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_Count, Me.ToolStripLabel_CountLbl, Me.ToolStripSeparator4, Me.ToolStripLabel_GUID, Me.ToolStripTextBox_GUID, Me.ToolStripProgressBar_List})
         Me.ToolStrip2.Location = New System.Drawing.Point(0, 492)
         Me.ToolStrip2.Name = "ToolStrip2"
         Me.ToolStrip2.Size = New System.Drawing.Size(704, 25)
@@ -402,6 +404,15 @@ Partial Class UserControl_OItemList
         '
         Me.Timer_Filter.Interval = 500
         '
+        'Timer_List
+        '
+        Me.Timer_List.Interval = 300
+        '
+        'ToolStripProgressBar_List
+        '
+        Me.ToolStripProgressBar_List.Name = "ToolStripProgressBar_List"
+        Me.ToolStripProgressBar_List.Size = New System.Drawing.Size(100, 22)
+        '
         'UserControl_OItemList
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -472,5 +483,7 @@ Partial Class UserControl_OItemList
     Friend WithEvents BindingSource_Attribute As System.Windows.Forms.BindingSource
     Friend WithEvents Timer_Filter As System.Windows.Forms.Timer
     Friend WithEvents ToolTip_Item As System.Windows.Forms.ToolTip
+    Friend WithEvents Timer_List As System.Windows.Forms.Timer
+    Friend WithEvents ToolStripProgressBar_List As System.Windows.Forms.ToolStripProgressBar
 
 End Class
