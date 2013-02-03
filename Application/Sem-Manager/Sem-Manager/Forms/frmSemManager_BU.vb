@@ -257,47 +257,7 @@
 
     End Sub
 
-    Private Sub ToolStripButton_Filter_CheckStateChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Filter.CheckStateChanged
-        If ToolStripButton_Filter.Checked = True Then
-            SplitContainer_Filter_Body.Panel1Collapsed = False
-        Else
-            SplitContainer_Filter_Body.Panel1Collapsed = True
-        End If
-    End Sub
-
-
-    Private Sub ToolStripButton_Types_CheckStateChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Types.CheckStateChanged
-        If ToolStripButton_Types.Checked = True Then
-            SplitContainer_TypeToken.Panel1Collapsed = False
-        Else
-            SplitContainer_TypeToken.Panel1Collapsed = True
-        End If
-    End Sub
-
-    Private Sub ToolStripButton_Token_CheckStateChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Token.CheckStateChanged
-        If ToolStripButton_Token.Checked = True Then
-            SplitContainer_TypeToken.Panel2Collapsed = False
-        Else
-            SplitContainer_TypeToken.Panel2Collapsed = True
-        End If
-    End Sub
-
-
-    Private Sub ToolStripButton_AttribRel_CheckStateChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_AttribRel.CheckStateChanged
-        If ToolStripButton_AttribRel.Checked = True Then
-            SplitContainer_AttribRelTokenRel.Panel1Collapsed = False
-        Else
-            SplitContainer_AttribRelTokenRel.Panel1Collapsed = True
-        End If
-    End Sub
-
-    Private Sub ToolStripButton_TokenRel_CheckStateChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_TokenRel.CheckStateChanged
-        If ToolStripButton_TokenRel.Checked = True Then
-            SplitContainer_AttribRelTokenRel.Panel2Collapsed = False
-        Else
-            SplitContainer_AttribRelTokenRel.Panel2Collapsed = True
-        End If
-    End Sub
+    
 
     Public Sub New()
 
@@ -352,6 +312,8 @@
 
         SplitContainer_Token.Panel2Collapsed = True
         ToolStripButton_Filter.Checked = False
+
+        configure_Areas()
 
         get_Modules()
 
@@ -431,6 +393,47 @@
         Else
             procT_TokenRel_With_Or.Clear()
             funcT_TokenAttribute_Named_By_GUIDToken.Clear()
+        End If
+    End Sub
+
+    Private Sub configure_Areas()
+        SplitContainer_TypeToken.Panel1Collapsed = Not ToolStripButton_Types.Checked
+
+        SplitContainer_TypeToken.Panel2Collapsed = Not ToolStripButton_Token.Checked
+
+        SplitContainer_Filter_Body.Panel1Collapsed = Not ToolStripButton_Filter.Checked
+
+        SplitContainer2.Panel2Collapsed = Not ToolStripButton_TokenAttributesTokenRels.Checked
+
+        SplitContainer_AttribRelTokenRel.Panel1Collapsed = Not ToolStripButton_AttribRel.Checked
+
+        SplitContainer_AttribRelTokenRel.Panel2Collapsed = Not ToolStripButton_TokenRel.Checked
+
+        SplitContainer_Token.Panel1Collapsed = Not ToolStripButton_Token.Checked
+
+        SplitContainer_Token.Panel2Collapsed = Not ToolStripButton_Tokentree.Checked
+
+
+        ToolStripButton_Types.Checked = Not SplitContainer_TypeToken.Panel1Collapsed
+
+        ToolStripButton_Token.Checked = Not SplitContainer_TypeToken.Panel2Collapsed
+
+
+        ToolStripButton_Filter.Checked = Not SplitContainer_Filter_Body.Panel1Collapsed
+
+        ToolStripButton_TokenAttributesTokenRels.Checked = Not SplitContainer2.Panel2Collapsed
+
+        ToolStripButton_AttribRel.Checked = Not SplitContainer_AttribRelTokenRel.Panel1Collapsed
+
+        ToolStripButton_TokenRel.Checked = Not SplitContainer_AttribRelTokenRel.Panel2Collapsed
+
+        ToolStripButton_Token.Checked = Not SplitContainer_Token.Panel1Collapsed
+
+        ToolStripButton_Tokentree.Checked = Not SplitContainer_Token.Panel2Collapsed
+
+        If ToolStripButton_Tokentree.Checked = True Then
+            objUserControl_TokenTree.applyable = True
+            objUserControl_TokenTree.initialize(objSemItem_Selected)
         End If
     End Sub
 
@@ -1343,13 +1346,7 @@
     End Sub
 
     Private Sub ToolStripButton_Tokentree_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripButton_Tokentree.CheckStateChanged
-        If ToolStripButton_Tokentree.Checked = True Then
-            SplitContainer_Token.Panel2Collapsed = False
-            objUserControl_TokenTree.applyable = True
-            objUserControl_TokenTree.initialize(objSemItem_Selected)
-        Else
-            SplitContainer_Token.Panel2Collapsed = True
-        End If
+
     End Sub
 
 
@@ -1370,5 +1367,33 @@
             ToolStripStatusLabel_TokenRelLeft.Text = objSemItem_Right.Name
         End If
 
+    End Sub
+
+    Private Sub ToolStripButton_Types_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Types.Click
+        configure_Areas()
+    End Sub
+
+    Private Sub ToolStripButton_Token_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Token.Click
+        configure_Areas()
+    End Sub
+
+    Private Sub ToolStripButton_Tokentree_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Tokentree.Click
+        configure_Areas()
+    End Sub
+
+    Private Sub ToolStripButton_TokenAttributesTokenRels_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_TokenAttributesTokenRels.Click
+        configure_Areas()
+    End Sub
+
+    Private Sub ToolStripButton_AttribRel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_AttribRel.Click
+        configure_Areas()
+    End Sub
+
+    Private Sub ToolStripButton_TokenRel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_TokenRel.Click
+        configure_Areas()
+    End Sub
+
+    Private Sub ToolStripButton_Filter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Filter.Click
+        configure_Areas()
     End Sub
 End Class

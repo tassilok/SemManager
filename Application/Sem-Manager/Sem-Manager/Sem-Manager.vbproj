@@ -603,6 +603,7 @@
     <None Include="Resources\Procedures.png" />
     <None Include="Resources\XSDSchema_SequenceIcon.png" />
     <None Include="Resources\base_checkmark_32.png" />
+    <None Include="Resources\DoubleRightArrowHS.png" />
     <Content Include="Vogelschwarm%2520klein.ico" />
     <None Include="Resources\saveHS.png" />
     <None Include="Resources\Export_to_DB.png" />

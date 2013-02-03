@@ -144,6 +144,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property DoubleRightArrowHS() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("DoubleRightArrowHS", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property Export_to_DB() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Export_to_DB", resourceCulture)
