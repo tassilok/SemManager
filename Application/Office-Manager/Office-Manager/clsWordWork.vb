@@ -161,7 +161,7 @@ Public Class clsWordWork
                 Else
                     objWordDocs(intDocID - 1).WordDoc = objWord.Documents.Add
                 End If
-
+                objWordDocs(intDocID - 1).WordDoc.SaveAs(strPath_Doc)
 
 
             End If
