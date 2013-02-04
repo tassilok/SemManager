@@ -83,6 +83,7 @@ Public Class clsGlobals
     Private GUID_Session As String
 
     Private Sub set_RelationTypes()
+        objRelationType_Contains = New clsOntologyItem
         objRelationType_Contains.GUID = "e971160347db44d8a476fe88290639a4"
         objRelationType_Contains.Name = "contains"
         objRelationType_Contains.Type = cstrType_RelationType

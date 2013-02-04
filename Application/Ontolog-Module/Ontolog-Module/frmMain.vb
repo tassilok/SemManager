@@ -3,11 +3,14 @@
 
     Private WithEvents objUserControl_TypeTree As UserControl_TypeTree
     Private WithEvents objUserControl_OObjectList As UserControl_OItemList
+    Private WithEvents objUserControl_ObjectTree As UserControl_ObjectTree
     Private WithEvents objUserControl_ORelationTypeList As UserControl_OItemList
     Private WithEvents objUserControl_OAttributeList As UserControl_OItemList
     Private WithEvents objUserControl_ObjRel As UserControl_ObjectRel
 
     Private objOItem As clsOntologyItem
+
+    Private objOItem_Class As clsOntologyItem
 
     Private objDBLevel_ObjectRel As clsDBLevel
 
@@ -20,8 +23,18 @@
     Private objOList_RelationTypes_Left As New List(Of clsOntologyItem)
 
     Private Sub selectedClass(ByVal OItem_Class As clsOntologyItem) Handles objUserControl_TypeTree.selected_Class
+        objOItem_Class = OItem_Class
         objUserControl_OObjectList.initialize_Simple(New clsOntologyItem(Nothing, Nothing, OItem_Class.GUID, objLocalConfig.Globals.Type_Object))
-        get_ClassRel(OItem_Class)
+        get_ClassRel(objOItem_Class)
+       
+    End Sub
+
+    Private Sub initialize_OTree()
+        Dim objOItem_Class As clsOntologyItem
+        If SplitContainer_Token.Panel2Collapsed = False Then
+            If 
+                objUserControl_ObjectTree.initialize(objOItem_Class)
+            End If
     End Sub
 
     Private Sub ObjectList_Selection_Changed() Handles objUserControl_OObjectList.Selection_Changed
@@ -132,6 +145,11 @@
         SplitContainer_TokAttTokRel.Panel2.Controls.Clear()
         SplitContainer_TokAttTokRel.Panel2.Controls.Add(objUserControl_ObjRel)
 
+        objUserControl_ObjectTree = New UserControl_ObjectTree(objLocalConfig)
+        objUserControl_ObjectTree.Dock = DockStyle.Fill
+        SplitContainer_Token.Panel2.Controls.Clear()
+        SplitContainer_Token.Panel2.Controls.Add(objUserControl_ObjectTree)
+
         configure_Areas()
     End Sub
 
@@ -169,6 +187,8 @@
         ToolStripButton_Token.Checked = Not SplitContainer_Token.Panel1Collapsed
 
         ToolStripButton_Tokentree.Checked = Not SplitContainer_Token.Panel2Collapsed
+
+        initialize_OTree()
     End Sub
 
     Private Sub set_DBConnection()

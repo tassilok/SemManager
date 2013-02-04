@@ -8,6 +8,7 @@
     Private objThread As Threading.Thread
 
     Private objOItem_Parent As clsOntologyItem
+    Private oItems_No_Parent As Object
     Private intRowID As Integer
 
     Private boolTopDown As Boolean
@@ -49,7 +50,10 @@
         objDBLevel = New clsDBLevel(objLocalConfig)
         If boolTopDown = True Then
             objDBLevel.get_Data_Objects_Tree(objOItem_Parent, objOItem_Parent, objRelationType)
-
+            oItems_No_Parent = From obj In objDBLevel.OList_Objects
+                                 Join objPar In objDBLevel.OList_ObjectTree.DefaultIfEmpty On obj.GUID Equals objPar.ID_Object
+                                 Where objPar.ID_Object Is Nothing
+                                 Select ID_Object = obj.GUID, Name_Object = obj.Name, ID_Object_Parent = obj.GUID_Parent
         End If
 
         boolDataGet = True
@@ -67,10 +71,12 @@
         End Try
 
         objOItem_Parent = OItem_Parent
-
+        boolTopDown = True
         get_RelationType()
 
-
+        objThread = New Threading.Thread(AddressOf get_Tree)
+        Timer_Tree.Start()
+        objThread.Start()
     End Sub
 
     Private Sub get_RelationType()
@@ -85,14 +91,13 @@
 
         ToolStripProgressBar_List.Visible = True
 
-        While (Now - dateNow).Milliseconds <= 200
-            If boolDataGet = True Then
-                If intRowID = 0 Then
-                    Dim oItems = From obj In objDBLevel.OList_ObjectTree 
-                                 Join objPar In objDBLevel.OList_ObjectTree On obj.
-                End If
+
+        If boolDataGet = True Then
+            If intRowID = 0 Then
 
             End If
-        End While
+
+        End If
+
     End Sub
 End Class

@@ -17,6 +17,9 @@
 
     Public Event selected_Class(ByVal OItem_Class As clsOntologyItem)
 
+    Public Function get_SelectedNode() As TreeNode
+        Return TreeView_Types.SelectedNode
+    End Function
 
     Public Sub New(ByVal Globals As clsGlobals)
 
