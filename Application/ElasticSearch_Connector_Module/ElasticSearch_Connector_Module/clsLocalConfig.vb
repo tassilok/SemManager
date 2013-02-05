@@ -7,6 +7,8 @@ Public Class clsLocalConfig
     Private objConnection_Config As SqlClient.SqlConnection
     Private objConnection_Plugin As SqlClient.SqlConnection
 
+    Private dtblT_Config As New DataSet_ElasticSearchConnector.dtbl_BaseConfigDataTable
+
     Private procA_TokenAttribute_Varchar255 As New ds_TokenAttributeTableAdapters.TokenAttribute_Varchar255TableAdapter
 
     Private funcA_SoftwareDevelopment_Config As New ds_DevelopmentConfigTableAdapters.func_SoftwareDevelopment_ConfigTableAdapter
@@ -28,6 +30,7 @@ Public Class clsLocalConfig
     'Attributes
     Private objSemItem_attribute_dbPostfix As New clsSemItem
     Private objSemItem_Attribute_XML_Text As New clsSemItem
+    Private objSemItem_Attribute_Header As New clsSemItem
 
     'RelationTypes
     Private objSemItem_RelationType_Row_Config As New clsSemItem
@@ -37,6 +40,10 @@ Public Class clsLocalConfig
     Private objSemItem_RelationType_belonging_Source As New clsSemItem
     Private objSemItem_RelationType_belonging_Resources As New clsSemItem
     Private objSemItem_RelationType_offered_by As New clsSemItem
+    Private objSemItem_RelationType_Textqualifier As New clsSemItem
+    Private objSemItem_RelationType_Seperator As New clsSemItem
+    Private objSemItem_RelationType_Contains As New clsSemItem
+    Private objSemItem_RelationType_exportTo As New clsSemItem
     
     'Types
     Private objSemItem_Type_XML_Nodes As New clsSemItem
@@ -47,10 +54,14 @@ Public Class clsLocalConfig
     Private objSemItem_Type_Server As New clsSemItem
     Private objSemItem_Type_Port As New clsSemItem
     Private objSemItem_Type_Indexes__Elastic_Search_ As New clsSemItem
+    Private objSemItem_Type_Field As New clsSemItem
     Private objSemItem_Type_Field_Type As New clsSemItem
     Private objSemItem_Type_ElasticSearch_Connector_Module As New clsSemItem
     Private objSemItem_Type_ElasticSearch As New clsSemItem
     Private objSemItem_Type_Module As New clsSemItem
+    Private objSemItem_Type_CSVImport As New clsSemItem
+    Private objSemItem_Type_Zeichen As New clsSemItem
+    Private objSemItem_Type_File As New clsSemItem
 
     'Token
     Private objSemItem_Token_KindOfOntology_RelationType As New clsSemItem
@@ -86,6 +97,12 @@ Public Class clsLocalConfig
     Public ReadOnly Property SemItem_Attribute_XML_Text() As clsSemItem
         Get
             Return objSemItem_Attribute_XML_Text
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_Attribute_Header() As clsSemItem
+        Get
+            Return objSemItem_Attribute_Header
         End Get
     End Property
     
@@ -131,6 +148,30 @@ Public Class clsLocalConfig
     Public ReadOnly Property SemItem_RelationType_offered_by() As clsSemItem
         Get
             Return objSemItem_RelationType_offered_by
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_RelationType_Textqualifier() As clsSemItem
+        Get
+            Return objSemItem_RelationType_Textqualifier
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_RelationType_Seperator() As clsSemItem
+        Get
+            Return objSemItem_RelationType_Seperator
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_RelationType_contains() As clsSemItem
+        Get
+            Return objSemItem_RelationType_Contains
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_RelationType_exportTo() As clsSemItem
+        Get
+            Return objSemItem_RelationType_exportTo
         End Get
     End Property
 
@@ -206,6 +247,30 @@ Public Class clsLocalConfig
     Public ReadOnly Property SemItem_Type_Module() As clsSemItem
         Get
             Return objSemItem_Type_Module
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_Type_CSVImport() As clsSemItem
+        Get
+            Return objSemItem_Type_CSVImport
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_Type_Zeichen() As clsSemItem
+        Get
+            Return objSemItem_Type_Zeichen
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_Type_File() As clsSemItem
+        Get
+            Return objSemItem_Type_File
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_Type_Field() As clsSemItem
+        Get
+            Return objSemItem_Type_Field
         End Get
     End Property
 
@@ -342,6 +407,7 @@ Public Class clsLocalConfig
         End Set
     End Property
 
+
     Public ReadOnly Property Connection_DB() As SqlClient.SqlConnection
         Get
             Return objConnection_DB
@@ -395,13 +461,17 @@ Public Class clsLocalConfig
         get_Config_RelationTypes()
         get_Config_Types()
         get_Config_Token()
-
     End Sub
 
     Private Sub get_Config_Attributes()
         Dim objDRC_RelData As DataRowCollection
         Dim objDRs_ConfigItem() As DataRow
         Dim objDRC_Ref As DataRowCollection
+
+        objSemItem_Attribute_Header.GUID = New Guid("5e0c66db-0992-4c92-9dbb-0568e58250f9")
+        objSemItem_Attribute_Header.Name = "Header"
+        objSemItem_Attribute_Header.GUID_Type = objGlobals.ObjectReferenceType_Attribute.GUID
+
 
         objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='attribute_dbPostfix'")
         If objDRs_ConfigItem.Length > 0 Then
@@ -446,6 +516,22 @@ Public Class clsLocalConfig
         Dim objDRC_RelData As DataRowCollection
         Dim objDRs_ConfigItem() As DataRow
         Dim objDRC_Ref As DataRowCollection
+
+        objSemItem_RelationType_Textqualifier.GUID = New Guid("82047cba-f63a-429f-a61b-33b622a9826e")
+        objSemItem_RelationType_Textqualifier.Name = "Textqualifier"
+        objSemItem_RelationType_Textqualifier.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
+
+        objSemItem_RelationType_Seperator.GUID = New Guid("6b106ab9-7e68-44f1-8a75-4612e021d7ab")
+        objSemItem_RelationType_Seperator.Name = "Seperator"
+        objSemItem_RelationType_Seperator.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
+
+        objSemItem_RelationType_Contains.GUID = New Guid("e9711603-47db-44d8-a476-fe88290639a4")
+        objSemItem_RelationType_Contains.Name = "contains"
+        objSemItem_RelationType_Contains.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
+
+        objSemItem_RelationType_exportTo.GUID = New Guid("aaf3e012-a822-4ba6-9d9d-d5bb35821757")
+        objSemItem_RelationType_exportTo.Name = "export to"
+        objSemItem_RelationType_exportTo.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
 
         objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='RelationType_Row_Config'")
         If objDRs_ConfigItem.Length > 0 Then
@@ -923,6 +1009,22 @@ Public Class clsLocalConfig
         Dim objDRs_ConfigItem() As DataRow
         Dim objDRC_Ref As DataRowCollection
 
+        objSemItem_Type_CSVImport.GUID = New Guid("2bf81077-b8c9-4e0e-99bf-b8329ed8bf25")
+        objSemItem_Type_CSVImport.Name = "CSV-Import"
+        objSemItem_Type_CSVImport.GUID_Type = objGlobals.ObjectReferenceType_Type.GUID
+
+        objSemItem_Type_Zeichen.GUID = New Guid("c8e580ed-be06-49a2-8ee8-17e8e0160393")
+        objSemItem_Type_Zeichen.Name = "Zeichen"
+        objSemItem_Type_Zeichen.GUID_Type = objGlobals.ObjectReferenceType_Type.GUID
+
+        objSemItem_Type_File.GUID = New Guid("6eb4fdd3-2e25-4886-b288-e1bfc2857efb")
+        objSemItem_Type_File.Name = "File"
+        objSemItem_Type_File.GUID_Type = objGlobals.ObjectReferenceType_Type.GUID
+
+        objSemItem_Type_Field.GUID = New Guid("e1be73cd-0deb-41a0-a222-b779e7862412")
+        objSemItem_Type_Field.Name = "Fields"
+        objSemItem_Type_Field.GUID_Type = objGlobals.ObjectReferenceType_Type.GUID
+
         objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Type_XML_Nodes'")
         If objDRs_ConfigItem.Length > 0 Then
             objDRC_Ref = procA_OR_Type_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
@@ -1151,6 +1253,8 @@ Public Class clsLocalConfig
             Err.Raise(1, "Config not set")
         End If
     End Sub
+
+    
 End Class
 
 

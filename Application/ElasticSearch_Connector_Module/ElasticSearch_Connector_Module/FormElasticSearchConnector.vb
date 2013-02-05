@@ -30,10 +30,14 @@ Public Class Form_ElasticSearchConnector
             objXMLImport = New clsXMLImport(objLocalConfig, objLocalConfig.SemItem_User)
             objElasticSarech = New clsElasticSearch(objLocalConfig)
 
-            test_Import_Types()
+            'test_Import_Types()
+            test_CSVImport()
         End If
     End Sub
 
+    Private Sub test_CSVImport()
+        objElasticSarech.import_CSV()
+    End Sub
     Private Sub test_Import_Types()
         Dim objSemItem_Result As clsSemItem
 

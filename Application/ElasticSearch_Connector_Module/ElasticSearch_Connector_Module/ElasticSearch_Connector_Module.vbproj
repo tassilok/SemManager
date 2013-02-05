@@ -56,6 +56,9 @@
     <Reference Include="ElasticSearch.Client">
       <HintPath>..\..\..\..\ElasticSearch.Net\ElasticSearch.Client\bin\Debug\ElasticSearch.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Filesystem-Management">
+      <HintPath>..\..\Filesystem-Management\Filesystem-Management\bin\Debug\Filesystem-Management.exe</HintPath>
+    </Reference>
     <Reference Include="Json.Net.3.5">
       <HintPath>..\..\..\..\ElasticSearch.Net\libs\Json.Net.3.5.dll</HintPath>
     </Reference>
@@ -114,6 +117,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsCSVImport.vb" />
     <Compile Include="clsElasticSearch.vb" />
     <Compile Include="clsJson.vb" />
     <Compile Include="clsLocalConfig.vb" />

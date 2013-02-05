@@ -957,10 +957,10 @@ Public Class clsDBLevel
         If oList_Objects Is Nothing Then
             objBoolQuery.Add(New TermQuery(New Term("ID_Item", "*")), BooleanClause.Occur.MUST)
         Else
-
-            Dim strLQuery_LID = From obj As clsOntologyItem In oList_Objects Group By obj.GUID Into Group Select GUID = GUID
-            Dim strLQuery_LName = From obj As clsOntologyItem In oList_Objects Group By obj.Name Into Group Select Name = Name
-            Dim strLQuery_LIDParent = From obj As clsOntologyItem In oList_Objects Group By obj.GUID_Parent Into Group Select GUID_Parent = GUID_Parent
+            Dim strLQuery_LID = From obj As clsOntologyItem In oList_Objects Where obj.Type = objLocalConfig.Globals.Type_Object Group By obj.GUID Into Group Select GUID = GUID
+            Dim strLQuery_LName = From obj As clsOntologyItem In oList_Objects Where obj.Type = objLocalConfig.Globals.Type_Object Group By obj.Name Into Group Select Name = Name
+            Dim strLQuery_LIDParent = From obj As clsOntologyItem In oList_Objects Where obj.Type = objLocalConfig.Globals.Type_Object Group By obj.GUID_Parent Into Group Select GUID_Parent = GUID_Parent
+            Dim strLQuery_LIDCParent = From obj As clsOntologyItem In oList_Objects Where obj.Type = objLocalConfig.Globals.Type_Class Group By obj.GUID Into Group Select GUID_Parent = GUID
 
             strQuery = ""
             For Each strQuery_ID In strLQuery_LID
@@ -990,6 +990,17 @@ Public Class clsDBLevel
 
             strQuery = ""
             For Each strQuery_IDParent In strLQuery_LIDParent
+                If strQuery <> "" Then
+                    strQuery = strQuery & "\ OR\ "
+                End If
+                strQuery = strQuery & strQuery_IDParent
+            Next
+            If strQuery <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Class, strQuery)), BooleanClause.Occur.MUST)
+            End If
+
+            strQuery = ""
+            For Each strQuery_IDParent In strLQuery_LIDCParent
                 If strQuery <> "" Then
                     strQuery = strQuery & "\ OR\ "
                 End If

@@ -8,8 +8,9 @@
     Private objThread As Threading.Thread
 
     Private objOItem_Parent As clsOntologyItem
-    Private oItems_No_Parent As Object
-    Private intRowID As Integer
+    Private oItems_No_Parent As System.Collections.IDictionary
+    Private intRowID_No_Parent As Integer
+    Private intRowID_Parent As String
 
     Private boolTopDown As Boolean
     Private boolDataGet As Boolean
@@ -28,6 +29,10 @@
         set_DBConnection()
     End Sub
 
+    Public Sub clear()
+        TreeView_Objects.Nodes.Clear()
+    End Sub
+
     Private Sub set_DBConnection()
 
     End Sub
@@ -38,7 +43,8 @@
         If Not objOItem_Parent Is Nothing Then
             boolTopDown = ToolStripButton_TopDown.Checked
 
-            intRowID = 0
+            intRowID_No_Parent = 0
+            intRowID_Parent = 0
             boolDataGet = False
             objThread = New Threading.Thread(AddressOf get_Tree)
             objThread.Start()
@@ -93,9 +99,20 @@
 
 
         If boolDataGet = True Then
-            If intRowID = 0 Then
+            While (Now - dateNow).Milliseconds < 200
+                If intRowID_No_Parent < oItems_No_Parent.Count Then
+                    objTreeNodes = TreeView_Objects.Nodes.Find(oItems_No_Parent(intRowID_No_Parent).ID_Object, False)
+                    If objTreeNodes.Count = 0 Then
+                        TreeView_Objects.Nodes.Add(oItems_No_Parent(intRowID_No_Parent).ID_Object, oItems_No_Parent(intRowID_No_Parent).Name)
 
-            End If
+                    End If
+                    intRowID_No_Parent = intRowID_No_Parent + 1
+                Else
+                    If intRowID_Parent < objDBLevel.OList_ObjectTree.Count Then
+
+                    End If
+                End If
+            End While
 
         End If
 

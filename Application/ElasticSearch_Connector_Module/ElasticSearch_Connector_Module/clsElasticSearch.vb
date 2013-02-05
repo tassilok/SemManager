@@ -1,5 +1,6 @@
 ﻿Imports Sem_Manager
 Imports ElasticSearch
+Imports Filesystem_Management
 Public Class clsElasticSearch
     Dim objLocalConfig As clsLocalConfig
 
@@ -31,6 +32,10 @@ Public Class clsElasticSearch
     Private procT_XMLImport As New DataSet_ElasticSearchConnector.proc_XMLImportDataTable
 
     Private objJson As clsJson
+    Private objCSVImport As clsCSVImport
+
+    Private objFileWork As clsFileWork
+    Private objBlobConn As clsBlobConnection
 
     'Private objFileWebRequest As System.Net.FileWebRequest
 
@@ -71,12 +76,15 @@ Public Class clsElasticSearch
         semfuncA_ObjectReference.Connection = objLocalConfig.Connection_DB
 
         objJson = New clsJson(objLocalConfig)
+        objCSVImport = New clsCSVImport(objLocalConfig)
+        objFileWork = New clsFileWork(objLocalConfig.Globals)
+        objBlobConn = New clsBlobConnection(objLocalConfig.Globals)
     End Sub
 
-    Private Function initialize_ElConn() As clsSemItem
+    Private Function initialize_ElConn(ByVal SemItem_Server As clsSemItem, ByVal SemItem_Port As clsSemItem) As clsSemItem
         Dim objSemItem_Result As clsSemItem
         Try
-            objElConn = New ElasticSearch.Client.ElasticSearchClient("localhost")
+            objElConn = New ElasticSearch.Client.ElasticSearchClient(SemItem_Server.Name, SemItem_Port.Name, Client.Config.TransportType.Thrift, False)
 
             objSemItem_Result = objLocalConfig.Globals.LogState_Success
         Catch ex As Exception
@@ -85,6 +93,7 @@ Public Class clsElasticSearch
 
         Return objSemItem_Result
     End Function
+
 
     Private Function finalize_ElConn() As clsSemItem
         Dim objSemItem_Result As clsSemItem
@@ -125,6 +134,169 @@ Public Class clsElasticSearch
         End If
 
     End Sub
+
+    Public Function import_CSV() As clsSemItem
+        Dim objDR_CSVImport As DataRow
+        Dim objSemItem_CSVImport As New clsSemItem
+        Dim objSemItem_File As New clsSemItem
+        Dim objSemItem_Seperator As New clsSemItem
+        Dim objSemItem_Textqualifier As New clsSemItem
+        Dim objSemItem_Type As New clsSemItem
+        Dim objSemItem_Index As clsSemItem
+        Dim oList_ServerPort As List(Of clsSemItem)
+        Dim boolHeader As Boolean
+        Dim objSemItem_Result As clsSemItem
+        Dim objTextRead As IO.TextReader
+        Dim strLine As String
+        Dim strALine() As String
+        Dim boolFirstLine As Boolean
+        Dim boolInsert As Boolean
+        Dim procT_CSVImport_Fields As New DataSet_ElasticSearchConnector.proc_CSVImport_FieldsDataTable
+        Dim objDR_Field As DataRow
+        Dim objDict As Dictionary(Of String, Object)
+        Dim objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+        Dim objDate As Date
+        Dim i As Integer
+        Dim intLine As Integer
+
+        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+        objSemItem_Result.Max1 = objCSVImport.tbl_CSVImport.Rows.Count
+        objSemItem_Result.Max2 = 0
+        For Each objDR_CSVImport In objCSVImport.tbl_CSVImport.Rows
+            objSemItem_CSVImport.GUID = objDR_CSVImport.Item("GUID_CSVImport")
+            objSemItem_CSVImport.Name = objDR_CSVImport.Item("Name_CSVImport")
+            objSemItem_CSVImport.GUID_Parent = objLocalConfig.SemItem_Type_CSVImport.GUID
+            objSemItem_CSVImport.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+            objSemItem_Index = get_Data_Index(objSemItem_CSVImport, objLocalConfig.SemItem_RelationType_exportTo)
+            If Not objSemItem_Index Is Nothing Then
+
+                oList_ServerPort = get_Data_ServerPort(objSemItem_Index)
+                If oList_ServerPort.Count = 2 Then
+                    initialize_ElConn(oList_ServerPort(0), oList_ServerPort(1))
+                    Try
+                        objElConn.CreateIndex(objSemItem_Index.Name)
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                    End Try
+                    If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                        procT_CSVImport_Fields = objCSVImport.get_CSVImport_Fields(objSemItem_CSVImport)
+                        If procT_CSVImport_Fields.Rows.Count > 0 Then
+                            boolHeader = objDR_CSVImport.Item("Header")
+
+                            objSemItem_Type.GUID = objDR_CSVImport.Item("GUID_TypeElasticSearch")
+                            objSemItem_Type.Name = objDR_CSVImport.Item("Name_TypeElasticSearch")
+                            objSemItem_Type.GUID_Parent = objLocalConfig.SemItem_Type_Types__Elastic_Search_.GUID
+                            objSemItem_Type.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                            objSemItem_File.GUID = objDR_CSVImport.Item("GUID_File")
+                            objSemItem_File.Name = objDR_CSVImport.Item("Name_File")
+                            objSemItem_File.GUID_Parent = objLocalConfig.SemItem_Type_File.GUID
+                            objSemItem_File.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                            If objFileWork.is_File_Blob(objSemItem_File) = True Then
+                                objSemItem_File.Additional1 = "%temp%\" & objSemItem_File.GUID.ToString
+                                objSemItem_File.Additional1 = Environment.ExpandEnvironmentVariables(objSemItem_File.Additional1)
+                                objSemItem_Result = objBlobConn.save_Blob_To_File(objSemItem_File, objSemItem_File.Additional1)
+
+                            Else
+                                objSemItem_File.Additional1 = objFileWork.get_Path_FileSystemObject(objSemItem_File)
+                            End If
+
+                            If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                objSemItem_Seperator.GUID = objDR_CSVImport.Item("GUID_Seperator")
+                                objSemItem_Seperator.Name = objDR_CSVImport.Item("Name_Seperator")
+                                objSemItem_Seperator.GUID_Parent = objLocalConfig.SemItem_Type_Zeichen.GUID
+                                objSemItem_Seperator.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                                If Not IsDBNull(objDR_CSVImport.Item("GUID_Textqualifier")) Then
+                                    objSemItem_Textqualifier.GUID = objDR_CSVImport.Item("GUID_Textqualifier")
+                                    objSemItem_Textqualifier.Name = objDR_CSVImport.Item("Name_Textqualifier")
+                                    objSemItem_Textqualifier.GUID_Parent = objLocalConfig.SemItem_Type_Zeichen.GUID
+                                    objSemItem_Textqualifier.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                                End If
+
+                                objTextRead = New IO.StreamReader(objSemItem_File.Additional1, True)
+                                strLine = ""
+
+                                boolFirstLine = True
+
+                                intLine = 0
+                                objBulkObjects = Nothing
+                                objDate = Now
+                                While True
+                                    strLine = objTextRead.ReadLine
+                                    If Not strLine Is Nothing Then
+                                        boolInsert = True
+                                        If boolHeader = True Then
+                                            If boolFirstLine = True Then
+                                                boolFirstLine = False
+                                                boolInsert = False
+                                            End If
+
+                                        End If
+
+                                        If boolInsert = True Then
+                                            strALine = strLine.Split(objSemItem_Seperator.Name)
+                                            objDict = New Dictionary(Of String, Object)
+                                            For i = 0 To procT_CSVImport_Fields.Count - 1
+                                                If strALine.Length > i Then
+                                                    
+                                                    objDict.Add(procT_CSVImport_Fields.Rows(i).Item("Name_Field"), strALine(i))
+                                                    
+
+                                                End If
+                                                
+
+
+
+                                            Next
+                                            If objDict.Count > 0 Then
+                                                objDict.Add("Timestamp", objDate)
+                                                ReDim Preserve objBulkObjects(intLine)
+                                                objBulkObjects(intLine) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, objSemItem_Type.Name, Guid.NewGuid.ToString.Replace("-", ""), objDict)
+                                                intLine = intLine + 1
+                                            End If
+                                            
+
+                                        End If
+                                    Else
+                                        Exit While
+                                    End If
+                                    
+                                End While
+                                If Not objBulkObjects Is Nothing Then
+                                    objOPResult = objElConn.Bulk(objBulkObjects)
+                                End If
+
+                            End If
+                        Else
+                            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                        End If
+                    Else
+                        Exit For
+                    End If
+                    
+                Else
+                    Exit For
+                End If
+
+                
+            Else
+                Exit For
+            End If
+
+            
+            
+
+
+
+
+        Next
+        Return objSemItem_Result
+    End Function
 
     'Public Function insert_XML(ByVal objXML As Xml.XmlDocument, ByVal objXMLImport As clsSemItem) As clsSemItem
     '    Dim strJson As String
@@ -346,7 +518,7 @@ Public Class clsElasticSearch
         If objSemItem_XMLImport Is Nothing Then
             get_Data_XMLImport()
         End If
-        initialize_ElConn()
+        initialize_ElConn(objSemItem_Server, objSemItem_Port)
         Try
             objElConn.CreateIndex(objSemItem_Index.Name)
         Catch ex As Exception
@@ -433,7 +605,7 @@ Public Class clsElasticSearch
         If objSemItem_XMLImport Is Nothing Then
             get_Data_XMLImport()
         End If
-        initialize_ElConn()
+        initialize_ElConn(objSemItem_Server, objSemItem_Port)
         Try
             objElConn.CreateIndex(objSemItem_Index.Name)
         Catch ex As Exception
@@ -504,7 +676,7 @@ Public Class clsElasticSearch
         If objSemItem_XMLImport Is Nothing Then
             get_Data_XMLImport()
         End If
-        initialize_ElConn()
+        initialize_ElConn(objSemItem_Server, objSemItem_Port)
         Try
             objElConn.CreateIndex(objSemItem_Index.Name)
         Catch ex As Exception
@@ -584,7 +756,7 @@ Public Class clsElasticSearch
         If objSemItem_XMLImport Is Nothing Then
             get_Data_XMLImport()
         End If
-        initialize_ElConn()
+        initialize_ElConn(objSemItem_Server, objSemItem_Port)
         Try
             objElConn.CreateIndex(objSemItem_Index.Name)
         Catch ex As Exception
@@ -653,7 +825,7 @@ Public Class clsElasticSearch
 
                     lngPack = lngPack + 1
                 End If
-                
+
             Next
 
             If Not objBulkObjects Is Nothing Then
@@ -688,7 +860,7 @@ Public Class clsElasticSearch
         If objSemItem_XMLImport Is Nothing Then
             get_Data_XMLImport()
         End If
-        initialize_ElConn()
+        initialize_ElConn(objSemItem_Server, objSemItem_Port)
         Try
             objElConn.CreateIndex(objSemItem_Index.Name)
         Catch ex As Exception
@@ -759,7 +931,7 @@ Public Class clsElasticSearch
         If objSemItem_XMLImport Is Nothing Then
             get_Data_XMLImport()
         End If
-        initialize_ElConn()
+        initialize_ElConn(objSemItem_Server, objSemItem_Port)
         Try
             objElConn.CreateIndex(objSemItem_Index.Name)
         Catch ex As Exception
@@ -829,7 +1001,7 @@ Public Class clsElasticSearch
                 End Select
                 objDict.Add("ID_Item", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""))
                 objDict.Add("ID_AttributeType", objDRC_TokenAttribute(i).Item("GUID_Attribute").ToString.Replace("-", ""))
-                
+
                 objDict.Add("ID_DataType", strGUID_AttributeType)
 
 
@@ -906,7 +1078,7 @@ Public Class clsElasticSearch
         If objSemItem_XMLImport Is Nothing Then
             get_Data_XMLImport()
         End If
-        initialize_ElConn()
+        initialize_ElConn(objSemItem_Server, objSemItem_Port)
         Try
             objElConn.CreateIndex(objSemItem_Index.Name)
         Catch ex As Exception
@@ -955,7 +1127,7 @@ Public Class clsElasticSearch
 
             End If
         End If
-        
+
 
         Return objSemItem_Result
     End Function
@@ -975,7 +1147,7 @@ Public Class clsElasticSearch
         If objSemItem_XMLImport Is Nothing Then
             get_Data_XMLImport()
         End If
-        initialize_ElConn()
+        initialize_ElConn(objSemItem_Server, objSemItem_Port)
         Try
             objElConn.CreateIndex(objSemItem_Index.Name)
         Catch ex As Exception
@@ -1047,7 +1219,7 @@ Public Class clsElasticSearch
         If objSemItem_XMLImport Is Nothing Then
             get_Data_XMLImport()
         End If
-        initialize_ElConn()
+        initialize_ElConn(objSemItem_Server, objSemItem_Port)
         Try
             objElConn.CreateIndex(objSemItem_Index.Name)
         Catch ex As Exception
@@ -1116,7 +1288,7 @@ Public Class clsElasticSearch
         If objSemItem_XMLImport Is Nothing Then
             get_Data_XMLImport()
         End If
-        initialize_ElConn()
+        initialize_ElConn(objSemItem_Server, objSemItem_Port)
         Try
             objElConn.CreateIndex(objSemItem_Index.Name)
         Catch ex As Exception
@@ -1212,7 +1384,7 @@ Public Class clsElasticSearch
         If objSemItem_XMLImport Is Nothing Then
             get_Data_XMLImport()
         End If
-        initialize_ElConn()
+        initialize_ElConn(objSemItem_Server, objSemItem_Port)
         Try
             objElConn.CreateIndex(objSemItem_Index.Name)
         Catch ex As Exception
@@ -1361,13 +1533,35 @@ Public Class clsElasticSearch
         Return objSemItem_Result
     End Function
 
-    Private Sub get_Data_ServerPort()
-        Dim objDRC_ServerPort As DataRowCollection
+    Private Function get_Data_Index(ByVal SemItem_Ref As clsSemItem, ByVal SemItem_RelationType As clsSemItem) As clsSemItem
         Dim objDRC_Index As DataRowCollection
+        Dim objSemItem_Index As New clsSemItem
 
-        objDRC_ServerPort = funcA_TokenToken.GetData_LeftRight_Ordered_By_GUIDs(objLocalConfig.SemItem_BaseConfig.GUID, _
-                                                                          objLocalConfig.SemItem_Type_Server_Port.GUID, _
-                                                                          objLocalConfig.SemItem_RelationType_belonging_Resources.GUID, True).Rows
+        objDRC_Index = funcA_TokenToken.GetData_LeftRight_Ordered_By_GUIDs(SemItem_Ref.GUID, _
+                                                                           objLocalConfig.SemItem_Type_Indexes__Elastic_Search_.GUID, _
+                                                                           SemItem_RelationType.GUID, True).Rows
+
+        If objDRC_Index.Count > 0 Then
+            objSemItem_Index.GUID = objDRC_Index(0).Item("GUID_Token_Right")
+            objSemItem_Index.Name = objDRC_Index(0).Item("Name_Token_Right")
+            objSemItem_Index.GUID_Parent = objLocalConfig.SemItem_Type_Indexes__Elastic_Search_.GUID
+            objSemItem_Index.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+        Else
+            objSemItem_Index = Nothing
+        End If
+        Return objSemItem_Index
+    End Function
+    Private Function get_Data_ServerPort(ByVal SemItem_Index As clsSemItem) As List(Of clsSemItem)
+        Dim objDRC_ServerPort As DataRowCollection
+        Dim objSemItem_Server As New clsSemItem
+        Dim objSemItem_Port As New clsSemItem
+        Dim objLServerPort As New List(Of clsSemItem)
+
+        objSemItem_Index = SemItem_Index
+
+        objDRC_ServerPort = funcA_TokenToken.GetData_LeftRight_Ordered_By_GUIDs(objSemItem_Index.GUID, _
+                                                                                objLocalConfig.SemItem_Type_Server_Port.GUID, _
+                                                                                objLocalConfig.SemItem_RelationType_belongsTo.GUID, True).Rows
 
         If objDRC_ServerPort.Count > 0 Then
             objSemItem_ServerPort = New clsSemItem
@@ -1379,6 +1573,7 @@ Public Class clsElasticSearch
             objDRC_ServerPort = funcA_TokenToken.GetData_TokenToken_LeftRight(objSemItem_ServerPort.GUID, _
                                                                               objLocalConfig.SemItem_RelationType_belonging_Source.GUID, _
                                                                               objLocalConfig.SemItem_Type_Port.GUID).Rows
+
             If objDRC_ServerPort.Count > 0 Then
                 objSemItem_Port = New clsSemItem
                 objSemItem_Port.GUID = objDRC_ServerPort(0).Item("GUID_Token_Right")
@@ -1396,31 +1591,20 @@ Public Class clsElasticSearch
                     objSemItem_Server.GUID_Parent = objLocalConfig.SemItem_Type_Server.GUID
                     objSemItem_Server.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
 
-                    objDRC_Index = funcA_TokenToken.GetData_RightLeft_Ordered_By_GUIDs(objSemItem_ServerPort.GUID, _
-                                                                                       objLocalConfig.SemItem_Type_Indexes__Elastic_Search_.GUID, _
-                                                                                       objLocalConfig.SemItem_RelationType_belongsTo.GUID, True).Rows
-                    If objDRC_Index.Count > 0 Then
-                        objSemItem_Index = New clsSemItem
-                        objSemItem_Index.GUID = objDRC_Index(0).Item("GUID_Token_Left")
-                        objSemItem_Index.Name = objDRC_Index(0).Item("Name_Token_Left")
-                        objSemItem_Index.GUID_Parent = objLocalConfig.SemItem_Type_Indexes__Elastic_Search_.GUID
-                        objSemItem_Index.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
-                    Else
+                    objLServerPort.Add(objSemItem_Server)
+                    objLServerPort.Add(objSemItem_Port)
 
-                        Err.Raise(1, Nothing, "Config not set")
-                    End If
-                Else
-                    Err.Raise(1, Nothing, "Config not set")
+
                 End If
 
-            Else
-                Err.Raise(1, Nothing, "Config not set")
+            
             End If
-
-        Else
-            Err.Raise(1, Nothing, "Config not set")
         End If
-    End Sub
+
+
+        Return objLServerPort
+
+    End Function
 
     Public Sub New()
         objLocalConfig = New clsLocalConfig(New clsGlobals)
@@ -1437,7 +1621,21 @@ Public Class clsElasticSearch
     End Sub
 
     Private Sub initialize()
-        get_Data_ServerPort()
+        Dim oList_ServerPort As List(Of clsSemItem)
+        objSemItem_Index = get_Data_Index(objLocalConfig.SemItem_BaseConfig, objLocalConfig.SemItem_RelationType_belonging_Resources)
+        If Not objSemItem_Index Is Nothing Then
+            oList_ServerPort = get_Data_ServerPort(objSemItem_Index)
+            If oList_ServerPort.Count = 2 Then
+                objSemItem_Server = oList_ServerPort(0)
+                objSemItem_Port = oList_ServerPort(1)
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+        
+
         get_Data_Indexes()
     End Sub
 

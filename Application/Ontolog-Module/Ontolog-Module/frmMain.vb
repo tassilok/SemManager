@@ -30,11 +30,22 @@
     End Sub
 
     Private Sub initialize_OTree()
-        Dim objOItem_Class As clsOntologyItem
-        If SplitContainer_Token.Panel2Collapsed = False Then
-            If 
+        Dim objTreeNode As TreeNode
+        Dim objOItem_Class As New clsOntologyItem
+        objTreeNode = objUserControl_TypeTree.selected_Node
+        If Not objTreeNode Is Nothing Then
+
+            objOItem_Class.GUID = objTreeNode.Name
+            objOItem_Class.Name = objTreeNode.Text
+            objOItem_Class.Type = objLocalConfig.Globals.Type_Class
+
+            If SplitContainer_Token.Panel2Collapsed = False Then
                 objUserControl_ObjectTree.initialize(objOItem_Class)
             End If
+        Else
+            objUserControl_ObjectTree.clear()
+        End If
+        
     End Sub
 
     Private Sub ObjectList_Selection_Changed() Handles objUserControl_OObjectList.Selection_Changed
