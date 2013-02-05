@@ -169,7 +169,7 @@ Public Class clsElasticSearch
             objSemItem_CSVImport.GUID_Parent = objLocalConfig.SemItem_Type_CSVImport.GUID
             objSemItem_CSVImport.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
 
-            objSemItem_Index = get_Data_Index(objSemItem_CSVImport, objLocalConfig.SemItem_RelationType_exportTo)
+            objSemItem_Index = get_Data_Index(objSemItem_CSVImport, objLocalConfig.SemItem_RelationType_export_to)
             If Not objSemItem_Index Is Nothing Then
 
                 oList_ServerPort = get_Data_ServerPort(objSemItem_Index)

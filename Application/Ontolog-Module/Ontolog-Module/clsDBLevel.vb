@@ -899,7 +899,7 @@ Public Class clsDBLevel
         intPos = 0
         While intCount > 0
             intCount = 0
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Object, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectRel, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
             objList = objSearchResult.GetHits.Hits
 
 

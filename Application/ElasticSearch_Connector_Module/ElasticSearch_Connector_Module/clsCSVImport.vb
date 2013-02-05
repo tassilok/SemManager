@@ -33,7 +33,7 @@ Public Class clsCSVImport
 
     Public Function get_CSVImport_Fields(ByVal SemItem_CSVImport As clsSemItem) As DataSet_ElasticSearchConnector.proc_CSVImport_FieldsDataTable
         procA_CSVImport_Fields.Fill(procT_CSVImport_Fields, _
-                                    objLocalConfig.SemItem_Type_Field.GUID, _
+                                    objLocalConfig.SemItem_Type_Fields.GUID, _
                                     objLocalConfig.SemItem_Type_Field_Type.GUID, _
                                     objLocalConfig.SemItem_RelationType_contains.GUID, _
                                     objLocalConfig.SemItem_RelationType_is_of_Type.GUID, _

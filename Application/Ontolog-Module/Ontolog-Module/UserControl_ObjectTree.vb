@@ -8,7 +8,7 @@
     Private objThread As Threading.Thread
 
     Private objOItem_Parent As clsOntologyItem
-    Private oItems_No_Parent As System.Collections.IDictionary
+    Private oItems_No_Parent As Object
     Private intRowID_No_Parent As Integer
     Private intRowID_Parent As String
 
@@ -57,9 +57,11 @@
         If boolTopDown = True Then
             objDBLevel.get_Data_Objects_Tree(objOItem_Parent, objOItem_Parent, objRelationType)
             oItems_No_Parent = From obj In objDBLevel.OList_Objects
-                                 Join objPar In objDBLevel.OList_ObjectTree.DefaultIfEmpty On obj.GUID Equals objPar.ID_Object
-                                 Where objPar.ID_Object Is Nothing
-                                 Select ID_Object = obj.GUID, Name_Object = obj.Name, ID_Object_Parent = obj.GUID_Parent
+                                 Group Join objPar In objDBLevel.OList_ObjectTree On obj.GUID Equals objPar.ID_Object Into RightTableResult = Group
+                                 From objPar In RightTableResult.DefaultIfEmpty
+                                 Where objPar Is Nothing
+                                 Select Guid = obj.GUID, Name = obj.Name, GUID_Parent = obj.GUID_Parent
+                                 Order By Name
         End If
 
         boolDataGet = True
@@ -100,10 +102,10 @@
 
         If boolDataGet = True Then
             While (Now - dateNow).Milliseconds < 200
-                If intRowID_No_Parent < oItems_No_Parent.Count Then
-                    objTreeNodes = TreeView_Objects.Nodes.Find(oItems_No_Parent(intRowID_No_Parent).ID_Object, False)
+                If intRowID_No_Parent < oItems_No_Parent Then
+                    objTreeNodes = TreeView_Objects.Nodes.Find(oItems_No_Parent(intRowID_No_Parent).GUID, False)
                     If objTreeNodes.Count = 0 Then
-                        TreeView_Objects.Nodes.Add(oItems_No_Parent(intRowID_No_Parent).ID_Object, oItems_No_Parent(intRowID_No_Parent).Name)
+                        TreeView_Objects.Nodes.Add(oItems_No_Parent(intRowID_No_Parent).GUID, oItems_No_Parent(intRowID_No_Parent).Name)
 
                     End If
                     intRowID_No_Parent = intRowID_No_Parent + 1
