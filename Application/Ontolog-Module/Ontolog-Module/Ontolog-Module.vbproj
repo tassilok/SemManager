@@ -141,6 +141,12 @@
       <DependentUpon>frmMain.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frm_ObjectEdit.Designer.vb">
+      <DependentUpon>frm_ObjectEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frm_ObjectEdit.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -162,6 +168,12 @@
     <Compile Include="UserControl_ObjectRel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControl_ObjectRelTree.Designer.vb">
+      <DependentUpon>UserControl_ObjectRelTree.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_ObjectRelTree.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl_ObjectTree.Designer.vb">
       <DependentUpon>UserControl_ObjectTree.vb</DependentUpon>
     </Compile>
@@ -172,6 +184,12 @@
       <DependentUpon>UserControl_OItemList.vb</DependentUpon>
     </Compile>
     <Compile Include="UserControl_OItemList.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_TokenEdit.Designer.vb">
+      <DependentUpon>UserControl_TokenEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_TokenEdit.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControl_TypeTree.Designer.vb">
@@ -185,6 +203,9 @@
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frm_ObjectEdit.resx">
+      <DependentUpon>frm_ObjectEdit.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -194,11 +215,17 @@
     <EmbeddedResource Include="UserControl_ObjectRel.resx">
       <DependentUpon>UserControl_ObjectRel.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_ObjectRelTree.resx">
+      <DependentUpon>UserControl_ObjectRelTree.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControl_ObjectTree.resx">
       <DependentUpon>UserControl_ObjectTree.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_OItemList.resx">
       <DependentUpon>UserControl_OItemList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_TokenEdit.resx">
+      <DependentUpon>UserControl_TokenEdit.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_TypeTree.resx">
       <DependentUpon>UserControl_TypeTree.vb</DependentUpon>

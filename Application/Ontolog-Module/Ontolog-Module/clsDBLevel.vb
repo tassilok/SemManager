@@ -907,7 +907,7 @@ Public Class clsDBLevel
                                 Join objLeft In objOntologyList_Objects On obj.Source(objLocalConfig.Globals.Field_ID_Object).ToString Equals objLeft.GUID
                                 Join objRight In objOntologyList_Objects On obj.Source(objLocalConfig.Globals.Field_ID_Other).ToString Equals objRight.GUID
                                 Join objRel In objOList_RelationTypes On obj.Source(objLocalConfig.Globals.Field_ID_RelationType).ToString Equals objRel.GUID
-                                Select ID_Object = objLeft.GUID, Name_Object = objLeft.Name, ID_Parent = objRight.GUID, ID_Object_Parent = objLeft.GUID_Parent
+                                Select ID_Object = objRight.GUID, Name_Object = objRight.Name, ID_Parent = objRight.GUID_Parent, ID_Object_Parent = objLeft.GUID
 
             For Each objList_Item In objList_Items
                 If boolTable = False Then

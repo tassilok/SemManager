@@ -3,13 +3,11 @@
     Private objDBLevel As clsDBLevel
     Private objOItem_Object As clsObjectTree
 
-    Private objRelationType As clsOntologyItem
-
     Private objThread As Threading.Thread
-    Private objTreeNodes_Root As New List(Of TreeNode)
-    Private objTreeNodes_Child As New List(Of TreeNode)
+    Private objTreeNodes_Thread As New List(Of TreeNode)
 
     Private objOItem_Parent As clsOntologyItem
+    Private objOItem_RelationType As clsOntologyItem
     Private oItems_No_Parent As Object
     Private intRowID_No_Parent As Integer
     Private intRowID_Parent As String
@@ -25,8 +23,8 @@
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = LocalConfig
 
-        objRelationType = objLocalConfig.Globals.RelationType_contains
-        ToolStripTextBox_RelationType.Text = objRelationType.Name
+        objOItem_RelationType = objLocalConfig.Globals.RelationType_contains
+        ToolStripTextBox_RelationType.Text = objOItem_RelationType.Name
 
         set_DBConnection()
     End Sub
@@ -48,8 +46,7 @@
             intRowID_No_Parent = 0
             intRowID_Parent = 0
             boolDataGet = False
-            objTreeNodes_Root.Clear()
-            objTreeNodes_Child.Clear()
+            objTreeNodes_Thread.Clear()
 
             objThread = New Threading.Thread(AddressOf get_Tree)
             objThread.Start()
@@ -64,7 +61,7 @@
         objDBLevel = New clsDBLevel(objLocalConfig)
 
         If boolTopDown = True Then
-            objDBLevel.get_Data_Objects_Tree(objOItem_Parent, objOItem_Parent, objRelationType)
+            objDBLevel.get_Data_Objects_Tree(objOItem_Parent, objOItem_Parent, objOItem_RelationType)
             oItems_No_Parent = From obj In objDBLevel.OList_Objects
                                  Group Join objPar In objDBLevel.OList_ObjectTree On obj.GUID Equals objPar.ID_Object Into RightTableResult = Group
                                  From objPar In RightTableResult.DefaultIfEmpty
@@ -76,7 +73,7 @@
             For Each objItem In oItems_No_Parent
                 objTreeNode.Name = objItem.Guid
                 objTreeNode.Text = objItem.Name
-                objTreeNodes_Root.Add(objTreeNode.Clone)
+                objTreeNodes_Thread.Add(objTreeNode.Clone)
 
 
             Next
@@ -85,7 +82,12 @@
                 objTreeNode.Name = objOItem.ID_Object
                 objTreeNode.Text = objOItem.Name_Object
 
-                objTreeNodes_Child.Add(objTreeNode.Clone)
+                Dim objTreeNodes = From obj In objTreeNodes_Thread
+                                   Where obj.Name = objOItem.ID_Object_Parent
+
+                For Each objTreeNode_sub In objTreeNodes
+                    objTreeNode_sub.Nodes.Add(objTreeNode.Clone)
+                Next
             Next
         End If
 
@@ -128,26 +130,31 @@
 
         If boolDataGet = True Then
             While (Now - dateNow).Milliseconds < 200
-                intAll = objTreeNodes_Root.Count + objDBLevel.OList_ObjectTree.Count
+                intAll = objTreeNodes_Thread.Count + objDBLevel.OList_ObjectTree.Count
                 dblPrc = 100 / intAll * intRowID_No_Parent + intRowID_Parent
                 ToolStripLabel_Count.Text = intRowID_No_Parent + intRowID_Parent
                 ToolStripProgressBar_List.Value = dblPrc
-                If intRowID_No_Parent < objTreeNodes_Root.Count Then
-                    TreeView_Objects.Nodes.Add(objTreeNodes_Root(intRowID_No_Parent))
+                If intRowID_No_Parent < objTreeNodes_Thread.Count Then
+                    If objTreeNodes_Thread(intRowID_No_Parent).Parent Is Nothing Then
+                        TreeView_Objects.Nodes.Add(objTreeNodes_Thread(intRowID_No_Parent))
+                    End If
+
 
                     intRowID_No_Parent = intRowID_No_Parent + 1
                 Else
-                    If intRowID_Parent < objDBLevel.OList_ObjectTree.Count Then
+                    
+                    Timer_Tree.Stop()
+                    ToolStripProgressBar_List.Value = 0
+                    ToolStripProgressBar_List.Visible = False
 
-                    Else
-                        Timer_Tree.Stop()
-                        ToolStripProgressBar_List.Value = 0
-                        ToolStripProgressBar_List.Visible = False
-                    End If
                 End If
             End While
 
         End If
+
+    End Sub
+
+    Private Sub ToolStripButton_Change_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Change.Click
 
     End Sub
 End Class
