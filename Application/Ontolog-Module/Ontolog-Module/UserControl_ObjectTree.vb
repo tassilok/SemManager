@@ -6,6 +6,8 @@
     Private objRelationType As clsOntologyItem
 
     Private objThread As Threading.Thread
+    Private objTreeNodes_Root As New List(Of TreeNode)
+    Private objTreeNodes_Child As New List(Of TreeNode)
 
     Private objOItem_Parent As clsOntologyItem
     Private oItems_No_Parent As Object
@@ -46,6 +48,9 @@
             intRowID_No_Parent = 0
             intRowID_Parent = 0
             boolDataGet = False
+            objTreeNodes_Root.Clear()
+            objTreeNodes_Child.Clear()
+
             objThread = New Threading.Thread(AddressOf get_Tree)
             objThread.Start()
             Timer_Tree.Start()
@@ -53,7 +58,11 @@
     End Sub
 
     Private Sub get_Tree()
+        Dim intID As Integer
+        Dim objTreeNode As New TreeNode
+        Dim objOItem As clsObjectTree
         objDBLevel = New clsDBLevel(objLocalConfig)
+
         If boolTopDown = True Then
             objDBLevel.get_Data_Objects_Tree(objOItem_Parent, objOItem_Parent, objRelationType)
             oItems_No_Parent = From obj In objDBLevel.OList_Objects
@@ -62,6 +71,22 @@
                                  Where objPar Is Nothing
                                  Select Guid = obj.GUID, Name = obj.Name, GUID_Parent = obj.GUID_Parent
                                  Order By Name
+
+            intID = 0
+            For Each objItem In oItems_No_Parent
+                objTreeNode.Name = objItem.Guid
+                objTreeNode.Text = objItem.Name
+                objTreeNodes_Root.Add(objTreeNode.Clone)
+
+
+            Next
+
+            For Each objOItem In objDBLevel.OList_ObjectTree
+                objTreeNode.Name = objOItem.ID_Object
+                objTreeNode.Text = objOItem.Name_Object
+
+                objTreeNodes_Child.Add(objTreeNode.Clone)
+            Next
         End If
 
         boolDataGet = True
@@ -93,7 +118,8 @@
 
     Private Sub Timer_Tree_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Tree.Tick
         Dim dateNow As Date
-        Dim objTreeNodes() As TreeNode
+        Dim intAll As Integer
+        Dim dblPrc As Double
 
         dateNow = Now
 
@@ -102,16 +128,21 @@
 
         If boolDataGet = True Then
             While (Now - dateNow).Milliseconds < 200
-                If intRowID_No_Parent < oItems_No_Parent Then
-                    objTreeNodes = TreeView_Objects.Nodes.Find(oItems_No_Parent(intRowID_No_Parent).GUID, False)
-                    If objTreeNodes.Count = 0 Then
-                        TreeView_Objects.Nodes.Add(oItems_No_Parent(intRowID_No_Parent).GUID, oItems_No_Parent(intRowID_No_Parent).Name)
+                intAll = objTreeNodes_Root.Count + objDBLevel.OList_ObjectTree.Count
+                dblPrc = 100 / intAll * intRowID_No_Parent + intRowID_Parent
+                ToolStripLabel_Count.Text = intRowID_No_Parent + intRowID_Parent
+                ToolStripProgressBar_List.Value = dblPrc
+                If intRowID_No_Parent < objTreeNodes_Root.Count Then
+                    TreeView_Objects.Nodes.Add(objTreeNodes_Root(intRowID_No_Parent))
 
-                    End If
                     intRowID_No_Parent = intRowID_No_Parent + 1
                 Else
                     If intRowID_Parent < objDBLevel.OList_ObjectTree.Count Then
 
+                    Else
+                        Timer_Tree.Stop()
+                        ToolStripProgressBar_List.Value = 0
+                        ToolStripProgressBar_List.Visible = False
                     End If
                 End If
             End While
