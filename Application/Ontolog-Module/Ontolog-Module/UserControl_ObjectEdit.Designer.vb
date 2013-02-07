@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class UserControl_TokenEdit
+Partial Class UserControl_ObjectEdit
     Inherits System.Windows.Forms.UserControl
 
     'UserControl überschreibt den Löschvorgang, um die Komponentenliste zu bereinigen.
@@ -36,13 +36,13 @@ Partial Class UserControl_TokenEdit
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel_ObjectCount = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_ObjectLabel = New System.Windows.Forms.ToolStripLabel()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_GUIDLbl = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_GUID = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Name = New System.Windows.Forms.ToolStripTextBox()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
@@ -50,9 +50,9 @@ Partial Class UserControl_TokenEdit
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        Me.ToolStrip2.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.SuspendLayout()
+        Me.ToolStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'MenuStrip1
@@ -180,13 +180,23 @@ Partial Class UserControl_TokenEdit
         Me.ToolStripLabel_ObjectLabel.Size = New System.Drawing.Size(56, 22)
         Me.ToolStripLabel_ObjectLabel.Text = "x_Objects"
         '
+        'SplitContainer1
+        '
+        Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Size = New System.Drawing.Size(558, 333)
+        Me.SplitContainer1.SplitterDistance = 186
+        Me.SplitContainer1.TabIndex = 0
+        '
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_GUIDLbl, Me.ToolStripTextBox_GUID, Me.ToolStripSeparator2, Me.ToolStripLabel1, Me.ToolStripTextBox_Name})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(545, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(514, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripLabel_GUIDLbl
@@ -218,24 +228,14 @@ Partial Class UserControl_TokenEdit
         Me.ToolStripTextBox_Name.ReadOnly = True
         Me.ToolStripTextBox_Name.Size = New System.Drawing.Size(200, 25)
         '
-        'SplitContainer1
-        '
-        Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Size = New System.Drawing.Size(558, 333)
-        Me.SplitContainer1.SplitterDistance = 186
-        Me.SplitContainer1.TabIndex = 0
-        '
-        'UserControl_TokenEdit
+        'UserControl_ObjectEdit
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.MenuStrip1)
-        Me.Name = "UserControl_TokenEdit"
+        Me.Name = "UserControl_ObjectEdit"
         Me.Size = New System.Drawing.Size(558, 429)
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
@@ -250,10 +250,10 @@ Partial Class UserControl_TokenEdit
         Me.ToolStripContainer1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        Me.ToolStrip2.ResumeLayout(False)
-        Me.ToolStrip2.PerformLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
+        Me.ToolStrip2.ResumeLayout(False)
+        Me.ToolStrip2.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

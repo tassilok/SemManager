@@ -12,6 +12,7 @@ Public Class clsDBLevel
     Private objOntologyList_AttributTypes As New List(Of clsOntologyItem)
     Private objOntologyList_ClassRel_ID As New List(Of clsClassRel)
     Private objOntologyList_ClassRel_Named As New List(Of clsClassRel)
+    Private objOntologyList_ClassAtt As New List(Of clsClassAtt)
     Private objOntologyList_ObjRel_ID As New List(Of clsObjectRel)
     Private objOntologyList_ObjRel_Named As New List(Of clsObjectRel)
     Private objOntologyList_DataTypes As New List(Of clsOntologyItem)
@@ -40,6 +41,12 @@ Public Class clsDBLevel
     Public ReadOnly Property OList_ClassRel_ID As List(Of clsClassRel)
         Get
             Return objOntologyList_ClassRel_ID
+        End Get
+    End Property
+
+    Public ReadOnly Property OList_ClassAtt As List(Of clsClassAtt)
+        Get
+            Return objOntologyList_ClassAtt
         End Get
     End Property
 
@@ -330,6 +337,80 @@ Public Class clsDBLevel
         Return objOItem_Result
     End Function
 
+    Public Function get_Data_ClassAtt(ByVal oList_Class As List(Of clsOntologyItem), Optional ByVal boolTable As Boolean = False) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim oList_Classes As New List(Of clsOntologyItem)
+        Dim oList_AttributeTypes As New List(Of clsOntologyItem)
+        Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
+        Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
+        Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
+        Dim strQuery As String
+        Dim intCount As Integer
+        Dim intPos As Integer
+
+        objOItem_Result = objLocalConfig.Globals.LState_Success
+
+        oList_AttributeTypes.Clear()
+
+        Dim strLQuery_ID = From obj As clsOntologyItem In oList_Class Group By obj.GUID Into Group Select GUID = GUID
+
+        strQuery = ""
+        For Each strQuery_ID In strLQuery_ID
+            If strQuery <> "" Then
+                strQuery = strQuery & "\ OR\ "
+            End If
+            strQuery = strQuery & strQuery_ID
+        Next
+        If strQuery <> "" Then
+            objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Class, strQuery)), BooleanClause.Occur.MUST)
+
+        End If
+
+        objOntologyList_ClassAtt.Clear()
+
+        intCount = objLocalConfig.Globals.SearchRange
+        intPos = 0
+        While intCount > 0
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ClassAtt, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objList = objSearchResult.GetHits.Hits
+
+            For Each objHit In objList
+
+                objOntologyList_ClassAtt.Add(New clsClassAtt(objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
+                                                             objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString, _
+                                                             objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
+                                                             objHit.Source(objLocalConfig.Globals.Field_Min).ToString, _
+                                                             objHit.Source(objLocalConfig.Globals.Field_Max).ToString))
+
+
+            Next
+
+
+            intCount = objList.Count
+
+            objList.Clear()
+            objSearchResult = Nothing
+            objList = Nothing
+            intPos = intPos + intCount
+        End While
+
+        Dim strLGUID_Attributetype = From obj In objOntologyList_ClassAtt
+                               Group By obj.ID_AttributeType Into Group
+                               Select ID_AttributeType
+
+        For Each strGUID_AttributeType In strLGUID_Attributetype
+            oList_AttributeTypes.Add(New clsOntologyItem(strGUID_AttributeType, objLocalConfig.Globals.Type_AttributeType))
+
+        Next
+
+        If oList_AttributeTypes.Count > 0 Then
+            get_Data_AttributeType(oList_AttributeTypes, boolTable)
+        End If
+
+
+        Return objOItem_Result
+    End Function
+
     Public Function get_Data_ClassRel(ByVal oList_Class As List(Of clsOntologyItem), ByVal Direction As clsOntologyItem, Optional ByVal boolTable As Boolean = False) As clsOntologyItem
         Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
@@ -473,7 +554,7 @@ Public Class clsDBLevel
             objBoolQuery.Add(New WildcardQuery(New Term(objLocalConfig.Globals.Field_ID_Object, strQuery)), BooleanClause.Occur.MUST)
         End If
 
-    
+
         intCount = objLocalConfig.Globals.SearchRange
         intPos = 0
         While intCount > 0
@@ -723,7 +804,7 @@ Public Class clsDBLevel
 
             Next
 
-            
+
         End If
 
         If objOList_RelationType.Count > 0 Then
@@ -1015,8 +1096,8 @@ Public Class clsDBLevel
             strLQuery_LName = Nothing
         End If
 
-        
-    
+
+
         intCount = objLocalConfig.Globals.SearchRange
         intPos = 0
         While intCount > 0
@@ -1047,7 +1128,7 @@ Public Class clsDBLevel
             objList = Nothing
             intPos = intPos + intCount
         End While
-        
+
         Return objOItem_Result
     End Function
 

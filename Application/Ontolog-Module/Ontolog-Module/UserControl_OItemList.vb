@@ -19,11 +19,26 @@
     Private strName_Filter As String
     Private strGUID_Filter As String
 
+    Private intRowID As Integer
+
     Private boolFinished As Boolean
 
     Private Event selected_ListItem()
 
     Public Event Selection_Changed()
+    Public Event edit_Object()
+
+    Public ReadOnly Property RowID As Integer
+        Get
+            Return intRowID
+        End Get
+    End Property
+
+    Public ReadOnly Property DataGridviewRows As DataGridViewRowCollection
+        Get
+            Return DataGridView_Items.Rows
+        End Get
+    End Property
 
     Public ReadOnly Property DataGridViewRowCollection_Selected As DataGridViewSelectedRowCollection
         Get
@@ -125,6 +140,12 @@
 
     Private Sub set_DBConnection()
         objDBLevel = New clsDBLevel(objLocalConfig)
+    End Sub
+
+    Private Sub DataGridView_Items_RowHeaderMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellMouseEventArgs) Handles DataGridView_Items.RowHeaderMouseDoubleClick
+
+        RaiseEvent edit_Object()
+
     End Sub
 
     Private Sub DataGridView_Items_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles DataGridView_Items.SelectionChanged

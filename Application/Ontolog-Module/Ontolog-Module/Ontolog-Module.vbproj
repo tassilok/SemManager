@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\clsLocalConfig.vb" />
+    <Compile Include="clsClassAtt.vb" />
     <Compile Include="clsClassRel.vb" />
     <Compile Include="clsDBLevel.vb" />
     <Compile Include="clsGlobals.vb" />
@@ -186,10 +187,10 @@
     <Compile Include="UserControl_OItemList.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl_TokenEdit.Designer.vb">
-      <DependentUpon>UserControl_TokenEdit.vb</DependentUpon>
+    <Compile Include="UserControl_ObjectEdit.Designer.vb">
+      <DependentUpon>UserControl_ObjectEdit.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_TokenEdit.vb">
+    <Compile Include="UserControl_ObjectEdit.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControl_TypeTree.Designer.vb">
@@ -224,8 +225,8 @@
     <EmbeddedResource Include="UserControl_OItemList.resx">
       <DependentUpon>UserControl_OItemList.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_TokenEdit.resx">
-      <DependentUpon>UserControl_TokenEdit.vb</DependentUpon>
+    <EmbeddedResource Include="UserControl_ObjectEdit.resx">
+      <DependentUpon>UserControl_ObjectEdit.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_TypeTree.resx">
       <DependentUpon>UserControl_TypeTree.vb</DependentUpon>

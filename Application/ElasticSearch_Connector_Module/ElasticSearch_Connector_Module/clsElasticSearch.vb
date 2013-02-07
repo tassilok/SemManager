@@ -556,7 +556,7 @@ Public Class clsElasticSearch
                 objDict.Add("ID_DataType", strGUID_AttributeType.Replace("-", ""))
 
                 ReDim Preserve objBulkObjects(lngPack)
-                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "AttributeType", objDRC_Attribute(i).Item("GUID_Attribute").ToString, objDict)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "AttributeType", objDRC_Attribute(i).Item("GUID_Attribute").ToString.Replace("-", ""), objDict)
                 objDict = Nothing
 
 
@@ -1233,8 +1233,8 @@ Public Class clsElasticSearch
             For i = 0 To objDRC_TypeAtt.Count - 1
                 objDict = New Dictionary(Of String, Object)
                 objDict.Add("ID_Class", objDRC_TypeAtt(i).Item("GUID_Type").ToString.Replace("-", ""))
-                objDict.Add("ID_Attribute", objDRC_TypeAtt(i).Item("GUID_Attribute").ToString.Replace("-", ""))
-                objDict.Add("ID_AttributeType", objDRC_TypeAtt(i).Item("GUID_AttributeType").ToString.Replace("-", ""))
+                objDict.Add("ID_AttributeType", objDRC_TypeAtt(i).Item("GUID_Attribute").ToString.Replace("-", ""))
+                objDict.Add("ID_DataType", objDRC_TypeAtt(i).Item("GUID_AttributeType").ToString.Replace("-", ""))
                 objDict.Add("Min", objDRC_TypeAtt(i).Item("Min").ToString)
                 objDict.Add("Max", objDRC_TypeAtt(i).Item("Max").ToString)
 

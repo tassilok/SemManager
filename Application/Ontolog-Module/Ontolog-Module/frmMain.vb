@@ -8,6 +8,8 @@
     Private WithEvents objUserControl_OAttributeList As UserControl_OItemList
     Private WithEvents objUserControl_ObjRel As UserControl_ObjectRel
 
+    Private objFrm_ObjectEdit As frm_ObjectEdit
+
     Private objOItem As clsOntologyItem
 
     Private objOItem_Class As clsOntologyItem
@@ -21,6 +23,16 @@
     Private objOList_RelationTypes_Right As New List(Of clsOntologyItem)
     Private objOList_Classes_Left As New List(Of clsOntologyItem)
     Private objOList_RelationTypes_Left As New List(Of clsOntologyItem)
+
+    Private Sub editObject() Handles objUserControl_OObjectList.edit_Object
+        objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig, _
+                                               objUserControl_OObjectList.DataGridviewRows, _
+                                               objUserControl_OObjectList.RowID)
+        objFrm_ObjectEdit.ShowDialog(Me)
+        If objFrm_ObjectEdit.DialogResult = Windows.Forms.DialogResult.OK Then
+
+        End If
+    End Sub
 
     Private Sub selectedClass(ByVal OItem_Class As clsOntologyItem) Handles objUserControl_TypeTree.selected_Class
         objOItem_Class = OItem_Class
