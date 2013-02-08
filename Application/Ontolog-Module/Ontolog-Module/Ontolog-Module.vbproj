@@ -124,6 +124,7 @@
     <Compile Include="clsClassRel.vb" />
     <Compile Include="clsDBLevel.vb" />
     <Compile Include="clsGlobals.vb" />
+    <Compile Include="clsObjectAtt.vb" />
     <Compile Include="clsObjectRel.vb" />
     <Compile Include="clsOntologyItem.vb" />
     <Compile Include="clsObjectTree.vb" />

@@ -15,15 +15,17 @@ Public Class clsDBLevel
     Private objOntologyList_ClassAtt As New List(Of clsClassAtt)
     Private objOntologyList_ObjRel_ID As New List(Of clsObjectRel)
     Private objOntologyList_ObjRel_Named As New List(Of clsObjectRel)
+    Private objOntologyList_ObjAtt_ID As New List(Of clsObjectAtt)
     Private objOntologyList_DataTypes As New List(Of clsOntologyItem)
 
     Private otblT_Objects As New DataSet_Config.otbl_ObjectsDataTable
     Private otblT_Classes As New DataSet_Config.otbl_ClassesDataTable
     Private otblT_RelationTypes As New DataSet_Config.otbl_RelationTypesDataTable
-    Private otblT_AttributeTypes As New DataSet_Config.otbl_AttributesDataTable
+    Private otblT_AttributeTypes As New DataSet_Config.otbl_AttributeTypesDataTable
     Private otblT_ObjectRel As New DataSet_Config.otbl_ObjectRelDataTable
     Private otblT_DataTypes As New DataSet_Config.otbl_DataTypesDataTable
     Private otblT_ObjectTree As New DataSet_Config.otbl_ObjetTreeDataTable
+    Private otblT_ObjectAtt As New DataSet_Config.otbl_ObjectAttDataTable
 
     Private oList_DBLevel As List(Of clsDBLevel)
 
@@ -86,6 +88,12 @@ Public Class clsDBLevel
         End Get
     End Property
 
+    Public ReadOnly Property OList_ObjectAtt_ID As List(Of clsObjectAtt)
+        Get
+            Return objOntologyList_ObjAtt_ID
+        End Get
+    End Property
+
     Public ReadOnly Property tbl_Objects As DataSet_Config.otbl_ObjectsDataTable
         Get
             Return otblT_Objects
@@ -104,7 +112,7 @@ Public Class clsDBLevel
         End Get
     End Property
 
-    Public ReadOnly Property tbl_AttributeTypes As DataSet_Config.otbl_AttributesDataTable
+    Public ReadOnly Property tbl_AttributeTypes As DataSet_Config.otbl_AttributeTypesDataTable
         Get
             Return otblT_AttributeTypes
         End Get
@@ -496,8 +504,10 @@ Public Class clsDBLevel
                 oList_Classes.Add(New clsOntologyItem(strGUID, Nothing, objLocalConfig.Globals.Type_Class))
             Next
         End If
+        If oList_Classes.Count > 0 Then
+            get_Data_Classes(oList_Classes, boolTable)
+        End If
 
-        get_Data_Classes(oList_Classes, boolTable)
 
         strLGUID_Rel = From objClRel In objOntologyList_ClassRel_ID Group By objClRel.ID_RelationType Into Group Select ID_RelationType
         For Each strGUID In strLGUID_Rel
@@ -509,7 +519,253 @@ Public Class clsDBLevel
         Return objOItem_Result
     End Function
 
-    Public Function get_Data_ObjectRel(ByVal oList_Objects As List(Of clsOntologyItem), Optional ByVal boolTable As Boolean = False)
+    Public Function get_Data_ObjectAtt(Optional ByRef oItem_Object As clsOntologyItem = Nothing, Optional ByVal oItem_AttributeType As clsOntologyItem = Nothing, Optional ByVal boolTable As Boolean = False) As clsOntologyItem
+        Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
+        Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
+        Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
+        Dim objHit As ElasticSearch.Client.Domain.Hits
+        Dim objOItem_Result As clsOntologyItem
+        Dim strQuery As String
+        Dim intCount As Integer
+        Dim intPos As Integer
+
+        objOntologyList_ObjAtt_ID.Clear()
+        otblT_ObjectAtt.Clear()
+
+        objOItem_Result = objLocalConfig.Globals.LState_Success
+
+        strQuery = ""
+        If Not oItem_Object Is Nothing Then
+            If oItem_Object.GUID <> "" Then
+                If strQuery <> "" Then
+                    strQuery = strQuery & "\ OR\ "
+                End If
+
+
+                strQuery = strQuery & oItem_Object.GUID
+
+            End If
+
+            If strQuery <> "" Then
+                objBoolQuery.Add(New WildcardQuery(New Term(objLocalConfig.Globals.Field_ID_Object, strQuery)), BooleanClause.Occur.MUST)
+            End If
+        End If
+
+
+        If Not oItem_AttributeType Is Nothing Then
+            strQuery = ""
+            If oItem_AttributeType.GUID <> "" Then
+                If strQuery <> "" Then
+                    strQuery = strQuery & "\ OR\ "
+                End If
+
+
+                strQuery = strQuery & oItem_AttributeType.GUID
+
+            End If
+
+            If strQuery <> "" Then
+                objBoolQuery.Add(New WildcardQuery(New Term(objLocalConfig.Globals.Field_ID_AttributeType, strQuery)), BooleanClause.Occur.MUST)
+            End If
+        End If
+        intCount = objLocalConfig.Globals.SearchRange
+        intPos = 0
+        While intCount > 0
+
+            intCount = 0
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectAtt, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objList = objSearchResult.GetHits.Hits
+
+            For Each objHit In objList
+                If boolTable = False Then
+                    objOntologyList_ObjAtt_ID.Add(New clsObjectAtt(objHit.Source(objLocalConfig.Globals.Field_ID_ObjectAttribute).ToString, _
+                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
+                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
+                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
+                                                                   objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString))
+                Else
+                    otblT_ObjectAtt.Rows.Add(objHit.Source(objLocalConfig.Globals.Field_ID_ObjectAttribute).ToString, _
+                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
+                                                                   Nothing, _
+                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
+                                                                   Nothing, _
+                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
+                                                                   Nothing, _
+                                                                   objHit.Source(objLocalConfig.Globals.Field_OrderID), _
+                                                                   Nothing, _
+                                                                   Nothing, _
+                                                                   Nothing, _
+                                                                   Nothing, _
+                                                                   Nothing, _
+                                                                   Nothing, _
+                                                                   Nothing, _
+                                                                   Nothing)
+                End If
+            Next
+        End While
+
+
+        Return objOItem_Result
+    End Function
+
+    Public Function get_Data_ObjectRel(Optional ByVal oItem_ObjectLeft As clsOntologyItem = Nothing, Optional ByVal oItem_ObjectRight As clsOntologyItem = Nothing, Optional ByVal oItem_RelationType As clsOntologyItem = Nothing, Optional ByVal boolTable As Boolean = False) As clsOntologyItem
+        Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
+        Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
+        Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
+        Dim objHit As ElasticSearch.Client.Domain.Hits
+        Dim objOItem_Result As clsOntologyItem = objLocalConfig.Globals.LState_Success
+        Dim strQuery As String
+        Dim intCount As Integer
+        Dim intPos As Integer
+
+        objOntologyList_ClassRel_ID.Clear()
+
+        If Not oItem_ObjectLeft Is Nothing Then
+            strQuery = ""
+            If oItem_ObjectLeft.GUID <> "" Then
+                If strQuery <> "" Then
+                    strQuery = strQuery & "\ OR\ "
+                End If
+
+
+                strQuery = strQuery & oItem_ObjectLeft.GUID
+
+            End If
+
+            If strQuery <> "" Then
+                objBoolQuery.Add(New WildcardQuery(New Term(objLocalConfig.Globals.Field_ID_Object, strQuery)), BooleanClause.Occur.MUST)
+            End If
+
+            strQuery = ""
+            If oItem_ObjectLeft.GUID_Parent <> "" Then
+                If strQuery <> "" Then
+                    strQuery = strQuery & "\ OR\ "
+                End If
+
+
+                strQuery = strQuery & oItem_ObjectLeft.GUID_Parent
+
+            End If
+
+            If strQuery <> "" Then
+                objBoolQuery.Add(New WildcardQuery(New Term(objLocalConfig.Globals.Field_ID_Parent_Object, strQuery)), BooleanClause.Occur.MUST)
+            End If
+        End If
+        
+        If Not oItem_ObjectRight Is Nothing Then
+            strQuery = ""
+            If oItem_ObjectRight.GUID <> "" Then
+                If strQuery <> "" Then
+                    strQuery = strQuery & "\ OR\ "
+                End If
+
+
+                strQuery = strQuery & oItem_ObjectRight.GUID
+
+            End If
+
+            If strQuery <> "" Then
+                objBoolQuery.Add(New WildcardQuery(New Term(objLocalConfig.Globals.Field_ID_Other, strQuery)), BooleanClause.Occur.MUST)
+            End If
+
+            strQuery = ""
+            If oItem_ObjectRight.Type <> "" Then
+                If strQuery <> "" Then
+                    strQuery = strQuery & "\ OR\ "
+                End If
+
+
+                strQuery = strQuery & oItem_ObjectRight.Type
+
+            End If
+
+            If strQuery <> "" Then
+                objBoolQuery.Add(New WildcardQuery(New Term(objLocalConfig.Globals.Field_Ontology, strQuery)), BooleanClause.Occur.MUST)
+            End If
+        End If
+
+        If Not oItem_RelationType Is Nothing Then
+            strQuery = ""
+            If oItem_RelationType.GUID <> "" Then
+                If strQuery <> "" Then
+                    strQuery = strQuery & "\ OR\ "
+                End If
+
+
+                strQuery = strQuery & oItem_RelationType.GUID
+
+            End If
+
+            If strQuery <> "" Then
+                objBoolQuery.Add(New WildcardQuery(New Term(objLocalConfig.Globals.Field_ID_RelationType, strQuery)), BooleanClause.Occur.MUST)
+            End If
+        End If
+        
+
+        intCount = objLocalConfig.Globals.SearchRange
+        intPos = 0
+        While intCount > 0
+
+            intCount = 0
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectRel, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objList = objSearchResult.GetHits.Hits
+
+            For Each objHit In objList
+
+                If boolTable = False Then
+                    If Not objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Other) = Nothing Then
+                        objOntologyList_ObjectRel.Add(New clsObjectRel(objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Object).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Other).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Other).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_RelationType).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_Ontology).ToString, _
+                                                                    objLocalConfig.Globals.Direction_LeftRight.GUID, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString))
+                    Else
+
+                        objOntologyList_ObjectRel.Add(New clsObjectRel(objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Object).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Other).ToString, _
+                                                                    Nothing, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_RelationType).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_Ontology).ToString, _
+                                                                    objLocalConfig.Globals.Direction_LeftRight.GUID, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString))
+                    End If
+                Else
+                    If Not objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Other) = Nothing Then
+                        otblT_ObjectRel.Rows.Add(objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Object).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Other).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Other).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_RelationType).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_Ontology).ToString, _
+                                                                    objLocalConfig.Globals.Direction_LeftRight.GUID, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString)
+                    Else
+                        otblT_ObjectRel.Rows.Add(objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Object).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Other).ToString, _
+                                                                    Nothing, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_RelationType).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_Ontology).ToString, _
+                                                                    objLocalConfig.Globals.Direction_LeftRight.GUID, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString)
+                    End If
+                    
+                End If
+
+            Next
+        End While
+
+        Return objOItem_Result
+    End Function
+
+
+
+    Public Function get_Data_ObjectRel_Joined(ByVal oList_Objects As List(Of clsOntologyItem), Optional ByVal boolTable As Boolean = False) As clsOntologyItem
+
 
         Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
@@ -564,15 +820,26 @@ Public Class clsDBLevel
             objList = objSearchResult.GetHits.Hits
 
             For Each objHit In objList
-
-                objOntologyList_ObjectRel.Add(New clsObjectRel(objHit.Id.ToString, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Other).ToString, _
+                If Not objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Other) = Nothing Then
+                    objOntologyList_ObjectRel.Add(New clsObjectRel(objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
+                                                                objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Object).ToString, _
+                                                                objHit.Source(objLocalConfig.Globals.Field_ID_Other).ToString, _
+                                                                Nothing, _
+                                                                objHit.Source(objLocalConfig.Globals.Field_ID_RelationType).ToString, _
+                                                                objHit.Source(objLocalConfig.Globals.Field_Ontology).ToString, _
+                                                                objLocalConfig.Globals.Direction_LeftRight.GUID, _
+                                                                objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString))
+                Else
+                    objOntologyList_ObjectRel.Add(New clsObjectRel(objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
+                                                                objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Object).ToString, _
                                                                 objHit.Source(objLocalConfig.Globals.Field_ID_Other).ToString, _
                                                                 objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Other).ToString, _
                                                                 objHit.Source(objLocalConfig.Globals.Field_ID_RelationType).ToString, _
                                                                 objHit.Source(objLocalConfig.Globals.Field_Ontology).ToString, _
                                                                 objLocalConfig.Globals.Direction_LeftRight.GUID, _
                                                                 objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString))
+                End If
+                
 
             Next
 

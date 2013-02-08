@@ -29,6 +29,7 @@ Public Class clsGlobals
     Private cstrField_Max_Backw As String = "Max_backw"
     Private cstrField_Min As String = "Min"
     Private cstrField_Max As String = "Max"
+    Private cstrField_ID_ObjectAttribute As String = "ID_ObjectAttribute"
 
 
 
@@ -38,7 +39,7 @@ Public Class clsGlobals
     Private cstrType_ClassAtt = "ClassAtt"
     Private cstrType_DataType = "DataType"
     Private cstrType_Object = "Object"
-    Private cstrType_ObjectAtt = "ObjectAtt"
+    Private cstrType_ObjectAtt = "ObjectAttribute"
     Private cstrType_RelationType = "RelationType"
     Private cstrType_AttributeType = "AttributeType"
 
@@ -374,6 +375,12 @@ Public Class clsGlobals
     Public ReadOnly Property Field_Val_String As String
         Get
             Return cstrField_Val_String
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_ID_ObjectAttribute As String
+        Get
+            Return cstrField_ID_ObjectAttribute
         End Get
     End Property
 

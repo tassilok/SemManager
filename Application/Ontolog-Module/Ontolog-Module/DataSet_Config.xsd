@@ -69,7 +69,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="otbl_Attributes" msprop:Generator_TableClassName="otbl_AttributesDataTable" msprop:Generator_TableVarName="tableotbl_Attributes" msprop:Generator_TablePropName="otbl_Attributes" msprop:Generator_RowDeletingName="otbl_AttributesRowDeleting" msprop:Generator_UserTableName="otbl_Attributes" msprop:Generator_RowChangingName="otbl_AttributesRowChanging" msprop:Generator_RowEvHandlerName="otbl_AttributesRowChangeEventHandler" msprop:Generator_RowDeletedName="otbl_AttributesRowDeleted" msprop:Generator_RowEvArgName="otbl_AttributesRowChangeEvent" msprop:Generator_RowChangedName="otbl_AttributesRowChanged" msprop:Generator_RowClassName="otbl_AttributesRow">
+        <xs:element name="otbl_AttributeTypes" msprop:Generator_TableClassName="otbl_AttributeTypesDataTable" msprop:Generator_TableVarName="tableotbl_AttributeTypes" msprop:Generator_TablePropName="otbl_AttributeTypes" msprop:Generator_RowDeletingName="otbl_AttributeTypesRowDeleting" msprop:Generator_UserTableName="otbl_AttributeTypes" msprop:Generator_RowChangingName="otbl_AttributeTypesRowChanging" msprop:Generator_RowEvHandlerName="otbl_AttributeTypesRowChangeEventHandler" msprop:Generator_RowDeletedName="otbl_AttributeTypesRowDeleted" msprop:Generator_RowEvArgName="otbl_AttributeTypesRowChangeEvent" msprop:Generator_RowChangedName="otbl_AttributeTypesRowChanged" msprop:Generator_RowClassName="otbl_AttributeTypesRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID_Item" msprop:Generator_ColumnVarNameInTable="columnID_Item" msprop:Generator_ColumnPropNameInRow="ID_Item" msprop:Generator_ColumnPropNameInTable="ID_ItemColumn" msprop:Generator_UserColumnName="ID_Item" type="xs:string" />
@@ -123,6 +123,28 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="otbl_ObjectAtt" msprop:Generator_TableClassName="otbl_ObjectAttDataTable" msprop:Generator_TableVarName="tableotbl_ObjectAtt" msprop:Generator_TablePropName="otbl_ObjectAtt" msprop:Generator_RowDeletingName="otbl_ObjectAttRowDeleting" msprop:Generator_UserTableName="otbl_ObjectAtt" msprop:Generator_RowChangingName="otbl_ObjectAttRowChanging" msprop:Generator_RowEvHandlerName="otbl_ObjectAttRowChangeEventHandler" msprop:Generator_RowDeletedName="otbl_ObjectAttRowDeleted" msprop:Generator_RowEvArgName="otbl_ObjectAttRowChangeEvent" msprop:Generator_RowChangedName="otbl_ObjectAttRowChanged" msprop:Generator_RowClassName="otbl_ObjectAttRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_ObjectAttribute" msprop:Generator_ColumnVarNameInTable="columnID_ObjectAttribute" msprop:Generator_ColumnPropNameInRow="ID_ObjectAttribute" msprop:Generator_ColumnPropNameInTable="ID_ObjectAttributeColumn" msprop:Generator_UserColumnName="ID_ObjectAttribute" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_Object" msprop:Generator_ColumnVarNameInTable="columnID_Object" msprop:Generator_ColumnPropNameInRow="ID_Object" msprop:Generator_ColumnPropNameInTable="ID_ObjectColumn" msprop:Generator_UserColumnName="ID_Object" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_Object" msprop:Generator_ColumnVarNameInTable="columnName_Object" msprop:Generator_ColumnPropNameInRow="Name_Object" msprop:Generator_ColumnPropNameInTable="Name_ObjectColumn" msprop:Generator_UserColumnName="Name_Object" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_AttributeType" msprop:Generator_ColumnVarNameInTable="columnID_AttributeType" msprop:Generator_ColumnPropNameInRow="ID_AttributeType" msprop:Generator_ColumnPropNameInTable="ID_AttributeTypeColumn" msprop:Generator_UserColumnName="ID_AttributeType" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_AttributeType" msprop:Generator_ColumnVarNameInTable="columnName_AttributeType" msprop:Generator_ColumnPropNameInRow="Name_AttributeType" msprop:Generator_ColumnPropNameInTable="Name_AttributeTypeColumn" msprop:Generator_UserColumnName="Name_AttributeType" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_Class" msprop:Generator_ColumnVarNameInTable="columnID_Class" msprop:Generator_ColumnPropNameInRow="ID_Class" msprop:Generator_ColumnPropNameInTable="ID_ClassColumn" msprop:Generator_UserColumnName="ID_Class" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_Class" msprop:Generator_ColumnVarNameInTable="columnName_Class" msprop:Generator_ColumnPropNameInRow="Name_Class" msprop:Generator_ColumnPropNameInTable="Name_ClassColumn" msprop:Generator_UserColumnName="Name_Class" type="xs:string" minOccurs="0" />
+              <xs:element name="OrderID" msprop:Generator_ColumnVarNameInTable="columnOrderID" msprop:Generator_ColumnPropNameInRow="OrderID" msprop:Generator_ColumnPropNameInTable="OrderIDColumn" msprop:Generator_UserColumnName="OrderID" type="xs:long" minOccurs="0" />
+              <xs:element name="Val_Named" msprop:Generator_ColumnVarNameInTable="columnVal_Named" msprop:Generator_ColumnPropNameInRow="Val_Named" msprop:Generator_ColumnPropNameInTable="Val_NamedColumn" msprop:Generator_UserColumnName="Val_Named" type="xs:string" minOccurs="0" />
+              <xs:element name="Val_Bit" msprop:Generator_ColumnVarNameInTable="columnVal_Bit" msprop:Generator_ColumnPropNameInRow="Val_Bit" msprop:Generator_ColumnPropNameInTable="Val_BitColumn" msprop:Generator_UserColumnName="Val_Bit" type="xs:boolean" minOccurs="0" />
+              <xs:element name="Val_Int" msprop:Generator_ColumnVarNameInTable="columnVal_Int" msprop:Generator_ColumnPropNameInRow="Val_Int" msprop:Generator_ColumnPropNameInTable="Val_IntColumn" msprop:Generator_UserColumnName="Val_Int" type="xs:long" minOccurs="0" />
+              <xs:element name="Val_Real" msprop:Generator_ColumnVarNameInTable="columnVal_Real" msprop:Generator_ColumnPropNameInRow="Val_Real" msprop:Generator_ColumnPropNameInTable="Val_RealColumn" msprop:Generator_UserColumnName="Val_Real" type="xs:double" minOccurs="0" />
+              <xs:element name="Val_DateTime" msprop:Generator_ColumnVarNameInTable="columnVal_DateTime" msprop:Generator_ColumnPropNameInRow="Val_DateTime" msprop:Generator_ColumnPropNameInTable="Val_DateTimeColumn" msprop:Generator_UserColumnName="Val_DateTime" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Val_String" msprop:Generator_ColumnVarNameInTable="columnVal_String" msprop:Generator_ColumnPropNameInRow="Val_String" msprop:Generator_ColumnPropNameInTable="Val_StringColumn" msprop:Generator_UserColumnName="Val_String" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_DataType" msprop:Generator_ColumnVarNameInTable="columnID_DataType" msprop:Generator_ColumnPropNameInRow="ID_DataType" msprop:Generator_ColumnPropNameInTable="ID_DataTypeColumn" msprop:Generator_UserColumnName="ID_DataType" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_DataType" msprop:Generator_ColumnVarNameInTable="columnName_DataType" msprop:Generator_ColumnPropNameInRow="Name_DataType" msprop:Generator_ColumnPropNameInTable="Name_DataTypeColumn" msprop:Generator_UserColumnName="Name_DataType" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">
@@ -141,8 +163,8 @@
       <xs:selector xpath=".//mstns:otbl_RelationTypes" />
       <xs:field xpath="mstns:ID_Item" />
     </xs:unique>
-    <xs:unique name="otbl_Attributes_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
-      <xs:selector xpath=".//mstns:otbl_Attributes" />
+    <xs:unique name="otbl_AttributeTypes_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:otbl_AttributeTypes" />
       <xs:field xpath="mstns:ID_Item" />
     </xs:unique>
     <xs:unique name="create_Table_orgT_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">

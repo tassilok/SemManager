@@ -1012,6 +1012,7 @@ Public Class clsElasticSearch
                 objDict.Add("ID_Object", objDRC_TokenAttribute(i).Item("GUID_Token").ToString.Replace("-", ""))
                 objDict.Add("ID_Class", objDRC_TokenAttribute(i).Item("GUID_Type").ToString.Replace("-", ""))
                 objDict.Add("ID_ObjectAttribute", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""))
+                objDict.Add("ID_AttributeType", objDRC_TokenAttribute(i).Item("GUID_Attribute").ToString.Replace("-", ""))
                 objDict.Add("OrderID", objDRC_TokenAttribute(i).Item("OrderID"))
 
                 ReDim Preserve objBulkObjects_ObjAtt(lngPack)
