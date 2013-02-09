@@ -152,7 +152,7 @@
         strID_Object = ID_Object
         strID_Parent_Object = ID_Parent_Object
         strID_Other = ID_Other
-        strID_Parent_Object = ID_Parent_Other
+        strID_Parent_Other = ID_Parent_Other
         strID_RelationType = ID_RelationType
         strOntology = Ontology
         strID_Direction = ID_Direction

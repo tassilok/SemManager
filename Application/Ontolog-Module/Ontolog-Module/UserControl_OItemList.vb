@@ -144,6 +144,7 @@
 
     Private Sub DataGridView_Items_RowHeaderMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellMouseEventArgs) Handles DataGridView_Items.RowHeaderMouseDoubleClick
 
+        intRowID = e.RowIndex
         RaiseEvent edit_Object()
 
     End Sub

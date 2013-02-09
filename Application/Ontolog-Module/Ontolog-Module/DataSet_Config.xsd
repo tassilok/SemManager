@@ -145,6 +145,18 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="otbl_ClassAtt" msprop:Generator_TableClassName="otbl_ClassAttDataTable" msprop:Generator_TableVarName="tableotbl_ClassAtt" msprop:Generator_TablePropName="otbl_ClassAtt" msprop:Generator_RowDeletingName="otbl_ClassAttRowDeleting" msprop:Generator_UserTableName="otbl_ClassAtt" msprop:Generator_RowChangingName="otbl_ClassAttRowChanging" msprop:Generator_RowEvHandlerName="otbl_ClassAttRowChangeEventHandler" msprop:Generator_RowDeletedName="otbl_ClassAttRowDeleted" msprop:Generator_RowEvArgName="otbl_ClassAttRowChangeEvent" msprop:Generator_RowChangedName="otbl_ClassAttRowChanged" msprop:Generator_RowClassName="otbl_ClassAttRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_Class" msprop:Generator_ColumnVarNameInTable="columnID_Class" msprop:Generator_ColumnPropNameInRow="ID_Class" msprop:Generator_ColumnPropNameInTable="ID_ClassColumn" msprop:Generator_UserColumnName="ID_Class" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_Class" msprop:Generator_ColumnVarNameInTable="columnName_Class" msprop:Generator_ColumnPropNameInRow="Name_Class" msprop:Generator_ColumnPropNameInTable="Name_ClassColumn" msprop:Generator_UserColumnName="Name_Class" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_AttributeType" msprop:Generator_ColumnVarNameInTable="columnID_AttributeType" msprop:Generator_ColumnPropNameInRow="ID_AttributeType" msprop:Generator_ColumnPropNameInTable="ID_AttributeTypeColumn" msprop:Generator_UserColumnName="ID_AttributeType" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_AttributeType" msprop:Generator_ColumnVarNameInTable="columnName_AttributeType" msprop:Generator_ColumnPropNameInRow="Name_AttributeType" msprop:Generator_ColumnPropNameInTable="Name_AttributeTypeColumn" msprop:Generator_UserColumnName="Name_AttributeType" type="xs:string" minOccurs="0" />
+              <xs:element name="Min_forw" msprop:Generator_ColumnVarNameInTable="columnMin_forw" msprop:Generator_ColumnPropNameInRow="Min_forw" msprop:Generator_ColumnPropNameInTable="Min_forwColumn" msprop:Generator_UserColumnName="Min_forw" type="xs:string" minOccurs="0" />
+              <xs:element name="Max_forw" msprop:Generator_ColumnVarNameInTable="columnMax_forw" msprop:Generator_ColumnPropNameInRow="Max_forw" msprop:Generator_ColumnPropNameInTable="Max_forwColumn" msprop:Generator_UserColumnName="Max_forw" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">

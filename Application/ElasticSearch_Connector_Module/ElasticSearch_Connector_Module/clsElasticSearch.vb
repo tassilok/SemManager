@@ -9,6 +9,7 @@ Public Class clsElasticSearch
     Private semtblA_Token As New ds_SemDBTableAdapters.semtbl_TokenTableAdapter
     Private semtblA_RelationType As New ds_SemDBTableAdapters.semtbl_RelationTypeTableAdapter
     Private semtblA_Token_OR As New ds_SemDBTableAdapters.semtbl_Token_ORTableAdapter
+    Private semtblA_Type_OR As New ds_SemDBTableAdapters.semtbl_Type_ORTableAdapter
     Private typefuncA_Types_Rel As New ds_TypeTableAdapters.typefunc_Types_RelTableAdapter
     Private typefuncA_Types_With_Attributes_And_Types As New ds_TypeTableAdapters.typefunc_Types_With_Attributes_And_TypesTableAdapter
     Private funcA_TokenToken As New ds_TokenTableAdapters.func_TokenTokenTableAdapter
@@ -788,6 +789,10 @@ Public Class clsElasticSearch
                     objDict.Add("OrderID", objDRC_TokenOR(i).Item("OrderID").ToString)
                     Select Case objDRs_OR(0).Item("GUID_ItemType")
                         Case objLocalConfig.Globals.ObjectReferenceType_Attribute.GUID
+                            objDRC_Item = semtblA_Attribute.GetData_By_GUID(objDRs_OR(0).Item("GUID_Ref")).Rows
+                            If objDRC_Item.Count > 0 Then
+                                objDict.Add("ID_Parent_Other", objDRC_Item(0).Item("GUID_AttributeType").ToString.Replace("-", ""))
+                            End If
                             objDict.Add("Ontology", "AttributeType")
                         Case objLocalConfig.Globals.ObjectReferenceType_AttributeType.GUID
                             objDict.Add("Ontology", "DataType")
@@ -1132,7 +1137,76 @@ Public Class clsElasticSearch
 
         Return objSemItem_Result
     End Function
+    Public Function export_TypeRel_OR() As clsSemItem
+        Dim objDRC_TypeRel As DataRowCollection
+        Dim i As Integer
+        Dim objSemItem_Result As clsSemItem
+        Dim strJson As String = ""
+        Dim lngPack As Long
+        Dim objDict As Dictionary(Of String, Object)
+        Dim objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
 
+        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+
+        If objSemItem_XMLImport Is Nothing Then
+            get_Data_XMLImport()
+        End If
+        initialize_ElConn(objSemItem_Server, objSemItem_Port)
+        Try
+            objElConn.CreateIndex(objSemItem_Index.Name)
+        Catch ex As Exception
+            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+        End Try
+
+        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+            lngPack = 0
+            objDRC_TypeRel = semtblA_Type_OR.GetData().Rows
+
+            For i = 0 To objDRC_TypeRel.Count - 1
+                objDict = New Dictionary(Of String, Object)
+                objDict.Add("ID_Class_Left", objDRC_TypeRel(i).Item("GUID_Type").ToString.Replace("-", ""))
+                objDict.Add("Ontology", "Other")
+                objDict.Add("ID_RelationType", objDRC_TypeRel(i).Item("GUID_RelationType").ToString.Replace("-", ""))
+                objDict.Add("Min_forw", objDRC_TypeRel(i).Item("Min_forw"))
+                objDict.Add("Max_forw", objDRC_TypeRel(i).Item("Max_forw"))
+
+
+                ReDim Preserve objBulkObjects(lngPack)
+                objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ClassRel", objDRC_TypeRel(i).Item("GUID_Type").ToString.Replace("-", "") & objDRC_TypeRel(i).Item("GUID_RelationType").ToString.Replace("-", ""), objDict)
+                objDict = Nothing
+
+
+                If lngPack = 10000 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                    End Try
+
+                    lngPack = 0
+                End If
+
+                lngPack = lngPack + 1
+            Next
+
+            If Not objBulkObjects Is Nothing Then
+                If objBulkObjects.Count > 0 Then
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                    Catch ex As Exception
+                        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+                    End Try
+                End If
+
+            End If
+        End If
+
+
+        Return objSemItem_Result
+    End Function
     Public Function export_TypeRel() As clsSemItem
         Dim objDRC_TypeRel As DataRowCollection
         Dim i As Integer
@@ -1163,6 +1237,7 @@ Public Class clsElasticSearch
                 objDict = New Dictionary(Of String, Object)
                 objDict.Add("ID_Class_Left", objDRC_TypeRel(i).Item("GUID_Type_Left").ToString.Replace("-", ""))
                 objDict.Add("ID_Class_Right", objDRC_TypeRel(i).Item("GUID_Type_Right").ToString.Replace("-", ""))
+                objDict.Add("Ontology", "Class")
                 objDict.Add("ID_RelationType", objDRC_TypeRel(i).Item("GUID_RelationType").ToString.Replace("-", ""))
                 objDict.Add("Min_forw", objDRC_TypeRel(i).Item("Min_forw"))
                 objDict.Add("Max_forw", objDRC_TypeRel(i).Item("Max_forw"))

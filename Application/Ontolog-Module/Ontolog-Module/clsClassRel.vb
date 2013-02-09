@@ -2,9 +2,19 @@
     Dim strID_Class_Left As String
     Dim strID_Class_Right As String
     Dim strID_RelationType As String
+    Dim strOntology As String
     Dim lngMin_Forw As Long
     Dim lngMax_Forw As Long
     Dim lngMax_Backw As Long
+
+    Public Property Ontology As String
+        Get
+            Return strOntology
+        End Get
+        Set(ByVal value As String)
+            strOntology = value
+        End Set
+    End Property
 
     Public Property ID_Class_Left As String
         Get
@@ -60,10 +70,11 @@
         End Set
     End Property
 
-    Public Sub New(ByVal ID_Class_Left As String, ByVal ID_Class_Right As String, ByVal ID_RelationType As String, ByVal Min_forw As Long, ByVal Max_forw As Long, ByVal Max_backw As Long)
+    Public Sub New(ByVal ID_Class_Left As String, ByVal ID_Class_Right As String, ByVal ID_RelationType As String, ByVal Ontology As String, ByVal Min_forw As Long, ByVal Max_forw As Long, ByVal Max_backw As Long)
         strID_Class_Left = ID_Class_Left
         strID_Class_Right = ID_Class_Right
         strID_RelationType = ID_RelationType
+        strOntology = Ontology
         lngMin_Forw = Min_forw
         lngMax_Forw = Max_forw
         lngMax_Backw = Max_backw

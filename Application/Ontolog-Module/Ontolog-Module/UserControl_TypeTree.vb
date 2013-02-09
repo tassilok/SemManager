@@ -15,6 +15,8 @@
 
     Private objDBLevel As clsDBLevel
 
+    Private objFrm_Class As frmClassEdit
+
     Public Event selected_Class(ByVal OItem_Class As clsOntologyItem)
 
     Public ReadOnly Property selected_Node
@@ -160,5 +162,23 @@
         For Each objTreeNode_Sub In objTreeNode.Nodes
             mark_Node(objTreeNode_Sub, strFind)
         Next
+    End Sub
+
+    Private Sub TreeView_Types_NodeMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles TreeView_Types.NodeMouseDoubleClick
+        Dim objOItem_Class As New clsOntologyItem
+
+        If Not e.Node.Name = objLocalConfig.Globals.Root.GUID Then
+            objOItem_Class.GUID = e.Node.Name
+            objOItem_Class.Name = e.Node.Text
+            objOItem_Class.GUID_Parent = e.Node.Parent.Name
+            objOItem_Class.Type = objLocalConfig.Globals.Type_Class
+
+            objFrm_Class = New frmClassEdit(objLocalConfig, objOItem_Class)
+            objFrm_Class.ShowDialog(Me)
+            If objFrm_Class.DialogResult = DialogResult.OK Then
+
+            End If
+        End If
+        
     End Sub
 End Class

@@ -42,6 +42,10 @@ Public Class clsGlobals
     Private cstrType_ObjectAtt = "ObjectAttribute"
     Private cstrType_RelationType = "RelationType"
     Private cstrType_AttributeType = "AttributeType"
+    Private cstrType_Other = "Other"
+    Private cstrType_Other_AttType = "Other_AttType"
+    Private cstrType_Other_RelType = "Other_RelType"
+    Private cstrType_Other_Classes = "Other_Classes"
 
     
     Private strEL_Server As String
@@ -190,11 +194,36 @@ Public Class clsGlobals
         End Get
     End Property
 
+    Public ReadOnly Property Type_Other As String
+        Get
+            Return cstrType_Other
+        End Get
+    End Property
+
+    Public ReadOnly Property Type_Other_AttType As String
+        Get
+            Return cstrType_Other_AttType
+        End Get
+    End Property
+
+    Public ReadOnly Property Type_Other_Classes As String
+        Get
+            Return cstrType_Other_Classes
+        End Get
+    End Property
+
+    Public ReadOnly Property Type_Other_RelType As String
+        Get
+            Return cstrType_Other_RelType
+        End Get
+    End Property
+
     Public ReadOnly Property Type_RelationType As String
         Get
             Return cstrType_RelationType
         End Get
     End Property
+
 
     Public ReadOnly Property Type_ClassRel As String
         Get

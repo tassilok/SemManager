@@ -57,6 +57,7 @@ Public Class Form_ElasticSearchConnector
         objSemItem_Result = objElasticSarech.export_TokenRel()
         objSemItem_Result = objElasticSarech.export_Token_OR()
         objSemItem_Result = objElasticSarech.export_TypeRel()
+        objSemItem_Result = objElasticSarech.export_TypeRel_OR()
         objSemItem_Result = objElasticSarech.export_TypeAtt()
     End Sub
 
