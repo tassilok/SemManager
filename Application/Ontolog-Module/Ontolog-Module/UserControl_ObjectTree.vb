@@ -131,7 +131,12 @@
         If boolDataGet = True Then
             While (Now - dateNow).Milliseconds < 200
                 intAll = objTreeNodes_Thread.Count + objDBLevel.OList_ObjectTree.Count
-                dblPrc = 100 / intAll * intRowID_No_Parent + intRowID_Parent
+                If intAll <> 0 Then
+                    dblPrc = 100 / intAll * intRowID_No_Parent + intRowID_Parent
+                Else
+                    dblPrc = 0
+                End If
+
                 ToolStripLabel_Count.Text = intRowID_No_Parent + intRowID_Parent
                 ToolStripProgressBar_List.Value = dblPrc
                 If intRowID_No_Parent < objTreeNodes_Thread.Count Then

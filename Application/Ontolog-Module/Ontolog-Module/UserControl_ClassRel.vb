@@ -29,12 +29,6 @@
         Dim oList_Classes As New List(Of clsOntologyItem)
 
         oList_Classes.Add(objOItem_Class)
-        If boolObjectReference = False Then
-            objDBLevel.get_Data_ClassRel(oList_Classes, objDirection, objLocalConfig.Globals.Type_Class, True)
-        Else
-            objDBLevel.get_Data_ClassRel(oList_Classes, objDirection, objLocalConfig.Globals.Type_Other, True)
-        End If
-
 
 
     End Sub

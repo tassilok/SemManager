@@ -116,9 +116,9 @@
 
         objOList_Classes.Add(New clsOntologyItem(objOItem_Object.GUID_Parent, objLocalConfig.Globals.Type_Class))
 
-        objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_LeftRight, objLocalConfig.Globals.Type_Class)
+        objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_LeftRight, )
 
-        Dim strLLeftRight = From obj In objDBLevel_Class_LeftRight.OList_ClassRel_ID
+        Dim strLLeftRight = From obj In objDBLevel_Class_LeftRight.OList_ClassRel
                             Group By obj.ID_Class_Right Into Group
                             Select ID_Class_Right
 
@@ -131,7 +131,7 @@
 
         objDBLevel_Classes.get_Data_Classes(objOList_ClassesRight)
 
-        Dim strLRelationTypes = From obj In objDBLevel_Class_LeftRight.OList_ClassRel_ID
+        Dim strLRelationTypes = From obj In objDBLevel_Class_LeftRight.OList_ClassRel
                                 Group By obj.ID_RelationType Into Group Select ID_RelationType
 
         For Each strRelationType In strLRelationTypes
@@ -140,7 +140,7 @@
 
         objDBLevel_RelationType.get_Data_RelationTypes(objOList_RelationTypes)
 
-        Dim objOList = From objRel In objDBLevel_Class_LeftRight.OList_ClassRel_ID
+        Dim objOList = From objRel In objDBLevel_Class_LeftRight.OList_ClassRel
                        Join objClass In objDBLevel_Classes.OList_Classes On objRel.ID_Class_Right Equals objClass.GUID
                        Join objRelType In objDBLevel_RelationType.OList_RelationTypes On objRel.ID_RelationType Equals objRelType.GUID
                        Group By ID_Class_Right = objClass.GUID, ID_RelationType = objRelType.GUID, Name_Class_Right = objClass.Name, Name_RelationType = objRelType.Name, objRel.Min_Forw, objRel.Max_Forw Into Group
@@ -193,7 +193,7 @@
 
         objDBLevel_Class_RightLeft.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_RightLeft, objLocalConfig.Globals.Type_Class)
 
-        Dim strLRightLeft = From obj In objDBLevel_Class_RightLeft.OList_ClassRel_ID
+        Dim strLRightLeft = From obj In objDBLevel_Class_RightLeft.OList_ClassRel
                             Group By obj.ID_Class_Left Into Group
                             Select ID_Class_Left
 
@@ -207,7 +207,7 @@
         End If
 
 
-        Dim strLRelationTypes = From obj In objDBLevel_Class_RightLeft.OList_ClassRel_ID
+        Dim strLRelationTypes = From obj In objDBLevel_Class_RightLeft.OList_ClassRel
                                 Group By obj.ID_RelationType Into Group Select ID_RelationType
 
         For Each strRelationType In strLRelationTypes
@@ -216,7 +216,7 @@
 
         objDBLevel_RelationType.get_Data_RelationTypes(objOList_RelationTypes)
 
-        Dim objOList = From objRel In objDBLevel_Class_LeftRight.OList_ClassRel_ID
+        Dim objOList = From objRel In objDBLevel_Class_LeftRight.OList_ClassRel
                        Join objClass In objDBLevel_Classes.OList_Classes On objRel.ID_Class_Left Equals objClass.GUID
                        Join objRelType In objDBLevel_RelationType.OList_RelationTypes On objRel.ID_RelationType Equals objRelType.GUID
                        Group By ID_Class_Left = objClass.GUID, ID_RelationType = objRelType.GUID, Name_Class_Left = objClass.Name, Name_RelationType = objRelType.Name, objRel.Min_Forw, objRel.Max_Forw Into Group
@@ -307,7 +307,7 @@
 
 
         Dim objLAttributeNode = From obj In objDBLevel_ObjectRel.OList_ObjectRel_ID
-                                Join objClassRel In objDBLevel_Class_LeftRight.OList_ClassRel_ID On obj.ID_RelationType Equals objClassRel.ID_RelationType
+                                Join objClassRel In objDBLevel_Class_LeftRight.OList_ClassRel On obj.ID_RelationType Equals objClassRel.ID_RelationType
                                 Join objRelType In objDBLevel_RelationType.OList_RelationTypes On obj.ID_RelationType Equals objRelType.GUID
                                 Join objAttType In objDBLevel_AttributeType.OList_AttributeTypes On obj.ID_Other Equals objAttType.GUID
                                 Join objDataType In objDBLevel_DataType.OList_DataTypes On obj.ID_Parent_Other Equals objDataType.GUID
@@ -377,7 +377,7 @@
 
 
         Dim objLReType = From obj In objDBLevel_ObjectRel.OList_ObjectRel_ID
-                                Join objClassRel In objDBLevel_Class_LeftRight.OList_ClassRel_ID On obj.ID_RelationType Equals objClassRel.ID_RelationType
+                                Join objClassRel In objDBLevel_Class_LeftRight.OList_ClassRel On obj.ID_RelationType Equals objClassRel.ID_RelationType
                                 Join objRelType In objDBLevel_RelationType.OList_RelationTypes On obj.ID_RelationType Equals objRelType.GUID
                                 Join objRelRelType In objDBLevel_RelType.OList_RelationTypes On obj.ID_Other Equals objRelRelType.GUID
                                 Group By ID_RelationType = objRelType.GUID, Name_RelationType = objRelType.Name, ID_Rel_RelType = objRelRelType.GUID, Name_Rel_RelType = objRelRelType.Name, objClassRel.Min_Forw, objClassRel.Max_Forw Into Group, Count()

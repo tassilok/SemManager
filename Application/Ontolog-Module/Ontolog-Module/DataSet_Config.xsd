@@ -157,6 +157,22 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="otbl_ClassRel" msprop:Generator_TableClassName="otbl_ClassRelDataTable" msprop:Generator_TableVarName="tableotbl_ClassRel" msprop:Generator_TablePropName="otbl_ClassRel" msprop:Generator_RowDeletingName="otbl_ClassRelRowDeleting" msprop:Generator_UserTableName="otbl_ClassRel" msprop:Generator_RowChangingName="otbl_ClassRelRowChanging" msprop:Generator_RowEvHandlerName="otbl_ClassRelRowChangeEventHandler" msprop:Generator_RowDeletedName="otbl_ClassRelRowDeleted" msprop:Generator_RowEvArgName="otbl_ClassRelRowChangeEvent" msprop:Generator_RowChangedName="otbl_ClassRelRowChanged" msprop:Generator_RowClassName="otbl_ClassRelRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_Class_Left" msprop:Generator_ColumnVarNameInTable="columnID_Class_Left" msprop:Generator_ColumnPropNameInRow="ID_Class_Left" msprop:Generator_ColumnPropNameInTable="ID_Class_LeftColumn" msprop:Generator_UserColumnName="ID_Class_Left" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_Class_Left" msprop:Generator_ColumnVarNameInTable="columnName_Class_Left" msprop:Generator_ColumnPropNameInRow="Name_Class_Left" msprop:Generator_ColumnPropNameInTable="Name_Class_LeftColumn" msprop:Generator_UserColumnName="Name_Class_Left" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_Class_Right" msprop:Generator_ColumnVarNameInTable="columnID_Class_Right" msprop:Generator_ColumnPropNameInRow="ID_Class_Right" msprop:Generator_ColumnPropNameInTable="ID_Class_RightColumn" msprop:Generator_UserColumnName="ID_Class_Right" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_Class_Right" msprop:Generator_ColumnVarNameInTable="columnName_Class_Right" msprop:Generator_ColumnPropNameInRow="Name_Class_Right" msprop:Generator_ColumnPropNameInTable="Name_Class_RightColumn" msprop:Generator_UserColumnName="Name_Class_Right" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_RelationType" msprop:Generator_ColumnVarNameInTable="columnID_RelationType" msprop:Generator_ColumnPropNameInRow="ID_RelationType" msprop:Generator_ColumnPropNameInTable="ID_RelationTypeColumn" msprop:Generator_UserColumnName="ID_RelationType" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_RelationType" msprop:Generator_ColumnVarNameInTable="columnName_RelationType" msprop:Generator_ColumnPropNameInRow="Name_RelationType" msprop:Generator_ColumnPropNameInTable="Name_RelationTypeColumn" msprop:Generator_UserColumnName="Name_RelationType" type="xs:string" minOccurs="0" />
+              <xs:element name="Ontology" msprop:Generator_ColumnVarNameInTable="columnOntology" msprop:Generator_ColumnPropNameInRow="Ontology" msprop:Generator_ColumnPropNameInTable="OntologyColumn" msprop:Generator_UserColumnName="Ontology" type="xs:string" minOccurs="0" />
+              <xs:element name="Min_forw" msprop:Generator_ColumnVarNameInTable="columnMin_forw" msprop:Generator_ColumnPropNameInRow="Min_forw" msprop:Generator_ColumnPropNameInTable="Min_forwColumn" msprop:Generator_UserColumnName="Min_forw" type="xs:long" minOccurs="0" />
+              <xs:element name="Max_forw" msprop:Generator_ColumnVarNameInTable="columnMax_forw" msprop:Generator_ColumnPropNameInRow="Max_forw" msprop:Generator_ColumnPropNameInTable="Max_forwColumn" msprop:Generator_UserColumnName="Max_forw" type="xs:long" minOccurs="0" />
+              <xs:element name="Max_backw" msprop:Generator_ColumnVarNameInTable="columnMax_backw" msprop:Generator_ColumnPropNameInRow="Max_backw" msprop:Generator_ColumnPropNameInTable="Max_backwColumn" msprop:Generator_UserColumnName="Max_backw" type="xs:long" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">

@@ -111,15 +111,15 @@
         objOList_RelationTypes_Left.Clear()
         objOList_RelationTypes_Right.Clear()
 
-        objDBLevel_LeftRight.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_LeftRight, objLocalConfig.Globals.Type_Class)
+        objDBLevel_LeftRight.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_LeftRight)
         objOList_Classes_Right = objDBLevel_LeftRight.OList_Classes
         objOList_RelationTypes_Right = objDBLevel_LeftRight.OList_RelationTypes
-        objOList_ClassRel_LeftRight = objDBLevel_LeftRight.OList_ClassRel_ID
+        objOList_ClassRel_LeftRight = objDBLevel_LeftRight.OList_ClassRel
 
         objDBLevel_RightLeft.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_RightLeft, objLocalConfig.Globals.Type_Class)
         objOList_Classes_Left = objDBLevel_RightLeft.OList_Classes
         objOList_RelationTypes_Left = objDBLevel_RightLeft.OList_RelationTypes
-        objOList_ClassRel_RightLeft = objDBLevel_RightLeft.OList_ClassRel_ID
+        objOList_ClassRel_RightLeft = objDBLevel_RightLeft.OList_ClassRel
     End Sub
 
     Public Sub New()
