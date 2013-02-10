@@ -1004,7 +1004,7 @@ Public Class clsElasticSearch
                         objDict.Add("Val_Name", objDRC_TokenAttribute(i).Item("Val").ToString)
 
                 End Select
-                objDict.Add("ID_Item", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""))
+                objDict.Add("ID_Attribute", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""))
                 objDict.Add("ID_AttributeType", objDRC_TokenAttribute(i).Item("GUID_Attribute").ToString.Replace("-", ""))
 
                 objDict.Add("ID_DataType", strGUID_AttributeType)
@@ -1016,7 +1016,7 @@ Public Class clsElasticSearch
                 objDict = New Dictionary(Of String, Object)
                 objDict.Add("ID_Object", objDRC_TokenAttribute(i).Item("GUID_Token").ToString.Replace("-", ""))
                 objDict.Add("ID_Class", objDRC_TokenAttribute(i).Item("GUID_Type").ToString.Replace("-", ""))
-                objDict.Add("ID_ObjectAttribute", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""))
+                objDict.Add("ID_Attribute", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""))
                 objDict.Add("ID_AttributeType", objDRC_TokenAttribute(i).Item("GUID_Attribute").ToString.Replace("-", ""))
                 objDict.Add("OrderID", objDRC_TokenAttribute(i).Item("OrderID"))
 

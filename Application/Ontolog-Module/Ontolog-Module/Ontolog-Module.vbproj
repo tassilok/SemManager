@@ -120,6 +120,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\clsLocalConfig.vb" />
+    <Compile Include="clsAttribute.vb" />
+    <Compile Include="clsAttributeFilter.vb" />
     <Compile Include="clsClassAtt.vb" />
     <Compile Include="clsClassRel.vb" />
     <Compile Include="clsDBLevel.vb" />

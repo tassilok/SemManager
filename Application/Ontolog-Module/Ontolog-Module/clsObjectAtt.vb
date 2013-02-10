@@ -1,5 +1,5 @@
 ﻿Public Class clsObjectAtt
-    Private strID_ObjectAttribute As String
+    Private strID_Attribute As String
     Private strID_AttributeType As String
     Private strName_AttributeType As String
     Private strID_Object As String
@@ -14,12 +14,12 @@
     Private strVal As String
     Private lngOrderID As Long
 
-    Public Property ID_ObjectAttribute As String
+    Public Property ID_Attribute As String
         Get
-            Return strID_ObjectAttribute
+            Return strID_Attribute
         End Get
         Set(ByVal value As String)
-            strID_ObjectAttribute = value
+            strID_Attribute = value
         End Set
     End Property
 
