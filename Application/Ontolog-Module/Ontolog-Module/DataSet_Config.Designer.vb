@@ -2362,10 +2362,6 @@ Partial Public Class DataSet_Config
         
         Private columnOntology As Global.System.Data.DataColumn
         
-        Private columnID_Direction As Global.System.Data.DataColumn
-        
-        Private columnName_Direction As Global.System.Data.DataColumn
-        
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub New()
@@ -2498,22 +2494,6 @@ Partial Public Class DataSet_Config
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property ID_DirectionColumn() As Global.System.Data.DataColumn
-            Get
-                Return Me.columnID_Direction
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property Name_DirectionColumn() As Global.System.Data.DataColumn
-            Get
-                Return Me.columnName_Direction
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Browsable(false)>  _
         Public ReadOnly Property Count() As Integer
@@ -2550,9 +2530,9 @@ Partial Public Class DataSet_Config
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function Addotbl_ObjectRelRow(ByVal ID_Object As String, ByVal Name_Object As String, ByVal ID_Parent_Object As String, ByVal Name_Parent_Object As String, ByVal ID_RelationType As String, ByVal Name_RelationType As String, ByVal OrderID As Long, ByVal ID_Other As String, ByVal Name_Other As String, ByVal ID_Parent_Other As String, ByVal Name_Parent_Other As String, ByVal Ontology As String, ByVal ID_Direction As String, ByVal Name_Direction As String) As otbl_ObjectRelRow
+        Public Overloads Function Addotbl_ObjectRelRow(ByVal ID_Object As String, ByVal Name_Object As String, ByVal ID_Parent_Object As String, ByVal Name_Parent_Object As String, ByVal ID_RelationType As String, ByVal Name_RelationType As String, ByVal OrderID As Long, ByVal ID_Other As String, ByVal Name_Other As String, ByVal ID_Parent_Other As String, ByVal Name_Parent_Other As String, ByVal Ontology As String) As otbl_ObjectRelRow
             Dim rowotbl_ObjectRelRow As otbl_ObjectRelRow = CType(Me.NewRow,otbl_ObjectRelRow)
-            Dim columnValuesArray() As Object = New Object() {ID_Object, Name_Object, ID_Parent_Object, Name_Parent_Object, ID_RelationType, Name_RelationType, OrderID, ID_Other, Name_Other, ID_Parent_Other, Name_Parent_Other, Ontology, ID_Direction, Name_Direction}
+            Dim columnValuesArray() As Object = New Object() {ID_Object, Name_Object, ID_Parent_Object, Name_Parent_Object, ID_RelationType, Name_RelationType, OrderID, ID_Other, Name_Other, ID_Parent_Other, Name_Parent_Other, Ontology}
             rowotbl_ObjectRelRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowotbl_ObjectRelRow)
             Return rowotbl_ObjectRelRow
@@ -2587,8 +2567,6 @@ Partial Public Class DataSet_Config
             Me.columnID_Parent_Other = MyBase.Columns("ID_Parent_Other")
             Me.columnName_Parent_Other = MyBase.Columns("Name_Parent_Other")
             Me.columnOntology = MyBase.Columns("Ontology")
-            Me.columnID_Direction = MyBase.Columns("ID_Direction")
-            Me.columnName_Direction = MyBase.Columns("Name_Direction")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -2618,10 +2596,6 @@ Partial Public Class DataSet_Config
             MyBase.Columns.Add(Me.columnName_Parent_Other)
             Me.columnOntology = New Global.System.Data.DataColumn("Ontology", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnOntology)
-            Me.columnID_Direction = New Global.System.Data.DataColumn("ID_Direction", GetType(String), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnID_Direction)
-            Me.columnName_Direction = New Global.System.Data.DataColumn("Name_Direction", GetType(String), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnName_Direction)
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -5040,36 +5014,6 @@ Partial Public Class DataSet_Config
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property ID_Direction() As String
-            Get
-                Try 
-                    Return CType(Me(Me.tableotbl_ObjectRel.ID_DirectionColumn),String)
-                Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte ID_Direction in Tabelle otbl_ObjectRel ist DBNull.", e)
-                End Try
-            End Get
-            Set
-                Me(Me.tableotbl_ObjectRel.ID_DirectionColumn) = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property Name_Direction() As String
-            Get
-                Try 
-                    Return CType(Me(Me.tableotbl_ObjectRel.Name_DirectionColumn),String)
-                Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte Name_Direction in Tabelle otbl_ObjectRel ist DBNull.", e)
-                End Try
-            End Get
-            Set
-                Me(Me.tableotbl_ObjectRel.Name_DirectionColumn) = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Function IsID_ObjectNull() As Boolean
             Return Me.IsNull(Me.tableotbl_ObjectRel.ID_ObjectColumn)
         End Function
@@ -5210,30 +5154,6 @@ Partial Public Class DataSet_Config
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub SetOntologyNull()
             Me(Me.tableotbl_ObjectRel.OntologyColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function IsID_DirectionNull() As Boolean
-            Return Me.IsNull(Me.tableotbl_ObjectRel.ID_DirectionColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub SetID_DirectionNull()
-            Me(Me.tableotbl_ObjectRel.ID_DirectionColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function IsName_DirectionNull() As Boolean
-            Return Me.IsNull(Me.tableotbl_ObjectRel.Name_DirectionColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub SetName_DirectionNull()
-            Me(Me.tableotbl_ObjectRel.Name_DirectionColumn) = Global.System.Convert.DBNull
         End Sub
     End Class
     

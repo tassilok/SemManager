@@ -71,18 +71,15 @@
         If Not objOItem_Parent Is Nothing Then
             Select Case objOItem_Parent.Type
                 Case objLocalConfig.Globals.Type_Object
-                    oList_Items.Clear()
                     oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objOItem_Parent.GUID_Parent, objLocalConfig.Globals.Type_Object))
                     objDBLevel.get_Data_Objects(oList_Items, True)
                     'objDBLevel.get_Data_Objects(oList_Items)
                     
                 Case objLocalConfig.Globals.Type_RelationType
-                    oList_Items.Clear()
                     oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objLocalConfig.Globals.Type_RelationType))
                     objDBLevel.get_Data_RelationTypes(oList_Items, True)
 
                 Case objLocalConfig.Globals.Type_AttributeType
-                    oList_Items.Clear()
                     oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objLocalConfig.Globals.Type_AttributeType))
                     objDBLevel.get_Data_AttributeType(oList_Items, True)
 

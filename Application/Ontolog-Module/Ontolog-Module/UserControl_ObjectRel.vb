@@ -60,7 +60,7 @@
 
     Private Sub get_Data()
 
-        objDBLevel_ObjRel.get_Data_ObjectRel_Joined(objOList_Object)
+        objDBLevel_ObjRel.get_Data_ObjectRel(objOList_Object(0), Nothing, Nothing, True, False)
 
         boolDataDone = True
 
@@ -73,7 +73,7 @@
     Private Sub Timer_TokenRelation_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_TokenRelation.Tick
         If boolDataDone = True Then
             Timer_TokenRelation.Stop()
-            BindingSource_ObjectRel.DataSource = objDBLevel_ObjRel.tbl_ObjecRelation
+            BindingSource_ObjectRel.DataSource = objDBLevel_ObjRel.tbl_ObjectRelation
             DataGridView_Relations.DataSource = BindingSource_ObjectRel
             DataGridView_Relations.Columns(0).Visible = False
             DataGridView_Relations.Columns(1).Visible = False

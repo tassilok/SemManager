@@ -93,8 +93,6 @@
               <xs:element name="ID_Parent_Other" msprop:Generator_ColumnVarNameInTable="columnID_Parent_Other" msprop:Generator_ColumnPropNameInRow="ID_Parent_Other" msprop:Generator_ColumnPropNameInTable="ID_Parent_OtherColumn" msprop:Generator_UserColumnName="ID_Parent_Other" type="xs:string" minOccurs="0" />
               <xs:element name="Name_Parent_Other" msprop:Generator_ColumnVarNameInTable="columnName_Parent_Other" msprop:Generator_ColumnPropNameInRow="Name_Parent_Other" msprop:Generator_ColumnPropNameInTable="Name_Parent_OtherColumn" msprop:Generator_UserColumnName="Name_Parent_Other" type="xs:string" minOccurs="0" />
               <xs:element name="Ontology" msprop:Generator_ColumnVarNameInTable="columnOntology" msprop:Generator_ColumnPropNameInRow="Ontology" msprop:Generator_ColumnPropNameInTable="OntologyColumn" msprop:Generator_UserColumnName="Ontology" type="xs:string" minOccurs="0" />
-              <xs:element name="ID_Direction" msprop:Generator_ColumnVarNameInTable="columnID_Direction" msprop:Generator_ColumnPropNameInRow="ID_Direction" msprop:Generator_ColumnPropNameInTable="ID_DirectionColumn" msprop:Generator_UserColumnName="ID_Direction" type="xs:string" minOccurs="0" />
-              <xs:element name="Name_Direction" msprop:Generator_ColumnVarNameInTable="columnName_Direction" msprop:Generator_ColumnPropNameInRow="Name_Direction" msprop:Generator_ColumnPropNameInTable="Name_DirectionColumn" msprop:Generator_UserColumnName="Name_Direction" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

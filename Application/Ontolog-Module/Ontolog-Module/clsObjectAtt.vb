@@ -141,8 +141,8 @@
     End Property
 
 
-    Public Sub New(ByVal ID_ObjectAttribute As String, ByVal ID_Object As String, ByVal ID_Class As String, ByVal ID_AttributeType As String, ByVal OrderID As Long)
-        strID_ObjectAttribute = ID_ObjectAttribute
+    Public Sub New(ByVal ID_Attribute As String, ByVal ID_Object As String, ByVal ID_Class As String, ByVal ID_AttributeType As String, ByVal OrderID As Long)
+        strID_Attribute = ID_Attribute
         strID_AttributeType = ID_AttributeType
         strID_Object = ID_Object
         strID_Class = ID_Class

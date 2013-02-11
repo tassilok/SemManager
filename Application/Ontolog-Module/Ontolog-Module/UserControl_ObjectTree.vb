@@ -38,8 +38,7 @@
     End Sub
 
     Private Sub fill_Tree()
-        TreeView_Objects.Nodes.Clear()
-
+        
         If Not objOItem_Parent Is Nothing Then
             boolTopDown = ToolStripButton_TopDown.Checked
 
@@ -58,9 +57,12 @@
         Dim intID As Integer
         Dim objTreeNode As New TreeNode
         Dim objOItem As clsObjectTree
+        Dim oList_Class As New List(Of clsOntologyItem)
         objDBLevel = New clsDBLevel(objLocalConfig)
 
         If boolTopDown = True Then
+            oList_Class.Add(New clsOntologyItem(Nothing, Nothing, objOItem_Parent.GUID, objLocalConfig.Globals.Field_ID_Object))
+
             objDBLevel.get_Data_Objects_Tree(objOItem_Parent, objOItem_Parent, objOItem_RelationType)
             oItems_No_Parent = From obj In objDBLevel.OList_Objects
                                  Group Join objPar In objDBLevel.OList_ObjectTree On obj.GUID Equals objPar.ID_Object Into RightTableResult = Group
@@ -73,6 +75,7 @@
             For Each objItem In oItems_No_Parent
                 objTreeNode.Name = objItem.Guid
                 objTreeNode.Text = objItem.Name
+                
                 objTreeNodes_Thread.Add(objTreeNode.Clone)
 
 
@@ -104,11 +107,14 @@
         Catch ex As Exception
 
         End Try
-
+        boolDataGet = False
         objOItem_Parent = OItem_Parent
+        intRowID_No_Parent = 0
+        intRowID_Parent = 0
         boolTopDown = True
         get_RelationType()
-
+        TreeView_Objects.Nodes.Clear()
+        objTreeNodes_Thread.Clear()
         objThread = New Threading.Thread(AddressOf get_Tree)
         Timer_Tree.Start()
         objThread.Start()
