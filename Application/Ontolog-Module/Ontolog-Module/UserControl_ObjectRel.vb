@@ -88,4 +88,8 @@
             ToolStripProgressBar_TokenRelation.Value = 50
         End If
     End Sub
+
+    Private Sub DataGridView_Relations_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles DataGridView_Relations.MouseDoubleClick
+
+    End Sub
 End Class
