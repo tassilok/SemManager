@@ -70,7 +70,7 @@
             objOItem_Object = objOList_Objects(intRowID)
 
             ToolStripTextBox_GUID.Text = objOItem_Object.GUID
-            ToolStripTextBox_Name.Name = objOItem_Object.Name
+            ToolStripTextBox_Name.Text = objOItem_Object.Name
 
         ElseIf objDataGridviewRowCollection_Objects Is Nothing Then
 
@@ -85,7 +85,7 @@
             objOItem_Object.GUID_Parent = objDRV_Selected.Item("ID_Parent")
 
             ToolStripTextBox_GUID.Text = objOItem_Object.GUID
-            ToolStripTextBox_Name.Name = objOItem_Object.Name
+            ToolStripTextBox_Name.Text = objOItem_Object.Name
         End If
 
         objUserControl_ObjectRelTree = New UserControl_ObjectRelTree(objLocalConfig, objOItem_Object)

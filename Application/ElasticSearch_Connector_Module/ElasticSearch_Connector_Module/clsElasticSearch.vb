@@ -561,6 +561,8 @@ Public Class clsElasticSearch
                 objDict = Nothing
 
 
+                lngPack = lngPack + 1
+
                 If lngPack = 10000 Then
                     Try
                         objOPResult = objElConn.Bulk(objBulkObjects)
@@ -572,7 +574,7 @@ Public Class clsElasticSearch
                     lngPack = 0
                 End If
 
-                lngPack = lngPack + 1
+
             Next
 
             If Not objBulkObjects Is Nothing Then
@@ -815,7 +817,7 @@ Public Class clsElasticSearch
                     ReDim Preserve objBulkObjects(lngPack)
                     objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ObjectRel", objDRC_TokenOR(i).Item("GUID_Token_Left").ToString.Replace("-", "") & objDRs_OR(0).Item("GUID_Ref").ToString.Replace("-", "") & objDRC_TokenOR(i).Item("GUID_RelationType").ToString.Replace("-", ""), objDict)
                     objDict = Nothing
-
+                    lngPack = lngPack + 1
 
                     If lngPack = 10000 Then
                         Try
@@ -828,7 +830,7 @@ Public Class clsElasticSearch
                         lngPack = 0
                     End If
 
-                    lngPack = lngPack + 1
+
                 End If
 
             Next
@@ -885,6 +887,7 @@ Public Class clsElasticSearch
                 objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "RelationType", objDRC_RelationTypes(i).Item("GUID_RelationType").ToString.Replace("-", ""), objDict)
                 objDict = Nothing
 
+                lngPack = lngPack + 1
 
                 If lngPack = 10000 Then
                     Try
@@ -897,7 +900,7 @@ Public Class clsElasticSearch
                     lngPack = 0
                 End If
 
-                lngPack = lngPack + 1
+
             Next
 
             If Not objBulkObjects Is Nothing Then
@@ -977,7 +980,7 @@ Public Class clsElasticSearch
                 Case objLocalConfig.Globals.AttributeType_Varchar255.GUID
                     objDRC_TokenAttribute = TokenAAttribute_Varchar255.GetData().Rows
                     strGUID_AttributeType = objLocalConfig.Globals.AttributeType_String.GUID.ToString
-                    strVal_RowName = "Val_String"
+                    strVal_RowName = "Val_VARCHAR255"
             End Select
 
 
@@ -1024,6 +1027,8 @@ Public Class clsElasticSearch
                 objBulkObjects_ObjAtt(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ObjectAttribute", objDRC_TokenAttribute(i).Item("GUID_Token").ToString.Replace("-", "") & objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""), objDict)
                 objDict = Nothing
 
+                lngPack = lngPack + 1
+
                 If lngPack = 10000 Then
                     Try
                         objOPResult = objElConn.Bulk(objBulkObjects_AttItems)
@@ -1037,7 +1042,7 @@ Public Class clsElasticSearch
                     lngPack = 0
                 End If
 
-                lngPack = lngPack + 1
+
             Next
 
             If Not objBulkObjects_AttItems Is Nothing Then
@@ -1105,7 +1110,7 @@ Public Class clsElasticSearch
                 ReDim Preserve objBulkObjects(lngPack)
                 objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "Class", objDRC_Types(i).Item("GUID_Type").ToString.Replace("-", ""), objDict)
                 objDict = Nothing
-
+                lngPack = lngPack + 1
 
                 If lngPack = 10000 Then
                     Try
@@ -1118,7 +1123,7 @@ Public Class clsElasticSearch
                     lngPack = 0
                 End If
 
-                lngPack = lngPack + 1
+
             Next
 
             If Not objBulkObjects Is Nothing Then
@@ -1176,6 +1181,7 @@ Public Class clsElasticSearch
                 objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ClassRel", objDRC_TypeRel(i).Item("GUID_Type").ToString.Replace("-", "") & objDRC_TypeRel(i).Item("GUID_RelationType").ToString.Replace("-", ""), objDict)
                 objDict = Nothing
 
+                lngPack = lngPack + 1
 
                 If lngPack = 10000 Then
                     Try
@@ -1188,7 +1194,7 @@ Public Class clsElasticSearch
                     lngPack = 0
                 End If
 
-                lngPack = lngPack + 1
+
             Next
 
             If Not objBulkObjects Is Nothing Then
@@ -1248,6 +1254,7 @@ Public Class clsElasticSearch
                 objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ClassRel", objDRC_TypeRel(i).Item("GUID_Type_Left").ToString.Replace("-", "") & objDRC_TypeRel(i).Item("GUID_Type_Right").ToString.Replace("-", "") & objDRC_TypeRel(i).Item("GUID_RelationType").ToString.Replace("-", ""), objDict)
                 objDict = Nothing
 
+                lngPack = lngPack + 1
 
                 If lngPack = 10000 Then
                     Try
@@ -1260,7 +1267,7 @@ Public Class clsElasticSearch
                     lngPack = 0
                 End If
 
-                lngPack = lngPack + 1
+
             Next
 
             If Not objBulkObjects Is Nothing Then
@@ -1318,6 +1325,7 @@ Public Class clsElasticSearch
                 objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ClassAtt", objDRC_TypeAtt(i).Item("GUID_Type").ToString.Replace("-", "") & objDRC_TypeAtt(i).Item("GUID_Attribute").ToString.Replace("-", ""), objDict)
                 objDict = Nothing
 
+                lngPack = lngPack + 1
 
                 If lngPack = 10000 Then
                     Try
@@ -1330,7 +1338,7 @@ Public Class clsElasticSearch
                     lngPack = 0
                 End If
 
-                lngPack = lngPack + 1
+
             Next
 
             If Not objBulkObjects Is Nothing Then

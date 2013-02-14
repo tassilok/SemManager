@@ -581,44 +581,47 @@ Public Class clsDBLevel
     Private Sub create_BoolQuery_ObjectRel(ByVal OList_Object As List(Of clsOntologyItem), ByVal OList_Other As List(Of clsOntologyItem), ByVal oList_RelationType As List(Of clsOntologyItem), Optional ByVal boolClear As Boolean = True)
         Dim strQuery As String
 
-        If boolClear = False Then
+        If boolClear = True Then
             objBoolQuery = New Lucene.Net.Search.BooleanQuery
         End If
 
 
         If Not OList_Object Is Nothing Then
             If OList_Object.Count > 0 Then
-                Dim objLQuery_ID = From at As clsOntologyItem In OList_Object Group By at.GUID Into Group
+                If Not OList_Object(0) Is Nothing Then
+                    Dim objLQuery_ID = From at As clsOntologyItem In OList_Object Group By at.GUID Into Group
 
-                strQuery = ""
+                    strQuery = ""
 
-                For Each objQuery_ID In objLQuery_ID
+                    For Each objQuery_ID In objLQuery_ID
+                        If strQuery <> "" Then
+                            strQuery = strQuery & "\ OR\ "
+                        End If
+                        strQuery = strQuery & objQuery_ID.GUID
+                    Next
+
                     If strQuery <> "" Then
-                        strQuery = strQuery & "\ OR\ "
+                        objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Object, strQuery)), BooleanClause.Occur.MUST)
+
                     End If
-                    strQuery = strQuery & objQuery_ID.GUID
-                Next
 
-                If strQuery <> "" Then
-                    objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Object, strQuery)), BooleanClause.Occur.MUST)
+                    Dim objLQuery_ID_Parent = From at As clsOntologyItem In OList_Object Group By at.GUID_Parent Into Group
 
-                End If
+                    strQuery = ""
 
-                Dim objLQuery_ID_Parent = From at As clsOntologyItem In OList_Object Group By at.GUID_Parent Into Group
+                    For Each objQuery_ID_Parent In objLQuery_ID_Parent
+                        If strQuery <> "" Then
+                            strQuery = strQuery & "\ OR\ "
+                        End If
+                        strQuery = strQuery & objQuery_ID_Parent.GUID_Parent
+                    Next
 
-                strQuery = ""
-
-                For Each objQuery_ID_Parent In objLQuery_ID_Parent
                     If strQuery <> "" Then
-                        strQuery = strQuery & "\ OR\ "
+                        objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Parent_Object, strQuery)), BooleanClause.Occur.MUST)
+
                     End If
-                    strQuery = strQuery & objQuery_ID_Parent.GUID_Parent
-                Next
-
-                If strQuery <> "" Then
-                    objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Parent_Object, strQuery)), BooleanClause.Occur.MUST)
-
                 End If
+                
 
             End If
         End If
@@ -896,10 +899,10 @@ Public Class clsDBLevel
         objOItem_Result = objLocalConfig.Globals.LState_Success
 
         If Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
-            create_BoolQuery_ClassRel(oList_Class, Nothing, Nothing)
+            create_BoolQuery_ClassRel(oList_Class, Nothing, Nothing, True)
 
         Else
-            create_BoolQuery_ClassRel(Nothing, oList_Class, Nothing)
+            create_BoolQuery_ClassRel(Nothing, oList_Class, Nothing, True)
         End If
 
         strQuery = ""
@@ -1276,7 +1279,6 @@ Public Class clsDBLevel
     End Function
 
     Public Function get_Data_ObjectRel(Optional ByVal oItem_ObjectLeft As clsOntologyItem = Nothing, Optional ByVal oItem_ObjectRight As clsOntologyItem = Nothing, Optional ByVal oItem_RelationType As clsOntologyItem = Nothing, Optional ByVal boolTable As Boolean = False, Optional ByVal boolIDs As Boolean = True) As clsOntologyItem
-        Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
         Dim objHit As ElasticSearch.Client.Domain.Hits

@@ -82,7 +82,7 @@
             DataGridView_Relations.Columns(4).Visible = False
             DataGridView_Relations.Columns(7).Visible = False
             DataGridView_Relations.Columns(9).Visible = False
-            DataGridView_Relations.Columns(12).Visible = False
+            'DataGridView_Relations.Columns(12).Visible = False
             ToolStripProgressBar_TokenRelation.Value = 0
         Else
             ToolStripProgressBar_TokenRelation.Value = 50
@@ -90,6 +90,10 @@
     End Sub
 
     Private Sub DataGridView_Relations_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles DataGridView_Relations.MouseDoubleClick
+
+    End Sub
+
+    Private Sub DataGridView_Relations_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles DataGridView_Relations.Paint
 
     End Sub
 End Class
