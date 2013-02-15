@@ -160,8 +160,13 @@ Public Class clsDBLevel
     End Property
 
     Private Sub initialize_Client()
-
+        
         objElConn = New ElasticSearch.Client.ElasticSearchClient(objLocalConfig.Globals.Server, objLocalConfig.Globals.Port, Client.Config.TransportType.Thrift, False)
+        Try
+            objElConn.CreateIndex(objLocalConfig.Globals.Index_Rep)
+        Catch ex As Exception
+            Err.Raise(1, Nothing, "Report index!")
+        End Try
         'objElConn = New ElasticSearch.Client.ElasticSearchClient("ontology_db")
     End Sub
     Public Function get_Data_Attributes(Optional ByVal OList_Attributes As List(Of clsOntologyItem) = Nothing, _
@@ -1278,15 +1283,14 @@ Public Class clsDBLevel
         Return objOItem_Result
     End Function
 
-    Public Function get_Data_ObjectRel(Optional ByVal oItem_ObjectLeft As clsOntologyItem = Nothing, Optional ByVal oItem_ObjectRight As clsOntologyItem = Nothing, Optional ByVal oItem_RelationType As clsOntologyItem = Nothing, Optional ByVal boolTable As Boolean = False, Optional ByVal boolIDs As Boolean = True) As clsOntologyItem
+    Public Function get_Data_ObjectRel(ByVal oList_Object As List(Of clsOntologyItem), ByVal oList_Other As List(Of clsOntologyItem), ByVal oList_RelType As List(Of clsOntologyItem), Optional ByVal boolTable As Boolean = False, Optional ByVal boolIDs As Boolean = True) As clsOntologyItem
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
         Dim objHit As ElasticSearch.Client.Domain.Hits
         Dim objOItem_Result As clsOntologyItem = objLocalConfig.Globals.LState_Success
-        Dim oList_Object As New List(Of clsOntologyItem)
+
         Dim oList_Class As New List(Of clsOntologyItem)
-        Dim oList_Other As New List(Of clsOntologyItem)
-        Dim oList_RelType As New List(Of clsOntologyItem)
+
         Dim oList_Rel_Object As New List(Of clsOntologyItem)
         Dim oList_Rel_ObjectCls As New List(Of clsOntologyItem)
         Dim oList_Rel_AttType As New List(Of clsOntologyItem)
@@ -1300,12 +1304,8 @@ Public Class clsDBLevel
         objOntologyList_ObjectRel_ID.Clear()
         otblT_ObjectRel.Clear()
 
-        oList_Object.Add(oItem_ObjectLeft)
-        oList_Other.Add(oItem_ObjectRight)
-        oList_RelType.Add(oItem_RelationType)
-
         create_BoolQuery_ObjectRel(oList_Object, oList_Other, oList_RelType)
-        
+
         intCount = objLocalConfig.Globals.SearchRange
         intPos = 0
         While intCount > 0
@@ -1699,7 +1699,13 @@ Public Class clsDBLevel
 
 
 
-    Public Function create_Report(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing) As clsOntologyItem
+    Public Function create_Report_ES(ByVal objOItem_Report As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+
+        Return objOItem_Result
+    End Function
+
+    Public Function create_Report_SQL(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing) As clsOntologyItem
         Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)

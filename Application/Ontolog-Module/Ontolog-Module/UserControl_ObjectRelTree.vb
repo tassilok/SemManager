@@ -111,6 +111,7 @@
         Dim objTreeNode As TreeNode
         Dim objOList_ClassesRight As New List(Of clsOntologyItem)
         Dim objOList_RelationTypes As New List(Of clsOntologyItem)
+        Dim oList_Param1 As List(Of clsOntologyItem)
         Dim intCount As Integer
 
         Dim objOList_Classes As New List(Of clsOntologyItem)
@@ -147,7 +148,10 @@
                        Select ID_RelationType, Name_RelationType, ID_Class_Right, Name_Class_Right, Min_Forw, Max_Forw
                        Order By Name_Class_Right, Name_RelationType
 
-        objDBLevel_Count.get_Data_ObjectRel(objOItem_Object, _
+
+        oList_Param1 = New List(Of clsOntologyItem)
+        oList_Param1.Add(objOItem_Object)
+        objDBLevel_Count.get_Data_ObjectRel(oList_Param1, _
                                             Nothing, _
                                             Nothing, _
                                             False, _
@@ -195,6 +199,7 @@
         Dim objOList_RelationTypes As New List(Of clsOntologyItem)
         Dim intCount As Integer
         Dim objOList_Classes As New List(Of clsOntologyItem)
+        Dim oList_Param2 As List(Of clsOntologyItem)
 
         objOList_Classes.Add(New clsOntologyItem(objOItem_Object.GUID_Parent, objLocalConfig.Globals.Type_Class))
 
@@ -230,8 +235,11 @@
                        Select ID_RelationType, Name_RelationType, ID_Class_Left, Name_Class_Left, Min_Forw, Max_Backw
                        Order By Name_Class_Left, Name_RelationType
 
+        oList_Param2 = New List(Of clsOntologyItem)
+        oList_Param2.Add(objOItem_Object)
+
         objDBLevel_Count.get_Data_ObjectRel(Nothing, _
-                                                objOItem_Object, _
+                                                oList_Param2, _
                                                 Nothing,
                                                 False, True)
 
@@ -276,6 +284,8 @@
         Dim objOList_RelationTypes As New List(Of clsOntologyItem)
         Dim lngCount As Long
         Dim objOList_Classes As New List(Of clsOntologyItem)
+        Dim oList_Param1 As List(Of clsOntologyItem)
+        Dim oList_Param2 As List(Of clsOntologyItem)
 
         objOList_Classes.Add(New clsOntologyItem(objOItem_Object.GUID_Parent, objLocalConfig.Globals.Type_Class))
 
@@ -285,7 +295,12 @@
         objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_LeftRight, True, False, True)
 
 
-        objDBLevel_ObjectRel.get_Data_ObjectRel(objOItem_Object, New clsOntologyItem(Nothing, objLocalConfig.Globals.Type_AttributeType))
+        oList_Param1 = New List(Of clsOntologyItem)
+        oList_Param1.Add(objOItem_Object)
+        oList_Param2 = New List(Of clsOntologyItem)
+        oList_Param2.Add(New clsOntologyItem(Nothing, objLocalConfig.Globals.Type_AttributeType))
+
+        objDBLevel_ObjectRel.get_Data_ObjectRel(oList_Param1, oList_Param2, Nothing)
 
         Dim strLRelationTypes = From obj In objDBLevel_ObjectRel.OList_ObjectRel_ID
                                 Group By obj.ID_RelationType Into Group
@@ -340,12 +355,18 @@
         Dim objOList_RelTypes As New List(Of clsOntologyItem)
         Dim intCount As Integer
         Dim objOList_Classes As New List(Of clsOntologyItem)
+        Dim oList_Param1 As List(Of clsOntologyItem)
+        Dim oList_Param2 As List(Of clsOntologyItem)
 
         objOList_Classes.Add(New clsOntologyItem(objOItem_Object.GUID_Parent, objLocalConfig.Globals.Type_Class))
 
         objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_LeftRight, True, False, True)
 
-        objDBLevel_ObjectRel.get_Data_ObjectRel(objOItem_Object, New clsOntologyItem(Nothing, objLocalConfig.Globals.Type_RelationType))
+        oList_Param1 = New List(Of clsOntologyItem)
+        oList_Param1.Add(objOItem_Object)
+        oList_Param2 = New List(Of clsOntologyItem)
+        oList_Param2.Add(New clsOntologyItem(Nothing, objLocalConfig.Globals.Type_RelationType))
+        objDBLevel_ObjectRel.get_Data_ObjectRel(oList_Param1, oList_Param2, Nothing)
 
         Dim strLRelationTypes = From obj In objDBLevel_ObjectRel.OList_ObjectRel_ID
                                 Group By obj.ID_RelationType Into Group
@@ -410,12 +431,19 @@
         Dim objOList_ClassesRel As New List(Of clsOntologyItem)
         Dim intCount As Integer
         Dim objOList_Classes As New List(Of clsOntologyItem)
+        Dim oList_Param1 As List(Of clsOntologyItem)
+        Dim oList_Param2 As List(Of clsOntologyItem)
 
         objOList_Classes.Add(New clsOntologyItem(objOItem_Object.GUID_Parent, objLocalConfig.Globals.Type_Class))
 
         objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_LeftRight, True, False, True)
 
-        objDBLevel_ObjectRel.get_Data_ObjectRel(objOItem_Object, New clsOntologyItem(Nothing, objLocalConfig.Globals.Type_Class))
+        oList_Param1 = New List(Of clsOntologyItem)
+        oList_Param1.Add(objOItem_Object)
+        oList_Param2 = New List(Of clsOntologyItem)
+        oList_Param2.Add(New clsOntologyItem(Nothing, objLocalConfig.Globals.Type_Class))
+
+        objDBLevel_ObjectRel.get_Data_ObjectRel(oList_Param1, oList_Param2, Nothing)
 
         Dim strLRelationTypes = From obj In objDBLevel_ObjectRel.OList_ObjectRel_ID
                                 Group By obj.ID_RelationType Into Group

@@ -53,6 +53,7 @@ Public Class clsGlobals
     Private strEL_Server As String
     Private strEL_Port As String
     Private strEL_Index As String
+    Private strRep_Index As String
 
     Private strRep_Server As String
     Private strRep_Instance As String
@@ -60,14 +61,28 @@ Public Class clsGlobals
 
     Private cintSearchRange As Integer = 20000
 
-    Private objOItem_Class_Root As clsOntologyItem
+
     Private objOItem_DType_Bool As clsOntologyItem
     Private objOItem_DType_DateTime As clsOntologyItem
     Private objOItem_DType_Int As clsOntologyItem
     Private objOItem_DType_Real As clsOntologyItem
     Private objOItem_DType_String As clsOntologyItem
 
+    Private objOItem_Class_Root As clsOntologyItem
     Private objOItem_Class_Logstate As clsOntologyItem
+    Private objOItem_Class_Directions As clsOntologyItem
+    Private objOItem_Class_System As clsOntologyItem
+    Private objOItem_Class_Ontologies As clsOntologyItem
+    Private objOItem_Class_OntologyItems As clsOntologyItem
+    Private objOItem_Class_OntologyRelationRule As clsOntologyItem
+
+
+    Private objOItem_RelationType_Contains As clsOntologyItem
+    Private objOItem_RelationType_belongingAttribute As clsOntologyItem
+    Private objOItem_RelationType_belongingRelationType As clsOntologyItem
+    Private objOItem_RelationType_belongingClass As clsOntologyItem
+    Private objOItem_RelationType_belongingObject As clsOntologyItem
+
 
     Private strRegEx_GUID As String
 
@@ -80,10 +95,15 @@ Public Class clsGlobals
     Private objLogState_Relation As clsOntologyItem
     Private objLogState_Exists As clsOntologyItem
 
+    Private objORule_ChildObjects As clsOntologyItem
+    Private objORule_LeftOuterJoin As clsOntologyItem
+    Private objORule_NameOfTypeParse As clsOntologyItem
+    Private objORule_ParentClasses As clsOntologyItem
+    Private objORule_RelationBreak As clsOntologyItem
+    Private objORule_OnlyItem As clsOntologyItem
+
     Private objDirection_LeftRight As clsOntologyItem
     Private objDirection_RightLeft As clsOntologyItem
-
-    Private objRelationType_Contains As clsOntologyItem
 
     Private objELSearchResult As ElasticSearch.Client.Domain.SearchResult
     Private objELQuery As ElasticSearch.Client.QueryDSL.BoolQuery
@@ -92,11 +112,41 @@ Public Class clsGlobals
 
     Private GUID_Session As String
 
+    Public ReadOnly Property Class_Ontologies As clsOntologyItem
+        Get
+            Return objOItem_Class_Ontologies
+        End Get
+    End Property
+
+    Public ReadOnly Property Class_OntologyItems As clsOntologyItem
+        Get
+            Return objOItem_Class_OntologyItems
+        End Get
+    End Property
+
+    Public ReadOnly Property Class_OntologyRelationRule As clsOntologyItem
+        Get
+            Return objOItem_Class_OntologyRelationRule
+        End Get
+    End Property
+
+    Private Sub set_Classes()
+        objOItem_Class_Root = New clsOntologyItem("49fdcd27e1054770941d7485dcad08c1", "Root", "dbbfc1a00c2e483684340a7b7a8b4b52")
+        objOItem_Class_System = New clsOntologyItem("665dd88b792e4256a27a68ee1e10ece6", "System", objOItem_Class_Root.GUID, cstrType_Class)
+        objOItem_Class_Logstate = New clsOntologyItem("1d9568afb6da49908f4d907dfdd30749", "Logstate", objOItem_Class_System.GUID, cstrType_Class)
+        objOItem_Class_Directions = New clsOntologyItem("12de02469d84416faa45980efcb9db9b", "Directions", objOItem_Class_System.GUID, cstrType_Class)
+        objOItem_Class_Ontologies = New clsOntologyItem("eb411e2ff93d4a5ebbbac0b5d7ec0197", "Ontologies", objOItem_Class_System.GUID, cstrType_Class)
+        objOItem_Class_OntologyItems = New clsOntologyItem("d3f72a683f6146a48ff381db05997dc8", "Ontology-Items", objOItem_Class_Ontologies.GUID, cstrType_Class)
+        objOItem_Class_OntologyRelationRule = New clsOntologyItem("925f489dec8d4130a418fcb022a4c731", "Ontology-Relation-Rule", objOItem_Class_Ontologies.GUID, cstrType_Class)
+
+    End Sub
+
     Private Sub set_RelationTypes()
-        objRelationType_Contains = New clsOntologyItem
-        objRelationType_Contains.GUID = "e971160347db44d8a476fe88290639a4"
-        objRelationType_Contains.Name = "contains"
-        objRelationType_Contains.Type = cstrType_RelationType
+        objOItem_RelationType_Contains = New clsOntologyItem("e971160347db44d8a476fe88290639a4", "contains", cstrType_RelationType)
+        objOItem_RelationType_belongingAttribute = New clsOntologyItem("81bbd380e35648a1a4b7fdbaebe7273c", "belonging Attribute", cstrType_RelationType)
+        objOItem_RelationType_belongingClass = New clsOntologyItem("f2b54f82ada5460eafe5551d55629f14", "belonging Class", cstrType_RelationType)
+        objOItem_RelationType_belongingRelationType = New clsOntologyItem("4417582dbd6347fbab18770a611917fe", "belonging RelationType", cstrType_RelationType)
+        objOItem_RelationType_belongingObject = New clsOntologyItem("f68a9438fb8b418d8e0bd9aefc9ecdf3", "belonging Object", cstrType_RelationType)
     End Sub
 
     Public Function get_ConnectionStr(ByVal strServer As String, ByVal strInstance As String, ByVal strDatabase As String) As String
@@ -112,7 +162,31 @@ Public Class clsGlobals
 
     Public ReadOnly Property RelationType_contains As clsOntologyItem
         Get
-            Return objRelationType_Contains
+            Return objOItem_RelationType_Contains
+        End Get
+    End Property
+
+    Public ReadOnly Property RelationType_belongingAttribute As clsOntologyItem
+        Get
+            Return objOItem_RelationType_belongingAttribute
+        End Get
+    End Property
+
+    Public ReadOnly Property RelationType_belongingClass As clsOntologyItem
+        Get
+            Return objOItem_RelationType_belongingClass
+        End Get
+    End Property
+
+    Public ReadOnly Property RelationType_belongingObject As clsOntologyItem
+        Get
+            Return objOItem_RelationType_belongingObject
+        End Get
+    End Property
+
+    Public ReadOnly Property RelationType_belongingRelationType As clsOntologyItem
+        Get
+            Return objOItem_RelationType_belongingRelationType
         End Get
     End Property
 
@@ -157,6 +231,12 @@ Public Class clsGlobals
     Public ReadOnly Property Index
         Get
             Return strEL_Index
+        End Get
+    End Property
+
+    Public ReadOnly Property Index_Rep
+        Get
+            Return strRep_Index
         End Get
     End Property
 
@@ -523,21 +603,17 @@ Public Class clsGlobals
         End Get
     End Property
 
-    Private Sub set_TypeFields()
-        
-    End Sub
 
 
 
     Private Sub set_LogStates()
-        objOItem_Class_Logstate = New clsOntologyItem("1d9568afb6da49908f4d907dfdd30749", "Logstate", cstrType_Class)
 
         objLogState_Delete = New clsOntologyItem("BB6A95553AF640FC9FB0489D2678DFF2", "Delete", objOItem_Class_Logstate.GUID)
         objLogState_Error = New clsOntologyItem("cc71434176314b78b8f4385db073635f", "Error", objOItem_Class_Logstate.GUID)
         objLogState_Exists = New clsOntologyItem("0b285306f64d4444bffe627a21687eff", "Exist", objOItem_Class_Logstate.GUID)
         objLogState_Insert = New clsOntologyItem("a6df6ab2359045b1b32535334a2f574a", "Insert", objOItem_Class_Logstate.GUID)
         objLogState_Nothing = New clsOntologyItem("95666887fb2a416e-9624a48d48dc5446", "Nothing", objOItem_Class_Logstate.GUID)
-        objLogState_Relation = New clsOntologyItem("a46b74723c8e44a8b7853913b760db22", "Relation", objOItem_Class_Logstate.GUID)
+        objLogState_Relation = New clsOntologyItem("a46b74723c8e44a8b7853913b760db", "Relation", objOItem_Class_Logstate.GUID)
         objLogState_Success = New clsOntologyItem("84251164265e4e0294b2ed7c40a02e56", "Success", objOItem_Class_Logstate.GUID)
         objLogState_Update = New clsOntologyItem("2bf7e9d6fb9c40929b16ecc4fef7c072", "Update", objOItem_Class_Logstate.GUID)
 
@@ -550,6 +626,15 @@ Public Class clsGlobals
         objOItem_DType_Real = New clsOntologyItem("a1244d0e187f46ee85742fc334077b7d", "Real", cstrType_DataType)
         objOItem_DType_String = New clsOntologyItem("64530b52d96c4df186fe183f44513450", "String", cstrType_DataType)
 
+    End Sub
+
+    Private Sub set_OntologyRelationRules()
+        objORule_ChildObjects = New clsOntologyItem("5f39c4ce080d4f36b432f83d2892c841", "Child-Token", objOItem_Class_OntologyRelationRule.GUID, cstrType_DataType)
+        objORule_LeftOuterJoin = New clsOntologyItem("efddfb8176004f6a9d30cf579110771a", "Left Outer Join", objOItem_Class_OntologyRelationRule.GUID, cstrType_DataType)
+        objORule_NameOfTypeParse = New clsOntologyItem("32ccb41b0321465ea94cc5de402c3209", "Name of Type Parse", objOItem_Class_OntologyRelationRule.GUID, cstrType_DataType)
+        objORule_ParentClasses = New clsOntologyItem("8ff036f7efd64e9fb3bb29c91692ce8b", "Parent-Types", objOItem_Class_OntologyRelationRule.GUID, cstrType_DataType)
+        objORule_OnlyItem = New clsOntologyItem("16fdf6615bdb4c55bfecd3e55df416fe", "Only Item", objOItem_Class_OntologyRelationRule.GUID, cstrType_DataType)
+        objORule_RelationBreak = New clsOntologyItem("cbe4408df1734971bfed25a3b7891f88", "Relation-Break", objOItem_Class_OntologyRelationRule.GUID, cstrType_DataType)
     End Sub
 
     Public Function is_GUID(ByVal strText As String) As Boolean
@@ -607,30 +692,39 @@ Public Class clsGlobals
             Else
                 Err.Raise(1, "Config")
             End If
+
+            objDRs_ConfigItem = dtblT_Config.Select("ConfigItem_Name='ReportIndex'")
+            If objDRs_ConfigItem.Count > 0 Then
+                strRep_Index = objDRs_ConfigItem(0).Item("ConfigItem_Value")
+            Else
+                Err.Raise(1, "Config")
+            End If
+
         Else
             Err.Raise(1, "Config")
         End If
     End Sub
 
     Private Sub set_Directions()
-        objDirection_LeftRight = New clsOntologyItem("cc99d5365d564fd29d4f45b48af33029", "Left-Right", cstrType_Object)
-        objDirection_RightLeft = New clsOntologyItem("061243fc4c134bd5800c2c33b70e99b2", "Right-Left", cstrType_Object)
+        objDirection_LeftRight = New clsOntologyItem("cc99d5365d564fd29d4f45b48af33029", "Left-Right", objOItem_Class_Directions.GUID, cstrType_Object)
+        objDirection_RightLeft = New clsOntologyItem("061243fc4c134bd5800c2c33b70e99b2", "Right-Left", objOItem_Class_Directions.GUID, cstrType_Object)
     End Sub
     Public Sub New()
-        objOItem_Class_Root = New clsOntologyItem("49fdcd27e1054770941d7485dcad08c1", "Root", "dbbfc1a00c2e483684340a7b7a8b4b52")
         strRegEx_GUID = "[A-Za-z0-9]{8}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9]{12}"
+        set_Classes()
+        set_RelationTypes()
+
         set_Session()
         get_ConfigData()
         set_DataTypes()
         set_LogStates()
-        set_TypeFields()
         set_Directions()
-        set_RelationTypes()
+        set_OntologyRelationRules()
+
     End Sub
 
     Private Sub set_Session()
         GUID_Session = Guid.NewGuid.ToString.Replace("-", "")
     End Sub
 End Class
-
 

@@ -60,7 +60,7 @@
 
     Private Sub get_Data()
 
-        objDBLevel_ObjRel.get_Data_ObjectRel(objOList_Object(0), Nothing, Nothing, True, False)
+        objDBLevel_ObjRel.get_Data_ObjectRel(objOList_Object, Nothing, Nothing, True, False)
 
         boolDataDone = True
 
