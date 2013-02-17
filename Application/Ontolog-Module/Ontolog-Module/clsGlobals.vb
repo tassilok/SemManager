@@ -139,6 +139,7 @@ Public Class clsGlobals
         objOItem_Class_OntologyItems = New clsOntologyItem("d3f72a683f6146a48ff381db05997dc8", "Ontology-Items", objOItem_Class_Ontologies.GUID, cstrType_Class)
         objOItem_Class_OntologyRelationRule = New clsOntologyItem("925f489dec8d4130a418fcb022a4c731", "Ontology-Relation-Rule", objOItem_Class_Ontologies.GUID, cstrType_Class)
 
+
     End Sub
 
     Private Sub set_RelationTypes()
@@ -631,6 +632,7 @@ Public Class clsGlobals
     Private Sub set_OntologyRelationRules()
         objORule_ChildObjects = New clsOntologyItem("5f39c4ce080d4f36b432f83d2892c841", "Child-Token", objOItem_Class_OntologyRelationRule.GUID, cstrType_DataType)
         objORule_LeftOuterJoin = New clsOntologyItem("efddfb8176004f6a9d30cf579110771a", "Left Outer Join", objOItem_Class_OntologyRelationRule.GUID, cstrType_DataType)
+        objORule_LeftOuterJoin = New clsOntologyItem("00b22e07be8e433097558c30c46d76e4", "Inner Join", objOItem_Class_OntologyRelationRule.GUID, cstrType_DataType)
         objORule_NameOfTypeParse = New clsOntologyItem("32ccb41b0321465ea94cc5de402c3209", "Name of Type Parse", objOItem_Class_OntologyRelationRule.GUID, cstrType_DataType)
         objORule_ParentClasses = New clsOntologyItem("8ff036f7efd64e9fb3bb29c91692ce8b", "Parent-Types", objOItem_Class_OntologyRelationRule.GUID, cstrType_DataType)
         objORule_OnlyItem = New clsOntologyItem("16fdf6615bdb4c55bfecd3e55df416fe", "Only Item", objOItem_Class_OntologyRelationRule.GUID, cstrType_DataType)

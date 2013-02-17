@@ -21,6 +21,10 @@
     Private objDBLevel_Count As clsDBLevel
 
     Private objOItem_Object As clsOntologyItem
+    Private objOList_Selected As New List(Of clsOntologyItem)
+
+    Public Event selected_Item(ByVal oList_Items As List(Of clsOntologyItem))
+
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal OItem_Object As clsOntologyItem)
 
@@ -260,15 +264,13 @@
 
             objTreeNode = objTreeNode_RelBackward.Nodes.Add(objItem.ID_Class_Left & "_" & objItem.ID_RelationType, objItem.Name_Class_Left & " / " & objItem.Name_RelationType)
 
-            objTreeNode.Text = objTreeNode.Text & " (" & objItem.Min_Forw & " / " & intCount & " / " & objItem.Max_Backw & ")"
+            objTreeNode.Text = objTreeNode.Text & " (" & intCount & " / " & objItem.Max_Backw & ")"
             objTreeNode.ForeColor = Color.Green
-            If intCount < objItem.Min_Forw Then
+            
+            If intCount > objItem.Max_Backw And objItem.Max_Backw > -1 Then
                 objTreeNode.ForeColor = Color.SandyBrown
-            Else
-                If intCount > objItem.Max_Backw And objItem.Max_Backw > -1 Then
-                    objTreeNode.ForeColor = Color.SandyBrown
-                End If
             End If
+
 
             If intCount > 0 Then
                 objTreeNode.ImageIndex = 1
@@ -511,6 +513,47 @@
         objDBLevel_Count = New clsDBLevel(objLocalConfig)
         objDBLevel_ObjectRel = New clsDBLevel(objLocalConfig)
         objDBLevel_DataType = New clsDBLevel(objLocalConfig)
+    End Sub
+
+    Private Sub TreeView_ObjectRels_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_ObjectRels.AfterSelect
+        Dim objTreeNode As TreeNode
+        Dim strAGUIDs() As String
+
+        objTreeNode = e.Node
+
+        objOList_Selected.Clear()
+
+        If Not objTreeNode.Parent Is Nothing Then
+            Select Case objTreeNode.Parent.Name
+                Case objTreeNode_Atttributes.Name
+                    objOList_Selected.Add(objOItem_Object)
+                    objOList_Selected.Add(New clsOntologyItem(objTreeNode_Atttributes.Name, objLocalConfig.Globals.Type_AttributeType))
+                    RaiseEvent selected_Item(objOList_Selected)
+
+                Case objTreeNode_RelBackward.Name
+                    objOList_Selected.Add(objOItem_Object)
+                    strAGUIDs = objTreeNode.Name.Split("_")
+                    objOList_Selected.Add(New clsOntologyItem(strAGUIDs(0), objLocalConfig.Globals.Type_Class))
+                    objOList_Selected.Add(New clsOntologyItem(strAGUIDs(1), objLocalConfig.Globals.Type_RelationType))
+                    objOList_Selected.Add(objLocalConfig.Globals.Direction_RightLeft)
+                    RaiseEvent selected_Item(objOList_Selected)
+
+                Case objTreeNode_RelForward.Name
+                    objOList_Selected.Add(objOItem_Object)
+                    strAGUIDs = objTreeNode.Name.Split("_")
+                    objOList_Selected.Add(New clsOntologyItem(strAGUIDs(0), objLocalConfig.Globals.Type_Class))
+                    objOList_Selected.Add(New clsOntologyItem(strAGUIDs(1), objLocalConfig.Globals.Type_RelationType))
+                    objOList_Selected.Add(objLocalConfig.Globals.Direction_LeftRight)
+                    RaiseEvent selected_Item(objOList_Selected)
+
+                Case objTreeNode_RelForward_Attributes.Name
+
+                Case objTreeNode_RelForward_Classes.Name
+
+                Case objTreeNode_RelForward_RelationTypes.Name
+
+            End Select
+        End If
     End Sub
 
     Private Sub TreeView_ObjectRels_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeView_ObjectRels.MouseClick

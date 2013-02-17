@@ -131,6 +131,7 @@
     <Compile Include="clsOntologies.vb" />
     <Compile Include="clsOntologyItem.vb" />
     <Compile Include="clsObjectTree.vb" />
+    <Compile Include="clsReport.vb" />
     <Compile Include="DataSet_Config.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -138,6 +139,11 @@
     </Compile>
     <Compile Include="DataSet_Config.vb">
       <DependentUpon>DataSet_Config.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSet_Report.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet_Report.xsd</DependentUpon>
     </Compile>
     <Compile Include="frmClassEdit.Designer.vb">
       <DependentUpon>frmClassEdit.vb</DependentUpon>
@@ -278,6 +284,17 @@
     </None>
     <None Include="DataSet_Config.xss">
       <DependentUpon>DataSet_Config.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet_Report.xsc">
+      <DependentUpon>DataSet_Report.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet_Report.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet_Report.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="DataSet_Report.xss">
+      <DependentUpon>DataSet_Report.xsd</DependentUpon>
     </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>

@@ -15,6 +15,11 @@
     Private boolProgChange As Boolean
 
     Private strRowName_GUID As String
+    Private strGUID_Class As String
+
+    Private objOItem_Direction As clsOntologyItem
+
+    Private boolOR As Boolean
 
     Private strName_Filter As String
     Private strGUID_Filter As String
@@ -23,10 +28,12 @@
 
     Private boolFinished As Boolean
 
+    Private strType As String
+
     Private Event selected_ListItem()
 
     Public Event Selection_Changed()
-    Public Event edit_Object()
+    Public Event edit_Object(ByVal strType As String, ByVal oItem_Direction As clsOntologyItem)
 
     Public ReadOnly Property RowID As Integer
         Get
@@ -46,10 +53,64 @@
         End Get
     End Property
 
-    Public Sub initialize_Simple(ByVal OItem_Parent As clsOntologyItem)
+    Public Sub initialize(ByVal OItem_Parent As clsOntologyItem, Optional ByVal oItem_Object As clsOntologyItem = Nothing, Optional ByVal OItem_Direction As clsOntologyItem = Nothing, Optional ByVal OItem_Other As clsOntologyItem = Nothing, Optional ByVal OItem_RelType As clsOntologyItem = Nothing, Optional ByVal boolOR As Boolean = False)
         boolProgChange = True
 
-        objOItem_Parent = OItem_Parent
+        Me.boolOR = boolOR
+        clear_Relation()
+        strGUID_Class = Nothing
+
+        If OItem_Direction Is Nothing Then
+            If Not oItem_Object Is Nothing Then
+                If oItem_Object.GUID <> "" Then
+                    strGUID_Filter = oItem_Object.GUID
+                ElseIf oItem_Object.Name <> "" Then
+                    strGUID_Filter = oItem_Object.Name
+                End If
+            End If
+            objOItem_Other = OItem_Other
+
+            objOItem_RelationType = OItem_RelType
+            objOItem_Parent = OItem_Parent
+
+
+            If objOItem_Parent Is Nothing Then
+                strType = OItem_Other.Type
+            Else
+                strType = objOItem_Parent.Type
+            End If
+
+        Else
+            strType = objLocalConfig.Globals.Type_Other
+            objOItem_Direction = OItem_Direction
+            If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                If Not oItem_Object Is Nothing Then
+                    If oItem_Object.GUID <> "" Then
+                        strGUID_Filter = oItem_Object.GUID
+                    ElseIf oItem_Object.Name <> "" Then
+                        strGUID_Filter = oItem_Object.Name
+                    End If
+                End If
+                objOItem_Other = OItem_Other
+
+                objOItem_RelationType = OItem_RelType
+                objOItem_Parent = OItem_Parent
+            Else
+                If Not OItem_Other Is Nothing Then
+                    strGUID_Class = OItem_Other.GUID_Parent
+                End If
+                If Not oItem_Object Is Nothing Then
+                    objOItem_Other = oItem_Object
+
+                End If
+
+                objOItem_Parent = OItem_Parent
+                objOItem_RelationType = OItem_RelType
+            End If
+
+        End If
+
+
 
         ToolStripButton_AddItem.Visible = True
         ToolStripButton_DelItem.Visible = True
@@ -60,7 +121,7 @@
         ToolStripTextBox_Filter.ReadOnly = True
         ToolStripTextBox_Filter.Text = ""
         ToolStripTextBox_Filter.ReadOnly = False
-        clear_Relation()
+
         configure_TabPages()
 
         boolProgChange = False
@@ -68,13 +129,45 @@
 
     Private Sub get_Data()
         Dim oList_Items As New List(Of clsOntologyItem)
+        Dim oList_Other As New List(Of clsOntologyItem)
+        Dim oList_RelType As New List(Of clsOntologyItem)
+
         If Not objOItem_Parent Is Nothing Then
-            Select Case objOItem_Parent.Type
-                Case objLocalConfig.Globals.Type_Object
-                    oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objOItem_Parent.GUID_Parent, objLocalConfig.Globals.Type_Object))
-                    objDBLevel.get_Data_Objects(oList_Items, True)
-                    'objDBLevel.get_Data_Objects(oList_Items)
-                    
+            If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
+                strGUID_Class = objOItem_Parent.GUID_Parent
+            Else
+                strGUID_Class = objOItem_Parent.GUID
+            End If
+            If boolOR = False Then
+                Select Case objOItem_Parent.Type
+                    Case objLocalConfig.Globals.Type_Object
+
+
+                        oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
+                        objDBLevel.get_Data_Objects(oList_Items, True)
+                        'objDBLevel.get_Data_Objects(oList_Items)
+
+
+
+                    Case objLocalConfig.Globals.Type_RelationType
+                        oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objLocalConfig.Globals.Type_RelationType))
+                        objDBLevel.get_Data_RelationTypes(oList_Items, True)
+
+                    Case objLocalConfig.Globals.Type_AttributeType
+                        oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objLocalConfig.Globals.Type_AttributeType))
+                        objDBLevel.get_Data_AttributeType(oList_Items, True)
+
+                End Select
+            Else
+
+            End If
+
+
+        Else
+            Select Case objOItem_Other.Type
+                
+
+
                 Case objLocalConfig.Globals.Type_RelationType
                     oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objLocalConfig.Globals.Type_RelationType))
                     objDBLevel.get_Data_RelationTypes(oList_Items, True)
@@ -82,16 +175,20 @@
                 Case objLocalConfig.Globals.Type_AttributeType
                     oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objLocalConfig.Globals.Type_AttributeType))
                     objDBLevel.get_Data_AttributeType(oList_Items, True)
+                Case Else
+                    oList_Other.Add(objOItem_Other)
+                    oList_RelType.Add(objOItem_RelationType)
 
+                    oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
+                    objDBLevel.get_Data_ObjectRel(oList_Items, oList_Other, oList_RelType, True, False)
             End Select
-
-        Else
-
+            
         End If
         boolFinished = True
     End Sub
 
     Private Sub configure_TabPages()
+
         Select Case TabControl1.SelectedTab.Name
             Case TabPage_List.Name
                 Try
@@ -106,9 +203,10 @@
                 BindingSource_Token.DataSource = Nothing
                 BindingSource_Type.DataSource = Nothing
 
-                Timer_List.Start()
-                objThread_List.Start()
+                DataGridView_Items.DataSource = Nothing
 
+                objThread_List.Start()
+                Timer_List.Start
 
             Case TabPage_Tree.Name
                 If Not objOItem_Parent Is Nothing Then
@@ -121,6 +219,9 @@
     Private Sub clear_Relation()
         objOItem_Other = Nothing
         objOItem_RelationType = Nothing
+        objOItem_Direction = Nothing
+        strGUID_Filter = Nothing
+        strName_Filter = Nothing
         ToolStripButton_Relate.Checked = False
         ToolStripButton_Relate.Enabled = False
     End Sub
@@ -142,7 +243,7 @@
     Private Sub DataGridView_Items_RowHeaderMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellMouseEventArgs) Handles DataGridView_Items.RowHeaderMouseDoubleClick
 
         intRowID = e.RowIndex
-        RaiseEvent edit_Object()
+        RaiseEvent edit_Object(strType, objOItem_Direction)
 
     End Sub
 
@@ -239,7 +340,66 @@
                 End Select
 
 
+            Else
+                BindingSource_TokenToken.DataSource = objDBLevel.tbl_ObjectRelation
+                DataGridView_Items.DataSource = BindingSource_TokenToken
+                Select Case strType
+                    Case objLocalConfig.Globals.Type_Object
 
+                        BindingSource_Token.DataSource = objDBLevel.tbl_Objects
+                        DataGridView_Items.DataSource = BindingSource_Token
+                        DataGridView_Items.Columns(0).Visible = False
+                        DataGridView_Items.Columns(2).Visible = False
+                        DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
+                        ToolStripLabel_Count.Text = DataGridView_Items.RowCount
+                        strRowName_GUID = "ID_Item"
+                    Case objLocalConfig.Globals.Type_RelationType
+
+
+                        BindingSource_RelationType.DataSource = objDBLevel.tbl_RelationTypes
+                        DataGridView_Items.DataSource = BindingSource_RelationType
+                        DataGridView_Items.Columns(0).Visible = False
+                        DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
+                        ToolStripLabel_Count.Text = DataGridView_Items.RowCount
+                        strRowName_GUID = "ID_Item"
+                    Case objLocalConfig.Globals.Type_AttributeType
+
+
+                        BindingSource_Attribute.DataSource = objDBLevel.tbl_AttributeTypes
+                        DataGridView_Items.DataSource = BindingSource_Attribute
+                        DataGridView_Items.Columns(0).Visible = False
+                        DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
+                        ToolStripLabel_Count.Text = DataGridView_Items.RowCount
+                        strRowName_GUID = "ID_Item"
+                    Case objLocalConfig.Globals.Type_Other
+                        If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                            DataGridView_Items.Columns(0).Visible = False
+                            DataGridView_Items.Columns(1).Visible = False
+                            DataGridView_Items.Columns(2).Visible = False
+                            DataGridView_Items.Columns(3).Visible = False
+                            DataGridView_Items.Columns(4).Visible = False
+                            DataGridView_Items.Columns(5).Visible = False
+                            DataGridView_Items.Columns(7).Visible = False
+                            DataGridView_Items.Columns(9).Visible = False
+                            DataGridView_Items.Columns(10).Visible = False
+                            DataGridView_Items.Columns(11).Visible = False
+                        Else
+                            DataGridView_Items.Columns(0).Visible = False
+                            DataGridView_Items.Columns(2).Visible = False
+                            DataGridView_Items.Columns(3).Visible = False
+                            DataGridView_Items.Columns(4).Visible = False
+                            DataGridView_Items.Columns(5).Visible = False
+                            DataGridView_Items.Columns(7).Visible = False
+                            DataGridView_Items.Columns(8).Visible = False
+                            DataGridView_Items.Columns(9).Visible = False
+                            DataGridView_Items.Columns(10).Visible = False
+                            DataGridView_Items.Columns(11).Visible = False
+                        End If
+                End Select
+                
+                
+                ToolStripLabel_Count.Text = DataGridView_Items.RowCount
+                strRowName_GUID = "ID_Other"
             End If
             ToolStripProgressBar_List.Value = 0
             Timer_List.Stop()

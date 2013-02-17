@@ -40,6 +40,7 @@ Partial Class UserControl_OItemList
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel_GUID = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_GUID = New System.Windows.Forms.ToolStripTextBox()
+        Me.ToolStripProgressBar_List = New System.Windows.Forms.ToolStripProgressBar()
         Me.ToolStrip_Edit = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_AddItem = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_DelItem = New System.Windows.Forms.ToolStripButton()
@@ -71,7 +72,6 @@ Partial Class UserControl_OItemList
         Me.Timer_Filter = New System.Windows.Forms.Timer(Me.components)
         Me.ToolTip_Item = New System.Windows.Forms.ToolTip(Me.components)
         Me.Timer_List = New System.Windows.Forms.Timer(Me.components)
-        Me.ToolStripProgressBar_List = New System.Windows.Forms.ToolStripProgressBar()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.ToolStrip_Filter.SuspendLayout()
         Me.ToolStrip2.SuspendLayout()
@@ -189,6 +189,11 @@ Partial Class UserControl_OItemList
         Me.ToolStripTextBox_GUID.Name = "ToolStripTextBox_GUID"
         Me.ToolStripTextBox_GUID.ReadOnly = True
         Me.ToolStripTextBox_GUID.Size = New System.Drawing.Size(250, 25)
+        '
+        'ToolStripProgressBar_List
+        '
+        Me.ToolStripProgressBar_List.Name = "ToolStripProgressBar_List"
+        Me.ToolStripProgressBar_List.Size = New System.Drawing.Size(100, 22)
         '
         'ToolStrip_Edit
         '
@@ -407,11 +412,6 @@ Partial Class UserControl_OItemList
         'Timer_List
         '
         Me.Timer_List.Interval = 300
-        '
-        'ToolStripProgressBar_List
-        '
-        Me.ToolStripProgressBar_List.Name = "ToolStripProgressBar_List"
-        Me.ToolStripProgressBar_List.Size = New System.Drawing.Size(100, 22)
         '
         'UserControl_OItemList
         '

@@ -16,6 +16,8 @@
 
     Private objDBLevel_ObjectRel As clsDBLevel
 
+    Private objReport As clsReport
+
     Private objOList_ClassRel_LeftRight As New List(Of clsClassRel)
     Private objOList_ClassRel_RightLeft As New List(Of clsClassRel)
 
@@ -24,10 +26,12 @@
     Private objOList_Classes_Left As New List(Of clsOntologyItem)
     Private objOList_RelationTypes_Left As New List(Of clsOntologyItem)
 
-    Private Sub editObject() Handles objUserControl_OObjectList.edit_Object
+    Private Sub editObject(ByVal strType As String, ByVal objOItem_Direction As clsOntologyItem) Handles objUserControl_OObjectList.edit_Object
         objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig, _
                                                objUserControl_OObjectList.DataGridviewRows, _
-                                               objUserControl_OObjectList.RowID)
+                                               objUserControl_OObjectList.RowID, _
+                                               strType, _
+                                               objOItem_Direction)
         objFrm_ObjectEdit.ShowDialog(Me)
         If objFrm_ObjectEdit.DialogResult = Windows.Forms.DialogResult.OK Then
 
@@ -36,7 +40,7 @@
 
     Private Sub selectedClass(ByVal OItem_Class As clsOntologyItem) Handles objUserControl_TypeTree.selected_Class
         objOItem_Class = OItem_Class
-        objUserControl_OObjectList.initialize_Simple(New clsOntologyItem(Nothing, Nothing, OItem_Class.GUID, objLocalConfig.Globals.Type_Object))
+        objUserControl_OObjectList.initialize(New clsOntologyItem(Nothing, Nothing, OItem_Class.GUID, objLocalConfig.Globals.Type_Object))
         get_ClassRel(objOItem_Class)
         initialize_OTree()
     End Sub
@@ -154,13 +158,13 @@
         objUserControl_ORelationTypeList = New UserControl_OItemList(objLocalConfig)
         objUserControl_ORelationTypeList.Dock = DockStyle.Fill
         Panel_RelationTypes.Controls.Clear()
-        objUserControl_ORelationTypeList.initialize_Simple(objOItem_RelType)
+        objUserControl_ORelationTypeList.initialize(objOItem_RelType)
         Panel_RelationTypes.Controls.Add(objUserControl_ORelationTypeList)
 
         objUserControl_OAttributeList = New UserControl_OItemList(objLocalConfig)
         objUserControl_OAttributeList.Dock = DockStyle.Fill
         Panel_Attributes.Controls.Clear()
-        objUserControl_OAttributeList.initialize_Simple(objOItem_AttType)
+        objUserControl_OAttributeList.initialize(objOItem_AttType)
         Panel_Attributes.Controls.Add(objUserControl_OAttributeList)
 
         objUserControl_ObjRel = New UserControl_ObjectRel(objLocalConfig)
@@ -216,6 +220,7 @@
 
     Private Sub set_DBConnection()
         objDBLevel_ObjectRel = New clsDBLevel(objLocalConfig)
+        objReport = New clsReport(objLocalConfig)
     End Sub
 
 
@@ -246,5 +251,9 @@
 
     Private Sub ToolStripButton_Tokentree_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Tokentree.Click
         configure_Areas()
+    End Sub
+
+    Private Sub SyncToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SyncToolStripMenuItem.Click
+        objReport.sync_SQLDB()
     End Sub
 End Class
