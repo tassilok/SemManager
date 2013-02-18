@@ -74,7 +74,7 @@
 
         objOList_Classes.Add(New clsOntologyItem(objOItem_Object.GUID_Parent, objLocalConfig.Globals.Type_Class))
 
-        objDBLevel_ClassAtt.get_Data_ClassAtt(objOList_Classes, False, False)
+        objDBLevel_ClassAtt.get_Data_ClassAtt(objOList_Classes, Nothing, False, False)
 
         objDBLevel_Count.get_Data_ObjectAtt(objOItem_Object)
 

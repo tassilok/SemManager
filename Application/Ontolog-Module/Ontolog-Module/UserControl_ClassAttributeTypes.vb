@@ -28,7 +28,7 @@
     Private Sub get_Data_AttributeTypes()
         Dim objList_Classes As New List(Of clsOntologyItem)
         objList_Classes.Add(objOItem_Class)
-        objDBLevel.get_Data_ClassAtt(objList_Classes, True, False)
+        objDBLevel.get_Data_ClassAtt(objList_Classes, Nothing, True, False)
 
         BindingSource_AttributeTypes.DataSource = objDBLevel.tbl_ClassAtt
         DataGridView_AttributeTypes.DataSource = BindingSource_AttributeTypes
