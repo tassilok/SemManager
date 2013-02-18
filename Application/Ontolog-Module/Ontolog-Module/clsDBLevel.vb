@@ -14,6 +14,7 @@ Public Class clsDBLevel
     Private objOntologyList_ClassRel_ID As New List(Of clsClassRel)
     Private objOntologyList_ClassAtt_ID As New List(Of clsClassAtt)
     Private objOntologyList_ObjAtt_ID As New List(Of clsObjectAtt)
+    Private objOntologyList_ObjAtt As New List(Of clsObjectAtt)
     Private objOntologyList_DataTypes As New List(Of clsOntologyItem)
     Private objOntologyList_Attributes As New List(Of clsAttribute)
 
@@ -107,6 +108,12 @@ Public Class clsDBLevel
         End Get
     End Property
 
+    Public ReadOnly Property OList_ObjectAtt As List(Of clsObjectAtt)
+        Get
+            Return objOntologyList_ObjAtt
+        End Get
+    End Property
+
     
     Public ReadOnly Property tbl_Objects As DataSet_Config.otbl_ObjectsDataTable
         Get
@@ -188,7 +195,7 @@ Public Class clsDBLevel
         intCount = 0
         objOItem_Result = objLocalConfig.Globals.LState_Success
 
-        create_BoolQuery_Attributes(OList_Attributes, OList_DataTypes, OList_AttributeTypes)
+        create_BoolQuery_Attributes(OList_Attributes, OList_DataTypes, OList_AttributeTypes, True)
 
         intCount = objLocalConfig.Globals.SearchRange
         intPos = 0
@@ -509,7 +516,7 @@ Public Class clsDBLevel
     Private Sub create_BoolQuery_Attributes(ByVal OList_Attributes As List(Of clsOntologyItem), ByVal OList_DataTypes As List(Of clsOntologyItem), ByVal OList_AttributeTypes As List(Of clsOntologyItem), Optional ByVal boolClear As Boolean = True)
         Dim strQuery As String
 
-        If boolClear = False Then
+        If boolClear = True Then
             objBoolQuery = New Lucene.Net.Search.BooleanQuery
         End If
 
@@ -1067,6 +1074,7 @@ Public Class clsDBLevel
         Dim intPos As Integer
 
         objOntologyList_ObjAtt_ID.Clear()
+        objOntologyList_ObjAtt.Clear()
         otblT_ObjectAtt.Clear()
 
         objOItem_Result = objLocalConfig.Globals.LState_Success
@@ -1174,11 +1182,11 @@ Public Class clsDBLevel
             End If
 
 
-            Dim oList_DataType = From objDataType In objOntologyList_DataTypes
-                                 Group By objDataType.GUID Into Group
+            Dim oList_DataType = From objDataType In objOntologyList_AttributTypes
+                                 Group By objDataType.GUID_Parent Into Group
 
             For Each oItem_DataType In oList_DataType
-                objOList_DataTypes.Add(New clsOntologyItem(oItem_DataType.GUID, objLocalConfig.Globals.Type_DataType))
+                objOList_DataTypes.Add(New clsOntologyItem(oItem_DataType.GUID_Parent, objLocalConfig.Globals.Type_DataType))
 
             Next
 
@@ -1192,96 +1200,176 @@ Public Class clsDBLevel
                            Join objClass In objOntologyList_Classes1 On objRel.ID_Class Equals objClass.GUID
                            Join objAtt In objOntologyList_Attributes On objRel.ID_Attribute Equals objAtt.ID_Attribute
                            Join objObj In objOntologyList_Objects On objRel.ID_Object Equals objObj.GUID
-                           Join objDataType In objOntologyList_DataTypes On objAtt.ID_DataType Equals objDataType.GUID
+                           Join objDataType In objOntologyList_DataTypes On objAttType.GUID_Parent Equals objDataType.GUID
 
             For Each objORels In oListRel
-
-                If objORels.objDataType.GUID = objLocalConfig.Globals.DType_Bool.GUID Then
-                    otblT_ObjectAtt.Rows.Add(objORels.objRel.ID_Attribute, _
-                                         objORels.objRel.ID_Object, _
-                                         objORels.objObj.Name, _
-                                         objORels.objAttType.GUID, _
-                                         objORels.objAttType.Name, _
-                                         objORels.objClass.GUID, _
-                                         objORels.objClass.Name, _
-                                         objORels.objRel.OrderID, _
-                                         objORels.objAtt.Val_Name, _
-                                         objORels.objAtt.Val_Bool, _
-                                         Nothing, _
-                                         Nothing, _
-                                         Nothing, _
-                                         Nothing, _
-                                         objORels.objDataType.GUID, _
-                                         objORels.objDataType.Name)
-                ElseIf objORels.objDataType.GUID = objLocalConfig.Globals.DType_DateTime.GUID Then
-                    otblT_ObjectAtt.Rows.Add(objORels.objRel.ID_Attribute, _
-                                         objORels.objRel.ID_Object, _
-                                         objORels.objObj.Name, _
-                                         objORels.objAttType.GUID, _
-                                         objORels.objAttType.Name, _
-                                         objORels.objClass.GUID, _
-                                         objORels.objClass.Name, _
-                                         objORels.objRel.OrderID, _
-                                         objORels.objAtt.Val_Name, _
-                                         Nothing, _
-                                         Nothing, _
-                                         Nothing, _
-                                         objORels.objAtt.Val_Date, _
-                                         Nothing, _
-                                         objORels.objDataType.GUID, _
-                                         objORels.objDataType.Name)
-                ElseIf objORels.objDataType.GUID = objLocalConfig.Globals.DType_Int.GUID Then
-                    otblT_ObjectAtt.Rows.Add(objORels.objRel.ID_Attribute, _
-                                         objORels.objRel.ID_Object, _
-                                         objORels.objObj.Name, _
-                                         objORels.objAttType.GUID, _
-                                         objORels.objAttType.Name, _
-                                         objORels.objClass.GUID, _
-                                         objORels.objClass.Name, _
-                                         objORels.objRel.OrderID, _
-                                         objORels.objAtt.Val_Name, _
-                                         Nothing, _
-                                         objORels.objAtt.Val_Long, _
-                                         Nothing, _
-                                         Nothing, _
-                                         Nothing, _
-                                         objORels.objDataType.GUID, _
-                                         objORels.objDataType.Name)
-                ElseIf objORels.objDataType.GUID = objLocalConfig.Globals.DType_Real.GUID Then
-                    otblT_ObjectAtt.Rows.Add(objORels.objRel.ID_Attribute, _
-                                         objORels.objRel.ID_Object, _
-                                         objORels.objObj.Name, _
-                                         objORels.objAttType.GUID, _
-                                         objORels.objAttType.Name, _
-                                         objORels.objClass.GUID, _
-                                         objORels.objClass.Name, _
-                                         objORels.objRel.OrderID, _
-                                         objORels.objAtt.Val_Name, _
-                                         Nothing, _
-                                         Nothing, _
-                                         objORels.objAtt.Val_Double, _
-                                         Nothing, _
-                                         Nothing, _
-                                         objORels.objDataType.GUID, _
-                                         objORels.objDataType.Name)
-                ElseIf objORels.objDataType.GUID = objLocalConfig.Globals.DType_String.GUID Then
-                    otblT_ObjectAtt.Rows.Add(objORels.objRel.ID_Attribute, _
-                                         objORels.objRel.ID_Object, _
-                                         objORels.objObj.Name, _
-                                         objORels.objAttType.GUID, _
-                                         objORels.objAttType.Name, _
-                                         objORels.objClass.GUID, _
-                                         objORels.objClass.Name, _
-                                         objORels.objRel.OrderID, _
-                                         objORels.objAtt.Val_Name, _
-                                         Nothing, _
-                                         Nothing, _
-                                         Nothing, _
-                                         Nothing, _
-                                         objORels.objAtt.Val_String, _
-                                         objORels.objDataType.GUID, _
-                                         objORels.objDataType.Name)
+                If boolTable = False Then
+                    Select Case objORels.objDataType.GUID
+                        Case objLocalConfig.Globals.DType_Bool.GUID
+                            objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.objRel.ID_Attribute, _
+                                             objORels.objRel.ID_Object, _
+                                             objORels.objObj.Name, _
+                                             objORels.objClass.GUID, _
+                                             objORels.objClass.Name, _
+                                             objORels.objAttType.GUID, _
+                                             objORels.objAttType.Name, _
+                                             objORels.objRel.OrderID, _
+                                             objORels.objAtt.Val_Name, _
+                                             objORels.objAtt.Val_Bool, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing))
+                        Case objLocalConfig.Globals.DType_DateTime.GUID
+                            objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.objRel.ID_Attribute, _
+                                             objORels.objRel.ID_Object, _
+                                             objORels.objObj.Name, _
+                                             objORels.objClass.GUID, _
+                                             objORels.objClass.Name, _
+                                             objORels.objAttType.GUID, _
+                                             objORels.objAttType.Name, _
+                                             objORels.objRel.OrderID, _
+                                             objORels.objAtt.Val_Name, _
+                                             Nothing, _
+                                             objORels.objAtt.Val_Date, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing))
+                        Case objLocalConfig.Globals.DType_Int.GUID
+                            objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.objRel.ID_Attribute, _
+                                             objORels.objRel.ID_Object, _
+                                             objORels.objObj.Name, _
+                                             objORels.objClass.GUID, _
+                                             objORels.objClass.Name, _
+                                             objORels.objAttType.GUID, _
+                                             objORels.objAttType.Name, _
+                                             objORels.objRel.OrderID, _
+                                             objORels.objAtt.Val_Name, _
+                                             Nothing, _
+                                             Nothing, _
+                                             objORels.objAtt.Val_Long, _
+                                             Nothing, _
+                                             Nothing))
+                        Case objLocalConfig.Globals.DType_Real.GUID
+                            objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.objRel.ID_Attribute, _
+                                             objORels.objRel.ID_Object, _
+                                             objORels.objObj.Name, _
+                                             objORels.objClass.GUID, _
+                                             objORels.objClass.Name, _
+                                             objORels.objAttType.GUID, _
+                                             objORels.objAttType.Name, _
+                                             objORels.objRel.OrderID, _
+                                             objORels.objAtt.Val_Name, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             objORels.objAtt.Val_Double, _
+                                             Nothing))
+                        Case objLocalConfig.Globals.DType_String.GUID
+                            objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.objRel.ID_Attribute, _
+                                             objORels.objRel.ID_Object, _
+                                             objORels.objObj.Name, _
+                                             objORels.objClass.GUID, _
+                                             objORels.objClass.Name, _
+                                             objORels.objAttType.GUID, _
+                                             objORels.objAttType.Name, _
+                                             objORels.objRel.OrderID, _
+                                             objORels.objAtt.Val_Name, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             objORels.objAtt.Val_String))
+                    End Select
+                Else
+                    If objORels.objDataType.GUID = objLocalConfig.Globals.DType_Bool.GUID Then
+                        otblT_ObjectAtt.Rows.Add(objORels.objRel.ID_Attribute, _
+                                             objORels.objRel.ID_Object, _
+                                             objORels.objObj.Name, _
+                                             objORels.objAttType.GUID, _
+                                             objORels.objAttType.Name, _
+                                             objORels.objClass.GUID, _
+                                             objORels.objClass.Name, _
+                                             objORels.objRel.OrderID, _
+                                             objORels.objAtt.Val_Name, _
+                                             objORels.objAtt.Val_Bool, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             objORels.objDataType.GUID, _
+                                             objORels.objDataType.Name)
+                    ElseIf objORels.objDataType.GUID = objLocalConfig.Globals.DType_DateTime.GUID Then
+                        otblT_ObjectAtt.Rows.Add(objORels.objRel.ID_Attribute, _
+                                             objORels.objRel.ID_Object, _
+                                             objORels.objObj.Name, _
+                                             objORels.objAttType.GUID, _
+                                             objORels.objAttType.Name, _
+                                             objORels.objClass.GUID, _
+                                             objORels.objClass.Name, _
+                                             objORels.objRel.OrderID, _
+                                             objORels.objAtt.Val_Name, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             objORels.objAtt.Val_Date, _
+                                             Nothing, _
+                                             objORels.objDataType.GUID, _
+                                             objORels.objDataType.Name)
+                    ElseIf objORels.objDataType.GUID = objLocalConfig.Globals.DType_Int.GUID Then
+                        otblT_ObjectAtt.Rows.Add(objORels.objRel.ID_Attribute, _
+                                             objORels.objRel.ID_Object, _
+                                             objORels.objObj.Name, _
+                                             objORels.objAttType.GUID, _
+                                             objORels.objAttType.Name, _
+                                             objORels.objClass.GUID, _
+                                             objORels.objClass.Name, _
+                                             objORels.objRel.OrderID, _
+                                             objORels.objAtt.Val_Name, _
+                                             Nothing, _
+                                             objORels.objAtt.Val_Long, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             objORels.objDataType.GUID, _
+                                             objORels.objDataType.Name)
+                    ElseIf objORels.objDataType.GUID = objLocalConfig.Globals.DType_Real.GUID Then
+                        otblT_ObjectAtt.Rows.Add(objORels.objRel.ID_Attribute, _
+                                             objORels.objRel.ID_Object, _
+                                             objORels.objObj.Name, _
+                                             objORels.objAttType.GUID, _
+                                             objORels.objAttType.Name, _
+                                             objORels.objClass.GUID, _
+                                             objORels.objClass.Name, _
+                                             objORels.objRel.OrderID, _
+                                             objORels.objAtt.Val_Name, _
+                                             Nothing, _
+                                             Nothing, _
+                                             objORels.objAtt.Val_Double, _
+                                             Nothing, _
+                                             Nothing, _
+                                             objORels.objDataType.GUID, _
+                                             objORels.objDataType.Name)
+                    ElseIf objORels.objDataType.GUID = objLocalConfig.Globals.DType_String.GUID Then
+                        otblT_ObjectAtt.Rows.Add(objORels.objRel.ID_Attribute, _
+                                             objORels.objRel.ID_Object, _
+                                             objORels.objObj.Name, _
+                                             objORels.objAttType.GUID, _
+                                             objORels.objAttType.Name, _
+                                             objORels.objClass.GUID, _
+                                             objORels.objClass.Name, _
+                                             objORels.objRel.OrderID, _
+                                             objORels.objAtt.Val_Name, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             objORels.objAtt.Val_String, _
+                                             objORels.objDataType.GUID, _
+                                             objORels.objDataType.Name)
+                    End If
                 End If
+                
                 
 
             Next
@@ -1544,8 +1632,8 @@ Public Class clsDBLevel
         Dim strQuery_ID As String
         Dim strQuery_Name As String
 
-        otblT_Objects.Clear()
-        objOntologyList_Objects.Clear()
+        otblT_DataTypes.Clear()
+        objOntologyList_DataTypes.Clear()
 
         objOItem_Result = objLocalConfig.Globals.LState_Success
         intCount = 0

@@ -148,4 +148,23 @@
         strID_Class = ID_Class
         lngOrderID = OrderID
     End Sub
+
+    Public Sub New(ByVal ID_Attribute As String, ByVal ID_Object As String, ByVal Name_Object As String, ByVal ID_Class As String, ByVal Name_Class As String, ByVal ID_AttributeType As String, ByVal Name_AttributeType As String, ByVal OrderID As Long, ByVal val_Named As String, ByVal val_Bit As Boolean, ByVal val_Datetime As DateTime, ByVal val_Int As Long, ByVal val_Real As Double, ByVal val_String As String)
+        strID_Attribute = ID_Attribute
+        strID_AttributeType = ID_AttributeType
+        strName_AttributeType = Name_AttributeType
+        strID_Object = ID_Object
+        strName_Object = Name_Object
+        strID_Class = ID_Class
+        strName_Class = Name_Class
+        lngOrderID = OrderID
+        strVal_Named = val_Named
+        boolVal = val_Bit
+        lngVal = val_Int
+        dblVal = val_Real
+        dateVal = val_Datetime
+        strVal = val_String
+
+    End Sub
+
 End Class
