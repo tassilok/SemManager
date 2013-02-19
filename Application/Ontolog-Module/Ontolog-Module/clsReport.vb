@@ -34,12 +34,67 @@
         Dim objOList_Objects_Left As New List(Of clsOntologyItem)
         Dim objOList_Objects_Right As New List(Of clsOntologyItem)
         Dim objOList_RelTypes As New List(Of clsOntologyItem)
+        Dim objOItem_ORel As clsObjectRel
+        Dim objTextWriter As IO.TextWriter
+        Dim strPath As String
+        Dim strLine As String
+        Dim strType As String
+        Dim i As Integer
+        Dim j As Integer
 
         objDBLevel_ClassRel.get_Data_ClassRel(Nothing, Nothing, False, False, False)
 
         For Each objClassRel In objDBLevel_ClassRel.OList_ClassRel_ID
-objDBLevel_ObjectRel.get_Data_ObjectRel(
-            
+            objOList_Objects_Left.Add(New clsOntologyItem(Nothing, Nothing, objClassRel.ID_Class_Left, objLocalConfig.Globals.Type_Object))
+            objOList_Objects_Right.Add(New clsOntologyItem(Nothing, Nothing, objClassRel.ID_Class_Right, objLocalConfig.Globals.Type_Object))
+            objOList_RelTypes.Add(New clsOntologyItem(objClassRel.ID_RelationType, objLocalConfig.Globals.Type_RelationType))
+
+            objDBLevel_ObjectRel.get_Data_ObjectRel(objOList_Objects_Left, objOList_Objects_Right, objOList_RelTypes, False, True)
+
+            strPath = "%Temp%\" & Guid.NewGuid().ToString & ".xml"
+            strPath = Environment.ExpandEnvironmentVariables(strPath)
+
+            i = 0
+            If objDBLevel_ObjectRel.OList_ObjectRel.Count > 0 Then
+                While i < objDBLevel_ObjectRel.OList_ObjectRel.Count
+                    objTextWriter = New IO.StreamWriter(strPath, False, System.Text.Encoding.UTF8)
+                    strLine = "<?xml version=""1.0"" encoding=""UTF-8""?>"
+                    objTextWriter.WriteLine(strLine)
+                    strLine = "<root>"
+                    objTextWriter.WriteLine(strLine)
+
+                    For j = i To i + 500
+                        If j < objDBLevel_ObjectRel.OList_ObjectRel.Count Then
+                            objOItem_ORel = objDBLevel_ObjectRel.OList_ObjectRel(j)
+
+                            strLine = "<tmptbl>"
+                            objTextWriter.WriteLine(strLine)
+
+                            strLine = "<GUID_Object_Left>" & objOItem_ORel.ID_Object & "</GUID_Object_Left>"
+                            objTextWriter.WriteLine(strLine)
+                            strLine = "<GUID_Object_Right>" & objOItem_ORel.ID_Other & "</GUID_Object_Right>"
+                            objTextWriter.WriteLine(strLine)
+                            strLine = "<GUID_RelationType>" & objOItem_ORel.ID_RelationType & "</GUID_RelationType>"
+                            objTextWriter.WriteLine(strLine)
+                            strLine = "<Name_RelationType>" & objOItem_ORel.Name_RelationType & "</Name_RelationType>"
+                            objTextWriter.WriteLine(strLine)
+                            strLine = "<OrderID>" & objOItem_ORel.OrderID & "</OrderID>"
+                            objTextWriter.WriteLine(strLine)
+                            strLine = "<Exist>1</Exist>"
+                            objTextWriter.WriteLine(strLine)
+                            strLine = "</tmptbl>"
+                            objTextWriter.WriteLine(strLine)
+                        Else
+                            Exit For
+                        End If
+                    Next
+                    strLine = "</root>"
+                    objTextWriter.WriteLine(strLine)
+                    objTextWriter.Close()
+
+                    i = j
+                End While
+            End If
         Next
     End Sub
 
