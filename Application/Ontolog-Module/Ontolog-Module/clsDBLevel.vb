@@ -988,12 +988,17 @@ Public Class clsDBLevel
 
         objOItem_Result = objLocalConfig.Globals.LState_Success
 
-        If Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
-            create_BoolQuery_ClassRel(oList_Class, Nothing, Nothing, True)
+        If Not Direction Is Nothing Then
+            If Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                create_BoolQuery_ClassRel(oList_Class, Nothing, Nothing, True)
 
+            Else
+                create_BoolQuery_ClassRel(Nothing, oList_Class, Nothing, True)
+            End If
         Else
-            create_BoolQuery_ClassRel(Nothing, oList_Class, Nothing, True)
+            create_BoolQuery_ClassRel(Nothing, Nothing, Nothing, True)
         End If
+        
 
         strQuery = ""
 
@@ -1572,12 +1577,12 @@ Public Class clsDBLevel
         If boolIDs = False Then
 
             oList_RelType = New List(Of clsOntologyItem)
-            Dim objLObject = From objObj In objOntologyList_ObjectRel_ID
-                             Group By objObj.ID_Object Into Group
+            Dim objLCls = From objObj In objOntologyList_ObjectRel_ID
+                             Group By objObj.ID_Parent_Object Into Group
 
 
-            For Each objObject In objLObject
-                oList_Object.Add(New clsOntologyItem(objObject.ID_Object, objLocalConfig.Globals.Type_Object))
+            For Each objCls In objLCls
+                oList_Object.Add(New clsOntologyItem(Nothing, Nothing, objCls.ID_Parent_Object, objLocalConfig.Globals.Type_Object))
 
             Next
 
@@ -1612,18 +1617,18 @@ Public Class clsDBLevel
             End If
 
             Dim objLOther = From objOther In objOntologyList_ObjectRel_ID
-                            Group By objOther.ID_Other, objOther.Ontology Into Group
+                            Group By objOther.Ontology, objOther.ID_Parent_Other Into Group
 
             For Each objOther In objLOther
                 Select Case objOther.Ontology
                     Case objLocalConfig.Globals.Type_AttributeType
-                        OList_AttributeTypes.Add(New clsOntologyItem(objOther.ID_Other, objLocalConfig.Globals.Type_AttributeType))
+                        OList_AttributeTypes.Add(New clsOntologyItem(Nothing, objLocalConfig.Globals.Type_AttributeType))
 
                     Case objLocalConfig.Globals.Type_Class
-                        OList_Classes.Add(New clsOntologyItem(objOther.ID_Other, objLocalConfig.Globals.Type_Class))
+                        OList_Classes.Add(New clsOntologyItem(objOther.ID_Parent_Other, objLocalConfig.Globals.Type_Class))
 
                     Case objLocalConfig.Globals.Type_Object
-                        oList_Object.Add(New clsOntologyItem(objOther.ID_Other, objLocalConfig.Globals.Type_Object))
+                        oList_Object.Add(New clsOntologyItem(Nothing, Nothing, objOther.ID_Parent_Other, objLocalConfig.Globals.Type_Object))
 
                         Dim oLClasses = From objCls1 In objOntologyList_ObjectRel_ID
                                         Group By objCls1.ID_Parent_Other Into Group
@@ -1633,7 +1638,7 @@ Public Class clsDBLevel
                         Next
 
                     Case objLocalConfig.Globals.Type_RelationType
-                        oList_Rel_RelType.Add(New clsOntologyItem(objOther.ID_Other, objLocalConfig.Globals.Type_RelationType))
+                        oList_Rel_RelType.Add(New clsOntologyItem(Nothing, objLocalConfig.Globals.Type_RelationType))
 
                 End Select
             Next

@@ -16,17 +16,20 @@
     Private objDBLevel_CalssAtt As clsDBLevel
     Private objDBLevel_AttributeTypes As clsDBLevel
     Private objDBLevel_DataType As clsDBLevel
+    Private objDBLevel_Class As clsDBLevel
     Private objDBLevel_ClassRel As clsDBLevel
     Private objDBlevel_ObjAtt As clsDBLevel
     Private objDBLevel_Objects As clsDBLevel
     Private objDBLevel_ObjectRel As clsDBLevel
+    Private objDBLevel_RelType As clsDBLevel
 
     Private objDBLevel_OntologyRules As clsDBLevel
     Private objDBLevel_Ontology As clsDBLevel
 
     Public Sub sync_SQLDB()
-        sync_SQLDB_Classes()
-        sync_SQLDB_Attributes()
+        'sync_SQLDB_Classes()
+        'sync_SQLDB_Attributes()
+        sync_SQLDB_Relations()
     End Sub
 
     Public Sub sync_SQLDB_Relations()
@@ -34,22 +37,30 @@
         Dim objOList_Objects_Left As New List(Of clsOntologyItem)
         Dim objOList_Objects_Right As New List(Of clsOntologyItem)
         Dim objOList_RelTypes As New List(Of clsOntologyItem)
+        Dim objOList_Class_Left As New List(Of clsOntologyItem)
+        Dim objOList_Class_Right As New List(Of clsOntologyItem)
         Dim objOItem_ORel As clsObjectRel
         Dim objTextWriter As IO.TextWriter
         Dim strPath As String
         Dim strLine As String
         Dim strType As String
+        Dim strClass_Left As String
+        Dim strClass_Right As String
+        Dim strRelationType As String
         Dim i As Integer
         Dim j As Integer
 
         objDBLevel_ClassRel.get_Data_ClassRel(Nothing, Nothing, False, False, False)
 
         For Each objClassRel In objDBLevel_ClassRel.OList_ClassRel_ID
+            objOList_Objects_Left.Clear()
+            objOList_Objects_Right.Clear()
+            objOList_RelTypes.Clear()
             objOList_Objects_Left.Add(New clsOntologyItem(Nothing, Nothing, objClassRel.ID_Class_Left, objLocalConfig.Globals.Type_Object))
             objOList_Objects_Right.Add(New clsOntologyItem(Nothing, Nothing, objClassRel.ID_Class_Right, objLocalConfig.Globals.Type_Object))
             objOList_RelTypes.Add(New clsOntologyItem(objClassRel.ID_RelationType, objLocalConfig.Globals.Type_RelationType))
 
-            objDBLevel_ObjectRel.get_Data_ObjectRel(objOList_Objects_Left, objOList_Objects_Right, objOList_RelTypes, False, True)
+            objDBLevel_ObjectRel.get_Data_ObjectRel(objOList_Objects_Left, objOList_Objects_Right, objOList_RelTypes, False, False)
 
             strPath = "%Temp%\" & Guid.NewGuid().ToString & ".xml"
             strPath = Environment.ExpandEnvironmentVariables(strPath)
@@ -66,6 +77,9 @@
                     For j = i To i + 500
                         If j < objDBLevel_ObjectRel.OList_ObjectRel.Count Then
                             objOItem_ORel = objDBLevel_ObjectRel.OList_ObjectRel(j)
+                            strClass_Left = objOItem_ORel.Name_Parent_Object
+                            strClass_Right = objOItem_ORel.Name_Parent_Right
+                            strRelationType = objOItem_ORel.Name_RelationType
 
                             strLine = "<tmptbl>"
                             objTextWriter.WriteLine(strLine)
@@ -92,8 +106,36 @@
                     objTextWriter.WriteLine(strLine)
                     objTextWriter.Close()
 
+                    createA_Table_relT.GetData(objLocalConfig.Globals.Type_ObjectRel, _
+                                               strClass_Left, _
+                                               strClass_Right, _
+                                               strRelationType, _
+                                               strPath, _
+                                               True)
+
                     i = j
                 End While
+            Else
+                objOList_Class_Left.Add(New clsOntologyItem(objClassRel.ID_Class_Left, objLocalConfig.Globals.Type_Class))
+                objOList_Class_Right.Add(New clsOntologyItem(objClassRel.ID_Class_Left, objLocalConfig.Globals.Type_Class))
+                objOList_RelTypes.Clear()
+                objOList_RelTypes.Add(New clsOntologyItem(objClassRel.ID_RelationType, objLocalConfig.Globals.Type_RelationType))
+
+
+                objDBLevel_Classes.get_Data_Classes(objOList_Class_Left, False, False)
+                objDBLevel_Classes.get_Data_Classes(objOList_Class_Right, False, True)
+                objDBLevel_RelType.get_Data_RelationTypes(objOList_RelTypes, False)
+
+                strClass_Left = objDBLevel_Classes.OList_Classes_Left(0).Name
+                strClass_Right = objDBLevel_Classes.OList_Classes_Right(0).Name
+                strRelationType = objDBLevel_RelType.OList_RelationTypes(0).Name
+
+                createA_Table_relT.GetData(objLocalConfig.Globals.Type_ObjectRel, _
+                                               strClass_Left, _
+                                               strClass_Right, _
+                                               strRelationType, _
+                                               strPath, _
+                                               False)
             End If
         Next
     End Sub
@@ -329,7 +371,9 @@
         objDBLevel_Ontology = New clsDBLevel(objLocalConfig)
         objDBLevel_OntologyRules = New clsDBLevel(objLocalConfig)
         objDBLevel_DataType = New clsDBLevel(objLocalConfig)
+        objDBLevel_Class = New clsDBLevel(objLocalConfig)
         objDBLevel_ClassRel = New clsDBLevel(objLocalConfig)
         objDBLevel_ObjectRel = New clsDBLevel(objLocalConfig)
+        objDBLevel_RelType = New clsDBLevel(objLocalConfig)
     End Sub
 End Class

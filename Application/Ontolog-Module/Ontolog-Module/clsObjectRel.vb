@@ -175,6 +175,8 @@
 
         strID_Object = ID_Object
         strName_Object = Name_Object
+        strID_Parent_Object = ID_Parent_Object
+        strName_Parent_Object = Name_Parent_Object
         strID_Parent_Other = ID_Parent_Other
         strName_Parent_Other = Name_Parent_Other
         strID_Other = ID_Other
