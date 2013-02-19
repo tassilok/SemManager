@@ -16,8 +16,10 @@
     Private objDBLevel_CalssAtt As clsDBLevel
     Private objDBLevel_AttributeTypes As clsDBLevel
     Private objDBLevel_DataType As clsDBLevel
+    Private objDBLevel_ClassRel As clsDBLevel
     Private objDBlevel_ObjAtt As clsDBLevel
     Private objDBLevel_Objects As clsDBLevel
+    Private objDBLevel_ObjectRel As clsDBLevel
 
     Private objDBLevel_OntologyRules As clsDBLevel
     Private objDBLevel_Ontology As clsDBLevel
@@ -25,6 +27,20 @@
     Public Sub sync_SQLDB()
         sync_SQLDB_Classes()
         sync_SQLDB_Attributes()
+    End Sub
+
+    Public Sub sync_SQLDB_Relations()
+        Dim objClassRel As clsClassRel
+        Dim objOList_Objects_Left As New List(Of clsOntologyItem)
+        Dim objOList_Objects_Right As New List(Of clsOntologyItem)
+        Dim objOList_RelTypes As New List(Of clsOntologyItem)
+
+        objDBLevel_ClassRel.get_Data_ClassRel(Nothing, Nothing, False, False, False)
+
+        For Each objClassRel In objDBLevel_ClassRel.OList_ClassRel_ID
+objDBLevel_ObjectRel.get_Data_ObjectRel(
+            
+        Next
     End Sub
 
     Public Sub sync_SQLDB_Attributes()
@@ -258,5 +274,7 @@
         objDBLevel_Ontology = New clsDBLevel(objLocalConfig)
         objDBLevel_OntologyRules = New clsDBLevel(objLocalConfig)
         objDBLevel_DataType = New clsDBLevel(objLocalConfig)
+        objDBLevel_ClassRel = New clsDBLevel(objLocalConfig)
+        objDBLevel_ObjectRel = New clsDBLevel(objLocalConfig)
     End Sub
 End Class
