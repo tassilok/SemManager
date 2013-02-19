@@ -12,6 +12,7 @@ Public Class clsDBLevel
     Private objOntologyList_RelationTypes As New List(Of clsOntologyItem)
     Private objOntologyList_AttributTypes As New List(Of clsOntologyItem)
     Private objOntologyList_ClassRel_ID As New List(Of clsClassRel)
+    Private objOntologyList_ClassRel As New List(Of clsClassRel)
     Private objOntologyList_ClassAtt_ID As New List(Of clsClassAtt)
     Private objOntologyList_ObjAtt_ID As New List(Of clsObjectAtt)
     Private objOntologyList_ObjAtt As New List(Of clsObjectAtt)
@@ -35,6 +36,17 @@ Public Class clsDBLevel
 
     Private objLocalConfig As clsLocalConfig
 
+    Private intPackageLength As Integer
+
+    Public Property PackageLength As Integer
+        Get
+            Return intPackageLength
+        End Get
+        Set(ByVal value As Integer)
+            intPackageLength = value
+        End Set
+    End Property
+
     Public ReadOnly Property OList_ObjectTree As List(Of clsObjectTree)
         Get
             Return objOntologyList_ObjectTree
@@ -44,6 +56,12 @@ Public Class clsDBLevel
     Public ReadOnly Property OList_ClassRel_ID As List(Of clsClassRel)
         Get
             Return objOntologyList_ClassRel_ID
+        End Get
+    End Property
+
+    Public ReadOnly Property OList_ClassRel As List(Of clsClassRel)
+        Get
+            Return objOntologyList_ClassRel
         End Get
     End Property
 
@@ -101,7 +119,6 @@ Public Class clsDBLevel
         End Get
     End Property
 
-    
     Public ReadOnly Property OList_ObjectAtt_ID As List(Of clsObjectAtt)
         Get
             Return objOntologyList_ObjAtt_ID
@@ -164,7 +181,8 @@ Public Class clsDBLevel
     End Property
 
     Private Sub initialize_Client()
-        
+        intPackageLength = objLocalConfig.Globals.SearchRange
+
         objElConn = New ElasticSearch.Client.ElasticSearchClient(objLocalConfig.Globals.Server, objLocalConfig.Globals.Port, Client.Config.TransportType.Thrift, False)
         Try
             objElConn.CreateIndex(objLocalConfig.Globals.Index_Rep)
@@ -187,7 +205,7 @@ Public Class clsDBLevel
         Dim objOItem_Result As clsOntologyItem
         Dim intCount As Integer
         Dim intPos As Integer
-
+        objOntologyList_Attributes.Clear()
         otblT_RelationTypes.Clear()
         objOntologyList_RelationTypes.Clear()
 
@@ -197,12 +215,12 @@ Public Class clsDBLevel
 
         create_BoolQuery_Attributes(OList_Attributes, OList_DataTypes, OList_AttributeTypes, True)
 
-        intCount = objLocalConfig.Globals.SearchRange
+        intCount = intPackageLength
         intPos = 0
         While intCount > 0
 
             intCount = 0
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Attribute, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Attribute, objBoolQuery.ToString, intPos, intPackageLength)
             objList = objSearchResult.GetHits.Hits
 
             For Each objHit In objList
@@ -292,12 +310,12 @@ Public Class clsDBLevel
 
         create_BoolQuery_Simple(OList_RelType, objLocalConfig.Globals.Type_RelationType)
     
-        intCount = objLocalConfig.Globals.SearchRange
+        intCount = intPackageLength
         intPos = 0
         While intCount > 0
 
             intCount = 0
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_RelationType, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_RelationType, objBoolQuery.ToString, intPos, intPackageLength)
             objList = objSearchResult.GetHits.Hits
     
             For Each objHit In objList
@@ -753,12 +771,12 @@ Public Class clsDBLevel
 
         create_BoolQuery_Simple(OList_AttType, objLocalConfig.Globals.Type_AttributeType)
 
-        intCount = objLocalConfig.Globals.SearchRange
+        intCount = intPackageLength
         intPos = 0
         While intCount > 0
 
             intCount = 0
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_AttributeType, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_AttributeType, objBoolQuery.ToString, intPos, intPackageLength)
             objList = objSearchResult.GetHits.Hits
             'Dim a = From obja In objList
             'Where (Not obja.Source("@fields")("ex_cid") Is Nothing)
@@ -793,7 +811,7 @@ Public Class clsDBLevel
         Return objOItem_Result
     End Function
 
-    Public Function get_Data_ClassAtt(Optional ByVal oList_Class As List(Of clsOntologyItem) = Nothing, Optional ByVal oList_Attributes As List(Of clsOntologyItem) = Nothing, Optional ByVal boolTable As Boolean = False, Optional ByVal boolIDs As Boolean = True) As clsOntologyItem
+    Public Function get_Data_ClassAtt(Optional ByVal oList_Class As List(Of clsOntologyItem) = Nothing, Optional ByVal oList_AttributeTyp As List(Of clsOntologyItem) = Nothing, Optional ByVal boolTable As Boolean = False, Optional ByVal boolIDs As Boolean = True) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim oList_Classes As New List(Of clsOntologyItem)
         Dim oList_AttributeTypes As New List(Of clsOntologyItem)
@@ -807,43 +825,73 @@ Public Class clsDBLevel
         objOItem_Result = objLocalConfig.Globals.LState_Success
 
         oList_AttributeTypes.Clear()
+        If Not oList_Class Is Nothing Then
+            Dim strLQuery_ID = From obj As clsOntologyItem In oList_Class Group By obj.GUID Into Group Select GUID = GUID
 
-        Dim strLQuery_ID = From obj As clsOntologyItem In oList_Class Group By obj.GUID Into Group Select GUID = GUID
-
-        strQuery = ""
-        For Each strQuery_ID In strLQuery_ID
+            strQuery = ""
+            For Each strQuery_ID In strLQuery_ID
+                If strQuery <> "" Then
+                    strQuery = strQuery & "\ OR\ "
+                End If
+                strQuery = strQuery & strQuery_ID
+            Next
             If strQuery <> "" Then
-                strQuery = strQuery & "\ OR\ "
-            End If
-            strQuery = strQuery & strQuery_ID
-        Next
-        If strQuery <> "" Then
-            objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Class, strQuery)), BooleanClause.Occur.MUST)
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Class, strQuery)), BooleanClause.Occur.MUST)
 
+            End If
+
+            Dim strLQuery_AttID = From obj As clsOntologyItem In oList_AttributeTypes Group By obj.GUID Into Group Select GUID = GUID
+
+            strQuery = ""
+            For Each strQuery_ID In strLQuery_AttID
+                If strQuery <> "" Then
+                    strQuery = strQuery & "\ OR\ "
+                End If
+                strQuery = strQuery & strQuery_ID
+            Next
+            If strQuery <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Attribute, strQuery)), BooleanClause.Occur.MUST)
+
+            End If
         End If
+        If Not oList_AttributeTypes Is Nothing Then
+            Dim strLQuery_ID = From obj As clsOntologyItem In oList_AttributeTyp Group By obj.GUID Into Group Select GUID = GUID
 
-        Dim strLQuery_AttID = From obj As clsOntologyItem In oList_AttributeTypes Group By obj.GUID Into Group Select GUID = GUID
-
-        strQuery = ""
-        For Each strQuery_ID In strLQuery_AttID
+            strQuery = ""
+            For Each strQuery_ID In strLQuery_ID
+                If strQuery <> "" Then
+                    strQuery = strQuery & "\ OR\ "
+                End If
+                strQuery = strQuery & strQuery_ID
+            Next
             If strQuery <> "" Then
-                strQuery = strQuery & "\ OR\ "
-            End If
-            strQuery = strQuery & strQuery_ID
-        Next
-        If strQuery <> "" Then
-            objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Attribute, strQuery)), BooleanClause.Occur.MUST)
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Class, strQuery)), BooleanClause.Occur.MUST)
 
+            End If
+
+            Dim strLQuery_AttID = From obj As clsOntologyItem In oList_AttributeTypes Group By obj.GUID Into Group Select GUID = GUID
+
+            strQuery = ""
+            For Each strQuery_ID In strLQuery_AttID
+                If strQuery <> "" Then
+                    strQuery = strQuery & "\ OR\ "
+                End If
+                strQuery = strQuery & strQuery_ID
+            Next
+            If strQuery <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Attribute, strQuery)), BooleanClause.Occur.MUST)
+
+            End If
         End If
 
         objOntologyList_ClassAtt_ID.Clear()
         objOntologyList_Classes1.Clear()
         otblT_ClassAtt.Clear()
 
-        intCount = objLocalConfig.Globals.SearchRange
+        intCount = intPackageLength
         intPos = 0
         While intCount > 0
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ClassAtt, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ClassAtt, objBoolQuery.ToString, intPos, intPackageLength)
             objList = objSearchResult.GetHits.Hits
 
             For Each objHit In objList
@@ -926,8 +974,10 @@ Public Class clsDBLevel
         Dim intPos As Integer
 
         objOntologyList_Classes1.Clear()
+        objOntologyList_Classes2.Clear()
         objOntologyList_RelationTypes.Clear()
         objOntologyList_ClassRel_ID.Clear()
+        objOntologyList_ClassRel.Clear()
 
         objOItem_Result = objLocalConfig.Globals.LState_Success
 
@@ -941,12 +991,12 @@ Public Class clsDBLevel
         strQuery = ""
 
 
-        intCount = objLocalConfig.Globals.SearchRange
+        intCount = intPackageLength
         intPos = 0
         While intCount > 0
 
 
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ClassRel, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ClassRel, objBoolQuery.ToString, intPos, intPackageLength)
             objList = objSearchResult.GetHits.Hits
 
             For Each objHit In objList
@@ -1027,8 +1077,16 @@ Public Class clsDBLevel
                           Join objRelType In objOntologyList_RelationTypes On objRelType.GUID Equals objRel.ID_RelationType
 
                 For Each objRel In objLRels
-
-                    otblT_ClassRel.Rows.Add(objRel.objRel.ID_Class_Left, _
+                    If boolTable = False Then
+                        objOntologyList_ClassRel.Add(New clsClassRel(objRel.objClass_Left.GUID, objRel.objClass_Left.Name, _
+                                                                     objRel.objClass_Right.GUID, objRel.objClass_Right.Name, _
+                                                                     objRel.objRelType.GUID, objRel.objRelType.Name, _
+                                                                     objRel.objRel.Ontology, _
+                                                                     objRel.objRel.Min_Forw, _
+                                                                     objRel.objRel.Max_Forw, _
+                                                                     objRel.objRel.Max_Backw))
+                    Else
+                        otblT_ClassRel.Rows.Add(objRel.objRel.ID_Class_Left, _
                                                              objRel.objClass_Left.Name, _
                                                              objRel.objRel.ID_Class_Right, _
                                                              objRel.objClass_Right.Name, _
@@ -1038,6 +1096,8 @@ Public Class clsDBLevel
                                                              objRel.objRel.Min_Forw, _
                                                              objRel.objRel.Max_Forw, _
                                                              objRel.objRel.Max_Backw)
+                    End If
+                    
 
                 Next
             Else
@@ -1047,8 +1107,16 @@ Public Class clsDBLevel
                           Where objRel.Ontology = objLocalConfig.Globals.Type_Other
 
                 For Each objRel In objLRels
-
-                    otblT_ClassRel.Rows.Add(objRel.objRel.ID_Class_Left, _
+                    If boolTable = False Then
+                        objOntologyList_ClassRel.Add(New clsClassRel(objRel.objClass_Left.GUID, objRel.objClass_Left.Name, _
+                                                                     Nothing, Nothing, _
+                                                                     objRel.objRelType.GUID, objRel.objRelType.Name, _
+                                                                     objRel.objRel.Ontology, _
+                                                                     objRel.objRel.Min_Forw, _
+                                                                     objRel.objRel.Max_Forw, _
+                                                                     objRel.objRel.Max_Backw))
+                    Else
+                        otblT_ClassRel.Rows.Add(objRel.objRel.ID_Class_Left, _
                                                              objRel.objClass_Left.Name, _
                                                              Nothing, _
                                                              Nothing, _
@@ -1058,6 +1126,8 @@ Public Class clsDBLevel
                                                              objRel.objRel.Min_Forw, _
                                                              objRel.objRel.Max_Forw, _
                                                              objRel.objRel.Max_Backw)
+                    End If
+                    
 
                 Next
             End If
@@ -1131,12 +1201,12 @@ Public Class clsDBLevel
                 objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_AttributeType, strQuery)), BooleanClause.Occur.MUST)
             End If
         End If
-        intCount = objLocalConfig.Globals.SearchRange
+        intCount = intPackageLength
         intPos = 0
         While intCount > 0
 
             intCount = 0
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectAtt, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectAtt, objBoolQuery.ToString, intPos, intPackageLength)
             objList = objSearchResult.GetHits.Hits
 
             For Each objHit In objList
@@ -1148,6 +1218,13 @@ Public Class clsDBLevel
                                                                objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString))
                 
             Next
+
+            intCount = objList.Count
+
+            objList.Clear()
+            objSearchResult = Nothing
+            objList = Nothing
+            intPos = intPos + intCount
         End While
 
         If boolIDs = False Then
@@ -1236,6 +1313,8 @@ Public Class clsDBLevel
                             , Val_String = objAtt.Val_String _
                             , Val_Named = objAtt.Val_Name Into Group
 
+            oList_AttType = Nothing
+
             For Each objORels In oListRel
                 If boolTable = False Then
                     Select Case objORels.ID_DataType
@@ -1316,7 +1395,7 @@ Public Class clsDBLevel
                                              objORels.Val_String))
                     End Select
                 Else
-                    Select objORels.ID_DataType
+                    Select Case objORels.ID_DataType
                         Case objLocalConfig.Globals.DType_Bool.GUID
                             otblT_ObjectAtt.Rows.Add(objORels.ID_Attribute, _
                                                  objORels.ID_Object, _
@@ -1400,11 +1479,13 @@ Public Class clsDBLevel
                                                  objORels.Name_DataType)
                     End Select
                 End If
-                
-                
+
 
             Next
+
+
         End If
+        
 
         Return objOItem_Result
     End Function
@@ -1432,12 +1513,12 @@ Public Class clsDBLevel
 
         create_BoolQuery_ObjectRel(oList_Object, oList_Other, oList_RelType)
 
-        intCount = objLocalConfig.Globals.SearchRange
+        intCount = intPackageLength
         intPos = 0
         While intCount > 0
 
             intCount = 0
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectRel, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectRel, objBoolQuery.ToString, intPos, intPackageLength)
             objList = objSearchResult.GetHits.Hits
 
             For Each objHit In objList
@@ -1469,6 +1550,13 @@ Public Class clsDBLevel
 
 
             Next
+
+            intCount = objList.Count
+
+            objList.Clear()
+            objSearchResult = Nothing
+            objList = Nothing
+            intPos = intPos + intCount
         End While
 
         If boolIDs = False Then
@@ -1675,12 +1763,12 @@ Public Class clsDBLevel
 
         create_BoolQuery_Simple(oList_DataTypes, objLocalConfig.Globals.Type_DataType)
         
-        intCount = objLocalConfig.Globals.SearchRange
+        intCount = intPackageLength
         intPos = 0
         While intCount > 0
 
             intCount = 0
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_DataType, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_DataType, objBoolQuery.ToString, intPos, intPackageLength)
             objList = objSearchResult.GetHits.Hits
 
             For Each objHit In objList
@@ -1736,11 +1824,11 @@ Public Class clsDBLevel
         objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Parent_Other, objOitem_Class_Child.GUID)), BooleanClause.Occur.MUST)
         objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_RelationType, objOItem_RelationType.GUID)), BooleanClause.Occur.MUST)
 
-        intCount = objLocalConfig.Globals.SearchRange
+        intCount = intPackageLength
         intPos = 0
         While intCount > 0
             intCount = 0
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectRel, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectRel, objBoolQuery.ToString, intPos, intPackageLength)
             objList = objSearchResult.GetHits.Hits
 
 
@@ -1793,12 +1881,12 @@ Public Class clsDBLevel
         objOItem_Result = objLocalConfig.Globals.LState_Success
         intCount = 0
         
-        intCount = objLocalConfig.Globals.SearchRange
+        intCount = intPackageLength
         intPos = 0
         While intCount > 0
 
             intCount = 0
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Object, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Object, objBoolQuery.ToString, intPos, intPackageLength)
             objList = objSearchResult.GetHits.Hits
 
             For Each objHit In objList
@@ -1858,12 +1946,12 @@ Public Class clsDBLevel
 
         objOntologyList_Classes1.Clear()
 
-        intCount = objLocalConfig.Globals.SearchRange
+        intCount = intPackageLength
         intPos = 0
         While intCount > 0
 
             intCount = 0
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Class, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Class, objBoolQuery.ToString, intPos, intPackageLength)
             objList = objSearchResult.GetHits.Hits
             'Dim a = From obja In objList
             'Where (Not obja.Source("@fields")("ex_cid") Is Nothing)
@@ -1928,13 +2016,13 @@ Public Class clsDBLevel
         create_BoolQuery_Simple(OList_Classes, objLocalConfig.Globals.Type_Class)
 
 
-        intCount = objLocalConfig.Globals.SearchRange
+        intCount = intPackageLength
         intPos = 0
         While intCount > 0
 
             intCount = 0
 
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Class, objBoolQuery.ToString, intPos, objLocalConfig.Globals.SearchRange)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Class, objBoolQuery.ToString, intPos, intPackageLength)
             objList = objSearchResult.GetHits.Hits
             'Dim a = From obja In objList
             'Where (Not obja.Source("@fields")("ex_cid") Is Nothing)

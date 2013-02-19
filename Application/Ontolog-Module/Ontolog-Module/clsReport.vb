@@ -23,7 +23,7 @@
     Private objDBLevel_Ontology As clsDBLevel
 
     Public Sub sync_SQLDB()
-        'sync_SQLDB_Classes()
+        sync_SQLDB_Classes()
         sync_SQLDB_Attributes()
     End Sub
 
@@ -42,6 +42,7 @@
         Dim j As Long
 
 
+        initializeA_Tables.GetData(objLocalConfig.Globals.Type_Attribute)
 
         objDBLevel_AttributeTypes.get_Data_AttributeType(Nothing, False)
 
@@ -78,7 +79,6 @@
             strPath = "%Temp%\" & Guid.NewGuid().ToString & ".xml"
             strPath = Environment.ExpandEnvironmentVariables(strPath)
 
-            
             objDBlevel_ObjAtt.get_Data_ObjectAtt(Nothing, objOItem_AttributeType, False, False)
 
 
@@ -108,7 +108,7 @@
                             strLine = "<OrderID>" & objOItem_ObjAtt.OrderID & "</OrderID>"
                             objTextWriter.WriteLine(strLine)
                             If strType = "NVARCHAR" Then
-                                strLine = "<val><![CDATA[" & objOItem_ObjAtt.val_Named & "]]></val>"
+                                strLine = "<val><![CDATA[" & Web.HttpUtility.HtmlEncode(objOItem_ObjAtt.val_Named) & "]]></val>"
                             ElseIf strType = "Real" Then
                                 strLine = "<val>" & objOItem_ObjAtt.val_Named.Replace(",", ".") & "</val>"
                             Else
@@ -143,6 +143,7 @@
         Next
 
         
+        finalizeA_Tables.GetData(objLocalConfig.Globals.Type_Attribute)
 
     End Sub
 
@@ -217,6 +218,8 @@
 
             finalizeA_Table.GetData("orgT_" & objOItem_Class.Name)
         Next
+
+        finalizeA_Tables.GetData(objLocalConfig.Globals.Type_Class)
     End Sub
 
     Public Sub New(ByVal Globals As clsGlobals)
