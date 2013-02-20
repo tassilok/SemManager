@@ -27,8 +27,8 @@
     Private objDBLevel_Ontology As clsDBLevel
 
     Public Sub sync_SQLDB()
-        'sync_SQLDB_Classes()
-        'sync_SQLDB_Attributes()
+        sync_SQLDB_Classes()
+        sync_SQLDB_Attributes()
         sync_SQLDB_Relations()
     End Sub
 
@@ -49,6 +49,8 @@
         Dim strRelationType As String
         Dim i As Integer
         Dim j As Integer
+
+        initializeA_Tables.GetData(objLocalConfig.Globals.Type_ObjectRel)
 
         objDBLevel_ClassRel.get_Data_ClassRel(Nothing, Nothing, False, False, False)
 
@@ -116,8 +118,11 @@
                     i = j
                 End While
             Else
+                objOList_Class_Left.Clear()
+                objOList_Class_Right.Clear()
+                objOList_RelTypes.Clear()
                 objOList_Class_Left.Add(New clsOntologyItem(objClassRel.ID_Class_Left, objLocalConfig.Globals.Type_Class))
-                objOList_Class_Right.Add(New clsOntologyItem(objClassRel.ID_Class_Left, objLocalConfig.Globals.Type_Class))
+                objOList_Class_Right.Add(New clsOntologyItem(objClassRel.ID_Class_Right, objLocalConfig.Globals.Type_Class))
                 objOList_RelTypes.Clear()
                 objOList_RelTypes.Add(New clsOntologyItem(objClassRel.ID_RelationType, objLocalConfig.Globals.Type_RelationType))
 
@@ -126,18 +131,25 @@
                 objDBLevel_Classes.get_Data_Classes(objOList_Class_Right, False, True)
                 objDBLevel_RelType.get_Data_RelationTypes(objOList_RelTypes, False)
 
-                strClass_Left = objDBLevel_Classes.OList_Classes_Left(0).Name
-                strClass_Right = objDBLevel_Classes.OList_Classes_Right(0).Name
-                strRelationType = objDBLevel_RelType.OList_RelationTypes(0).Name
+                If objDBLevel_Classes.OList_Classes_Left.Count > 0 And _
+                    objDBLevel_Classes.OList_Classes_Right.Count > 0 And _
+                    objDBLevel_RelType.OList_RelationTypes.Count > 0 Then
+                    strClass_Left = objDBLevel_Classes.OList_Classes_Left(0).Name
+                    strClass_Right = objDBLevel_Classes.OList_Classes_Right(0).Name
+                    strRelationType = objDBLevel_RelType.OList_RelationTypes(0).Name
 
-                createA_Table_relT.GetData(objLocalConfig.Globals.Type_ObjectRel, _
-                                               strClass_Left, _
-                                               strClass_Right, _
-                                               strRelationType, _
-                                               strPath, _
-                                               False)
+                    createA_Table_relT.GetData(objLocalConfig.Globals.Type_ObjectRel, _
+                                                   strClass_Left, _
+                                                   strClass_Right, _
+                                                   strRelationType, _
+                                                   strPath, _
+                                                   False)
+                End If
+                
             End If
         Next
+
+        finalizeA_Tables.GetData(objLocalConfig.Globals.Type_ObjectRel)
     End Sub
 
     Public Sub sync_SQLDB_Attributes()

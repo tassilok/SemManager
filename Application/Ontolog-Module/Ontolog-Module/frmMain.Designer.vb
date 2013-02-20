@@ -230,7 +230,7 @@ Partial Class frmMain
         'ToolStripStatusLabel_DatabaseLBL
         '
         Me.ToolStripStatusLabel_DatabaseLBL.Name = "ToolStripStatusLabel_DatabaseLBL"
-        Me.ToolStripStatusLabel_DatabaseLBL.Size = New System.Drawing.Size(57, 19)
+        Me.ToolStripStatusLabel_DatabaseLBL.Size = New System.Drawing.Size(58, 19)
         Me.ToolStripStatusLabel_DatabaseLBL.Text = "Database:"
         '
         'ToolStripStatusLabel_Database
@@ -240,49 +240,49 @@ Partial Class frmMain
                     Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_Database.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner
         Me.ToolStripStatusLabel_Database.Name = "ToolStripStatusLabel_Database"
-        Me.ToolStripStatusLabel_Database.Size = New System.Drawing.Size(15, 19)
+        Me.ToolStripStatusLabel_Database.Size = New System.Drawing.Size(16, 19)
         Me.ToolStripStatusLabel_Database.Text = "-"
         '
         'ToolStripStatusLabel3
         '
         Me.ToolStripStatusLabel3.Name = "ToolStripStatusLabel3"
-        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(11, 19)
+        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(10, 19)
         Me.ToolStripStatusLabel3.Text = "|"
         '
         'ToolStripStatusLabel_TokenAttLBL
         '
         Me.ToolStripStatusLabel_TokenAttLBL.Name = "ToolStripStatusLabel_TokenAttLBL"
-        Me.ToolStripStatusLabel_TokenAttLBL.Size = New System.Drawing.Size(87, 19)
+        Me.ToolStripStatusLabel_TokenAttLBL.Size = New System.Drawing.Size(95, 19)
         Me.ToolStripStatusLabel_TokenAttLBL.Text = "Token-Attribute:"
         '
         'ToolStripStatusLabel_TokenAtt_Attribute
         '
         Me.ToolStripStatusLabel_TokenAtt_Attribute.Name = "ToolStripStatusLabel_TokenAtt_Attribute"
-        Me.ToolStripStatusLabel_TokenAtt_Attribute.Size = New System.Drawing.Size(11, 19)
+        Me.ToolStripStatusLabel_TokenAtt_Attribute.Size = New System.Drawing.Size(12, 19)
         Me.ToolStripStatusLabel_TokenAtt_Attribute.Text = "-"
         '
         'ToolStripStatusLabel_TokenAttSeperator
         '
         Me.ToolStripStatusLabel_TokenAttSeperator.Name = "ToolStripStatusLabel_TokenAttSeperator"
-        Me.ToolStripStatusLabel_TokenAttSeperator.Size = New System.Drawing.Size(11, 19)
+        Me.ToolStripStatusLabel_TokenAttSeperator.Size = New System.Drawing.Size(12, 19)
         Me.ToolStripStatusLabel_TokenAttSeperator.Text = "/"
         '
         'ToolStripStatusLabel_TokenAtt_Token
         '
         Me.ToolStripStatusLabel_TokenAtt_Token.Name = "ToolStripStatusLabel_TokenAtt_Token"
-        Me.ToolStripStatusLabel_TokenAtt_Token.Size = New System.Drawing.Size(11, 19)
+        Me.ToolStripStatusLabel_TokenAtt_Token.Size = New System.Drawing.Size(12, 19)
         Me.ToolStripStatusLabel_TokenAtt_Token.Text = "-"
         '
         'ToolStripStatusLabel4
         '
         Me.ToolStripStatusLabel4.Name = "ToolStripStatusLabel4"
-        Me.ToolStripStatusLabel4.Size = New System.Drawing.Size(11, 19)
+        Me.ToolStripStatusLabel4.Size = New System.Drawing.Size(10, 19)
         Me.ToolStripStatusLabel4.Text = "|"
         '
         'ToolStripStatusLabel_RelationLBL
         '
         Me.ToolStripStatusLabel_RelationLBL.Name = "ToolStripStatusLabel_RelationLBL"
-        Me.ToolStripStatusLabel_RelationLBL.Size = New System.Drawing.Size(50, 19)
+        Me.ToolStripStatusLabel_RelationLBL.Size = New System.Drawing.Size(53, 19)
         Me.ToolStripStatusLabel_RelationLBL.Text = "Relation:"
         '
         'ToolStripStatusLabel_TokenRelLeft
@@ -299,7 +299,7 @@ Partial Class frmMain
         'ToolStripStatusLabel_Seperator1
         '
         Me.ToolStripStatusLabel_Seperator1.Name = "ToolStripStatusLabel_Seperator1"
-        Me.ToolStripStatusLabel_Seperator1.Size = New System.Drawing.Size(11, 19)
+        Me.ToolStripStatusLabel_Seperator1.Size = New System.Drawing.Size(12, 19)
         Me.ToolStripStatusLabel_Seperator1.Text = "/"
         '
         'ToolStripStatusLabel_TokenRelRelation
@@ -316,7 +316,7 @@ Partial Class frmMain
         'ToolStripStatusLabel_Seperator2
         '
         Me.ToolStripStatusLabel_Seperator2.Name = "ToolStripStatusLabel_Seperator2"
-        Me.ToolStripStatusLabel_Seperator2.Size = New System.Drawing.Size(11, 19)
+        Me.ToolStripStatusLabel_Seperator2.Size = New System.Drawing.Size(12, 19)
         Me.ToolStripStatusLabel_Seperator2.Text = "/"
         '
         'ToolStripStatusLabel_TokenRelRight
@@ -333,21 +333,21 @@ Partial Class frmMain
         'ToolStripStatusLabel2
         '
         Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
-        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(11, 19)
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(10, 19)
         Me.ToolStripStatusLabel2.Text = "|"
         '
         'ToolStripStatusLabel_RelationDoneLBL
         '
         Me.ToolStripStatusLabel_RelationDoneLBL.Name = "ToolStripStatusLabel_RelationDoneLBL"
         Me.ToolStripStatusLabel_RelationDoneLBL.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.ToolStripStatusLabel_RelationDoneLBL.Size = New System.Drawing.Size(86, 19)
+        Me.ToolStripStatusLabel_RelationDoneLBL.Size = New System.Drawing.Size(92, 19)
         Me.ToolStripStatusLabel_RelationDoneLBL.Text = "Relation (Done):"
         '
         'ToolStripStatusLabel_RelationDone
         '
         Me.ToolStripStatusLabel_RelationDone.Name = "ToolStripStatusLabel_RelationDone"
         Me.ToolStripStatusLabel_RelationDone.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.ToolStripStatusLabel_RelationDone.Size = New System.Drawing.Size(11, 19)
+        Me.ToolStripStatusLabel_RelationDone.Size = New System.Drawing.Size(12, 19)
         Me.ToolStripStatusLabel_RelationDone.Text = "-"
         '
         'SplitContainer_Filter_Body
@@ -853,13 +853,13 @@ Partial Class frmMain
         Me.ToolStrip6.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_TokAttCountLBL, Me.ToolStripLabel_TokAttCount, Me.ToolStripProgressBar_TokenAttribiute})
         Me.ToolStrip6.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip6.Name = "ToolStrip6"
-        Me.ToolStrip6.Size = New System.Drawing.Size(165, 25)
+        Me.ToolStrip6.Size = New System.Drawing.Size(170, 25)
         Me.ToolStrip6.TabIndex = 0
         '
         'ToolStripLabel_TokAttCountLBL
         '
         Me.ToolStripLabel_TokAttCountLBL.Name = "ToolStripLabel_TokAttCountLBL"
-        Me.ToolStripLabel_TokAttCountLBL.Size = New System.Drawing.Size(40, 22)
+        Me.ToolStripLabel_TokAttCountLBL.Size = New System.Drawing.Size(43, 22)
         Me.ToolStripLabel_TokAttCountLBL.Text = "Count:"
         '
         'ToolStripLabel_TokAttCount
@@ -891,31 +891,31 @@ Partial Class frmMain
         '
         Me.ContextMenuStrip_TokAtt.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditToolStripMenuItem1, Me.RelateToolStripMenuItem1, Me.DeleteToolStripMenuItem1})
         Me.ContextMenuStrip_TokAtt.Name = "ContextMenuStrip_TokAtt"
-        Me.ContextMenuStrip_TokAtt.Size = New System.Drawing.Size(105, 70)
+        Me.ContextMenuStrip_TokAtt.Size = New System.Drawing.Size(107, 70)
         '
         'EditToolStripMenuItem1
         '
         Me.EditToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyValToolStripMenuItem})
         Me.EditToolStripMenuItem1.Name = "EditToolStripMenuItem1"
-        Me.EditToolStripMenuItem1.Size = New System.Drawing.Size(104, 22)
+        Me.EditToolStripMenuItem1.Size = New System.Drawing.Size(106, 22)
         Me.EditToolStripMenuItem1.Text = "Edit"
         '
         'CopyValToolStripMenuItem
         '
         Me.CopyValToolStripMenuItem.Name = "CopyValToolStripMenuItem"
-        Me.CopyValToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.CopyValToolStripMenuItem.Size = New System.Drawing.Size(121, 22)
         Me.CopyValToolStripMenuItem.Text = "Copy Val"
         '
         'RelateToolStripMenuItem1
         '
         Me.RelateToolStripMenuItem1.Name = "RelateToolStripMenuItem1"
-        Me.RelateToolStripMenuItem1.Size = New System.Drawing.Size(104, 22)
+        Me.RelateToolStripMenuItem1.Size = New System.Drawing.Size(106, 22)
         Me.RelateToolStripMenuItem1.Text = "relate"
         '
         'DeleteToolStripMenuItem1
         '
         Me.DeleteToolStripMenuItem1.Name = "DeleteToolStripMenuItem1"
-        Me.DeleteToolStripMenuItem1.Size = New System.Drawing.Size(104, 22)
+        Me.DeleteToolStripMenuItem1.Size = New System.Drawing.Size(106, 22)
         Me.DeleteToolStripMenuItem1.Text = "delete"
         '
         'ToolStrip3
@@ -924,19 +924,19 @@ Partial Class frmMain
         Me.ToolStrip3.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_TokAttFilterLBL, Me.ToolStripLabel_TokAttFilter, Me.ToolStripButton_DelTokenAtt})
         Me.ToolStrip3.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip3.Name = "ToolStrip3"
-        Me.ToolStrip3.Size = New System.Drawing.Size(79, 25)
+        Me.ToolStrip3.Size = New System.Drawing.Size(83, 25)
         Me.ToolStrip3.TabIndex = 0
         '
         'ToolStripLabel_TokAttFilterLBL
         '
         Me.ToolStripLabel_TokAttFilterLBL.Name = "ToolStripLabel_TokAttFilterLBL"
-        Me.ToolStripLabel_TokAttFilterLBL.Size = New System.Drawing.Size(35, 22)
+        Me.ToolStripLabel_TokAttFilterLBL.Size = New System.Drawing.Size(36, 22)
         Me.ToolStripLabel_TokAttFilterLBL.Text = "Filter:"
         '
         'ToolStripLabel_TokAttFilter
         '
         Me.ToolStripLabel_TokAttFilter.Name = "ToolStripLabel_TokAttFilter"
-        Me.ToolStripLabel_TokAttFilter.Size = New System.Drawing.Size(11, 22)
+        Me.ToolStripLabel_TokAttFilter.Size = New System.Drawing.Size(12, 22)
         Me.ToolStripLabel_TokAttFilter.Text = "-"
         '
         'ToolStripButton_DelTokenAtt
@@ -988,7 +988,7 @@ Partial Class frmMain
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Types, Me.ToolStripButton_Token, Me.ToolStripButton_Tokentree, Me.ToolStripButton_AttributesAndRelations, Me.ToolStripButton_AttribRel, Me.ToolStripButton_TokenRel, Me.ToolStripButton_Filter, Me.ToolStripSeparator1, Me.ToolStripButton_ModuleView})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 3)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(24, 196)
+        Me.ToolStrip1.Size = New System.Drawing.Size(24, 200)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Types
@@ -1086,7 +1086,7 @@ Partial Class frmMain
         Me.ToolStripButton_ModuleView.Image = CType(resources.GetObject("ToolStripButton_ModuleView.Image"), System.Drawing.Image)
         Me.ToolStripButton_ModuleView.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_ModuleView.Name = "ToolStripButton_ModuleView"
-        Me.ToolStripButton_ModuleView.Size = New System.Drawing.Size(22, 17)
+        Me.ToolStripButton_ModuleView.Size = New System.Drawing.Size(22, 19)
         Me.ToolStripButton_ModuleView.Text = "M"
         '
         'MenuStrip1
@@ -1103,7 +1103,7 @@ Partial Class frmMain
         '
         Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReportsToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
-        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(50, 20)
+        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(49, 20)
         Me.ToolsToolStripMenuItem.Text = "&Extras"
         '
         'ReportsToolStripMenuItem
@@ -1123,116 +1123,116 @@ Partial Class frmMain
         '
         Me.ContextMenuStrip_TokRel.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditToolStripMenuItem, Me.FilterToolStripMenuItem, Me.RelateToolStripMenuItem, Me.DeleteToolStripMenuItem})
         Me.ContextMenuStrip_TokRel.Name = "ContextMenuStrip_TokRel"
-        Me.ContextMenuStrip_TokRel.Size = New System.Drawing.Size(106, 92)
+        Me.ContextMenuStrip_TokRel.Size = New System.Drawing.Size(107, 92)
         '
         'EditToolStripMenuItem
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SetOrderIDToolStripMenuItem, Me.SetRelationTypeToolStripMenuItem, Me.ModuleEditToolStripMenuItem, Me.ModuleMenuToolStripMenuItem, Me.CopyValToolStripMenuItem1})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
         Me.EditToolStripMenuItem.Text = "Edit"
         '
         'SetOrderIDToolStripMenuItem
         '
         Me.SetOrderIDToolStripMenuItem.Name = "SetOrderIDToolStripMenuItem"
-        Me.SetOrderIDToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.SetOrderIDToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
         Me.SetOrderIDToolStripMenuItem.Text = "Set OrderID"
         '
         'SetRelationTypeToolStripMenuItem
         '
         Me.SetRelationTypeToolStripMenuItem.Name = "SetRelationTypeToolStripMenuItem"
-        Me.SetRelationTypeToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.SetRelationTypeToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
         Me.SetRelationTypeToolStripMenuItem.Text = "Set RelationType"
         '
         'ModuleEditToolStripMenuItem
         '
         Me.ModuleEditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_ModuleEdit})
         Me.ModuleEditToolStripMenuItem.Name = "ModuleEditToolStripMenuItem"
-        Me.ModuleEditToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.ModuleEditToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
         Me.ModuleEditToolStripMenuItem.Text = "x_Module-Edit"
         '
         'ToolStripComboBox_ModuleEdit
         '
         Me.ToolStripComboBox_ModuleEdit.Name = "ToolStripComboBox_ModuleEdit"
-        Me.ToolStripComboBox_ModuleEdit.Size = New System.Drawing.Size(121, 21)
+        Me.ToolStripComboBox_ModuleEdit.Size = New System.Drawing.Size(121, 23)
         '
         'ModuleMenuToolStripMenuItem
         '
         Me.ModuleMenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_ModuleMenu})
         Me.ModuleMenuToolStripMenuItem.Name = "ModuleMenuToolStripMenuItem"
-        Me.ModuleMenuToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.ModuleMenuToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
         Me.ModuleMenuToolStripMenuItem.Text = "x_Module-Menu"
         '
         'ToolStripComboBox_ModuleMenu
         '
         Me.ToolStripComboBox_ModuleMenu.Name = "ToolStripComboBox_ModuleMenu"
-        Me.ToolStripComboBox_ModuleMenu.Size = New System.Drawing.Size(250, 21)
+        Me.ToolStripComboBox_ModuleMenu.Size = New System.Drawing.Size(250, 23)
         '
         'CopyValToolStripMenuItem1
         '
         Me.CopyValToolStripMenuItem1.Name = "CopyValToolStripMenuItem1"
-        Me.CopyValToolStripMenuItem1.Size = New System.Drawing.Size(156, 22)
+        Me.CopyValToolStripMenuItem1.Size = New System.Drawing.Size(162, 22)
         Me.CopyValToolStripMenuItem1.Text = "x_Copy Val"
         '
         'FilterToolStripMenuItem
         '
         Me.FilterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EqualToolStripMenuItem, Me.DifferentToolStripMenuItem, Me.ContainsToolStripMenuItem, Me.GreaterToolStripMenuItem, Me.LessThanToolStripMenuItem, Me.ClearFilterToolStripMenuItem})
         Me.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem"
-        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
+        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
         Me.FilterToolStripMenuItem.Text = "Filter"
         '
         'EqualToolStripMenuItem
         '
         Me.EqualToolStripMenuItem.Name = "EqualToolStripMenuItem"
-        Me.EqualToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
+        Me.EqualToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.EqualToolStripMenuItem.Text = "Equal"
         '
         'DifferentToolStripMenuItem
         '
         Me.DifferentToolStripMenuItem.Name = "DifferentToolStripMenuItem"
-        Me.DifferentToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
+        Me.DifferentToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.DifferentToolStripMenuItem.Text = "Different"
         '
         'ContainsToolStripMenuItem
         '
         Me.ContainsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripTextBox_TokRelContains})
         Me.ContainsToolStripMenuItem.Name = "ContainsToolStripMenuItem"
-        Me.ContainsToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
+        Me.ContainsToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.ContainsToolStripMenuItem.Text = "Contains"
         '
         'ToolStripTextBox_TokRelContains
         '
         Me.ToolStripTextBox_TokRelContains.Name = "ToolStripTextBox_TokRelContains"
-        Me.ToolStripTextBox_TokRelContains.Size = New System.Drawing.Size(100, 21)
+        Me.ToolStripTextBox_TokRelContains.Size = New System.Drawing.Size(100, 23)
         '
         'GreaterToolStripMenuItem
         '
         Me.GreaterToolStripMenuItem.Name = "GreaterToolStripMenuItem"
-        Me.GreaterToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
+        Me.GreaterToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.GreaterToolStripMenuItem.Text = "Greater >"
         '
         'LessThanToolStripMenuItem
         '
         Me.LessThanToolStripMenuItem.Name = "LessThanToolStripMenuItem"
-        Me.LessThanToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
+        Me.LessThanToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.LessThanToolStripMenuItem.Text = "Less than <"
         '
         'ClearFilterToolStripMenuItem
         '
         Me.ClearFilterToolStripMenuItem.Name = "ClearFilterToolStripMenuItem"
-        Me.ClearFilterToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
+        Me.ClearFilterToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.ClearFilterToolStripMenuItem.Text = "Clear Filter"
         '
         'RelateToolStripMenuItem
         '
         Me.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem"
-        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
+        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
         Me.RelateToolStripMenuItem.Text = "Relate"
         '
         'DeleteToolStripMenuItem
         '
         Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
         Me.DeleteToolStripMenuItem.Text = "delete"
         '
         'Timer_TokenAttribute
