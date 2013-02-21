@@ -418,7 +418,7 @@
                     save_Object(objOItem_Parent.GUID_Parent)
                     
                 Case objLocalConfig.Globals.Type_RelationType
-
+                    save_RelType()
 
                     
                 Case objLocalConfig.Globals.Type_AttributeType
@@ -449,6 +449,39 @@
                     
                     End If
             End Select
+
+        End If
+    End Sub
+
+    Private Sub save_RelType()
+        Dim objOItem_RelationType As New clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+
+        objFrm_Name = New frm_Name("New RelationType", _
+                                           objLocalConfig, _
+                                           Nothing, _
+                                           Nothing, _
+                                           Nothing, _
+                                           True)
+        objFrm_Name.ShowDialog(Me)
+        If objFrm_Name.DialogResult = DialogResult.OK Then
+            objOItem_RelationType.GUID = objFrm_Name.TextBox_GUID.Text
+            If objOItem_RelationType.GUID = "" Then
+                objOItem_RelationType.GUID = Guid.NewGuid.ToString.Replace("-", "")
+            End If
+            objOItem_RelationType.Name = objFrm_Name.Value1
+            objOItem_RelationType.Type = objLocalConfig.Globals.Type_RelationType
+
+            objOItem_Result = objDBLevel.save_RelationType(objOItem_RelationType)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Exists.GUID Then
+                MsgBox("Der Beziehungstyp konnte nicht erstellt werden. Es gibt bereits eine mit diesem Namen!", MsgBoxStyle.Exclamation)
+            ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Der Beziehungstyp konnte nicht erstellt werden. Es ist ein Fehler aufgetreten!", MsgBoxStyle.Critical)
+            Else
+                get_Data()
+            End If
+
 
         End If
     End Sub

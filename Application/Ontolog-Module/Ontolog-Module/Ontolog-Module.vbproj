@@ -159,6 +159,12 @@
       <DependentUpon>frmMain.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frm_AttributeTypeEdit.Designer.vb">
+      <DependentUpon>frm_AttributeTypeEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frm_AttributeTypeEdit.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frm_Name.Designer.vb">
       <DependentUpon>frm_Name.vb</DependentUpon>
     </Compile>
@@ -185,6 +191,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="UserControl_AttributeTypeSel.Designer.vb">
+      <DependentUpon>UserControl_AttributeTypeSel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_AttributeTypeSel.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControl_ClassAttributeTypes.Designer.vb">
       <DependentUpon>UserControl_ClassAttributeTypes.vb</DependentUpon>
@@ -242,6 +254,9 @@
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frm_AttributeTypeEdit.resx">
+      <DependentUpon>frm_AttributeTypeEdit.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frm_Name.resx">
       <DependentUpon>frm_Name.vb</DependentUpon>
     </EmbeddedResource>
@@ -253,6 +268,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_AttributeTypeSel.resx">
+      <DependentUpon>UserControl_AttributeTypeSel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_ClassAttributeTypes.resx">
       <DependentUpon>UserControl_ClassAttributeTypes.vb</DependentUpon>
