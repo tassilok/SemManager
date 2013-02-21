@@ -1,6 +1,8 @@
 ﻿Public Class UserControl_OItemList
     Private objLocalConfig As clsLocalConfig
 
+    Private objFrm_Name As frm_Name
+
     Private otblT_Objects As New DataSet_Config.otbl_ObjectsDataTable
 
     Private objDBLevel As clsDBLevel
@@ -407,6 +409,110 @@
             ToolStripProgressBar_List.Value = 50
 
         End If
+    End Sub
+
+    Private Sub ToolStripButton_AddItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_AddItem.Click
+        If Not objOItem_Parent Is Nothing Then
+            Select Case objOItem_Parent.Type
+                Case objLocalConfig.Globals.Type_Object
+                    save_Object(objOItem_Parent.GUID_Parent)
+                    
+                Case objLocalConfig.Globals.Type_RelationType
+
+
+                    
+                Case objLocalConfig.Globals.Type_AttributeType
+
+
+                    
+            End Select
+
+
+        Else
+            
+            Select Case strType
+                Case objLocalConfig.Globals.Type_Object
+
+                    
+                Case objLocalConfig.Globals.Type_RelationType
+
+
+                    
+                Case objLocalConfig.Globals.Type_AttributeType
+
+
+                    
+                Case objLocalConfig.Globals.Type_Other
+                    If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                    
+                    Else
+                    
+                    End If
+            End Select
+
+        End If
+    End Sub
+
+    Private Sub save_Object(ByVal strClass As String, Optional ByVal objOItem_Object As clsOntologyItem = Nothing)
+        Dim oList_Objects As New List(Of clsOntologyItem)
+        Dim oList_ObjectDbl As New List(Of clsOntologyItem)
+        Dim strGUID As String
+        Dim objOItem_Result As clsOntologyItem
+        Dim strValue As String
+        Dim boolSave As Boolean
+
+        If objOItem_Object Is Nothing Then
+            objFrm_Name = New frm_Name("New Object", objLocalConfig, Nothing, Nothing, Nothing, True, True, False, False, True)
+            objFrm_Name.ShowDialog(Me)
+            If objFrm_Name.DialogResult = DialogResult.OK Then
+                If objFrm_Name.isList = True Then
+                    For Each strValue In objFrm_Name.Values
+                        oList_Objects.Add(New clsOntologyItem(Guid.NewGuid.ToString.Replace("-", ""), _
+                                                              strValue, _
+                                                              strGUID_Class))
+                    Next
+                Else
+                    If objFrm_Name.TextBox_GUID.Text = "" Then
+                        strGUID = Guid.NewGuid.ToString.Replace("-", "")
+                    Else
+                        strGUID = objFrm_Name.TextBox_GUID.Text
+                    End If
+                    oList_Objects.Add(New clsOntologyItem(strGUID, _
+                                                          objFrm_Name.Value1, _
+                                                          strClass, _
+                                                          objLocalConfig.Globals.Type_Object))
+                    oList_ObjectDbl.Add(New clsOntologyItem(Nothing,
+                                                            objFrm_Name.Value1, _
+                                                            strClass, _
+                                                            objLocalConfig.Globals.Type_Object))
+                End If
+                If objFrm_Name.More = True Then
+
+                End If
+            End If
+        End If
+
+        boolSave = True
+
+        If oList_Objects.Count > 0 Then
+            objDBLevel.get_Data_Objects(oList_ObjectDbl)
+            If objDBLevel.OList_Objects.Count > 0 Then
+                Dim oL_Double = From obj_db In objDBLevel.OList_Objects
+                                Join obj_new In oList_Objects On obj_db.Name.ToLower Equals obj_new.Name.ToLower
+
+                If oL_Double.Count > 0 Then
+                    If MsgBox("Es existiert bereits Objekt(e) mit dem Namen. Wollen Sie weitere anlegen?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+                        boolSave = False
+                    End If
+                End If
+
+            End If
+            If boolSave = True Then
+                objOItem_Result = objDBLevel.save_Objects(oList_Objects)
+            End If
+
+        End If
+
     End Sub
 End Class
 

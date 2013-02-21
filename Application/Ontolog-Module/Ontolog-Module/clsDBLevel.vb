@@ -186,6 +186,76 @@ Public Class clsDBLevel
             Return otblT_ClassRel
         End Get
     End Property
+    Public Function save_Class(ByVal objOItem_Class As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objDict As Dictionary(Of String, Object)
+        Dim objBulkObjects(0) As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+        Dim oList_Classes As New List(Of clsOntologyItem)
+        Dim oList_ClassesTest As New List(Of clsOntologyItem)
+
+        oList_Classes.Add(objOItem_Class)
+        oList_ClassesTest.Add(New clsOntologyItem(Nothing, objOItem_Class.Name, objLocalConfig.Globals.Type_Class))
+
+        get_Data_Classes(oList_ClassesTest, False, False)
+
+        Dim objL = From obj1 In objOntologyList_Classes1
+                   Join obj2 In oList_Classes On obj1.Name.ToLower Equals obj2.Name.ToLower
+
+        If objL.Count = 0 Then
+            objDict = New Dictionary(Of String, Object)
+            objDict.Add("ID_Item", objOItem_Class.GUID)
+            objDict.Add("Name_Item", objOItem_Class.Name)
+            objDict.Add("ID_Parent", objOItem_Class.GUID_Parent)
+
+            objBulkObjects(0) = New ElasticSearch.Client.Domain.BulkObject(objLocalConfig.Globals.Index, "Class", objOItem_Class.GUID, objDict)
+
+            Try
+                objOPResult = objElConn.Bulk(objBulkObjects)
+                objBulkObjects = Nothing
+                objOItem_Result = objLocalConfig.Globals.LState_Success
+            Catch ex As Exception
+                objOItem_Result = objLocalConfig.Globals.LState_Error
+            End Try
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Exists
+        End If
+        
+        Return objOItem_Result
+    End Function
+    Public Function save_Objects(ByVal oList_Objects As List(Of clsOntologyItem)) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_Object As clsOntologyItem
+        Dim objDict As Dictionary(Of String, Object)
+        Dim objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+        Dim l As Long
+
+        ReDim Preserve objBulkObjects(oList_Objects.Count - 1)
+
+        objDict = New Dictionary(Of String, Object)
+        l = 0
+        For Each objOItem_Object In oList_Objects
+            objDict.Add("ID_Item", objOItem_Object.GUID)
+            objDict.Add("Name_Item", objOItem_Object.Name)
+            objDict.Add("ID_Class", objOItem_Object.GUID_Parent)
+
+            objBulkObjects(l) = New ElasticSearch.Client.Domain.BulkObject(objLocalConfig.Globals.Index, "Object", objOItem_Object.GUID, objDict)
+
+            l = l + 1
+        Next
+
+
+        Try
+            objOPResult = objElConn.Bulk(objBulkObjects)
+            objBulkObjects = Nothing
+
+        Catch ex As Exception
+            objOItem_Result = objLocalConfig.Globals.LState_Error
+        End Try
+
+        Return objOItem_Result
+    End Function
 
     Private Sub initialize_Client()
         intPackageLength = objLocalConfig.Globals.SearchRange
@@ -862,33 +932,36 @@ Public Class clsDBLevel
             End If
         End If
         If Not oList_AttributeTypes Is Nothing Then
-            Dim strLQuery_ID = From obj As clsOntologyItem In oList_AttributeTyp Group By obj.GUID Into Group Select GUID = GUID
+            If Not oList_AttributeTypes.Count = 0 Then
+                Dim strLQuery_ID = From obj As clsOntologyItem In oList_AttributeTyp Group By obj.GUID Into Group Select GUID = GUID
 
-            strQuery = ""
-            For Each strQuery_ID In strLQuery_ID
+                strQuery = ""
+                For Each strQuery_ID In strLQuery_ID
+                    If strQuery <> "" Then
+                        strQuery = strQuery & "\ OR\ "
+                    End If
+                    strQuery = strQuery & strQuery_ID
+                Next
                 If strQuery <> "" Then
-                    strQuery = strQuery & "\ OR\ "
+                    objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Class, strQuery)), BooleanClause.Occur.MUST)
+
                 End If
-                strQuery = strQuery & strQuery_ID
-            Next
-            If strQuery <> "" Then
-                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Class, strQuery)), BooleanClause.Occur.MUST)
 
-            End If
+                Dim strLQuery_AttID = From obj As clsOntologyItem In oList_AttributeTypes Group By obj.GUID Into Group Select GUID = GUID
 
-            Dim strLQuery_AttID = From obj As clsOntologyItem In oList_AttributeTypes Group By obj.GUID Into Group Select GUID = GUID
-
-            strQuery = ""
-            For Each strQuery_ID In strLQuery_AttID
+                strQuery = ""
+                For Each strQuery_ID In strLQuery_AttID
+                    If strQuery <> "" Then
+                        strQuery = strQuery & "\ OR\ "
+                    End If
+                    strQuery = strQuery & strQuery_ID
+                Next
                 If strQuery <> "" Then
-                    strQuery = strQuery & "\ OR\ "
-                End If
-                strQuery = strQuery & strQuery_ID
-            Next
-            If strQuery <> "" Then
-                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Attribute, strQuery)), BooleanClause.Occur.MUST)
+                    objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Attribute, strQuery)), BooleanClause.Occur.MUST)
 
+                End If
             End If
+            
         End If
 
         objOntologyList_ClassAtt_ID.Clear()

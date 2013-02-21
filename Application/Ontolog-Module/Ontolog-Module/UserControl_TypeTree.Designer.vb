@@ -37,12 +37,15 @@ Partial Class UserControl_TypeTree
         Me.ToolStripLabel_Mark = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_MarkTypes = New System.Windows.Forms.ToolStripTextBox()
         Me.Timer_Mark = New System.Windows.Forms.Timer(Me.components)
+        Me.ContextMenuStrip_Classes = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip2.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
+        Me.ContextMenuStrip_Classes.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -79,7 +82,7 @@ Partial Class UserControl_TypeTree
         'ToolStripLabel_CountLBL
         '
         Me.ToolStripLabel_CountLBL.Name = "ToolStripLabel_CountLBL"
-        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(52, 22)
+        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(53, 22)
         Me.ToolStripLabel_CountLBL.Text = "x_Count:"
         '
         'ToolStripLabel_Count
@@ -96,7 +99,7 @@ Partial Class UserControl_TypeTree
         'ToolStripLabel_ID
         '
         Me.ToolStripLabel_ID.Name = "ToolStripLabel_ID"
-        Me.ToolStripLabel_ID.Size = New System.Drawing.Size(34, 22)
+        Me.ToolStripLabel_ID.Size = New System.Drawing.Size(31, 22)
         Me.ToolStripLabel_ID.Text = "x_ID:"
         '
         'ToolStripTextBox_ID
@@ -107,6 +110,7 @@ Partial Class UserControl_TypeTree
         '
         'TreeView_Types
         '
+        Me.TreeView_Types.ContextMenuStrip = Me.ContextMenuStrip_Classes
         Me.TreeView_Types.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TreeView_Types.HideSelection = False
         Me.TreeView_Types.ImageIndex = 0
@@ -133,13 +137,13 @@ Partial Class UserControl_TypeTree
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_Mark, Me.ToolStripTextBox_MarkTypes})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(358, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(361, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_Mark
         '
         Me.ToolStripLabel_Mark.Name = "ToolStripLabel_Mark"
-        Me.ToolStripLabel_Mark.Size = New System.Drawing.Size(46, 22)
+        Me.ToolStripLabel_Mark.Size = New System.Drawing.Size(47, 22)
         Me.ToolStripLabel_Mark.Text = "x_Mark:"
         '
         'ToolStripTextBox_MarkTypes
@@ -150,6 +154,18 @@ Partial Class UserControl_TypeTree
         'Timer_Mark
         '
         Me.Timer_Mark.Interval = 300
+        '
+        'ContextMenuStrip_Classes
+        '
+        Me.ContextMenuStrip_Classes.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem})
+        Me.ContextMenuStrip_Classes.Name = "ContextMenuStrip_Classes"
+        Me.ContextMenuStrip_Classes.Size = New System.Drawing.Size(153, 48)
+        '
+        'NewToolStripMenuItem
+        '
+        Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NewToolStripMenuItem.Text = "x_New"
         '
         'UserControl_TypeTree
         '
@@ -169,6 +185,7 @@ Partial Class UserControl_TypeTree
         Me.ToolStrip2.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
+        Me.ContextMenuStrip_Classes.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -185,5 +202,7 @@ Partial Class UserControl_TypeTree
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripTextBox_ID As System.Windows.Forms.ToolStripTextBox
     Friend WithEvents Timer_Mark As System.Windows.Forms.Timer
+    Friend WithEvents ContextMenuStrip_Classes As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents NewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

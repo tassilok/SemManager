@@ -32,7 +32,7 @@
         sync_SQLDB_Relations()
     End Sub
 
-    Public Sub sync_SQLDB_Relations()
+    Public Sub sync_SQLDB_Relations(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing)
         Dim objClassRel As clsClassRel
         Dim objOList_Objects_Left As New List(Of clsOntologyItem)
         Dim objOList_Objects_Right As New List(Of clsOntologyItem)
@@ -52,7 +52,7 @@
 
         initializeA_Tables.GetData(objLocalConfig.Globals.Type_ObjectRel)
 
-        objDBLevel_ClassRel.get_Data_ClassRel(Nothing, Nothing, False, False, False)
+        objDBLevel_ClassRel.get_Data_ClassRel(OList_Classes, Nothing, False, False, False)
 
         For Each objClassRel In objDBLevel_ClassRel.OList_ClassRel_ID
             objOList_Objects_Left.Clear()
@@ -145,14 +145,14 @@
                                                    strPath, _
                                                    False)
                 End If
-                
+
             End If
         Next
 
         finalizeA_Tables.GetData(objLocalConfig.Globals.Type_ObjectRel)
     End Sub
 
-    Public Sub sync_SQLDB_Attributes()
+    Public Sub sync_SQLDB_Attributes(Optional ByVal OList_AttTypes As List(Of clsOntologyItem) = Nothing)
         Dim objOItem_Object As clsOntologyItem
         Dim objOItem_AttributeType As clsOntologyItem
         Dim objOItem_ObjAtt As clsObjectAtt
@@ -169,7 +169,7 @@
 
         initializeA_Tables.GetData(objLocalConfig.Globals.Type_Attribute)
 
-        objDBLevel_AttributeTypes.get_Data_AttributeType(Nothing, False)
+        objDBLevel_AttributeTypes.get_Data_AttributeType(OList_AttTypes, False)
 
         For Each objOItem_AttributeType In objDBLevel_AttributeTypes.OList_AttributeTypes
             oList_AttributeTypes.Clear()
@@ -195,7 +195,7 @@
 
             End Select
             oListDataTypes.Clear()
-            
+
             oListDataTypes.Add(New clsOntologyItem(objOItem_AttributeType.GUID_Parent, objLocalConfig.Globals.Type_DataType))
             objDBLevel_DataType.get_Data_DataTyps(oListDataTypes, False)
 
@@ -267,12 +267,12 @@
             finalizeA_Table.GetData("attT_" & objOItem_AttributeType.Name)
         Next
 
-        
+
         finalizeA_Tables.GetData(objLocalConfig.Globals.Type_Attribute)
 
     End Sub
 
-    Public Sub sync_SQLDB_Classes()
+    Public Sub sync_SQLDB_Classes(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing)
         Dim objOItem_Class As clsOntologyItem
         Dim objOItem_Object As clsOntologyItem
         Dim oList_Objects As New List(Of clsOntologyItem)
@@ -283,7 +283,7 @@
         Dim j As Long
 
 
-        objDBLevel_Classes.get_Data_Classes(Nothing, False, False)
+        objDBLevel_Classes.get_Data_Classes(OList_Classes, False, False)
         For Each objOItem_Class In objDBLevel_Classes.OList_Classes
 
             initializeA_Table.GetData("orgT_" & objOItem_Class.Name)

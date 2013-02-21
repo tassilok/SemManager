@@ -5,6 +5,8 @@
     Private Const cint_ImageID_Attribute As Integer = 3
     Private Const cint_ImageID_RelationType As Integer = 4
 
+    Private objFrm_Name As frm_Name
+
     Private objList_Classes As List(Of clsOntologyItem)
 
     Private objTreeNode_Root As TreeNode
@@ -180,5 +182,60 @@
             End If
         End If
         
+    End Sub
+
+    Private Sub ContextMenuStrip_Classes_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Classes.Opening
+        Dim objTreeNode As TreeNode
+
+        NewToolStripMenuItem.Enabled = False
+
+        objTreeNode = TreeView_Types.SelectedNode
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = cint_ImageID_Class_Opened Or _
+                objTreeNode.ImageIndex = cint_ImageID_Root Then
+                NewToolStripMenuItem.Enabled = True
+            End If
+        End If
+    End Sub
+
+    Private Sub NewToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewToolStripMenuItem.Click
+        Dim objTreeNode As TreeNode
+        Dim objOItem_Class As New clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+
+        objTreeNode = TreeView_Types.SelectedNode
+
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = cint_ImageID_Class_Opened Or _
+                objTreeNode.ImageIndex = cint_ImageID_Root Then
+                objFrm_Name = New frm_Name("New Class", _
+                                           objLocalConfig, _
+                                           Nothing, _
+                                           Nothing, _
+                                           Nothing, _
+                                           True)
+                objFrm_Name.ShowDialog(Me)
+                If objFrm_Name.DialogResult = DialogResult.OK Then
+                    objOItem_Class.GUID = objFrm_Name.TextBox_GUID.Text
+                    If objOItem_Class.GUID = "" Then
+                        objOItem_Class.GUID = Guid.NewGuid.ToString.Replace("-", "")
+                    End If
+                    objOItem_Class.Name = objFrm_Name.Value1
+                    objOItem_Class.GUID_Parent = objTreeNode.Name
+
+                    objOItem_Result = objDBLevel.save_Class(objOItem_Class)
+
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Exists.GUID Then
+                        MsgBox("Die Klasse konnte nicht erstellt werden. Es gibt bereits eine mit diesem Namen!", MsgBoxStyle.Exclamation)
+                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        MsgBox("Die Klasse konnte nicht erstellt werden. Es ist ein Fehler aufgetreten!", MsgBoxStyle.Critical)
+                    Else
+                        objTreeNode.Nodes.Add(objOItem_Class.GUID, objOItem_Class.Name, cint_ImageID_Class_Closed, cint_ImageID_Class_Opened)
+                    End If
+
+
+                End If
+            End If
+        End If
     End Sub
 End Class

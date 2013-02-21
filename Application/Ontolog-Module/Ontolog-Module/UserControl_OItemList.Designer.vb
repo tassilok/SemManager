@@ -90,7 +90,7 @@ Partial Class UserControl_OItemList
         'CopyNameToolStripMenuItem
         '
         Me.CopyNameToolStripMenuItem.Name = "CopyNameToolStripMenuItem"
-        Me.CopyNameToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.CopyNameToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
         Me.CopyNameToolStripMenuItem.Text = "x_Copy Name"
         '
         'TableLayoutPanel1
@@ -128,7 +128,7 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_Filter.Image = CType(resources.GetObject("ToolStripButton_Filter.Image"), System.Drawing.Image)
         Me.ToolStripButton_Filter.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Filter.Name = "ToolStripButton_Filter"
-        Me.ToolStripButton_Filter.Size = New System.Drawing.Size(51, 22)
+        Me.ToolStripButton_Filter.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Filter.Text = "x_Filter:"
         '
         'ToolStripTextBox_Filter
@@ -148,7 +148,7 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_FilterAdvanced.Image = CType(resources.GetObject("ToolStripButton_FilterAdvanced.Image"), System.Drawing.Image)
         Me.ToolStripButton_FilterAdvanced.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_FilterAdvanced.Name = "ToolStripButton_FilterAdvanced"
-        Me.ToolStripButton_FilterAdvanced.Size = New System.Drawing.Size(110, 22)
+        Me.ToolStripButton_FilterAdvanced.Size = New System.Drawing.Size(112, 22)
         Me.ToolStripButton_FilterAdvanced.Text = "x_Advanced Filter..."
         '
         'ToolStrip2
@@ -181,7 +181,7 @@ Partial Class UserControl_OItemList
         'ToolStripLabel_GUID
         '
         Me.ToolStripLabel_GUID.Name = "ToolStripLabel_GUID"
-        Me.ToolStripLabel_GUID.Size = New System.Drawing.Size(99, 22)
+        Me.ToolStripLabel_GUID.Size = New System.Drawing.Size(101, 22)
         Me.ToolStripLabel_GUID.Text = "x_GUID (selected):"
         '
         'ToolStripTextBox_GUID
@@ -199,9 +199,9 @@ Partial Class UserControl_OItemList
         '
         Me.ToolStrip_Edit.Dock = System.Windows.Forms.DockStyle.Right
         Me.ToolStrip_Edit.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_AddItem, Me.ToolStripButton_DelItem, Me.ToolStripSeparator1, Me.ToolStripButton_Relate, Me.ToolStripSeparator5, Me.ToolStripButton_Sort, Me.ToolStripButton_Down, Me.ToolStripButton_Up, Me.ToolStripSeparator2, Me.ToolStripButton_Report})
-        Me.ToolStrip_Edit.Location = New System.Drawing.Point(680, 25)
+        Me.ToolStrip_Edit.Location = New System.Drawing.Point(674, 25)
         Me.ToolStrip_Edit.Name = "ToolStrip_Edit"
-        Me.ToolStrip_Edit.Size = New System.Drawing.Size(24, 467)
+        Me.ToolStrip_Edit.Size = New System.Drawing.Size(30, 467)
         Me.ToolStrip_Edit.TabIndex = 2
         Me.ToolStrip_Edit.Text = "ToolStrip3"
         '
@@ -211,7 +211,7 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_AddItem.Image = Global.Ontolog_Module.My.Resources.Resources.b_plus
         Me.ToolStripButton_AddItem.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_AddItem.Name = "ToolStripButton_AddItem"
-        Me.ToolStripButton_AddItem.Size = New System.Drawing.Size(21, 20)
+        Me.ToolStripButton_AddItem.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_AddItem.Text = "ToolStripButton1"
         '
         'ToolStripButton_DelItem
@@ -220,13 +220,13 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_DelItem.Image = Global.Ontolog_Module.My.Resources.Resources.b_minus
         Me.ToolStripButton_DelItem.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_DelItem.Name = "ToolStripButton_DelItem"
-        Me.ToolStripButton_DelItem.Size = New System.Drawing.Size(21, 20)
+        Me.ToolStripButton_DelItem.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_DelItem.Text = "ToolStripButton2"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(21, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(29, 6)
         '
         'ToolStripButton_Relate
         '
@@ -236,14 +236,14 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_Relate.Image = Global.Ontolog_Module.My.Resources.Resources.RelationTypes_gpride_jean_victor_balin_
         Me.ToolStripButton_Relate.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Relate.Name = "ToolStripButton_Relate"
-        Me.ToolStripButton_Relate.Size = New System.Drawing.Size(21, 20)
+        Me.ToolStripButton_Relate.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_Relate.Text = "ToolStripButton1"
         Me.ToolStripButton_Relate.ToolTipText = "Relate Items"
         '
         'ToolStripSeparator5
         '
         Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(21, 6)
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(29, 6)
         '
         'ToolStripButton_Sort
         '
@@ -251,7 +251,7 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_Sort.Image = Global.Ontolog_Module.My.Resources.Resources.bb_sort2
         Me.ToolStripButton_Sort.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Sort.Name = "ToolStripButton_Sort"
-        Me.ToolStripButton_Sort.Size = New System.Drawing.Size(21, 20)
+        Me.ToolStripButton_Sort.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_Sort.Text = "ToolStripButton1"
         '
         'ToolStripButton_Down
@@ -260,7 +260,7 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_Down.Image = Global.Ontolog_Module.My.Resources.Resources.tasto_3_architetto_franc_01
         Me.ToolStripButton_Down.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Down.Name = "ToolStripButton_Down"
-        Me.ToolStripButton_Down.Size = New System.Drawing.Size(21, 20)
+        Me.ToolStripButton_Down.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_Down.Text = "ToolStripButton1"
         '
         'ToolStripButton_Up
@@ -269,13 +269,13 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_Up.Image = Global.Ontolog_Module.My.Resources.Resources.tasto_4_architetto_franc_01
         Me.ToolStripButton_Up.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Up.Name = "ToolStripButton_Up"
-        Me.ToolStripButton_Up.Size = New System.Drawing.Size(21, 20)
+        Me.ToolStripButton_Up.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_Up.Text = "ToolStripButton1"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(21, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(29, 6)
         '
         'ToolStripButton_Report
         '
@@ -283,7 +283,7 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_Report.Image = Global.Ontolog_Module.My.Resources.Resources.appunti_architetto_franc_01
         Me.ToolStripButton_Report.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Report.Name = "ToolStripButton_Report"
-        Me.ToolStripButton_Report.Size = New System.Drawing.Size(21, 20)
+        Me.ToolStripButton_Report.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_Report.Text = "ToolStripButton1"
         '
         'TabControl1
@@ -349,50 +349,50 @@ Partial Class UserControl_OItemList
         '
         Me.ContextMenuStrip_SemList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditToolStripMenuItem, Me.ApplyToolStripMenuItem, Me.ToClipboardToolStripMenuItem})
         Me.ContextMenuStrip_SemList.Name = "ContextMenuStrip_SemList"
-        Me.ContextMenuStrip_SemList.Size = New System.Drawing.Size(145, 70)
+        Me.ContextMenuStrip_SemList.Size = New System.Drawing.Size(151, 70)
         '
         'EditToolStripMenuItem
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.ModuleMenuToolStripMenuItem, Me.ModuleEditToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.EditToolStripMenuItem.Text = "x_Edit"
         '
         'ModuleMenuToolStripMenuItem
         '
         Me.ModuleMenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_ModuleMenu})
         Me.ModuleMenuToolStripMenuItem.Name = "ModuleMenuToolStripMenuItem"
-        Me.ModuleMenuToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.ModuleMenuToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
         Me.ModuleMenuToolStripMenuItem.Text = "x_Module-Menu"
         '
         'ToolStripComboBox_ModuleMenu
         '
         Me.ToolStripComboBox_ModuleMenu.Name = "ToolStripComboBox_ModuleMenu"
-        Me.ToolStripComboBox_ModuleMenu.Size = New System.Drawing.Size(250, 21)
+        Me.ToolStripComboBox_ModuleMenu.Size = New System.Drawing.Size(250, 23)
         '
         'ModuleEditToolStripMenuItem
         '
         Me.ModuleEditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_ModuleEdit})
         Me.ModuleEditToolStripMenuItem.Name = "ModuleEditToolStripMenuItem"
-        Me.ModuleEditToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.ModuleEditToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
         Me.ModuleEditToolStripMenuItem.Text = "x_Module-Edit"
         '
         'ToolStripComboBox_ModuleEdit
         '
         Me.ToolStripComboBox_ModuleEdit.Name = "ToolStripComboBox_ModuleEdit"
-        Me.ToolStripComboBox_ModuleEdit.Size = New System.Drawing.Size(121, 21)
+        Me.ToolStripComboBox_ModuleEdit.Size = New System.Drawing.Size(121, 23)
         '
         'ApplyToolStripMenuItem
         '
         Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
-        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
+        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.ApplyToolStripMenuItem.Text = "x_Apply"
         Me.ApplyToolStripMenuItem.Visible = False
         '
         'ToClipboardToolStripMenuItem
         '
         Me.ToClipboardToolStripMenuItem.Name = "ToClipboardToolStripMenuItem"
-        Me.ToClipboardToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
+        Me.ToClipboardToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.ToClipboardToolStripMenuItem.Text = "x_to Clipboard"
         '
         'TabPage_Tree
