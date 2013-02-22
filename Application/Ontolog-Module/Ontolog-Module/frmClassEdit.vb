@@ -6,7 +6,15 @@
     Private WithEvents objUserControl_ClassRel_Backward As UserControl_ClassRel
     Private WithEvents objUserControl_ClassRel_OR As UserControl_ClassRel
 
+    Private objDBLevel As clsDBLevel
+
     Private objOItem_Class As clsOntologyItem
+
+    Public ReadOnly Property OItem_Class As clsOntologyItem
+        Get
+            Return objOItem_Class
+        End Get
+    End Property
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal oItem_Class As clsOntologyItem)
 
@@ -38,7 +46,11 @@
         TabPage_ObjectReferences.Controls.Add(objUserControl_ClassRel_OR)
 
         ToolStripTextBox_GUID.Text = objOItem_Class.GUID
+        ToolStripTextBox_Name.ReadOnly = True
         ToolStripTextBox_Name.Text = objOItem_Class.Name
+        ToolStripTextBox_Name.ReadOnly = False
+
+
     End Sub
 
     Private Sub set_DBConnection()
@@ -46,6 +58,44 @@
         objUserControl_ClassRel_Forward = New UserControl_ClassRel(objLocalConfig, objOItem_Class, objLocalConfig.Globals.Direction_LeftRight, False)
         objUserControl_ClassRel_Backward = New UserControl_ClassRel(objLocalConfig, objOItem_Class, objLocalConfig.Globals.Direction_RightLeft, False)
         objUserControl_ClassRel_OR = New UserControl_ClassRel(objLocalConfig, objOItem_Class, objLocalConfig.Globals.Direction_LeftRight, True)
+
+        objDBLevel = New clsDBLevel(objLocalConfig)
+    End Sub
+
+    Private Sub ToolStripTextBox_Name_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripTextBox_Name.TextChanged
+        If ToolStripTextBox_Name.ReadOnly = False Then
+            Timer_Name_Changed.Stop()
+            Timer_Name_Changed.Start()
+        End If
+        
+        
+    End Sub
+
+    Private Sub Timer_Name_Changed_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Name_Changed.Tick
+        Timer_Name_Changed.Stop()
+
+        Dim objOItem_Class_Save As New clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+
+        If ToolStripTextBox_Name.Text = "" Then
+            MsgBox("Der Name darf nicht leer sein!", MsgBoxStyle.Exclamation)
+        Else
+            objOItem_Class_Save.GUID = objOItem_Class.GUID
+            objOItem_Class_Save.Name = ToolStripTextBox_Name.Text
+            objOItem_Class_Save.GUID_Parent = objOItem_Class.GUID_Parent
+            objOItem_Class_Save.Type = objOItem_Class_Save.Type
+
+            objOItem_Result = objDBLevel.save_Class(objOItem_Class_Save)
+            If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                ToolStripTextBox_Name.ReadOnly = True
+                ToolStripTextBox_Name.Text = objOItem_Class.Name
+                ToolStripTextBox_Name.ReadOnly = False
+                MsgBox("Der Name kann nicht geändert werden!", MsgBoxStyle.Exclamation)
+            Else
+                objOItem_Class.Name = objOItem_Class_Save.Name
+                objOItem_Class.GUID_Parent = objOItem_Class_Save.GUID_Parent
+            End If
+        End If
 
     End Sub
 End Class

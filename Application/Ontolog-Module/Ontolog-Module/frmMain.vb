@@ -8,7 +8,9 @@
     Private WithEvents objUserControl_OAttributeList As UserControl_OItemList
     Private WithEvents objUserControl_ObjRel As UserControl_ObjectRel
 
+
     Private objFrm_ObjectEdit As frm_ObjectEdit
+    Private objFrm_AttributeTypeEdit As frm_AttributeTypeEdit
 
     Private objOItem As clsOntologyItem
 
@@ -25,17 +27,37 @@
     Private objOList_RelationTypes_Right As New List(Of clsOntologyItem)
     Private objOList_Classes_Left As New List(Of clsOntologyItem)
     Private objOList_RelationTypes_Left As New List(Of clsOntologyItem)
+    Private Sub editAttributeType(ByVal strType As String, ByVal objOItem_Direction As clsOntologyItem) Handles objUserControl_OAttributeList.edit_Object
 
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim objOItem_Selected As New clsOntologyItem
+
+        
+        objDGVR_Selected = objUserControl_OAttributeList.DataGridViewRowCollection_Selected(0)
+        objDRV_Selected = objDGVR_Selected.DataBoundItem
+        objOItem_Selected.GUID = objDRV_Selected.Item("ID_Item")
+        objOItem_Selected.Name = objDRV_Selected.Item("Name")
+        objOItem_Selected.GUID_Parent = objDRV_Selected.Item("ID_Parent")
+        objFrm_AttributeTypeEdit = New frm_AttributeTypeEdit(objLocalConfig, objOItem_Selected)
+        objFrm_AttributeTypeEdit.ShowDialog(Me)
+
+        
+    End Sub
     Private Sub editObject(ByVal strType As String, ByVal objOItem_Direction As clsOntologyItem) Handles objUserControl_OObjectList.edit_Object
+
+        
         objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig, _
-                                               objUserControl_OObjectList.DataGridviewRows, _
-                                               objUserControl_OObjectList.RowID, _
-                                               strType, _
-                                               objOItem_Direction)
+                                        objUserControl_OObjectList.DataGridviewRows, _
+                                        objUserControl_OObjectList.RowID, _
+                                        strType, _
+                                        objOItem_Direction)
         objFrm_ObjectEdit.ShowDialog(Me)
         If objFrm_ObjectEdit.DialogResult = Windows.Forms.DialogResult.OK Then
 
         End If
+           
+        
     End Sub
 
     Private Sub selectedClass(ByVal OItem_Class As clsOntologyItem) Handles objUserControl_TypeTree.selected_Class

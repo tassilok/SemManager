@@ -133,6 +133,9 @@
     <Compile Include="clsOntologyItem.vb" />
     <Compile Include="clsObjectTree.vb" />
     <Compile Include="clsReport.vb" />
+    <Compile Include="clsTransaction_AttributeTypes.vb" />
+    <Compile Include="clsTransaction_Objects.vb" />
+    <Compile Include="clsTransaction_RelationTypes.vb" />
     <Compile Include="DataSet_Config.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

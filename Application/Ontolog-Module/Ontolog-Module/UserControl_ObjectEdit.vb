@@ -193,4 +193,16 @@
         objDBLevel = New clsDBLevel(objLocalConfig)
 
     End Sub
+
+    Private Sub ToolStripTextBox_Name_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripTextBox_Name.TextChanged
+        Timer_Name_Change.Stop()
+        Timer_Name_Change.Start()
+
+    End Sub
+
+    Private Sub Timer_Name_Change_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Name_Change.Tick
+        Timer_Name_Change.Stop()
+
+
+    End Sub
 End Class

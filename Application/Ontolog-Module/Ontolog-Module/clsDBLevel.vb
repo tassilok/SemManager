@@ -196,6 +196,8 @@ Public Class clsDBLevel
         Dim oList_AttTypeTests As New List(Of clsOntologyItem)
 
         oList_AttTypes.Add(oItem_AttributeType)
+
+
         oList_AttTypeTests.Add(New clsOntologyItem(Nothing, oItem_AttributeType.Name, objLocalConfig.Globals.Type_AttributeType))
 
         get_Data_AttributeType(oList_AttTypeTests, False)
@@ -204,40 +206,78 @@ Public Class clsDBLevel
                    Join obj2 In oList_AttTypes On obj1.Name.ToLower Equals obj2.Name.ToLower
 
         If objL.Count = 0 Then
-            objDict = New Dictionary(Of String, Object)
-            objDict.Add(objLocalConfig.Globals.Field_ID_Item, oItem_AttributeType.GUID)
-            objDict.Add(objLocalConfig.Globals.Field_Name_Item, oItem_AttributeType.Name)
-            If oItem_AttributeType.GUID_Parent <> "" Then
-                objDict.Add(objLocalConfig.Globals.Field_ID_Parent, oItem_AttributeType.GUID_Parent)
+            objOItem_Result = objLocalConfig.Globals.LState_Success
+        Else
+            If oItem_AttributeType.GUID = objOntologyList_AttributTypes(0).GUID Then
+                objOItem_Result = objLocalConfig.Globals.LState_Success
             Else
-                oItem_AttributeType.GUID_Parent = objLocalConfig.Globals.DType_String.GUID
-                objDict.Add(objLocalConfig.Globals.Field_ID_DataType, oItem_AttributeType.GUID_Parent)
+                objOItem_Result = objLocalConfig.Globals.LState_Exists
             End If
 
-
-            objBulkObjects(0) = New ElasticSearch.Client.Domain.BulkObject(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_AttributeType, oItem_AttributeType.GUID, objDict)
-
-            Try
-                objOPResult = objElConn.Bulk(objBulkObjects)
-                objBulkObjects = Nothing
-                objOItem_Result = objLocalConfig.Globals.LState_Success
-            Catch ex As Exception
-                objOItem_Result = objLocalConfig.Globals.LState_Error
-            End Try
-        Else
-            objOItem_Result = objLocalConfig.Globals.LState_Exists
         End If
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            oList_AttTypeTests.Clear()
+
+            oList_AttTypeTests.Add(New clsOntologyItem(oItem_AttributeType.GUID, objLocalConfig.Globals.Type_AttributeType))
+
+            get_Data_AttributeType(oList_AttTypeTests)
+
+            If objOntologyList_AttributTypes.Count > 0 Then
+                If objOntologyList_AttributTypes(0).GUID_Parent <> oItem_AttributeType.GUID_Parent Then
+                    get_Data_Attributes(Nothing, _
+                                        oList_AttTypeTests, _
+                                        Nothing)
+
+                    If objOntologyList_Attributes.Count > 0 Then
+                        objOItem_Result = objLocalConfig.Globals.LState_Relation
+                    Else
+                        objOItem_Result = objLocalConfig.Globals.LState_Success
+                    End If
+                Else
+                    If objOntologyList_AttributTypes(0).Name <> oItem_AttributeType.Name Then
+                        objOItem_Result = objLocalConfig.Globals.LState_Success
+                    End If
+                End If
+
+            End If
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                objDict = New Dictionary(Of String, Object)
+                objDict.Add(objLocalConfig.Globals.Field_ID_Item, oItem_AttributeType.GUID)
+                objDict.Add(objLocalConfig.Globals.Field_Name_Item, oItem_AttributeType.Name)
+                If oItem_AttributeType.GUID_Parent <> "" Then
+                    objDict.Add(objLocalConfig.Globals.Field_ID_DataType, oItem_AttributeType.GUID_Parent)
+                Else
+                    oItem_AttributeType.GUID_Parent = objLocalConfig.Globals.DType_String.GUID
+                    objDict.Add(objLocalConfig.Globals.Field_ID_DataType, oItem_AttributeType.GUID_Parent)
+                End If
+
+
+                objBulkObjects(0) = New ElasticSearch.Client.Domain.BulkObject(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_AttributeType, oItem_AttributeType.GUID, objDict)
+
+                Try
+                    objOPResult = objElConn.Bulk(objBulkObjects)
+                    objBulkObjects = Nothing
+                    objOItem_Result = objLocalConfig.Globals.LState_Success
+                Catch ex As Exception
+                    objOItem_Result = objLocalConfig.Globals.LState_Error
+                End Try
+            End If
+
+        End If
+
 
         Return objOItem_Result
     End Function
 
     Public Function save_RelationType(ByVal oItem_RelationType As clsOntologyItem) As clsOntologyItem
-    Dim objOItem_Result As clsOntologyItem
-    Dim objDict As Dictionary(Of String, Object)
-    Dim objBulkObjects(0) As ElasticSearch.Client.Domain.BulkObject
-    Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
-    Dim oList_RelTypes As New List(Of clsOntologyItem)
-    Dim oList_RelTypeTests As New List(Of clsOntologyItem)
+        Dim objOItem_Result As clsOntologyItem
+        Dim objDict As Dictionary(Of String, Object)
+        Dim objBulkObjects(0) As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+        Dim oList_RelTypes As New List(Of clsOntologyItem)
+        Dim oList_RelTypeTests As New List(Of clsOntologyItem)
 
         oList_RelTypes.Add(oItem_RelationType)
         oList_RelTypeTests.Add(New clsOntologyItem(Nothing, oItem_RelationType.Name, objLocalConfig.Globals.Type_RelationType))
@@ -262,7 +302,12 @@ Public Class clsDBLevel
                 objOItem_Result = objLocalConfig.Globals.LState_Error
             End Try
         Else
-            objOItem_Result = objLocalConfig.Globals.LState_Exists
+            If objOntologyList_RelationTypes(0).GUID = oItem_RelationType.GUID Then
+                objOItem_Result = objLocalConfig.Globals.LState_Nothing
+            Else
+                objOItem_Result = objLocalConfig.Globals.LState_Exists
+            End If
+
         End If
 
         Return objOItem_Result

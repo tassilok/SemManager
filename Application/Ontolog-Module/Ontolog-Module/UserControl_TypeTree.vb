@@ -166,10 +166,19 @@
         Next
     End Sub
 
+    Private Sub TreeView_Types_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TreeView_Types.KeyDown
+        Select Case e.KeyCode
+            Case Keys.F5
+                initialize_Tree()
+        End Select
+    End Sub
+
     Private Sub TreeView_Types_NodeMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles TreeView_Types.NodeMouseDoubleClick
         Dim objOItem_Class As New clsOntologyItem
+        Dim objTreeNode As TreeNode
 
         If Not e.Node.Name = objLocalConfig.Globals.Root.GUID Then
+            objTreeNode = e.Node
             objOItem_Class.GUID = e.Node.Name
             objOItem_Class.Name = e.Node.Text
             objOItem_Class.GUID_Parent = e.Node.Parent.Name
@@ -177,11 +186,21 @@
 
             objFrm_Class = New frmClassEdit(objLocalConfig, objOItem_Class)
             objFrm_Class.ShowDialog(Me)
-            If objFrm_Class.DialogResult = DialogResult.OK Then
+
+            If objFrm_Class.OItem_Class.deleted = True Then
+            Else
+                If e.Node.Parent.Name = objFrm_Class.OItem_Class.GUID_Parent Then
+                    If Not objFrm_Class.OItem_Class.Name = objTreeNode.Text Then
+                        objTreeNode.Text = objFrm_Class.OItem_Class.Name
+                    End If
+                Else
+                    'New Parent
+                End If
 
             End If
+
         End If
-        
+
     End Sub
 
     Private Sub ContextMenuStrip_Classes_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Classes.Opening

@@ -51,10 +51,12 @@ Partial Class UserControl_AttributeTypeSel
         'RadioButton_String
         '
         Me.RadioButton_String.AutoSize = True
+        Me.RadioButton_String.Checked = True
         Me.RadioButton_String.Location = New System.Drawing.Point(18, 122)
         Me.RadioButton_String.Name = "RadioButton_String"
         Me.RadioButton_String.Size = New System.Drawing.Size(63, 17)
         Me.RadioButton_String.TabIndex = 6
+        Me.RadioButton_String.TabStop = True
         Me.RadioButton_String.Text = "x_String"
         Me.RadioButton_String.UseVisualStyleBackColor = True
         '
