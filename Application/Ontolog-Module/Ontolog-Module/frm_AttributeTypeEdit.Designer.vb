@@ -27,21 +27,21 @@ Partial Class frm_AttributeTypeEdit
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_OK = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Cancel = New System.Windows.Forms.ToolStripButton()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_GUID = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_GUID = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel_Name = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Name = New System.Windows.Forms.ToolStripTextBox()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        Me.ToolStrip2.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.SuspendLayout()
+        Me.ToolStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -72,7 +72,7 @@ Partial Class frm_AttributeTypeEdit
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_OK, Me.ToolStripButton_Cancel})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(102, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(106, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_OK
@@ -90,8 +90,18 @@ Partial Class frm_AttributeTypeEdit
         Me.ToolStripButton_Cancel.Image = CType(resources.GetObject("ToolStripButton_Cancel.Image"), System.Drawing.Image)
         Me.ToolStripButton_Cancel.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Cancel.Name = "ToolStripButton_Cancel"
-        Me.ToolStripButton_Cancel.Size = New System.Drawing.Size(55, 22)
+        Me.ToolStripButton_Cancel.Size = New System.Drawing.Size(57, 22)
         Me.ToolStripButton_Cancel.Text = "x_Cancel"
+        '
+        'SplitContainer1
+        '
+        Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Size = New System.Drawing.Size(619, 407)
+        Me.SplitContainer1.SplitterDistance = 205
+        Me.SplitContainer1.TabIndex = 0
         '
         'ToolStrip2
         '
@@ -99,13 +109,13 @@ Partial Class frm_AttributeTypeEdit
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_GUID, Me.ToolStripTextBox_GUID, Me.ToolStripSeparator1, Me.ToolStripLabel_Name, Me.ToolStripTextBox_Name})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(549, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(521, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripLabel_GUID
         '
         Me.ToolStripLabel_GUID.Name = "ToolStripLabel_GUID"
-        Me.ToolStripLabel_GUID.Size = New System.Drawing.Size(48, 22)
+        Me.ToolStripLabel_GUID.Size = New System.Drawing.Size(47, 22)
         Me.ToolStripLabel_GUID.Text = "x_GUID:"
         '
         'ToolStripTextBox_GUID
@@ -122,7 +132,7 @@ Partial Class frm_AttributeTypeEdit
         'ToolStripLabel_Name
         '
         Me.ToolStripLabel_Name.Name = "ToolStripLabel_Name"
-        Me.ToolStripLabel_Name.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripLabel_Name.Size = New System.Drawing.Size(52, 22)
         Me.ToolStripLabel_Name.Text = "x_Name:"
         '
         'ToolStripTextBox_Name
@@ -130,16 +140,6 @@ Partial Class frm_AttributeTypeEdit
         Me.ToolStripTextBox_Name.MaxLength = 255
         Me.ToolStripTextBox_Name.Name = "ToolStripTextBox_Name"
         Me.ToolStripTextBox_Name.Size = New System.Drawing.Size(200, 25)
-        '
-        'SplitContainer1
-        '
-        Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Size = New System.Drawing.Size(619, 407)
-        Me.SplitContainer1.SplitterDistance = 206
-        Me.SplitContainer1.TabIndex = 0
         '
         'frm_AttributeTypeEdit
         '
@@ -158,10 +158,10 @@ Partial Class frm_AttributeTypeEdit
         Me.ToolStripContainer1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        Me.ToolStrip2.ResumeLayout(False)
-        Me.ToolStrip2.PerformLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
+        Me.ToolStrip2.ResumeLayout(False)
+        Me.ToolStrip2.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub

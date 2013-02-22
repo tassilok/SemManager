@@ -422,7 +422,7 @@
 
                     
                 Case objLocalConfig.Globals.Type_AttributeType
-
+                    save_AttType()
 
                     
             End Select
@@ -452,7 +452,38 @@
 
         End If
     End Sub
+    Private Sub save_AttType()
+        Dim objOItem_AttributeType As New clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
 
+        objFrm_Name = New frm_Name("New AttributeType", _
+                                           objLocalConfig, _
+                                           Nothing, _
+                                           Nothing, _
+                                           Nothing, _
+                                           True)
+        objFrm_Name.ShowDialog(Me)
+        If objFrm_Name.DialogResult = DialogResult.OK Then
+            objOItem_AttributeType.GUID = objFrm_Name.TextBox_GUID.Text
+            If objOItem_AttributeType.GUID = "" Then
+                objOItem_AttributeType.GUID = Guid.NewGuid.ToString.Replace("-", "")
+            End If
+            objOItem_AttributeType.Name = objFrm_Name.Value1
+            objOItem_AttributeType.Type = objLocalConfig.Globals.Type_AttributeType
+
+            objOItem_Result = objDBLevel.save_AttributeType(objOItem_AttributeType)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Exists.GUID Then
+                MsgBox("Der Attributtyp konnte nicht erstellt werden. Es gibt bereits eine mit diesem Namen!", MsgBoxStyle.Exclamation)
+            ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Der Attributtyp konnte nicht erstellt werden. Es ist ein Fehler aufgetreten!", MsgBoxStyle.Critical)
+            Else
+                get_Data()
+            End If
+
+
+        End If
+    End Sub
     Private Sub save_RelType()
         Dim objOItem_RelationType As New clsOntologyItem
         Dim objOItem_Result As clsOntologyItem

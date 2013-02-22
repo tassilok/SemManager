@@ -192,22 +192,28 @@ Public Class clsDBLevel
         Dim objDict As Dictionary(Of String, Object)
         Dim objBulkObjects(0) As ElasticSearch.Client.Domain.BulkObject
         Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
-        Dim oList_RelTypes As New List(Of clsOntologyItem)
-        Dim oList_RelTypeTests As New List(Of clsOntologyItem)
+        Dim oList_AttTypes As New List(Of clsOntologyItem)
+        Dim oList_AttTypeTests As New List(Of clsOntologyItem)
 
-        oList_RelTypes.Add(oItem_AttributeType)
-        oList_RelTypeTests.Add(New clsOntologyItem(Nothing, oItem_AttributeType.Name, objLocalConfig.Globals.Type_RelationType))
+        oList_AttTypes.Add(oItem_AttributeType)
+        oList_AttTypeTests.Add(New clsOntologyItem(Nothing, oItem_AttributeType.Name, objLocalConfig.Globals.Type_AttributeType))
 
-        get_Data_AttributeType(OList_AttributeTypes, False)
+        get_Data_AttributeType(oList_AttTypeTests, False)
 
         Dim objL = From obj1 In objOntologyList_AttributTypes
-                   Join obj2 In oList_RelTypes On obj1.Name Equals obj2.Name
+                   Join obj2 In oList_AttTypes On obj1.Name.ToLower Equals obj2.Name.ToLower
 
         If objL.Count = 0 Then
             objDict = New Dictionary(Of String, Object)
             objDict.Add(objLocalConfig.Globals.Field_ID_Item, oItem_AttributeType.GUID)
             objDict.Add(objLocalConfig.Globals.Field_Name_Item, oItem_AttributeType.Name)
-            objDict.Add(objLocalConfig.Globals.Field_ID_Parent, oItem_AttributeType.GUID_Parent)
+            If oItem_AttributeType.GUID_Parent <> "" Then
+                objDict.Add(objLocalConfig.Globals.Field_ID_Parent, oItem_AttributeType.GUID_Parent)
+            Else
+                oItem_AttributeType.GUID_Parent = objLocalConfig.Globals.DType_String.GUID
+                objDict.Add(objLocalConfig.Globals.Field_ID_DataType, oItem_AttributeType.GUID_Parent)
+            End If
+
 
             objBulkObjects(0) = New ElasticSearch.Client.Domain.BulkObject(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_AttributeType, oItem_AttributeType.GUID, objDict)
 
