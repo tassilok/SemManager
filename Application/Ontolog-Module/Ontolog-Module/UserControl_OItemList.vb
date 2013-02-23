@@ -193,6 +193,7 @@
 
     Private Sub configure_TabPages()
 
+        Timer_List.Stop()
         Select Case TabControl1.SelectedTab.Name
             Case TabPage_List.Name
                 Try
@@ -281,6 +282,7 @@
     End Sub
 
     Private Sub Timer_Filter_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Filter.Tick
+        Timer_Filter.Stop()
         Filter_List()
     End Sub
 
@@ -297,8 +299,7 @@
 
 
         End If
-        Timer_Filter.Stop()
-        get_Data()
+        configure_TabPages()
     End Sub
 
     Private Sub ToolStripButton_Filter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Filter.Click
@@ -315,6 +316,7 @@
     Private Sub Timer_List_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_List.Tick
 
         If boolFinished = True Then
+            Timer_List.Stop()
             If Not objOItem_Parent Is Nothing Then
                 Select Case objOItem_Parent.Type
                     Case objLocalConfig.Globals.Type_Object
@@ -403,13 +405,13 @@
                             DataGridView_Items.Columns(11).Visible = False
                         End If
                 End Select
-                
-                
+
+
                 ToolStripLabel_Count.Text = DataGridView_Items.RowCount
                 strRowName_GUID = "ID_Other"
             End If
             ToolStripProgressBar_List.Value = 0
-            Timer_List.Stop()
+
         Else
             ToolStripProgressBar_List.Value = 50
 

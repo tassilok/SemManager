@@ -213,6 +213,12 @@
     <Compile Include="UserControl_ClassRel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControl_ObjectAtt.Designer.vb">
+      <DependentUpon>UserControl_ObjectAtt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_ObjectAtt.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl_ObjectRel.Designer.vb">
       <DependentUpon>UserControl_ObjectRel.vb</DependentUpon>
     </Compile>
@@ -280,6 +286,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_ClassRel.resx">
       <DependentUpon>UserControl_ClassRel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_ObjectAtt.resx">
+      <DependentUpon>UserControl_ObjectAtt.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_ObjectRel.resx">
       <DependentUpon>UserControl_ObjectRel.vb</DependentUpon>

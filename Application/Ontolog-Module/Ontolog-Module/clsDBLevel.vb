@@ -578,10 +578,13 @@ Public Class clsDBLevel
                     strQuery = ""
 
                     For Each objQuery_ID In objLQuery_ID
-                        If strQuery <> "" Then
-                            strQuery = strQuery & "\ OR\ "
+                        If objQuery_ID.GUID <> "" Then
+                            If strQuery <> "" Then
+                                strQuery = strQuery & "\ OR\ "
+                            End If
+                            strQuery = strQuery & objQuery_ID.GUID
                         End If
-                        strQuery = strQuery & objQuery_ID.GUID
+                        
                     Next
 
                     If strQuery <> "" Then
@@ -844,19 +847,22 @@ Public Class clsDBLevel
 
                     Dim objLQuery_ID_Parent = From at As clsOntologyItem In OList_Object Group By at.GUID_Parent Into Group
 
-                    strQuery = ""
+                    If strQuery = "" Then
+                        strQuery = ""
 
-                    For Each objQuery_ID_Parent In objLQuery_ID_Parent
+                        For Each objQuery_ID_Parent In objLQuery_ID_Parent
+                            If strQuery <> "" Then
+                                strQuery = strQuery & "\ OR\ "
+                            End If
+                            strQuery = strQuery & objQuery_ID_Parent.GUID_Parent
+                        Next
+
                         If strQuery <> "" Then
-                            strQuery = strQuery & "\ OR\ "
+                            objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Parent_Object, strQuery)), BooleanClause.Occur.MUST)
+
                         End If
-                        strQuery = strQuery & objQuery_ID_Parent.GUID_Parent
-                    Next
-
-                    If strQuery <> "" Then
-                        objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Parent_Object, strQuery)), BooleanClause.Occur.MUST)
-
                     End If
+                    
                 End If
 
 
@@ -885,39 +891,42 @@ Public Class clsDBLevel
 
                     Dim objLQuery_ID_Parent = From at As clsOntologyItem In OList_Other Group By at.GUID_Parent Into Group
 
-                    strQuery = ""
+                    If strQuery = "" Then
+                        strQuery = ""
 
-                    For Each objQuery_ID_Parent In objLQuery_ID_Parent
+                        For Each objQuery_ID_Parent In objLQuery_ID_Parent
+                            If strQuery <> "" Then
+                                strQuery = strQuery & "\ OR\ "
+                            End If
+                            strQuery = strQuery & objQuery_ID_Parent.GUID_Parent
+                        Next
+
                         If strQuery <> "" Then
-                            strQuery = strQuery & "\ OR\ "
-                        End If
-                        strQuery = strQuery & objQuery_ID_Parent.GUID_Parent
-                    Next
+                            objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Parent_Other, strQuery)), BooleanClause.Occur.MUST)
 
-                    If strQuery <> "" Then
-                        objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Parent_Other, strQuery)), BooleanClause.Occur.MUST)
-
-                    End If
-
-
-                    Dim objLQuery_Ontology = From at As clsOntologyItem In OList_Other Group By at.Type, at.Mark Into Group
-
-                    strQuery = ""
-
-                    For Each objQuery_Ontology In objLQuery_Ontology
-                        If strQuery <> "" Then
-                            strQuery = strQuery & "\ OR\ "
                         End If
 
 
-                        strQuery = strQuery & objQuery_Ontology.Type
+                        Dim objLQuery_Ontology = From at As clsOntologyItem In OList_Other Group By at.Type, at.Mark Into Group
 
-                    Next
+                        strQuery = ""
 
-                    If strQuery <> "" Then
-                        objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_Ontology, strQuery)), BooleanClause.Occur.MUST)
+                        For Each objQuery_Ontology In objLQuery_Ontology
+                            If strQuery <> "" Then
+                                strQuery = strQuery & "\ OR\ "
+                            End If
 
+
+                            strQuery = strQuery & objQuery_Ontology.Type
+
+                        Next
+
+                        If strQuery <> "" Then
+                            objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_Ontology, strQuery)), BooleanClause.Occur.MUST)
+
+                        End If
                     End If
+                    
 
                 End If
 
@@ -1827,7 +1836,7 @@ Public Class clsDBLevel
                         OList_Classes.Add(New clsOntologyItem(objOther.ID_Parent_Other, objLocalConfig.Globals.Type_Class))
 
                     Case objLocalConfig.Globals.Type_Object
-                        oList_Object.Add(New clsOntologyItem(Nothing, Nothing, objOther.ID_Parent_Other, objLocalConfig.Globals.Type_Object))
+                        oList_Rel_Object.Add(New clsOntologyItem(Nothing, Nothing, objOther.ID_Parent_Other, objLocalConfig.Globals.Type_Object))
 
                         Dim oLClasses = From objCls1 In objOntologyList_ObjectRel_ID
                                         Group By objCls1.ID_Parent_Other Into Group
@@ -1853,7 +1862,7 @@ Public Class clsDBLevel
             End If
 
             If oList_Object.Count > 0 Then
-                objDBLevel.get_Data_Objects(oList_Object)
+                objDBLevel.get_Data_Objects(oList_Rel_Object)
                 objDBLevel.get_Data_Classes(oList_Rel_ObjectCls, False, True)
             End If
 
