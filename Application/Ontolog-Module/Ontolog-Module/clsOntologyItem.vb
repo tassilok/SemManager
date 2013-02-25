@@ -20,10 +20,19 @@
     Private boolMark As Boolean
     Private boolObjectReference As Boolean
     Private intDirection As Integer
-    Private intMin As Integer
-    Private intMax As Integer
-    Private intMax2 As Integer
+    Private intMin As Long
+    Private intMax As Long
+    Private intMax2 As Long
+    Private lngVal As Long
 
+    Public Property Val As Long
+        Get
+            Return lngVal
+        End Get
+        Set(ByVal value As Long)
+            lngVal = value
+        End Set
+    End Property
 
     Public ReadOnly Property OList_Rel As List(Of clsOntologyItem)
         Get
@@ -197,29 +206,29 @@
             objGUID_Relation = value
         End Set
     End Property
-    Public Property Min() As Integer
+    Public Property Min() As Long
         Get
             Return intMin
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Long)
             intMin = value
         End Set
     End Property
 
-    Public Property Max1() As Integer
+    Public Property Max1() As Long
         Get
             Return intMax
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Long)
             intMax = value
         End Set
     End Property
 
-    Public Property Max2() As Integer
+    Public Property Max2() As Long
         Get
             Return intMax2
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Long)
             intMax2 = value
         End Set
     End Property

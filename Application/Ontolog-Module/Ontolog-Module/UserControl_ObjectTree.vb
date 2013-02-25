@@ -9,11 +9,29 @@
     Private objOItem_Parent As clsOntologyItem
     Private objOItem_RelationType As clsOntologyItem
     Private oItems_No_Parent As Object
+    Private oList_Objects As New List(Of clsOntologyItem)
     Private intRowID_No_Parent As Integer
     Private intRowID_Parent As String
 
     Private boolTopDown As Boolean
     Private boolDataGet As Boolean
+    Private boolApplyable As Boolean
+
+    Public Event applied_Objects()
+
+    Public ReadOnly Property List_Objects As List(Of clsOntologyItem)
+        Get
+            Return oList_Objects
+        End Get
+    End Property
+    Public Property Applyable As Boolean
+        Get
+            Return boolApplyable
+        End Get
+        Set(ByVal value As Boolean)
+            boolApplyable = value
+        End Set
+    End Property
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
 
@@ -25,6 +43,7 @@
 
         objOItem_RelationType = objLocalConfig.Globals.RelationType_contains
         ToolStripTextBox_RelationType.Text = objOItem_RelationType.Name
+        boolApplyable = True
 
         set_DBConnection()
     End Sub
@@ -167,5 +186,56 @@
 
     Private Sub ToolStripButton_Change_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Change.Click
 
+    End Sub
+
+    Private Sub ContextMenuStrip_Tree_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Tree.Opening
+        Dim objTreeNode As TreeNode
+
+        NewToolStripMenuItem.Enabled = False
+        DeleteToolStripMenuItem.Enabled = False
+        FilterToolStripMenuItem.Enabled = False
+        objTreeNode = TreeView_Objects.SelectedNode
+        If Not objTreeNode Is Nothing Then
+            FilterToolStripMenuItem.Enabled = True
+            NewToolStripMenuItem.Enabled = True
+            If objTreeNode.Nodes.Count = 0 Then
+                DeleteToolStripMenuItem.Enabled = True
+            End If
+
+            ApplyToolStripMenuItem.Enabled = boolApplyable
+        End If
+    End Sub
+
+    Private Sub ApplyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApplyToolStripMenuItem.Click
+        Dim objTreeNode As TreeNode
+
+        oList_Objects.Clear()
+
+        If ToolStripButton_Checkboxes.Checked = True Then
+            For Each objTreeNode In TreeView_Objects.Nodes
+                If objTreeNode.Checked = True Then
+                    oList_Objects.Add(New clsOntologyItem(objTreeNode.Name, objTreeNode.Text, objOItem_Parent.GUID, objLocalConfig.Globals.Type_Object))
+
+                End If
+                get_SelectedNodes(objTreeNode)
+            Next
+        Else
+            objTreeNode = TreeView_Objects.SelectedNode
+            oList_Objects.Add(New clsOntologyItem(objTreeNode.Name, objTreeNode.Text, objOItem_Parent.GUID, objLocalConfig.Globals.Type_Object))
+        End If
+
+        RaiseEvent applied_Objects()
+    End Sub
+
+    Private Sub get_SelectedNodes(Optional ByVal objTreeNode As TreeNode = Nothing)
+        Dim objTreeNode_Sub As TreeNode
+
+        For Each objTreeNode_Sub In objTreeNode.Nodes
+            If objTreeNode_Sub.Checked = True Then
+                oList_Objects.Add(New clsOntologyItem(objTreeNode_Sub.Name, objTreeNode_Sub.Text, objOItem_Parent.GUID, objLocalConfig.Globals.Type_Object))
+
+            End If
+            get_SelectedNodes(objTreeNode)
+        Next
     End Sub
 End Class

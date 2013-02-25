@@ -84,25 +84,11 @@ Partial Class frmMain
         Me.SplitContainer_AttribRel = New System.Windows.Forms.SplitContainer()
         Me.Panel_Attributes = New System.Windows.Forms.Panel()
         Me.Label_AttributesLBL = New System.Windows.Forms.Label()
-        Me.ToolStripContainer3 = New System.Windows.Forms.ToolStripContainer()
-        Me.ToolStrip6 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripLabel_TokAttCountLBL = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel_TokAttCount = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripProgressBar_TokenAttribiute = New System.Windows.Forms.ToolStripProgressBar()
-        Me.DataGridView_TokenAtt = New System.Windows.Forms.DataGridView()
-        Me.ContextMenuStrip_TokAtt = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.EditToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CopyValToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.RelateToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DeleteToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStrip3 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripLabel_TokAttFilterLBL = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel_TokAttFilter = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripButton_DelTokenAtt = New System.Windows.Forms.ToolStripButton()
         Me.SplitContainer_TokAttTokRel = New System.Windows.Forms.SplitContainer()
         Me.Panel_RelationTypes = New System.Windows.Forms.Panel()
         Me.Label_RelationTypes = New System.Windows.Forms.Label()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButton_TokenType = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Types = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Token = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Tokentree = New System.Windows.Forms.ToolStripButton()
@@ -116,6 +102,11 @@ Partial Class frmMain
         Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReportsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SyncToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ContextMenuStrip_TokAtt = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.EditToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CopyValToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RelateToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DeleteToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip_TokRel = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SetOrderIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -170,21 +161,13 @@ Partial Class frmMain
         Me.SplitContainer_AttribRelTokenRel.SuspendLayout()
         CType(Me.SplitContainer_AttribRel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer_AttribRel.Panel1.SuspendLayout()
-        Me.SplitContainer_AttribRel.Panel2.SuspendLayout()
         Me.SplitContainer_AttribRel.SuspendLayout()
-        Me.ToolStripContainer3.BottomToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer3.ContentPanel.SuspendLayout()
-        Me.ToolStripContainer3.TopToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer3.SuspendLayout()
-        Me.ToolStrip6.SuspendLayout()
-        CType(Me.DataGridView_TokenAtt, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ContextMenuStrip_TokAtt.SuspendLayout()
-        Me.ToolStrip3.SuspendLayout()
         CType(Me.SplitContainer_TokAttTokRel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer_TokAttTokRel.Panel1.SuspendLayout()
         Me.SplitContainer_TokAttTokRel.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
+        Me.ContextMenuStrip_TokAtt.SuspendLayout()
         Me.ContextMenuStrip_TokRel.SuspendLayout()
         CType(Me.BindingSource_TokenRel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingSource_TokenAtt, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -230,7 +213,7 @@ Partial Class frmMain
         'ToolStripStatusLabel_DatabaseLBL
         '
         Me.ToolStripStatusLabel_DatabaseLBL.Name = "ToolStripStatusLabel_DatabaseLBL"
-        Me.ToolStripStatusLabel_DatabaseLBL.Size = New System.Drawing.Size(58, 19)
+        Me.ToolStripStatusLabel_DatabaseLBL.Size = New System.Drawing.Size(57, 19)
         Me.ToolStripStatusLabel_DatabaseLBL.Text = "Database:"
         '
         'ToolStripStatusLabel_Database
@@ -240,49 +223,49 @@ Partial Class frmMain
                     Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_Database.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner
         Me.ToolStripStatusLabel_Database.Name = "ToolStripStatusLabel_Database"
-        Me.ToolStripStatusLabel_Database.Size = New System.Drawing.Size(16, 19)
+        Me.ToolStripStatusLabel_Database.Size = New System.Drawing.Size(15, 19)
         Me.ToolStripStatusLabel_Database.Text = "-"
         '
         'ToolStripStatusLabel3
         '
         Me.ToolStripStatusLabel3.Name = "ToolStripStatusLabel3"
-        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(10, 19)
+        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(11, 19)
         Me.ToolStripStatusLabel3.Text = "|"
         '
         'ToolStripStatusLabel_TokenAttLBL
         '
         Me.ToolStripStatusLabel_TokenAttLBL.Name = "ToolStripStatusLabel_TokenAttLBL"
-        Me.ToolStripStatusLabel_TokenAttLBL.Size = New System.Drawing.Size(95, 19)
+        Me.ToolStripStatusLabel_TokenAttLBL.Size = New System.Drawing.Size(87, 19)
         Me.ToolStripStatusLabel_TokenAttLBL.Text = "Token-Attribute:"
         '
         'ToolStripStatusLabel_TokenAtt_Attribute
         '
         Me.ToolStripStatusLabel_TokenAtt_Attribute.Name = "ToolStripStatusLabel_TokenAtt_Attribute"
-        Me.ToolStripStatusLabel_TokenAtt_Attribute.Size = New System.Drawing.Size(12, 19)
+        Me.ToolStripStatusLabel_TokenAtt_Attribute.Size = New System.Drawing.Size(11, 19)
         Me.ToolStripStatusLabel_TokenAtt_Attribute.Text = "-"
         '
         'ToolStripStatusLabel_TokenAttSeperator
         '
         Me.ToolStripStatusLabel_TokenAttSeperator.Name = "ToolStripStatusLabel_TokenAttSeperator"
-        Me.ToolStripStatusLabel_TokenAttSeperator.Size = New System.Drawing.Size(12, 19)
+        Me.ToolStripStatusLabel_TokenAttSeperator.Size = New System.Drawing.Size(11, 19)
         Me.ToolStripStatusLabel_TokenAttSeperator.Text = "/"
         '
         'ToolStripStatusLabel_TokenAtt_Token
         '
         Me.ToolStripStatusLabel_TokenAtt_Token.Name = "ToolStripStatusLabel_TokenAtt_Token"
-        Me.ToolStripStatusLabel_TokenAtt_Token.Size = New System.Drawing.Size(12, 19)
+        Me.ToolStripStatusLabel_TokenAtt_Token.Size = New System.Drawing.Size(11, 19)
         Me.ToolStripStatusLabel_TokenAtt_Token.Text = "-"
         '
         'ToolStripStatusLabel4
         '
         Me.ToolStripStatusLabel4.Name = "ToolStripStatusLabel4"
-        Me.ToolStripStatusLabel4.Size = New System.Drawing.Size(10, 19)
+        Me.ToolStripStatusLabel4.Size = New System.Drawing.Size(11, 19)
         Me.ToolStripStatusLabel4.Text = "|"
         '
         'ToolStripStatusLabel_RelationLBL
         '
         Me.ToolStripStatusLabel_RelationLBL.Name = "ToolStripStatusLabel_RelationLBL"
-        Me.ToolStripStatusLabel_RelationLBL.Size = New System.Drawing.Size(53, 19)
+        Me.ToolStripStatusLabel_RelationLBL.Size = New System.Drawing.Size(50, 19)
         Me.ToolStripStatusLabel_RelationLBL.Text = "Relation:"
         '
         'ToolStripStatusLabel_TokenRelLeft
@@ -299,7 +282,7 @@ Partial Class frmMain
         'ToolStripStatusLabel_Seperator1
         '
         Me.ToolStripStatusLabel_Seperator1.Name = "ToolStripStatusLabel_Seperator1"
-        Me.ToolStripStatusLabel_Seperator1.Size = New System.Drawing.Size(12, 19)
+        Me.ToolStripStatusLabel_Seperator1.Size = New System.Drawing.Size(11, 19)
         Me.ToolStripStatusLabel_Seperator1.Text = "/"
         '
         'ToolStripStatusLabel_TokenRelRelation
@@ -316,7 +299,7 @@ Partial Class frmMain
         'ToolStripStatusLabel_Seperator2
         '
         Me.ToolStripStatusLabel_Seperator2.Name = "ToolStripStatusLabel_Seperator2"
-        Me.ToolStripStatusLabel_Seperator2.Size = New System.Drawing.Size(12, 19)
+        Me.ToolStripStatusLabel_Seperator2.Size = New System.Drawing.Size(11, 19)
         Me.ToolStripStatusLabel_Seperator2.Text = "/"
         '
         'ToolStripStatusLabel_TokenRelRight
@@ -333,21 +316,21 @@ Partial Class frmMain
         'ToolStripStatusLabel2
         '
         Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
-        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(10, 19)
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(11, 19)
         Me.ToolStripStatusLabel2.Text = "|"
         '
         'ToolStripStatusLabel_RelationDoneLBL
         '
         Me.ToolStripStatusLabel_RelationDoneLBL.Name = "ToolStripStatusLabel_RelationDoneLBL"
         Me.ToolStripStatusLabel_RelationDoneLBL.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.ToolStripStatusLabel_RelationDoneLBL.Size = New System.Drawing.Size(92, 19)
+        Me.ToolStripStatusLabel_RelationDoneLBL.Size = New System.Drawing.Size(86, 19)
         Me.ToolStripStatusLabel_RelationDoneLBL.Text = "Relation (Done):"
         '
         'ToolStripStatusLabel_RelationDone
         '
         Me.ToolStripStatusLabel_RelationDone.Name = "ToolStripStatusLabel_RelationDone"
         Me.ToolStripStatusLabel_RelationDone.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.ToolStripStatusLabel_RelationDone.Size = New System.Drawing.Size(12, 19)
+        Me.ToolStripStatusLabel_RelationDone.Size = New System.Drawing.Size(11, 19)
         Me.ToolStripStatusLabel_RelationDone.Text = "-"
         '
         'SplitContainer_Filter_Body
@@ -420,7 +403,7 @@ Partial Class frmMain
         Me.SplitContainer1.Panel2.Controls.Add(Me.Label_NameTokenOtherLBL)
         Me.SplitContainer1.Panel2.Controls.Add(Me.Label_GUIDTokenOtherLBL)
         Me.SplitContainer1.Size = New System.Drawing.Size(1052, 95)
-        Me.SplitContainer1.SplitterDistance = 498
+        Me.SplitContainer1.SplitterDistance = 496
         Me.SplitContainer1.TabIndex = 0
         '
         'TextBox_NameRelationType
@@ -429,7 +412,7 @@ Partial Class frmMain
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameRelationType.Location = New System.Drawing.Point(119, 122)
         Me.TextBox_NameRelationType.Name = "TextBox_NameRelationType"
-        Me.TextBox_NameRelationType.Size = New System.Drawing.Size(372, 20)
+        Me.TextBox_NameRelationType.Size = New System.Drawing.Size(370, 20)
         Me.TextBox_NameRelationType.TabIndex = 16
         '
         'TextBox_GUIDRelationType
@@ -438,7 +421,7 @@ Partial Class frmMain
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDRelationType.Location = New System.Drawing.Point(118, 98)
         Me.TextBox_GUIDRelationType.Name = "TextBox_GUIDRelationType"
-        Me.TextBox_GUIDRelationType.Size = New System.Drawing.Size(373, 20)
+        Me.TextBox_GUIDRelationType.Size = New System.Drawing.Size(371, 20)
         Me.TextBox_GUIDRelationType.TabIndex = 15
         '
         'TextBox_NameType
@@ -447,7 +430,7 @@ Partial Class frmMain
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameType.Location = New System.Drawing.Point(87, 74)
         Me.TextBox_NameType.Name = "TextBox_NameType"
-        Me.TextBox_NameType.Size = New System.Drawing.Size(404, 20)
+        Me.TextBox_NameType.Size = New System.Drawing.Size(402, 20)
         Me.TextBox_NameType.TabIndex = 14
         '
         'TextBox_GUIDType
@@ -456,7 +439,7 @@ Partial Class frmMain
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDType.Location = New System.Drawing.Point(87, 50)
         Me.TextBox_GUIDType.Name = "TextBox_GUIDType"
-        Me.TextBox_GUIDType.Size = New System.Drawing.Size(404, 20)
+        Me.TextBox_GUIDType.Size = New System.Drawing.Size(402, 20)
         Me.TextBox_GUIDType.TabIndex = 13
         '
         'TextBox_NameToken
@@ -465,7 +448,7 @@ Partial Class frmMain
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameToken.Location = New System.Drawing.Point(87, 27)
         Me.TextBox_NameToken.Name = "TextBox_NameToken"
-        Me.TextBox_NameToken.Size = New System.Drawing.Size(404, 20)
+        Me.TextBox_NameToken.Size = New System.Drawing.Size(402, 20)
         Me.TextBox_NameToken.TabIndex = 12
         '
         'TextBox_GUIDToken
@@ -474,7 +457,7 @@ Partial Class frmMain
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDToken.Location = New System.Drawing.Point(87, 4)
         Me.TextBox_GUIDToken.Name = "TextBox_GUIDToken"
-        Me.TextBox_GUIDToken.Size = New System.Drawing.Size(404, 20)
+        Me.TextBox_GUIDToken.Size = New System.Drawing.Size(402, 20)
         Me.TextBox_GUIDToken.TabIndex = 11
         '
         'Label_NameRelationTypeLBL
@@ -539,7 +522,7 @@ Partial Class frmMain
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameTypeOther.Location = New System.Drawing.Point(86, 74)
         Me.TextBox_NameTypeOther.Name = "TextBox_NameTypeOther"
-        Me.TextBox_NameTypeOther.Size = New System.Drawing.Size(457, 20)
+        Me.TextBox_NameTypeOther.Size = New System.Drawing.Size(459, 20)
         Me.TextBox_NameTypeOther.TabIndex = 16
         '
         'TextBox_GUIDTypeOther
@@ -548,7 +531,7 @@ Partial Class frmMain
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDTypeOther.Location = New System.Drawing.Point(86, 50)
         Me.TextBox_GUIDTypeOther.Name = "TextBox_GUIDTypeOther"
-        Me.TextBox_GUIDTypeOther.Size = New System.Drawing.Size(457, 20)
+        Me.TextBox_GUIDTypeOther.Size = New System.Drawing.Size(459, 20)
         Me.TextBox_GUIDTypeOther.TabIndex = 15
         '
         'TextBox_NameTokenOther
@@ -557,7 +540,7 @@ Partial Class frmMain
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameTokenOther.Location = New System.Drawing.Point(86, 27)
         Me.TextBox_NameTokenOther.Name = "TextBox_NameTokenOther"
-        Me.TextBox_NameTokenOther.Size = New System.Drawing.Size(457, 20)
+        Me.TextBox_NameTokenOther.Size = New System.Drawing.Size(459, 20)
         Me.TextBox_NameTokenOther.TabIndex = 14
         '
         'TextBox_GUIDTokenOther
@@ -566,7 +549,7 @@ Partial Class frmMain
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDTokenOther.Location = New System.Drawing.Point(86, 4)
         Me.TextBox_GUIDTokenOther.Name = "TextBox_GUIDTokenOther"
-        Me.TextBox_GUIDTokenOther.Size = New System.Drawing.Size(457, 20)
+        Me.TextBox_GUIDTokenOther.Size = New System.Drawing.Size(459, 20)
         Me.TextBox_GUIDTokenOther.TabIndex = 13
         '
         'Label_NameTypeOtherLBL
@@ -725,7 +708,7 @@ Partial Class frmMain
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.SplitContainer_AttribRelTokenRel)
         Me.SplitContainer2.Size = New System.Drawing.Size(1377, 445)
-        Me.SplitContainer2.SplitterDistance = 664
+        Me.SplitContainer2.SplitterDistance = 663
         Me.SplitContainer2.TabIndex = 0
         '
         'SplitContainer_TypeToken
@@ -742,8 +725,8 @@ Partial Class frmMain
         'SplitContainer_TypeToken.Panel2
         '
         Me.SplitContainer_TypeToken.Panel2.Controls.Add(Me.SplitContainer_Token)
-        Me.SplitContainer_TypeToken.Size = New System.Drawing.Size(664, 445)
-        Me.SplitContainer_TypeToken.SplitterDistance = 189
+        Me.SplitContainer_TypeToken.Size = New System.Drawing.Size(663, 445)
+        Me.SplitContainer_TypeToken.SplitterDistance = 187
         Me.SplitContainer_TypeToken.TabIndex = 0
         '
         'ToolStrip2
@@ -751,7 +734,7 @@ Partial Class frmMain
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.ToolStrip2.Location = New System.Drawing.Point(0, 416)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(185, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(183, 25)
         Me.ToolStrip2.TabIndex = 0
         Me.ToolStrip2.Text = "ToolStrip2"
         '
@@ -762,7 +745,7 @@ Partial Class frmMain
         Me.SplitContainer_Token.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer_Token.Name = "SplitContainer_Token"
         Me.SplitContainer_Token.Orientation = System.Windows.Forms.Orientation.Horizontal
-        Me.SplitContainer_Token.Size = New System.Drawing.Size(471, 445)
+        Me.SplitContainer_Token.Size = New System.Drawing.Size(472, 445)
         Me.SplitContainer_Token.SplitterDistance = 310
         Me.SplitContainer_Token.TabIndex = 0
         '
@@ -780,8 +763,8 @@ Partial Class frmMain
         'SplitContainer_AttribRelTokenRel.Panel2
         '
         Me.SplitContainer_AttribRelTokenRel.Panel2.Controls.Add(Me.SplitContainer_TokAttTokRel)
-        Me.SplitContainer_AttribRelTokenRel.Size = New System.Drawing.Size(709, 445)
-        Me.SplitContainer_AttribRelTokenRel.SplitterDistance = 334
+        Me.SplitContainer_AttribRelTokenRel.Size = New System.Drawing.Size(710, 445)
+        Me.SplitContainer_AttribRelTokenRel.SplitterDistance = 333
         Me.SplitContainer_AttribRelTokenRel.TabIndex = 0
         '
         'SplitContainer_AttribRel
@@ -796,11 +779,7 @@ Partial Class frmMain
         '
         Me.SplitContainer_AttribRel.Panel1.Controls.Add(Me.Panel_Attributes)
         Me.SplitContainer_AttribRel.Panel1.Controls.Add(Me.Label_AttributesLBL)
-        '
-        'SplitContainer_AttribRel.Panel2
-        '
-        Me.SplitContainer_AttribRel.Panel2.Controls.Add(Me.ToolStripContainer3)
-        Me.SplitContainer_AttribRel.Size = New System.Drawing.Size(334, 445)
+        Me.SplitContainer_AttribRel.Size = New System.Drawing.Size(333, 445)
         Me.SplitContainer_AttribRel.SplitterDistance = 227
         Me.SplitContainer_AttribRel.TabIndex = 0
         '
@@ -811,7 +790,7 @@ Partial Class frmMain
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_Attributes.Location = New System.Drawing.Point(4, 21)
         Me.Panel_Attributes.Name = "Panel_Attributes"
-        Me.Panel_Attributes.Size = New System.Drawing.Size(323, 199)
+        Me.Panel_Attributes.Size = New System.Drawing.Size(322, 199)
         Me.Panel_Attributes.TabIndex = 1
         '
         'Label_AttributesLBL
@@ -822,130 +801,6 @@ Partial Class frmMain
         Me.Label_AttributesLBL.Size = New System.Drawing.Size(54, 13)
         Me.Label_AttributesLBL.TabIndex = 0
         Me.Label_AttributesLBL.Text = "Attributes:"
-        '
-        'ToolStripContainer3
-        '
-        '
-        'ToolStripContainer3.BottomToolStripPanel
-        '
-        Me.ToolStripContainer3.BottomToolStripPanel.Controls.Add(Me.ToolStrip6)
-        '
-        'ToolStripContainer3.ContentPanel
-        '
-        Me.ToolStripContainer3.ContentPanel.Controls.Add(Me.DataGridView_TokenAtt)
-        Me.ToolStripContainer3.ContentPanel.Size = New System.Drawing.Size(330, 160)
-        Me.ToolStripContainer3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ToolStripContainer3.LeftToolStripPanelVisible = False
-        Me.ToolStripContainer3.Location = New System.Drawing.Point(0, 0)
-        Me.ToolStripContainer3.Name = "ToolStripContainer3"
-        Me.ToolStripContainer3.RightToolStripPanelVisible = False
-        Me.ToolStripContainer3.Size = New System.Drawing.Size(330, 210)
-        Me.ToolStripContainer3.TabIndex = 0
-        Me.ToolStripContainer3.Text = "ToolStripContainer3"
-        '
-        'ToolStripContainer3.TopToolStripPanel
-        '
-        Me.ToolStripContainer3.TopToolStripPanel.Controls.Add(Me.ToolStrip3)
-        '
-        'ToolStrip6
-        '
-        Me.ToolStrip6.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip6.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_TokAttCountLBL, Me.ToolStripLabel_TokAttCount, Me.ToolStripProgressBar_TokenAttribiute})
-        Me.ToolStrip6.Location = New System.Drawing.Point(3, 0)
-        Me.ToolStrip6.Name = "ToolStrip6"
-        Me.ToolStrip6.Size = New System.Drawing.Size(170, 25)
-        Me.ToolStrip6.TabIndex = 0
-        '
-        'ToolStripLabel_TokAttCountLBL
-        '
-        Me.ToolStripLabel_TokAttCountLBL.Name = "ToolStripLabel_TokAttCountLBL"
-        Me.ToolStripLabel_TokAttCountLBL.Size = New System.Drawing.Size(43, 22)
-        Me.ToolStripLabel_TokAttCountLBL.Text = "Count:"
-        '
-        'ToolStripLabel_TokAttCount
-        '
-        Me.ToolStripLabel_TokAttCount.Name = "ToolStripLabel_TokAttCount"
-        Me.ToolStripLabel_TokAttCount.Size = New System.Drawing.Size(13, 22)
-        Me.ToolStripLabel_TokAttCount.Text = "0"
-        '
-        'ToolStripProgressBar_TokenAttribiute
-        '
-        Me.ToolStripProgressBar_TokenAttribiute.Name = "ToolStripProgressBar_TokenAttribiute"
-        Me.ToolStripProgressBar_TokenAttribiute.Size = New System.Drawing.Size(100, 22)
-        '
-        'DataGridView_TokenAtt
-        '
-        Me.DataGridView_TokenAtt.AllowUserToAddRows = False
-        Me.DataGridView_TokenAtt.AllowUserToDeleteRows = False
-        Me.DataGridView_TokenAtt.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView_TokenAtt.ContextMenuStrip = Me.ContextMenuStrip_TokAtt
-        Me.DataGridView_TokenAtt.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView_TokenAtt.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
-        Me.DataGridView_TokenAtt.Location = New System.Drawing.Point(0, 0)
-        Me.DataGridView_TokenAtt.Name = "DataGridView_TokenAtt"
-        Me.DataGridView_TokenAtt.ReadOnly = True
-        Me.DataGridView_TokenAtt.Size = New System.Drawing.Size(330, 160)
-        Me.DataGridView_TokenAtt.TabIndex = 0
-        '
-        'ContextMenuStrip_TokAtt
-        '
-        Me.ContextMenuStrip_TokAtt.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditToolStripMenuItem1, Me.RelateToolStripMenuItem1, Me.DeleteToolStripMenuItem1})
-        Me.ContextMenuStrip_TokAtt.Name = "ContextMenuStrip_TokAtt"
-        Me.ContextMenuStrip_TokAtt.Size = New System.Drawing.Size(107, 70)
-        '
-        'EditToolStripMenuItem1
-        '
-        Me.EditToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyValToolStripMenuItem})
-        Me.EditToolStripMenuItem1.Name = "EditToolStripMenuItem1"
-        Me.EditToolStripMenuItem1.Size = New System.Drawing.Size(106, 22)
-        Me.EditToolStripMenuItem1.Text = "Edit"
-        '
-        'CopyValToolStripMenuItem
-        '
-        Me.CopyValToolStripMenuItem.Name = "CopyValToolStripMenuItem"
-        Me.CopyValToolStripMenuItem.Size = New System.Drawing.Size(121, 22)
-        Me.CopyValToolStripMenuItem.Text = "Copy Val"
-        '
-        'RelateToolStripMenuItem1
-        '
-        Me.RelateToolStripMenuItem1.Name = "RelateToolStripMenuItem1"
-        Me.RelateToolStripMenuItem1.Size = New System.Drawing.Size(106, 22)
-        Me.RelateToolStripMenuItem1.Text = "relate"
-        '
-        'DeleteToolStripMenuItem1
-        '
-        Me.DeleteToolStripMenuItem1.Name = "DeleteToolStripMenuItem1"
-        Me.DeleteToolStripMenuItem1.Size = New System.Drawing.Size(106, 22)
-        Me.DeleteToolStripMenuItem1.Text = "delete"
-        '
-        'ToolStrip3
-        '
-        Me.ToolStrip3.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip3.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_TokAttFilterLBL, Me.ToolStripLabel_TokAttFilter, Me.ToolStripButton_DelTokenAtt})
-        Me.ToolStrip3.Location = New System.Drawing.Point(3, 0)
-        Me.ToolStrip3.Name = "ToolStrip3"
-        Me.ToolStrip3.Size = New System.Drawing.Size(83, 25)
-        Me.ToolStrip3.TabIndex = 0
-        '
-        'ToolStripLabel_TokAttFilterLBL
-        '
-        Me.ToolStripLabel_TokAttFilterLBL.Name = "ToolStripLabel_TokAttFilterLBL"
-        Me.ToolStripLabel_TokAttFilterLBL.Size = New System.Drawing.Size(36, 22)
-        Me.ToolStripLabel_TokAttFilterLBL.Text = "Filter:"
-        '
-        'ToolStripLabel_TokAttFilter
-        '
-        Me.ToolStripLabel_TokAttFilter.Name = "ToolStripLabel_TokAttFilter"
-        Me.ToolStripLabel_TokAttFilter.Size = New System.Drawing.Size(12, 22)
-        Me.ToolStripLabel_TokAttFilter.Text = "-"
-        '
-        'ToolStripButton_DelTokenAtt
-        '
-        Me.ToolStripButton_DelTokenAtt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_DelTokenAtt.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_DelTokenAtt.Name = "ToolStripButton_DelTokenAtt"
-        Me.ToolStripButton_DelTokenAtt.Size = New System.Drawing.Size(23, 22)
-        Me.ToolStripButton_DelTokenAtt.Text = "ToolStripButton2"
         '
         'SplitContainer_TokAttTokRel
         '
@@ -959,7 +814,7 @@ Partial Class frmMain
         '
         Me.SplitContainer_TokAttTokRel.Panel1.Controls.Add(Me.Panel_RelationTypes)
         Me.SplitContainer_TokAttTokRel.Panel1.Controls.Add(Me.Label_RelationTypes)
-        Me.SplitContainer_TokAttTokRel.Size = New System.Drawing.Size(371, 445)
+        Me.SplitContainer_TokAttTokRel.Size = New System.Drawing.Size(373, 445)
         Me.SplitContainer_TokAttTokRel.SplitterDistance = 228
         Me.SplitContainer_TokAttTokRel.TabIndex = 0
         '
@@ -970,7 +825,7 @@ Partial Class frmMain
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_RelationTypes.Location = New System.Drawing.Point(3, 21)
         Me.Panel_RelationTypes.Name = "Panel_RelationTypes"
-        Me.Panel_RelationTypes.Size = New System.Drawing.Size(361, 199)
+        Me.Panel_RelationTypes.Size = New System.Drawing.Size(363, 199)
         Me.Panel_RelationTypes.TabIndex = 3
         '
         'Label_RelationTypes
@@ -985,11 +840,23 @@ Partial Class frmMain
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Types, Me.ToolStripButton_Token, Me.ToolStripButton_Tokentree, Me.ToolStripButton_AttributesAndRelations, Me.ToolStripButton_AttribRel, Me.ToolStripButton_TokenRel, Me.ToolStripButton_Filter, Me.ToolStripSeparator1, Me.ToolStripButton_ModuleView})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_TokenType, Me.ToolStripButton_Types, Me.ToolStripButton_Token, Me.ToolStripButton_Tokentree, Me.ToolStripButton_AttributesAndRelations, Me.ToolStripButton_AttribRel, Me.ToolStripButton_TokenRel, Me.ToolStripButton_Filter, Me.ToolStripSeparator1, Me.ToolStripButton_ModuleView})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 3)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(24, 200)
+        Me.ToolStrip1.Size = New System.Drawing.Size(24, 219)
         Me.ToolStrip1.TabIndex = 0
+        '
+        'ToolStripButton_TokenType
+        '
+        Me.ToolStripButton_TokenType.Checked = True
+        Me.ToolStripButton_TokenType.CheckOnClick = True
+        Me.ToolStripButton_TokenType.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ToolStripButton_TokenType.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_TokenType.Image = CType(resources.GetObject("ToolStripButton_TokenType.Image"), System.Drawing.Image)
+        Me.ToolStripButton_TokenType.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_TokenType.Name = "ToolStripButton_TokenType"
+        Me.ToolStripButton_TokenType.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_TokenType.Text = "ToolStripButton1"
         '
         'ToolStripButton_Types
         '
@@ -1031,7 +898,7 @@ Partial Class frmMain
         '
         Me.ToolStripButton_AttributesAndRelations.CheckOnClick = True
         Me.ToolStripButton_AttributesAndRelations.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_AttributesAndRelations.Image = Global.Ontolog_Module.My.Resources.Resources.DoubleRightArrowHS
+        Me.ToolStripButton_AttributesAndRelations.Image = Global.Ontolog_Module.My.Resources.Resources.NavForward
         Me.ToolStripButton_AttributesAndRelations.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_AttributesAndRelations.Name = "ToolStripButton_AttributesAndRelations"
         Me.ToolStripButton_AttributesAndRelations.Size = New System.Drawing.Size(22, 20)
@@ -1086,7 +953,7 @@ Partial Class frmMain
         Me.ToolStripButton_ModuleView.Image = CType(resources.GetObject("ToolStripButton_ModuleView.Image"), System.Drawing.Image)
         Me.ToolStripButton_ModuleView.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_ModuleView.Name = "ToolStripButton_ModuleView"
-        Me.ToolStripButton_ModuleView.Size = New System.Drawing.Size(22, 19)
+        Me.ToolStripButton_ModuleView.Size = New System.Drawing.Size(22, 17)
         Me.ToolStripButton_ModuleView.Text = "M"
         '
         'MenuStrip1
@@ -1103,7 +970,7 @@ Partial Class frmMain
         '
         Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReportsToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
-        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(49, 20)
+        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(50, 20)
         Me.ToolsToolStripMenuItem.Text = "&Extras"
         '
         'ReportsToolStripMenuItem
@@ -1119,120 +986,151 @@ Partial Class frmMain
         Me.SyncToolStripMenuItem.Size = New System.Drawing.Size(109, 22)
         Me.SyncToolStripMenuItem.Text = "x_Sync"
         '
+        'ContextMenuStrip_TokAtt
+        '
+        Me.ContextMenuStrip_TokAtt.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditToolStripMenuItem1, Me.RelateToolStripMenuItem1, Me.DeleteToolStripMenuItem1})
+        Me.ContextMenuStrip_TokAtt.Name = "ContextMenuStrip_TokAtt"
+        Me.ContextMenuStrip_TokAtt.Size = New System.Drawing.Size(105, 70)
+        '
+        'EditToolStripMenuItem1
+        '
+        Me.EditToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyValToolStripMenuItem})
+        Me.EditToolStripMenuItem1.Name = "EditToolStripMenuItem1"
+        Me.EditToolStripMenuItem1.Size = New System.Drawing.Size(104, 22)
+        Me.EditToolStripMenuItem1.Text = "Edit"
+        '
+        'CopyValToolStripMenuItem
+        '
+        Me.CopyValToolStripMenuItem.Name = "CopyValToolStripMenuItem"
+        Me.CopyValToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.CopyValToolStripMenuItem.Text = "Copy Val"
+        '
+        'RelateToolStripMenuItem1
+        '
+        Me.RelateToolStripMenuItem1.Name = "RelateToolStripMenuItem1"
+        Me.RelateToolStripMenuItem1.Size = New System.Drawing.Size(104, 22)
+        Me.RelateToolStripMenuItem1.Text = "relate"
+        '
+        'DeleteToolStripMenuItem1
+        '
+        Me.DeleteToolStripMenuItem1.Name = "DeleteToolStripMenuItem1"
+        Me.DeleteToolStripMenuItem1.Size = New System.Drawing.Size(104, 22)
+        Me.DeleteToolStripMenuItem1.Text = "delete"
+        '
         'ContextMenuStrip_TokRel
         '
         Me.ContextMenuStrip_TokRel.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditToolStripMenuItem, Me.FilterToolStripMenuItem, Me.RelateToolStripMenuItem, Me.DeleteToolStripMenuItem})
         Me.ContextMenuStrip_TokRel.Name = "ContextMenuStrip_TokRel"
-        Me.ContextMenuStrip_TokRel.Size = New System.Drawing.Size(107, 92)
+        Me.ContextMenuStrip_TokRel.Size = New System.Drawing.Size(106, 92)
         '
         'EditToolStripMenuItem
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SetOrderIDToolStripMenuItem, Me.SetRelationTypeToolStripMenuItem, Me.ModuleEditToolStripMenuItem, Me.ModuleMenuToolStripMenuItem, Me.CopyValToolStripMenuItem1})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
         Me.EditToolStripMenuItem.Text = "Edit"
         '
         'SetOrderIDToolStripMenuItem
         '
         Me.SetOrderIDToolStripMenuItem.Name = "SetOrderIDToolStripMenuItem"
-        Me.SetOrderIDToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.SetOrderIDToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
         Me.SetOrderIDToolStripMenuItem.Text = "Set OrderID"
         '
         'SetRelationTypeToolStripMenuItem
         '
         Me.SetRelationTypeToolStripMenuItem.Name = "SetRelationTypeToolStripMenuItem"
-        Me.SetRelationTypeToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.SetRelationTypeToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
         Me.SetRelationTypeToolStripMenuItem.Text = "Set RelationType"
         '
         'ModuleEditToolStripMenuItem
         '
         Me.ModuleEditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_ModuleEdit})
         Me.ModuleEditToolStripMenuItem.Name = "ModuleEditToolStripMenuItem"
-        Me.ModuleEditToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.ModuleEditToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
         Me.ModuleEditToolStripMenuItem.Text = "x_Module-Edit"
         '
         'ToolStripComboBox_ModuleEdit
         '
         Me.ToolStripComboBox_ModuleEdit.Name = "ToolStripComboBox_ModuleEdit"
-        Me.ToolStripComboBox_ModuleEdit.Size = New System.Drawing.Size(121, 23)
+        Me.ToolStripComboBox_ModuleEdit.Size = New System.Drawing.Size(121, 21)
         '
         'ModuleMenuToolStripMenuItem
         '
         Me.ModuleMenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_ModuleMenu})
         Me.ModuleMenuToolStripMenuItem.Name = "ModuleMenuToolStripMenuItem"
-        Me.ModuleMenuToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.ModuleMenuToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
         Me.ModuleMenuToolStripMenuItem.Text = "x_Module-Menu"
         '
         'ToolStripComboBox_ModuleMenu
         '
         Me.ToolStripComboBox_ModuleMenu.Name = "ToolStripComboBox_ModuleMenu"
-        Me.ToolStripComboBox_ModuleMenu.Size = New System.Drawing.Size(250, 23)
+        Me.ToolStripComboBox_ModuleMenu.Size = New System.Drawing.Size(250, 21)
         '
         'CopyValToolStripMenuItem1
         '
         Me.CopyValToolStripMenuItem1.Name = "CopyValToolStripMenuItem1"
-        Me.CopyValToolStripMenuItem1.Size = New System.Drawing.Size(162, 22)
+        Me.CopyValToolStripMenuItem1.Size = New System.Drawing.Size(156, 22)
         Me.CopyValToolStripMenuItem1.Text = "x_Copy Val"
         '
         'FilterToolStripMenuItem
         '
         Me.FilterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EqualToolStripMenuItem, Me.DifferentToolStripMenuItem, Me.ContainsToolStripMenuItem, Me.GreaterToolStripMenuItem, Me.LessThanToolStripMenuItem, Me.ClearFilterToolStripMenuItem})
         Me.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem"
-        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
+        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
         Me.FilterToolStripMenuItem.Text = "Filter"
         '
         'EqualToolStripMenuItem
         '
         Me.EqualToolStripMenuItem.Name = "EqualToolStripMenuItem"
-        Me.EqualToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.EqualToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
         Me.EqualToolStripMenuItem.Text = "Equal"
         '
         'DifferentToolStripMenuItem
         '
         Me.DifferentToolStripMenuItem.Name = "DifferentToolStripMenuItem"
-        Me.DifferentToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.DifferentToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
         Me.DifferentToolStripMenuItem.Text = "Different"
         '
         'ContainsToolStripMenuItem
         '
         Me.ContainsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripTextBox_TokRelContains})
         Me.ContainsToolStripMenuItem.Name = "ContainsToolStripMenuItem"
-        Me.ContainsToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.ContainsToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
         Me.ContainsToolStripMenuItem.Text = "Contains"
         '
         'ToolStripTextBox_TokRelContains
         '
         Me.ToolStripTextBox_TokRelContains.Name = "ToolStripTextBox_TokRelContains"
-        Me.ToolStripTextBox_TokRelContains.Size = New System.Drawing.Size(100, 23)
+        Me.ToolStripTextBox_TokRelContains.Size = New System.Drawing.Size(100, 21)
         '
         'GreaterToolStripMenuItem
         '
         Me.GreaterToolStripMenuItem.Name = "GreaterToolStripMenuItem"
-        Me.GreaterToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.GreaterToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
         Me.GreaterToolStripMenuItem.Text = "Greater >"
         '
         'LessThanToolStripMenuItem
         '
         Me.LessThanToolStripMenuItem.Name = "LessThanToolStripMenuItem"
-        Me.LessThanToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.LessThanToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
         Me.LessThanToolStripMenuItem.Text = "Less than <"
         '
         'ClearFilterToolStripMenuItem
         '
         Me.ClearFilterToolStripMenuItem.Name = "ClearFilterToolStripMenuItem"
-        Me.ClearFilterToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.ClearFilterToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
         Me.ClearFilterToolStripMenuItem.Text = "Clear Filter"
         '
         'RelateToolStripMenuItem
         '
         Me.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem"
-        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
+        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
         Me.RelateToolStripMenuItem.Text = "Relate"
         '
         'DeleteToolStripMenuItem
         '
         Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
         Me.DeleteToolStripMenuItem.Text = "delete"
         '
         'Timer_TokenAttribute
@@ -1289,22 +1187,8 @@ Partial Class frmMain
         Me.SplitContainer_AttribRelTokenRel.ResumeLayout(False)
         Me.SplitContainer_AttribRel.Panel1.ResumeLayout(False)
         Me.SplitContainer_AttribRel.Panel1.PerformLayout()
-        Me.SplitContainer_AttribRel.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer_AttribRel, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer_AttribRel.ResumeLayout(False)
-        Me.ToolStripContainer3.BottomToolStripPanel.ResumeLayout(False)
-        Me.ToolStripContainer3.BottomToolStripPanel.PerformLayout()
-        Me.ToolStripContainer3.ContentPanel.ResumeLayout(False)
-        Me.ToolStripContainer3.TopToolStripPanel.ResumeLayout(False)
-        Me.ToolStripContainer3.TopToolStripPanel.PerformLayout()
-        Me.ToolStripContainer3.ResumeLayout(False)
-        Me.ToolStripContainer3.PerformLayout()
-        Me.ToolStrip6.ResumeLayout(False)
-        Me.ToolStrip6.PerformLayout()
-        CType(Me.DataGridView_TokenAtt, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ContextMenuStrip_TokAtt.ResumeLayout(False)
-        Me.ToolStrip3.ResumeLayout(False)
-        Me.ToolStrip3.PerformLayout()
         Me.SplitContainer_TokAttTokRel.Panel1.ResumeLayout(False)
         Me.SplitContainer_TokAttTokRel.Panel1.PerformLayout()
         CType(Me.SplitContainer_TokAttTokRel, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1313,6 +1197,7 @@ Partial Class frmMain
         Me.ToolStrip1.PerformLayout()
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
+        Me.ContextMenuStrip_TokAtt.ResumeLayout(False)
         Me.ContextMenuStrip_TokRel.ResumeLayout(False)
         CType(Me.BindingSource_TokenRel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BindingSource_TokenAtt, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1379,21 +1264,11 @@ Partial Class frmMain
     Friend WithEvents SplitContainer_AttribRel As System.Windows.Forms.SplitContainer
     Friend WithEvents Panel_Attributes As System.Windows.Forms.Panel
     Friend WithEvents Label_AttributesLBL As System.Windows.Forms.Label
-    Friend WithEvents ToolStripContainer3 As System.Windows.Forms.ToolStripContainer
-    Friend WithEvents ToolStrip6 As System.Windows.Forms.ToolStrip
-    Friend WithEvents ToolStripLabel_TokAttCountLBL As System.Windows.Forms.ToolStripLabel
-    Friend WithEvents ToolStripLabel_TokAttCount As System.Windows.Forms.ToolStripLabel
-    Friend WithEvents ToolStripProgressBar_TokenAttribiute As System.Windows.Forms.ToolStripProgressBar
-    Friend WithEvents DataGridView_TokenAtt As System.Windows.Forms.DataGridView
     Friend WithEvents ContextMenuStrip_TokAtt As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents EditToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CopyValToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RelateToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DeleteToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStrip3 As System.Windows.Forms.ToolStrip
-    Friend WithEvents ToolStripLabel_TokAttFilterLBL As System.Windows.Forms.ToolStripLabel
-    Friend WithEvents ToolStripLabel_TokAttFilter As System.Windows.Forms.ToolStripLabel
-    Friend WithEvents ToolStripButton_DelTokenAtt As System.Windows.Forms.ToolStripButton
     Friend WithEvents SplitContainer_TokAttTokRel As System.Windows.Forms.SplitContainer
     Friend WithEvents Panel_RelationTypes As System.Windows.Forms.Panel
     Friend WithEvents Label_RelationTypes As System.Windows.Forms.Label
@@ -1433,5 +1308,6 @@ Partial Class frmMain
     Friend WithEvents BindingSource_TokenAtt As System.Windows.Forms.BindingSource
     Friend WithEvents ToolStripButton_AttributesAndRelations As System.Windows.Forms.ToolStripButton
     Friend WithEvents SyncToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripButton_TokenType As System.Windows.Forms.ToolStripButton
 
 End Class

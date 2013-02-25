@@ -178,6 +178,17 @@
         Me.DialogResult = Windows.Forms.DialogResult.None
     End Sub
 
+    Private Sub TextBox_Name_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TextBox_Name.KeyDown
+        If TextBox_Name.Multiline = False Then
+            Select Case e.KeyCode
+                Case Keys.Enter, Keys.Return
+                    Button_OK.PerformClick()
+                Case Keys.Escape
+            End Select
+        End If
+        
+    End Sub
+
     Private Sub TextBox_Name_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBox_Name.TextChanged
         If TextBox_Name.ReadOnly = False Then
             strValue1 = TextBox_Name.Text

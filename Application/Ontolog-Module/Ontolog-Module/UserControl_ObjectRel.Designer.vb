@@ -35,6 +35,25 @@ Partial Class UserControl_ObjectRel
         Me.ToolStripButton_DelTokenRel = New System.Windows.Forms.ToolStripButton()
         Me.Timer_TokenRelation = New System.Windows.Forms.Timer(Me.components)
         Me.BindingSource_ObjectRel = New System.Windows.Forms.BindingSource(Me.components)
+        Me.ContextMenuStrip_TokRel = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SetOrderIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SetRelationTypeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ModuleEditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripComboBox_ModuleEdit = New System.Windows.Forms.ToolStripComboBox()
+        Me.ModuleMenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripComboBox_ModuleMenu = New System.Windows.Forms.ToolStripComboBox()
+        Me.CopyValToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EqualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DifferentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ContainsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripTextBox_TokRelContains = New System.Windows.Forms.ToolStripTextBox()
+        Me.GreaterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LessThanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ClearFilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RelateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer2.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer2.ContentPanel.SuspendLayout()
         Me.ToolStripContainer2.TopToolStripPanel.SuspendLayout()
@@ -43,6 +62,7 @@ Partial Class UserControl_ObjectRel
         CType(Me.DataGridView_Relations, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStrip5.SuspendLayout()
         CType(Me.BindingSource_ObjectRel, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ContextMenuStrip_TokRel.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer2
@@ -141,6 +161,122 @@ Partial Class UserControl_ObjectRel
         '
         Me.Timer_TokenRelation.Interval = 300
         '
+        'ContextMenuStrip_TokRel
+        '
+        Me.ContextMenuStrip_TokRel.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditToolStripMenuItem, Me.FilterToolStripMenuItem, Me.RelateToolStripMenuItem, Me.DeleteToolStripMenuItem})
+        Me.ContextMenuStrip_TokRel.Name = "ContextMenuStrip_TokRel"
+        Me.ContextMenuStrip_TokRel.Size = New System.Drawing.Size(153, 114)
+        '
+        'EditToolStripMenuItem
+        '
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SetOrderIDToolStripMenuItem, Me.SetRelationTypeToolStripMenuItem, Me.ModuleEditToolStripMenuItem, Me.ModuleMenuToolStripMenuItem, Me.CopyValToolStripMenuItem1})
+        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EditToolStripMenuItem.Text = "Edit"
+        '
+        'SetOrderIDToolStripMenuItem
+        '
+        Me.SetOrderIDToolStripMenuItem.Name = "SetOrderIDToolStripMenuItem"
+        Me.SetOrderIDToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.SetOrderIDToolStripMenuItem.Text = "Set OrderID"
+        '
+        'SetRelationTypeToolStripMenuItem
+        '
+        Me.SetRelationTypeToolStripMenuItem.Name = "SetRelationTypeToolStripMenuItem"
+        Me.SetRelationTypeToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.SetRelationTypeToolStripMenuItem.Text = "Set RelationType"
+        '
+        'ModuleEditToolStripMenuItem
+        '
+        Me.ModuleEditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_ModuleEdit})
+        Me.ModuleEditToolStripMenuItem.Name = "ModuleEditToolStripMenuItem"
+        Me.ModuleEditToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.ModuleEditToolStripMenuItem.Text = "x_Module-Edit"
+        '
+        'ToolStripComboBox_ModuleEdit
+        '
+        Me.ToolStripComboBox_ModuleEdit.Name = "ToolStripComboBox_ModuleEdit"
+        Me.ToolStripComboBox_ModuleEdit.Size = New System.Drawing.Size(121, 21)
+        '
+        'ModuleMenuToolStripMenuItem
+        '
+        Me.ModuleMenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_ModuleMenu})
+        Me.ModuleMenuToolStripMenuItem.Name = "ModuleMenuToolStripMenuItem"
+        Me.ModuleMenuToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.ModuleMenuToolStripMenuItem.Text = "x_Module-Menu"
+        '
+        'ToolStripComboBox_ModuleMenu
+        '
+        Me.ToolStripComboBox_ModuleMenu.Name = "ToolStripComboBox_ModuleMenu"
+        Me.ToolStripComboBox_ModuleMenu.Size = New System.Drawing.Size(250, 21)
+        '
+        'CopyValToolStripMenuItem1
+        '
+        Me.CopyValToolStripMenuItem1.Name = "CopyValToolStripMenuItem1"
+        Me.CopyValToolStripMenuItem1.Size = New System.Drawing.Size(156, 22)
+        Me.CopyValToolStripMenuItem1.Text = "x_Copy Val"
+        '
+        'FilterToolStripMenuItem
+        '
+        Me.FilterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EqualToolStripMenuItem, Me.DifferentToolStripMenuItem, Me.ContainsToolStripMenuItem, Me.GreaterToolStripMenuItem, Me.LessThanToolStripMenuItem, Me.ClearFilterToolStripMenuItem})
+        Me.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem"
+        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FilterToolStripMenuItem.Text = "Filter"
+        '
+        'EqualToolStripMenuItem
+        '
+        Me.EqualToolStripMenuItem.Name = "EqualToolStripMenuItem"
+        Me.EqualToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EqualToolStripMenuItem.Text = "Equal"
+        '
+        'DifferentToolStripMenuItem
+        '
+        Me.DifferentToolStripMenuItem.Name = "DifferentToolStripMenuItem"
+        Me.DifferentToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DifferentToolStripMenuItem.Text = "Different"
+        '
+        'ContainsToolStripMenuItem
+        '
+        Me.ContainsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripTextBox_TokRelContains})
+        Me.ContainsToolStripMenuItem.Name = "ContainsToolStripMenuItem"
+        Me.ContainsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ContainsToolStripMenuItem.Text = "Contains"
+        '
+        'ToolStripTextBox_TokRelContains
+        '
+        Me.ToolStripTextBox_TokRelContains.Name = "ToolStripTextBox_TokRelContains"
+        Me.ToolStripTextBox_TokRelContains.Size = New System.Drawing.Size(100, 21)
+        '
+        'GreaterToolStripMenuItem
+        '
+        Me.GreaterToolStripMenuItem.Name = "GreaterToolStripMenuItem"
+        Me.GreaterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.GreaterToolStripMenuItem.Text = "Greater >"
+        '
+        'LessThanToolStripMenuItem
+        '
+        Me.LessThanToolStripMenuItem.Name = "LessThanToolStripMenuItem"
+        Me.LessThanToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.LessThanToolStripMenuItem.Text = "Less than <"
+        '
+        'ClearFilterToolStripMenuItem
+        '
+        Me.ClearFilterToolStripMenuItem.Name = "ClearFilterToolStripMenuItem"
+        Me.ClearFilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ClearFilterToolStripMenuItem.Text = "Clear Filter"
+        '
+        'RelateToolStripMenuItem
+        '
+        Me.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem"
+        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.RelateToolStripMenuItem.Text = "Relate"
+        '
+        'DeleteToolStripMenuItem
+        '
+        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DeleteToolStripMenuItem.Text = "delete"
+        '
         'UserControl_ObjectRel
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -161,6 +297,7 @@ Partial Class UserControl_ObjectRel
         Me.ToolStrip5.ResumeLayout(False)
         Me.ToolStrip5.PerformLayout()
         CType(Me.BindingSource_ObjectRel, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContextMenuStrip_TokRel.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -176,5 +313,24 @@ Partial Class UserControl_ObjectRel
     Friend WithEvents ToolStripButton_DelTokenRel As System.Windows.Forms.ToolStripButton
     Friend WithEvents Timer_TokenRelation As System.Windows.Forms.Timer
     Friend WithEvents BindingSource_ObjectRel As System.Windows.Forms.BindingSource
+    Friend WithEvents ContextMenuStrip_TokRel As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents EditToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SetOrderIDToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SetRelationTypeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ModuleEditToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripComboBox_ModuleEdit As System.Windows.Forms.ToolStripComboBox
+    Friend WithEvents ModuleMenuToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripComboBox_ModuleMenu As System.Windows.Forms.ToolStripComboBox
+    Friend WithEvents CopyValToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FilterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents EqualToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DifferentToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ContainsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripTextBox_TokRelContains As System.Windows.Forms.ToolStripTextBox
+    Friend WithEvents GreaterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents LessThanToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ClearFilterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RelateToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DeleteToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

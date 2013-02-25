@@ -121,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\clsLocalConfig.vb" />
+    <Compile Include="Classes\clsOntologyClipboard.vb" />
     <Compile Include="clsAttribute.vb" />
     <Compile Include="clsAttributeFilter.vb" />
     <Compile Include="clsClassAtt.vb" />
@@ -351,6 +352,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\NavForward.png" />
     <None Include="Resources\DoubleRightArrowHS.png" />
     <None Include="Resources\XSDSchema_SequenceIcon.png" />
     <None Include="Resources\Vogelschwarm.png" />

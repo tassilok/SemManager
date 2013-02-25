@@ -7,6 +7,7 @@
     Private WithEvents objUserControl_ORelationTypeList As UserControl_OItemList
     Private WithEvents objUserControl_OAttributeList As UserControl_OItemList
     Private WithEvents objUserControl_ObjRel As UserControl_ObjectRel
+    Private WithEvents objUserControl_ObjAtt As UserControl_ObjectAtt
 
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
@@ -27,13 +28,48 @@
     Private objOList_RelationTypes_Right As New List(Of clsOntologyItem)
     Private objOList_Classes_Left As New List(Of clsOntologyItem)
     Private objOList_RelationTypes_Left As New List(Of clsOntologyItem)
+
+    Private strType_Entry As String
+    Private objOItem_Entry As clsOntologyItem
+
+    Private boolApplyable As Boolean
+
+    Public Property Applyable As Boolean
+        Get
+            Return boolApplyable
+        End Get
+        Set(ByVal value As Boolean)
+
+        End Set
+    End Property
+
+    Private Sub applied_Class() Handles objUserControl_TypeTree.applied_Class
+
+    End Sub
+
+    Private Sub applied_Objects_Tree() Handles objUserControl_ObjectTree.applied_Objects
+
+    End Sub
+
+    Private Sub applied_ListObjects() Handles objUserControl_OObjectList.applied_Items
+
+    End Sub
+
+    Private Sub applied_ListRelTypes() Handles objUserControl_ORelationTypeList.applied_Items
+
+    End Sub
+
+    Private Sub applied_ListAttTypes() Handles objUserControl_OAttributeList.applied_Items
+
+    End Sub
+
     Private Sub editAttributeType(ByVal strType As String, ByVal objOItem_Direction As clsOntologyItem) Handles objUserControl_OAttributeList.edit_Object
 
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
         Dim objOItem_Selected As New clsOntologyItem
 
-        
+
         objDGVR_Selected = objUserControl_OAttributeList.DataGridViewRowCollection_Selected(0)
         objDRV_Selected = objDGVR_Selected.DataBoundItem
         objOItem_Selected.GUID = objDRV_Selected.Item("ID_Item")
@@ -42,11 +78,11 @@
         objFrm_AttributeTypeEdit = New frm_AttributeTypeEdit(objLocalConfig, objOItem_Selected)
         objFrm_AttributeTypeEdit.ShowDialog(Me)
 
-        
+
     End Sub
     Private Sub editObject(ByVal strType As String, ByVal objOItem_Direction As clsOntologyItem) Handles objUserControl_OObjectList.edit_Object
 
-        
+
         objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig, _
                                         objUserControl_OObjectList.DataGridviewRows, _
                                         objUserControl_OObjectList.RowID, _
@@ -56,8 +92,8 @@
         If objFrm_ObjectEdit.DialogResult = Windows.Forms.DialogResult.OK Then
 
         End If
-           
-        
+
+
     End Sub
 
     Private Sub selectedClass(ByVal OItem_Class As clsOntologyItem) Handles objUserControl_TypeTree.selected_Class
@@ -83,7 +119,7 @@
         Else
             objUserControl_ObjectTree.clear()
         End If
-        
+
     End Sub
 
     Private Sub ObjectList_Selection_Changed() Handles objUserControl_OObjectList.Selection_Changed
@@ -116,7 +152,8 @@
                                                      objOList_ClassRel_RightLeft)
 
 
-
+            objUserControl_ObjAtt.initialize_RelList(objOItem, _
+                                                     Nothing)
         Else
             'procT_TokenRel_With_Or.Clear()
             'funcT_TokenAttribute_Named_By_GUIDToken.Clear()
@@ -129,7 +166,7 @@
         Dim objDBLevel_LeftRight As New clsDBLevel(objLocalConfig)
         Dim objDBLevel_RightLeft As New clsDBLevel(objLocalConfig)
 
-        
+
         objOList_Classes.Add(objOItem_Class)
 
         objOList_Classes_Left.Clear()
@@ -146,6 +183,8 @@
         objOList_Classes_Left = objDBLevel_RightLeft.OList_Classes
         objOList_RelationTypes_Left = objDBLevel_RightLeft.OList_RelationTypes
         objOList_ClassRel_RightLeft = objDBLevel_RightLeft.OList_ClassRel_ID
+
+
     End Sub
 
     Public Sub New()
@@ -155,6 +194,35 @@
 
         ' Add any initialization after the InitializeComponent() call.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
+        strType_Entry = Nothing
+        objOItem_Entry = Nothing
+        set_DBConnection()
+        initialize()
+    End Sub
+
+    Public Sub New(ByVal LocalConfig As clsLocalConfig, Optional ByVal Type_Entry As String = Nothing, Optional ByVal OItem_Entry As clsOntologyItem = Nothing)
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+        objLocalConfig = LocalConfig
+        strType_Entry = Type_Entry
+        Me.objOItem_Entry = OItem_Entry
+        boolApplyable = True
+        set_DBConnection()
+        initialize()
+    End Sub
+
+    Public Sub New(ByVal Globals As clsGlobals, Optional ByVal Type_Entry As String = Nothing, Optional ByVal OItem_Entry As clsOntologyItem = Nothing)
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+        objLocalConfig = New clsLocalConfig(Globals)
+        strType_Entry = Type_Entry
+        Me.objOItem_Entry = OItem_Entry
+        boolApplyable = True
         set_DBConnection()
         initialize()
     End Sub
@@ -169,7 +237,7 @@
         SplitContainer_TypeToken.Panel1.Controls.Add(objUserControl_TypeTree)
 
 
-        objUserControl_TypeTree.initialize_Tree()
+
 
         objUserControl_OObjectList = New UserControl_OItemList(objLocalConfig)
         objUserControl_OObjectList.Dock = DockStyle.Fill
@@ -199,43 +267,69 @@
         SplitContainer_Token.Panel2.Controls.Clear()
         SplitContainer_Token.Panel2.Controls.Add(objUserControl_ObjectTree)
 
+        objUserControl_ObjAtt = New UserControl_ObjectAtt(objLocalConfig)
+        objUserControl_ObjAtt.Dock = DockStyle.Fill
+        SplitContainer_AttribRel.Panel2.Controls.Clear()
+        SplitContainer_AttribRel.Panel2.Controls.Add(objUserControl_ObjAtt)
+
+        If Not strType_Entry Is Nothing Then
+            Select Case strType_Entry
+                Case objLocalConfig.Globals.Type_Class
+                    ToolStripButton_TokenType.Checked = True
+                    ToolStripButton_AttributesAndRelations.Checked = False
+                    ToolStripButton_Types.Checked = True
+                    ToolStripButton_Token.Checked = True
+                    ToolStripButton_TokenType.Checked = False
+
+                    objUserControl_TypeTree.initialize_Tree(objOItem_Entry)
+                Case objLocalConfig.Globals.Type_AttributeType
+                    ToolStripButton_TokenType.Checked = False
+                    ToolStripButton_AttributesAndRelations.Checked = True
+                    ToolStripButton_AttribRel.Checked = True
+                    ToolStripButton_TokenRel.Checked = False
+                    objUserControl_TypeTree.initialize_Tree()
+                Case objLocalConfig.Globals.Type_RelationType
+                    ToolStripButton_TokenType.Checked = False
+                    ToolStripButton_AttributesAndRelations.Checked = True
+                    ToolStripButton_AttribRel.Checked = False
+                    ToolStripButton_TokenRel.Checked = True
+                    objUserControl_TypeTree.initialize_Tree()
+                Case Else
+                    objUserControl_TypeTree.initialize_Tree()
+            End Select
+        Else
+            objUserControl_TypeTree.initialize_Tree()
+        End If
+
         configure_Areas()
     End Sub
 
+
     Private Sub configure_Areas()
-        SplitContainer_TypeToken.Panel1Collapsed = Not ToolStripButton_Types.Checked
-
-        SplitContainer_TypeToken.Panel2Collapsed = Not ToolStripButton_Token.Checked
-
-        SplitContainer_Filter_Body.Panel1Collapsed = Not ToolStripButton_Filter.Checked
-
+        SplitContainer2.Panel1Collapsed = Not ToolStripButton_TokenType.Checked
         SplitContainer2.Panel2Collapsed = Not ToolStripButton_AttributesAndRelations.Checked
 
-        SplitContainer_AttribRelTokenRel.Panel1Collapsed = Not ToolStripButton_AttribRel.Checked
 
-        SplitContainer_AttribRelTokenRel.Panel2Collapsed = Not ToolStripButton_TokenRel.Checked
+        ToolStripButton_TokenType.Checked = Not SplitContainer2.Panel1Collapsed
+        ToolStripButton_AttributesAndRelations.Checked = Not SplitContainer2.Panel2Collapsed
 
-        SplitContainer_Token.Panel1Collapsed = Not ToolStripButton_Token.Checked
+        SplitContainer_TypeToken.Panel1Collapsed = Not ToolStripButton_Types.Checked
+        SplitContainer_TypeToken.Panel2Collapsed = Not ToolStripButton_Token.Checked
+
+        ToolStripButton_Types.Checked = Not SplitContainer_TypeToken.Panel1Collapsed
+        ToolStripButton_Token.Checked = Not SplitContainer_TypeToken.Panel2Collapsed
 
         SplitContainer_Token.Panel2Collapsed = Not ToolStripButton_Tokentree.Checked
 
-
-        ToolStripButton_Types.Checked = Not SplitContainer_TypeToken.Panel1Collapsed
-
-        ToolStripButton_Token.Checked = Not SplitContainer_TypeToken.Panel2Collapsed
-
-
-        ToolStripButton_Filter.Checked = Not SplitContainer_Filter_Body.Panel1Collapsed
-
-        ToolStripButton_AttributesAndRelations.Checked = Not SplitContainer2.Panel2Collapsed
+        SplitContainer_AttribRelTokenRel.Panel1Collapsed = Not ToolStripButton_AttribRel.Checked
+        SplitContainer_AttribRelTokenRel.Panel2Collapsed = Not ToolStripButton_TokenRel.Checked
 
         ToolStripButton_AttribRel.Checked = Not SplitContainer_AttribRelTokenRel.Panel1Collapsed
-
         ToolStripButton_TokenRel.Checked = Not SplitContainer_AttribRelTokenRel.Panel2Collapsed
 
-        ToolStripButton_Token.Checked = Not SplitContainer_Token.Panel1Collapsed
+        SplitContainer_Filter_Body.Panel1Collapsed = Not ToolStripButton_Filter.Checked
 
-        ToolStripButton_Tokentree.Checked = Not SplitContainer_Token.Panel2Collapsed
+        ToolStripButton_Filter.Checked = Not SplitContainer_Filter_Body.Panel1Collapsed
 
         initialize_OTree()
     End Sub
@@ -254,7 +348,7 @@
         configure_Areas()
     End Sub
 
-    
+
     Private Sub ToolStripButton_Filter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Filter.Click
         configure_Areas()
     End Sub
@@ -277,5 +371,10 @@
 
     Private Sub SyncToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SyncToolStripMenuItem.Click
         objReport.sync_SQLDB()
+    End Sub
+
+    Private Sub ToolStripButton_TokenType_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripButton_TokenType.Click
+
+        configure_Areas()
     End Sub
 End Class

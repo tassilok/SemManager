@@ -14,12 +14,24 @@
     Private objLocalConfig As clsLocalConfig
 
     Private objOItem_Class_Selected As clsOntologyItem
+    Private objOItem_Class_Entry As clsOntologyItem
 
     Private objDBLevel As clsDBLevel
 
     Private objFrm_Class As frmClassEdit
 
+    Private objOList_Classes As New List(Of clsOntologyItem)
+
+    Private boolApply As Boolean
+
     Public Event selected_Class(ByVal OItem_Class As clsOntologyItem)
+    Public Event applied_Class()
+
+    Public ReadOnly Property List_Classes As List(Of clsOntologyItem)
+        Get
+            Return objOList_Classes
+        End Get
+    End Property
 
     Public ReadOnly Property selected_Node
         Get
@@ -54,23 +66,41 @@
         
     End Sub
 
-    Public Sub initialize_Tree()
+    Public Sub initialize_Tree(Optional ByVal oItem_Class_Entry As clsOntologyItem = Nothing)
         TreeView_Types.Nodes.Clear()
+        objOItem_Class_Entry = oItem_Class_Entry
+        get_Node_Entry()
+
+
         objTreeNode_Root = TreeView_Types.Nodes.Add(objLocalConfig.Globals.Root.GUID.ToString, _
                                                     objLocalConfig.Globals.Root.Name, _
                                                     cint_ImageID_Root, _
                                                     cint_ImageID_Root)
         fill_Tree(objTreeNode_Root)
-        TreeView_Types.Sort()
+        'TreeView_Types.Sort()
         ToolStripLabel_Count.Text = objList_Classes.Count.ToString
+    End Sub
+
+    Public Sub get_Node_Entry()
+        Dim objList_Classes As New List(Of clsOntologyItem)
+        If Not objOItem_Class_Entry Is Nothing Then
+            objList_Classes.Add(New clsOntologyItem(objOItem_Class_Entry.GUID, objLocalConfig.Globals.Type_Class))
+            objDBLevel.get_Data_Classes(objList_Classes, False, False)
+
+            If objDBLevel.OList_Classes.Count > 0 Then
+                TreeView_Types.Nodes.Add(objOItem_Class_Entry.GUID, _
+                                         objDBLevel.OList_Classes(0).Name, cint_ImageID_Class_Closed, cint_ImageID_Class_Opened)
+            End If
+        End If
     End Sub
 
     Private Sub fill_Tree(ByVal objTreeNode As TreeNode)
         Dim objTreeNode_Sub As TreeNode
 
-       
+
         Dim a = From obja In objList_Classes
         Where (obja.GUID_Parent = objTreeNode.Name)
+        Order By obja.Name
 
         For Each b In a
             objTreeNode_Sub = objTreeNode.Nodes.Add(b.GUID.ToString, _
@@ -256,5 +286,19 @@
                 End If
             End If
         End If
+    End Sub
+
+    Private Sub ApplyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApplyToolStripMenuItem.Click
+        Dim objTreeNode As TreeNode
+
+        objList_Classes.Clear()
+        objTreeNode = TreeView_Types.SelectedNode
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = cint_ImageID_Class_Closed Then
+                objList_Classes.Add(New clsOntologyItem(objTreeNode.Name, objTreeNode.Text, objTreeNode.Parent.Name, objLocalConfig.Globals.Type_Class))
+                RaiseEvent applied_Class()
+            End If
+        End If
+
     End Sub
 End Class

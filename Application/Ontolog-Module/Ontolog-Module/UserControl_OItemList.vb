@@ -5,6 +5,8 @@
 
     Private objDBLevel As clsDBLevel
 
+    Private objFrm_Main As frmMain
+
     Private objTransaction_Objects As clsTransaction_Objects
     Private objTransaction_RelationTypes As clsTransaction_RelationTypes
     Private objTransaction_AttributeTypes As clsTransaction_AttributeTypes
@@ -23,6 +25,9 @@
 
     Private objOItem_Direction As clsOntologyItem
 
+    Private oList_Selected_Simple As New List(Of clsOntologyItem)
+    Private oList_Selected_ObjectRel As New List(Of clsObjectRel)
+
     Private boolOR As Boolean
 
     Private strName_Filter As String
@@ -31,6 +36,7 @@
     Private intRowID As Integer
 
     Private boolFinished As Boolean
+    Private boolApplyable As Boolean
 
     Private strType As String
 
@@ -38,6 +44,30 @@
 
     Public Event Selection_Changed()
     Public Event edit_Object(ByVal strType As String, ByVal oItem_Direction As clsOntologyItem)
+
+    Public Event applied_Items()
+
+
+    Public ReadOnly Property OList_Simple As List(Of clsOntologyItem)
+        Get
+            Return oList_Selected_Simple
+        End Get
+    End Property
+
+    Public ReadOnly Property OList_ObjectRel As List(Of clsObjectRel)
+        Get
+            Return oList_Selected_ObjectRel
+        End Get
+    End Property
+
+    Public Property Applyable As Boolean
+        Get
+            Return boolApplyable
+        End Get
+        Set(ByVal value As Boolean)
+            boolApplyable = value
+        End Set
+    End Property
 
     Public ReadOnly Property RowID As Integer
         Get
@@ -420,12 +450,13 @@
 
     Private Sub ToolStripButton_AddItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_AddItem.Click
         Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_Class As New clsOntologyItem
         If Not objOItem_Parent Is Nothing Then
             Select Case objOItem_Parent.Type
                 Case objLocalConfig.Globals.Type_Object
                     objOItem_Result = objTransaction_Objects.save_Object(objOItem_Parent.GUID_Parent)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        get_Data()
+                        configure_TabPages()
                     ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                         MsgBox("Beim Erzeugen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
                     End If
@@ -433,7 +464,7 @@
                 Case objLocalConfig.Globals.Type_RelationType
                     objOItem_Result = objTransaction_RelationTypes.save_RelType()
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        get_Data()
+                        configure_TabPages()
                     ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
                         MsgBox("Es gibt bereits einen Beziehungstyp mit diesem Namen!", MsgBoxStyle.Exclamation)
                     ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
@@ -444,7 +475,7 @@
                 Case objLocalConfig.Globals.Type_AttributeType
                     objOItem_Result = objTransaction_AttributeTypes.save_AttType()
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        get_Data()
+                        configure_TabPages()
                     ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
                         MsgBox("Es gibt bereits einen Beziehungstyp mit diesem Namen!", MsgBoxStyle.Exclamation)
                     ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
@@ -470,6 +501,14 @@
 
 
                 Case objLocalConfig.Globals.Type_Other
+                    Select Case objOItem_Other.Type
+                        Case objLocalConfig.Globals.Type_Object
+                            objOItem_Class.GUID = objOItem_Other.GUID_Parent
+                            objOItem_Class.Type = objLocalConfig.Globals.Type_Class
+
+                            objFrm_Main = New frmMain(objLocalConfig, objLocalConfig.Globals.Type_Class, objOItem_Class)
+                            objFrm_Main.ShowDialog(Me)
+                    End Select
                     If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
 
                     Else
@@ -482,5 +521,185 @@
     
     
 
+    Private Sub ToolStripButton_DelItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_DelItem.Click
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim oList_Simple As New List(Of clsOntologyItem)
+        Dim oList_ORel As New List(Of clsObjectRel)
+        Dim strIDs() As String
+
+        For Each objDGVR_Selected In DataGridView_Items.SelectedRows
+            objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+            If Not objOItem_Parent Is Nothing Then
+                Select Case objOItem_Parent.Type
+                    Case objLocalConfig.Globals.Type_Object
+                        oList_Simple.Add(New clsOntologyItem(objDRV_Selected.Item("ID_Item"), objLocalConfig.Globals.Type_Object))
+
+                    Case objLocalConfig.Globals.Type_RelationType
+                  
+                    Case objLocalConfig.Globals.Type_AttributeType
+                  
+
+                End Select
+
+                If Not oList_Simple Is Nothing Then
+                    If oList_Simple.Count > 0 Then
+                        strIDs = objDBLevel.del_Objects(oList_Simple)
+
+                        If Not strIDs Is Nothing Then
+                            Dim objLDel = From objObj In oList_Simple
+                                      Group Join strID In strIDs On objObj.GUID Equals strID Into RightTableResult = Group
+                                      From strID In RightTableResult.DefaultIfEmpty
+                                      Where strID Is Nothing
+
+                            If objLDel.Count > 0 Then
+                                MsgBox("Es konnten nur " & oList_Simple.Count - objLDel.Count & " von " & oList_Simple.Count & " Objekte gelöscht werden!")
+                            End If
+                        Else
+                            MsgBox("Kein Objekt kann gelöscht werden!", MsgBoxStyle.Exclamation)
+                        End If
+                        
+
+                    End If
+                End If
+
+                configure_TabPages()
+            Else
+
+                Select Case strType
+                    Case objLocalConfig.Globals.Type_Object
+
+
+                    Case objLocalConfig.Globals.Type_RelationType
+
+
+
+                    Case objLocalConfig.Globals.Type_AttributeType
+
+
+
+                    Case objLocalConfig.Globals.Type_Other
+                        
+                        If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+
+                        Else
+
+                        End If
+                End Select
+
+            End If
+
+        Next
+    End Sub
+
+    Private Sub ContextMenuStrip_SemList_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_SemList.Opening
+        'Dim objModule As clsModule
+        'Dim objModules_Show() As clsModule
+        'Dim objSemItem_ToTest As New clsSemItem
+        Dim i As Integer
+        Dim boolFillCombo As Boolean = False
+
+        ToClipboardToolStripMenuItem.Enabled = False
+        ToolStripComboBox_ModuleMenu.Items.Clear()
+        ToolStripComboBox_ModuleEdit.Enabled = False
+        ApplyToolStripMenuItem.Enabled = False
+        'If objSemItem_Complex_Base Is Nothing Then
+        '    objSemItem_ToTest = objSemItem_Parent
+        'Else
+        '    objSemItem_ToTest.GUID = objSemItem_Complex_Base.GUID_Related
+        '    objSemItem_ToTest.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+        'End If
+        'If Not objLocalConfig.Globals.loaded_Modules Is Nothing Then
+        '    i = 0
+        '    For Each objModule In objLocalConfig.Globals.loaded_Modules
+        '        If objModule.Active = True And objModule.Valid = True Then
+        '            If objModule.Object_OK(objSemItem_ToTest, True) Then
+        '                ReDim Preserve objModules_Show(i)
+        '                objModules_Show(i) = objModule
+        '                boolFillCombo = True
+        '                i = i + 1
+
+        '            End If
+        '        End If
+        '    Next
+
+        '    If boolFillCombo = True Then
+        '        ToolStripComboBox_ModuleEdit.Items.Clear()
+        '        For Each objModule In objModules_Show
+        '            ToolStripComboBox_ModuleMenu.Items.Add(objModule)
+        '            If objModule.loaded_Module.TokenEdit = True Then
+
+        '                ToolStripComboBox_ModuleEdit.Items.Add(objModule)
+        '                ToolStripComboBox_ModuleEdit.ComboBox.ValueMember = "GUID_LoadedModule"
+        '                ToolStripComboBox_ModuleEdit.ComboBox.DisplayMember = "Name_LoadedModule"
+        '            End If
+        '        Next
+        '        ToolStripComboBox_ModuleMenu.ComboBox.ValueMember = "GUID_LoadedModule"
+        '        ToolStripComboBox_ModuleMenu.ComboBox.DisplayMember = "Name_LoadedModule"
+        '    End If
+        'End If
+        ToolStripComboBox_ModuleEdit.Enabled = False
+        If DataGridView_Items.SelectedRows.Count > 0 Then
+            If boolApplyable = True Then
+                ApplyToolStripMenuItem.Enabled = True
+            End If
+            If DataGridView_Items.SelectedRows.Count = 1 Then
+                ToolStripComboBox_ModuleEdit.Enabled = True
+                ToClipboardToolStripMenuItem.Enabled = True
+
+
+            End If
+        End If
+        
+
+    End Sub
+
+    Private Sub ApplyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApplyToolStripMenuItem.Click
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        oList_Selected_ObjectRel.Clear()
+        oList_Selected_Simple.Clear()
+        If boolApplyable = True And DataGridView_Items.SelectedRows.Count > 0 Then
+            For Each objDGVR_Selected In DataGridView_Items.SelectedRows
+                objDRV_Selected = objDGVR_Selected.DataBoundItem
+                If Not objOItem_Parent Is Nothing Then
+                    Select Case objOItem_Parent.Type
+                        Case objLocalConfig.Globals.Type_Object
+                            oList_Selected_Simple.Add(New clsOntologyItem(objDRV_Selected.Item("ID_Item"), _
+                                                                          objDRV_Selected.Item("Name"), _
+                                                                          objDRV_Selected.Item("ID_Parent"), _
+                                                                          objLocalConfig.Globals.Type_Object))
+
+                        Case objLocalConfig.Globals.Type_RelationType
+                        
+                        Case objLocalConfig.Globals.Type_AttributeType
+                        
+                    End Select
+
+
+                Else
+
+                    Select Case strType
+                        Case objLocalConfig.Globals.Type_Object
+
+
+                        Case objLocalConfig.Globals.Type_RelationType
+
+
+
+                        Case objLocalConfig.Globals.Type_AttributeType
+
+
+
+                        Case objLocalConfig.Globals.Type_Other
+                        
+                        
+                    End Select
+
+                End If
+            Next
+        End If
+    End Sub
 End Class
 

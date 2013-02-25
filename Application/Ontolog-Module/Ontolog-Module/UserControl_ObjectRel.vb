@@ -12,8 +12,20 @@
 
     Private objDBLevel_ObjRel As clsDBLevel
 
+    Private objOItem_Object As clsOntologyItem
+    Private objOItem_Other As clsOntologyItem
+    Private objOItem_RelationType As clsOntologyItem
+
     Private objThread As Threading.Thread
     Private boolDataDone As Boolean
+
+    Private strTokRelFilter As String
+
+    Public Event selected_Left(ByVal oItem_Left As clsOntologyItem)
+    Public Event selected_Right(ByVal oItem_Right As clsOntologyItem)
+    Public Event selected_RelationType(ByVal oItem_RelationType As clsOntologyItem)
+    Public Event related_Items()
+
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
 
@@ -40,8 +52,18 @@
         objOList_ClassRel_LeftRight = OList_ClassRel_LeftRight
         objOList_ClassRel_RightLeft = OList_ClassRel_RightLeft
         objOList_Object = OList_Object
+        objOItem_Object = objOList_Object(0)
         objOList_RelationType_LeftRight = OList_RelationType_LeftRight
         objOList_RelationType_RightLeft = OList_RelationType_RightLeft
+
+        
+        initialize_Data()
+    End Sub
+
+    Private Sub initialize_Data()
+        BindingSource_ObjectRel.DataSource = Nothing
+        DataGridView_Relations.DataSource = Nothing
+
 
         Try
             objThread.Abort()
@@ -55,7 +77,6 @@
         Timer_TokenRelation.Start()
 
         objThread.Start()
-
     End Sub
 
     Private Sub get_Data()
@@ -96,4 +117,317 @@
     Private Sub DataGridView_Relations_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles DataGridView_Relations.Paint
 
     End Sub
+
+    
+
+    Private Sub DeleteToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteToolStripMenuItem.Click
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim oList_Relation As New List(Of clsOntologyItem)
+        Dim objOItem_Result As clsOntologyItem
+
+        For Each objDGVR_Selected In DataGridView_Relations.SelectedRows
+            objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+            oList_Relation.Add(New clsOntologyItem(objDRV_Selected.Item("ID_Object"), _
+                                                   Nothing, _
+                                                   objDRV_Selected.Item("ID_RelationType"), _
+                                                   objDRV_Selected.Item("ID_Other"), _
+                                                   objLocalConfig.Globals.Type_ObjectRel))
+
+
+        Next
+
+        objOItem_Result = objDBLevel_ObjRel.del_ObjectRel(oList_Relation)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            MsgBox("Es konnten nicht alle Beziehungen gelöscht werden!", MsgBoxStyle.Information)
+        End If
+
+        initialize_Data()
+    End Sub
+
+    Private Sub ContextMenuStrip_TokRel_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_TokRel.Opening
+        Dim strHeaderText As String
+
+        EditToolStripMenuItem.Enabled = False
+        CopyValToolStripMenuItem1.Enabled = False
+        SetOrderIDToolStripMenuItem.Enabled = False
+        SetRelationTypeToolStripMenuItem.Enabled = False
+        ModuleMenuToolStripMenuItem.Enabled = False
+        ModuleEditToolStripMenuItem.Enabled = False
+
+
+        ClearFilterToolStripMenuItem.Enabled = False
+        EqualToolStripMenuItem.Enabled = False
+        DifferentToolStripMenuItem.Enabled = False
+        ContainsToolStripMenuItem.Enabled = False
+        ClearFilterToolStripMenuItem.Enabled = False
+        GreaterToolStripMenuItem.Enabled = False
+        LessThanToolStripMenuItem.Enabled = False
+        RelateToolStripMenuItem.Enabled = False
+        DeleteToolStripMenuItem.Enabled = False
+
+        If DataGridView_Relations.SelectedRows.Count > 0 Then
+            FilterToolStripMenuItem.Enabled = True
+            EditToolStripMenuItem.Enabled = True
+            SetRelationTypeToolStripMenuItem.Enabled = True
+        End If
+        If DataGridView_Relations.SelectedCells.Count >= 1 Then
+            strHeaderText = DataGridView_Relations.Columns(DataGridView_Relations.SelectedCells(0).ColumnIndex).HeaderText
+            If Not (strHeaderText = "OrderID") Then
+                ContainsToolStripMenuItem.Enabled = True
+            ElseIf strHeaderText = "OrderID" Then
+                GreaterToolStripMenuItem.Enabled = True
+                LessThanToolStripMenuItem.Enabled = True
+                SetOrderIDToolStripMenuItem.Enabled = True
+            End If
+            EqualToolStripMenuItem.Enabled = True
+            DifferentToolStripMenuItem.Enabled = True
+            DeleteToolStripMenuItem.Enabled = True
+
+
+
+        End If
+        If DataGridView_Relations.SelectedRows.Count = 1 Then
+            EditToolStripMenuItem.Enabled = True
+            SetOrderIDToolStripMenuItem.Enabled = True
+            SetRelationTypeToolStripMenuItem.Enabled = True
+            ModuleMenuToolStripMenuItem.Enabled = True
+            ModuleEditToolStripMenuItem.Enabled = True
+        End If
+
+        If DataGridView_Relations.SelectedCells.Count = 1 Then
+            EditToolStripMenuItem.Enabled = True
+            CopyValToolStripMenuItem1.Enabled = True
+
+        End If
+        If strTokRelFilter <> "" Then
+            ClearFilterToolStripMenuItem.Enabled = True
+        End If
+
+        If Not objOItem_Object Is Nothing Then
+            RelateToolStripMenuItem.Enabled = True
+        End If
+
+
+    End Sub
+
+    Private Sub filter_ObjRel(ByVal strOperator As String, Optional ByVal strValue As String = "")
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim objDGVC_Selected As DataGridViewCell
+        Dim objDGVCO_Selected As DataGridViewColumn
+
+        objDGVC_Selected = DataGridView_Relations.SelectedCells(0)
+
+        objDGVR_Selected = DataGridView_Relations.Rows(objDGVC_Selected.RowIndex)
+        objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+        objDGVCO_Selected = DataGridView_Relations.Columns(objDGVC_Selected.ColumnIndex)
+
+        strTokRelFilter = BindingSource_ObjectRel.Filter
+
+        Select Case objDGVCO_Selected.HeaderText
+
+            Case "Name_Object"
+                If Not (strOperator = "<" Or strOperator = ">") Then
+                    If strTokRelFilter <> "" Then
+                        strTokRelFilter = strTokRelFilter & " AND "
+                    End If
+                    If strOperator = "NOT" Then
+                        strTokRelFilter = strTokRelFilter & " NOT "
+                        strOperator = "="
+                    End If
+                    If Not strOperator = "LIKE" Then
+                        strTokRelFilter = strTokRelFilter & "Name_Object " & strOperator & " '" & objDRV_Selected.Item("Name_Object") & "'"
+                    Else
+                        strTokRelFilter = strTokRelFilter & "Name_Object LIKE '%" & strValue.Replace("'", "''") & "%'"
+                    End If
+
+                End If
+
+
+            Case "Name_RelationType"
+                If Not (strOperator = "<" Or strOperator = ">") Then
+                    If strTokRelFilter <> "" Then
+                        strTokRelFilter = strTokRelFilter & " AND "
+                    End If
+                    If strOperator = "NOT" Then
+                        strTokRelFilter = strTokRelFilter & " NOT "
+                        strOperator = "="
+                    End If
+                    If Not strOperator = "LIKE" Then
+                        strTokRelFilter = strTokRelFilter & "GUID_RelationType " & strOperator & " '" & objDRV_Selected.Item("GUID_RelationType").ToString & "'"
+                    Else
+                        strTokRelFilter = strTokRelFilter & "Name_RelationType LIKE '%" & strValue.Replace("'", "''") & "%'"
+                    End If
+
+                End If
+
+
+            Case "Name_Other"
+                If Not (strOperator = "<" Or strOperator = ">") Then
+                    If strTokRelFilter <> "" Then
+                        strTokRelFilter = strTokRelFilter & " AND "
+                    End If
+                    If strOperator = "NOT" Then
+                        strTokRelFilter = strTokRelFilter & " NOT "
+                        strOperator = "="
+                    End If
+                    If Not strOperator = "LIKE" Then
+                        strTokRelFilter = strTokRelFilter & "Name_Other " & strOperator & " '" & objDRV_Selected.Item("Name_Other") & "'"
+                    Else
+                        strTokRelFilter = strTokRelFilter & "Name_Other LIKE '%" & strValue.Replace("'", "''") & "%'"
+                    End If
+
+                End If
+
+
+            Case "Name_Parent_Other"
+                If Not (strOperator = "<" Or strOperator = ">") Then
+                    If strTokRelFilter <> "" Then
+                        strTokRelFilter = strTokRelFilter & " AND "
+                    End If
+                    If strOperator = "NOT" Then
+                        strTokRelFilter = strTokRelFilter & " NOT "
+                        strOperator = "="
+                    End If
+                    If Not strOperator = "LIKE" Then
+                        strTokRelFilter = strTokRelFilter & "GUID_Parent_Other " & strOperator & " '" & objDRV_Selected.Item("GUID_Parent_Other").ToString & "'"
+                    Else
+                        strTokRelFilter = strTokRelFilter & "Name_Parent_Other LIKE '%" & strValue.Replace("'", "''") & "%'"
+                    End If
+
+                End If
+
+            Case "OrderID"
+                If Not strOperator = "LIKE" Then
+                    If strTokRelFilter <> "" Then
+                        strTokRelFilter = strTokRelFilter & " AND "
+                    End If
+                    If strOperator = "NOT" Then
+                        strTokRelFilter = strTokRelFilter & " NOT "
+                        strOperator = "="
+                    End If
+                    strTokRelFilter = strTokRelFilter & "OrderID " & strOperator & " " & objDRV_Selected.Item("OrderID") & ""
+                End If
+
+        End Select
+
+        BindingSource_ObjectRel.Filter = strTokRelFilter
+        ToolStripLabel_Filter.Text = strTokRelFilter
+        ToolStripLabel_RelCount.Text = DataGridView_Relations.Rows.Count
+    End Sub
+
+    Private Sub EqualToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EqualToolStripMenuItem.Click
+        filter_ObjRel("=")
+    End Sub
+
+    Private Sub DifferentToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DifferentToolStripMenuItem.Click
+        filter_ObjRel("NOT")
+    End Sub
+
+    Private Sub ContainsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ContainsToolStripMenuItem.Click
+        Dim strValue As String
+        If Not ToolStripTextBox_TokRelContains.Text = "" Then
+            strValue = ToolStripTextBox_TokRelContains.Text
+            filter_ObjRel("LIKE", strValue)
+        Else
+            MsgBox("Bitte einen Suchstring eineben!", MsgBoxStyle.Information)
+        End If
+    End Sub
+
+    Private Sub GreaterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GreaterToolStripMenuItem.Click
+        filter_ObjRel(">")
+    End Sub
+
+    Private Sub LessThanToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LessThanToolStripMenuItem.Click
+        filter_ObjRel("<")
+    End Sub
+
+    Private Sub ClearFilterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearFilterToolStripMenuItem.Click
+        BindingSource_ObjectRel.Filter = ""
+        strTokRelFilter = BindingSource_ObjectRel.Filter
+
+        ToolStripLabel_Filter.Text = ""
+        ToolStripLabel_RelCount.Text = DataGridView_Relations.Rows.Count
+    End Sub
+
+    Private Sub RelateToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RelateToolStripMenuItem.Click
+        objOItem_Other = Nothing
+        objOItem_Object = New clsOntologyItem
+        objOItem_Object.GUID = objOItem_Object.GUID
+        objOItem_Object.Name = objOItem_Object.Name
+        objOItem_Object.GUID_Parent = objOItem_Object.GUID_Parent
+        objOItem_Object.Type = objLocalConfig.Globals.Type_Object
+
+        save_Relation()
+    End Sub
+    Private Function save_Relation() As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_ForListRelation As New clsOntologyItem
+        Dim objOItem_Clipboard As clsOntologyItem
+
+        objOItem_Result = objLocalConfig.Globals.LState_Success
+
+
+        If Not objOItem_Object Is Nothing Then
+            objOItem_ForListRelation.GUID = objOItem_Object.GUID
+            objOItem_ForListRelation.Name = objOItem_Object.Name
+            objOItem_ForListRelation.GUID_Parent = objOItem_Object.GUID_Parent
+            objOItem_ForListRelation.Type = objLocalConfig.Globals.Type_Object
+            objOItem_ForListRelation.Direction = objOItem_ForListRelation.Direction_RightLeft
+
+            'objUserControl_SemItemList_TokenLis.SemItem_Other = objSemItem_ForListRelation
+
+            RaiseEvent selected_Left(objOItem_Object)
+
+        Else
+            RaiseEvent selected_Left(Nothing)
+
+            objOItem_Result = objLocalConfig.Globals.LState_Nothing
+        End If
+
+
+        If Not objOItem_Other Is Nothing Then
+            RaiseEvent selected_Right(objOItem_Other)
+
+        Else
+
+            If Not objOItem_Clipboard Is Nothing Then
+                
+            End If
+            If Not objOItem_Other Is Nothing Then
+                RaiseEvent selected_Right(objOItem_Other)
+            Else
+                RaiseEvent selected_Right(nothing)
+                objOItem_Result = objLocalConfig.Globals.LState_Nothing
+            End If
+
+        End If
+
+        If Not objOItem_RelationType Is Nothing Then
+            RaiseEvent selected_RelationType(objOItem_RelationType)
+        Else
+            RaiseEvent selected_RelationType(Nothing)
+            objOItem_Result = objLocalConfig.Globals.LState_Nothing
+        End If
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOItem_Result = objDBLevel_ObjRel.save_ObjRel(objOItem_Object, _
+                                                            objOItem_RelationType, _
+                                                            objOItem_Other, _
+                                                            1)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                RaiseEvent related_Items()
+
+                objOItem_Other = Nothing
+                save_Relation()
+            Else
+                objOItem_Result = objLocalConfig.Globals.LState_Nothing
+            End If
+        End If
+        Return objOItem_Result
+    End Function
 End Class

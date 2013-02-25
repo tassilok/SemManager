@@ -158,6 +158,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property NavForward() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("NavForward", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property Procedures() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Procedures", resourceCulture)
