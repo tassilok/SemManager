@@ -138,7 +138,7 @@ Public Class clsDBLevel
         End Get
     End Property
 
-    
+
     Public ReadOnly Property tbl_Objects As DataSet_Config.otbl_ObjectsDataTable
         Get
             Return otblT_Objects
@@ -333,7 +333,7 @@ Public Class clsDBLevel
         Return strAIDs
     End Function
 
-    
+
     Public Function del_ObjectRel(ByVal oList_Items As List(Of clsOntologyItem)) As clsOntologyItem
         Dim objItem As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
@@ -364,7 +364,7 @@ Public Class clsDBLevel
                 End Try
             End If
         End If
-        
+
         Return (objOItem_Result)
     End Function
     Public Function save_RelationType(ByVal oItem_RelationType As clsOntologyItem) As clsOntologyItem
@@ -718,7 +718,7 @@ Public Class clsDBLevel
                             End If
                             strQuery = strQuery & objQuery_ID.GUID
                         End If
-                        
+
                     Next
 
                     If strQuery <> "" Then
@@ -975,7 +975,7 @@ Public Class clsDBLevel
                             End If
                             strQuery = strQuery & objQuery_ID.GUID
                         End If
-                        
+
                     Next
 
                     If strQuery <> "" Then
@@ -1000,7 +1000,7 @@ Public Class clsDBLevel
 
                         End If
                     End If
-                    
+
                 End If
 
 
@@ -1064,7 +1064,7 @@ Public Class clsDBLevel
 
                         End If
                     End If
-                    
+
 
                 End If
 
@@ -1962,13 +1962,8 @@ Public Class clsDBLevel
                 Dim objLRelType = From objRelType In objOntologyList_ObjectRel_ID
                                   Group By objRelType.ID_RelationType Into Group
 
-<<<<<<< HEAD
-                    Case objLocalConfig.Globals.Type_Object
-                        oList_Rel_Object.Add(New clsOntologyItem(Nothing, Nothing, objOther.ID_Parent_Other, objLocalConfig.Globals.Type_Object))
-=======
                 For Each objRelType In objLRelType
                     oList_RelType.Add(New clsOntologyItem(objRelType.ID_RelationType, objLocalConfig.Globals.Type_RelationType))
->>>>>>> Go On
 
                 Next
 
@@ -1997,15 +1992,8 @@ Public Class clsDBLevel
                                 oList_Rel_ObjectCls.Add(New clsOntologyItem(oClass.ID_Parent_Other, objLocalConfig.Globals.Type_Class))
                             Next
 
-<<<<<<< HEAD
-            If oList_Object.Count > 0 Then
-                objDBLevel.get_Data_Objects(oList_Rel_Object)
-                objDBLevel.get_Data_Classes(oList_Rel_ObjectCls, False, True)
-            End If
-=======
                         Case objLocalConfig.Globals.Type_RelationType
                             oList_Rel_RelType.Add(New clsOntologyItem(objOther.ID_Other, objLocalConfig.Globals.Type_RelationType))
->>>>>>> Go On
 
                     End Select
                 Next
@@ -2183,7 +2171,7 @@ Public Class clsDBLevel
             End If
         End If
 
-        
+
 
 
 

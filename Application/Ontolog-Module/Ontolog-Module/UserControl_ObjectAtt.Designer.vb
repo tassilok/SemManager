@@ -27,36 +27,22 @@ Partial Class UserControl_ObjectAtt
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_CountLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
-<<<<<<< HEAD
-=======
         Me.DataGridView_ObjectAtt = New System.Windows.Forms.DataGridView()
->>>>>>> Go On
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_FilterLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Filter = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripButton_ClearFilter = New System.Windows.Forms.ToolStripButton()
-<<<<<<< HEAD
-        Me.DataGridView_ObjectAtt = New System.Windows.Forms.DataGridView()
-        Me.BindingSource_ObjectAtt = New System.Windows.Forms.BindingSource(Me.components)
-        Me.Timer_ObjectAtt = New System.Windows.Forms.Timer(Me.components)
-=======
         Me.BindingSource_ObjectAtt = New System.Windows.Forms.BindingSource(Me.components)
         Me.Timer_ObjectAtt = New System.Windows.Forms.Timer(Me.components)
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripProgressBar_ObjectAtt = New System.Windows.Forms.ToolStripProgressBar()
->>>>>>> Go On
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-<<<<<<< HEAD
-        Me.ToolStrip2.SuspendLayout()
-        CType(Me.DataGridView_ObjectAtt, System.ComponentModel.ISupportInitialize).BeginInit()
-=======
         CType(Me.DataGridView_ObjectAtt, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStrip2.SuspendLayout()
->>>>>>> Go On
         CType(Me.BindingSource_ObjectAtt, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -85,17 +71,10 @@ Partial Class UserControl_ObjectAtt
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-<<<<<<< HEAD
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLBL, Me.ToolStripLabel_Count})
-        Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
-        Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(75, 25)
-=======
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLBL, Me.ToolStripLabel_Count, Me.ToolStripSeparator1, Me.ToolStripProgressBar_ObjectAtt})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(214, 25)
->>>>>>> Go On
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_CountLBL
@@ -110,8 +89,6 @@ Partial Class UserControl_ObjectAtt
         Me.ToolStripLabel_Count.Size = New System.Drawing.Size(13, 22)
         Me.ToolStripLabel_Count.Text = "0"
         '
-<<<<<<< HEAD
-=======
         'DataGridView_ObjectAtt
         '
         Me.DataGridView_ObjectAtt.AllowUserToAddRows = False
@@ -124,7 +101,6 @@ Partial Class UserControl_ObjectAtt
         Me.DataGridView_ObjectAtt.Size = New System.Drawing.Size(521, 429)
         Me.DataGridView_ObjectAtt.TabIndex = 0
         '
->>>>>>> Go On
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
@@ -155,27 +131,10 @@ Partial Class UserControl_ObjectAtt
         Me.ToolStripButton_ClearFilter.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_ClearFilter.Text = "ToolStripButton1"
         '
-<<<<<<< HEAD
-        'DataGridView_ObjectAtt
-        '
-        Me.DataGridView_ObjectAtt.AllowUserToAddRows = False
-        Me.DataGridView_ObjectAtt.AllowUserToDeleteRows = False
-        Me.DataGridView_ObjectAtt.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView_ObjectAtt.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView_ObjectAtt.Location = New System.Drawing.Point(0, 0)
-        Me.DataGridView_ObjectAtt.Name = "DataGridView_ObjectAtt"
-        Me.DataGridView_ObjectAtt.ReadOnly = True
-        Me.DataGridView_ObjectAtt.Size = New System.Drawing.Size(521, 429)
-        Me.DataGridView_ObjectAtt.TabIndex = 0
-        '
-=======
->>>>>>> Go On
         'Timer_ObjectAtt
         '
         Me.Timer_ObjectAtt.Interval = 300
         '
-<<<<<<< HEAD
-=======
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
@@ -186,7 +145,6 @@ Partial Class UserControl_ObjectAtt
         Me.ToolStripProgressBar_ObjectAtt.Name = "ToolStripProgressBar_ObjectAtt"
         Me.ToolStripProgressBar_ObjectAtt.Size = New System.Drawing.Size(100, 22)
         '
->>>>>>> Go On
         'UserControl_ObjectAtt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -203,15 +161,9 @@ Partial Class UserControl_ObjectAtt
         Me.ToolStripContainer1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-<<<<<<< HEAD
-        Me.ToolStrip2.ResumeLayout(False)
-        Me.ToolStrip2.PerformLayout()
-        CType(Me.DataGridView_ObjectAtt, System.ComponentModel.ISupportInitialize).EndInit()
-=======
         CType(Me.DataGridView_ObjectAtt, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
->>>>>>> Go On
         CType(Me.BindingSource_ObjectAtt, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -227,10 +179,7 @@ Partial Class UserControl_ObjectAtt
     Friend WithEvents ToolStripButton_ClearFilter As System.Windows.Forms.ToolStripButton
     Friend WithEvents BindingSource_ObjectAtt As System.Windows.Forms.BindingSource
     Friend WithEvents Timer_ObjectAtt As System.Windows.Forms.Timer
-<<<<<<< HEAD
-=======
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripProgressBar_ObjectAtt As System.Windows.Forms.ToolStripProgressBar
->>>>>>> Go On
 
 End Class
