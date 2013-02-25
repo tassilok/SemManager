@@ -29,6 +29,12 @@
     Private oList_Selected_Simple As New List(Of clsOntologyItem)
     Private oList_Selected_ObjectRel As New List(Of clsObjectRel)
 
+    Private objDlg_Attribute_Boolean As dlg_Attribute_Boolean
+    Private objDlg_Attribute_DateTime As dlg_Attribute_DateTime
+    Private objDlg_Attribute_Long As dlg_Attribute_Long
+    Private objDlg_Attribute_Double As dlg_Attribute_Double
+    Private objDlg_Attribute_String As dlg_Attribute_String
+
     Private boolOR As Boolean
 
     Private strName_Filter As String
@@ -105,6 +111,7 @@
             End If
             objOItem_Other = OItem_Other
 
+            objOItem_Object = oItem_Object
             objOItem_RelationType = OItem_RelType
             objOItem_Parent = OItem_Parent
 
@@ -120,11 +127,11 @@
             strType = objLocalConfig.Globals.Type_Other
             objOItem_Direction = OItem_Direction
             If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
-                If Not objOItem_Object Is Nothing Then
-                    If objOItem_Object.GUID <> "" Then
-                        strGUID_Filter = objOItem_Object.GUID
+                If Not oItem_Object Is Nothing Then
+                    If oItem_Object.GUID <> "" Then
+                        strGUID_Filter = oItem_Object.GUID
                     ElseIf oItem_Object.Name <> "" Then
-                        strGUID_Filter = objOItem_Object.Name
+                        strGUID_Filter = oItem_Object.Name
                     End If
                 End If
                 objOItem_Other = OItem_Other
@@ -201,7 +208,7 @@
 
         Else
             Select Case objOItem_Other.Type
-                
+
 
 
                 Case objLocalConfig.Globals.Type_RelationType
@@ -209,8 +216,9 @@
                     objDBLevel.get_Data_RelationTypes(oList_Items, True)
 
                 Case objLocalConfig.Globals.Type_AttributeType
-                    oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objLocalConfig.Globals.Type_AttributeType))
-                    objDBLevel.get_Data_AttributeType(oList_Items, True)
+
+                    objDBLevel.get_Data_ObjectAtt(objOItem_Object, objOItem_Other, True, False)
+
                 Case Else
                     oList_Other.Add(objOItem_Other)
                     oList_RelType.Add(objOItem_RelationType)
@@ -218,7 +226,7 @@
                     oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
                     objDBLevel.get_Data_ObjectRel(oList_Items, oList_Other, oList_RelType, True, False)
             End Select
-            
+
         End If
         boolFinished = True
     End Sub
@@ -405,11 +413,23 @@
                         strRowName_GUID = "ID_Item"
                     Case objLocalConfig.Globals.Type_AttributeType
 
-
-                        BindingSource_Attribute.DataSource = objDBLevel.tbl_AttributeTypes
+                        BindingSource_Attribute.DataSource = objDBLevel.tbl_ObjectAttribute
                         DataGridView_Items.DataSource = BindingSource_Attribute
                         DataGridView_Items.Columns(0).Visible = False
-                        DataGridView_Items.Columns(1).Width = DataGridView_Items.Width - 20
+                        DataGridView_Items.Columns(1).Visible = False
+                        DataGridView_Items.Columns(2).Visible = False
+                        DataGridView_Items.Columns(3).Visible = False
+                        DataGridView_Items.Columns(4).Visible = False
+                        DataGridView_Items.Columns(5).Visible = False
+                        DataGridView_Items.Columns(6).Visible = False
+                        DataGridView_Items.Columns(9).Visible = False
+                        DataGridView_Items.Columns(10).Visible = False
+                        DataGridView_Items.Columns(11).Visible = False
+                        DataGridView_Items.Columns(12).Visible = False
+                        DataGridView_Items.Columns(13).Visible = False
+                        DataGridView_Items.Columns(14).Visible = False
+                        DataGridView_Items.Columns(15).Visible = False
+
                         ToolStripLabel_Count.Text = DataGridView_Items.RowCount
                         strRowName_GUID = "ID_Item"
                     Case objLocalConfig.Globals.Type_Other
@@ -455,6 +475,13 @@
         Dim objOItem_Class As New clsOntologyItem
         Dim oList_Simple As List(Of clsOntologyItem)
         Dim boolAdd As Boolean
+
+        Dim boolValue As Boolean
+        Dim dateValue As Date
+        Dim lngValue As Long
+        Dim dblValue As Double
+        Dim strValue As String
+
         If Not objOItem_Parent Is Nothing Then
             Select Case objOItem_Parent.Type
                 Case objLocalConfig.Globals.Type_Object
@@ -501,7 +528,46 @@
 
 
                 Case objLocalConfig.Globals.Type_AttributeType
+                    Dim objLDT = From objDT In objDBLevel.OList_DataTypes
+                               Group By objDT.GUID, objDT.Name Into Group
 
+                    Dim objLAT = From objAT In objDBLevel.OList_AttributeTypes
+                                 Group By objAT.GUID, objAT.Name Into Group
+                    If objLDT.Count > 0 Then
+                        Select Case objLDT(0).GUID
+                            Case objLocalConfig.Globals.DType_Bool.GUID
+                                objDlg_Attribute_Boolean = New dlg_Attribute_Boolean(objLAT(0).Name & "/" & objLDT(0).Name, objLocalConfig)
+                                objDlg_Attribute_Boolean.ShowDialog(Me)
+                                If objDlg_Attribute_Boolean.DialogResult = DialogResult.OK Then
+
+                                End If
+                            Case objLocalConfig.Globals.DType_DateTime.GUID
+                                objDlg_Attribute_DateTime = New dlg_Attribute_DateTime(objLAT(0).Name & "/" & objLDT(0).Name, objLocalConfig)
+                                objDlg_Attribute_DateTime.ShowDialog(Me)
+                                If objDlg_Attribute_DateTime.DialogResult = DialogResult.OK Then
+                                    dateValue = objDlg_Attribute_DateTime.Value
+                                End If
+                            Case objLocalConfig.Globals.DType_Int.GUID
+                                objDlg_Attribute_Long = New dlg_Attribute_Long(objLAT(0).Name & "/" & objLDT(0).Name, objLocalConfig)
+                                objDlg_Attribute_Long.ShowDialog(Me)
+                                If objDlg_Attribute_Long.DialogResult = DialogResult.OK Then
+
+                                End If
+                            Case objLocalConfig.Globals.DType_Real.GUID
+                                objDlg_Attribute_Double = New dlg_Attribute_Double(objLAT(0).Name & "/" & objLDT(0).Name, objLocalConfig)
+                                objDlg_Attribute_Double.ShowDialog(Me)
+                                If objDlg_Attribute_Double.DialogResult = DialogResult.OK Then
+
+                                End If
+                            Case objLocalConfig.Globals.DType_String.GUID
+                                objDlg_Attribute_String = New dlg_Attribute_String(objLAT(0).Name & "/" & objLDT(0).Name, objLocalConfig)
+                                objDlg_Attribute_String.ShowDialog(Me)
+                                If objDlg_Attribute_String.DialogResult = DialogResult.OK Then
+
+                                End If
+                        End Select
+
+                    End If
 
 
                 Case objLocalConfig.Globals.Type_Other

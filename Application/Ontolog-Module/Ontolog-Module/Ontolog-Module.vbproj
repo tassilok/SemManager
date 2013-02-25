@@ -211,6 +211,12 @@
     <Compile Include="Forms\frm_ObjectEdit.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\UserControl_Attribute_DateTime.Designer.vb">
+      <DependentUpon>UserControl_Attribute_DateTime.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_DateTime.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Forms\UserControl_Attribute_Double.Designer.vb">
       <DependentUpon>UserControl_Attribute_Double.vb</DependentUpon>
     </Compile>
@@ -341,6 +347,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frm_ObjectEdit.resx">
       <DependentUpon>frm_ObjectEdit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_Attribute_DateTime.resx">
+      <DependentUpon>UserControl_Attribute_DateTime.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserControl_Attribute_Double.resx">
       <DependentUpon>UserControl_Attribute_Double.vb</DependentUpon>

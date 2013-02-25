@@ -527,7 +527,7 @@
             Select Case objTreeNode.Parent.Name
                 Case objTreeNode_Atttributes.Name
                     objOList_Selected.Add(objOItem_Object)
-                    objOList_Selected.Add(New clsOntologyItem(objTreeNode_Atttributes.Name, objLocalConfig.Globals.Type_AttributeType))
+                    objOList_Selected.Add(New clsOntologyItem(objTreeNode.Name, objLocalConfig.Globals.Type_AttributeType))
                     RaiseEvent selected_Item(objOList_Selected)
 
                 Case objTreeNode_RelBackward.Name
