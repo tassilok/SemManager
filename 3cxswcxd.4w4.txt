@@ -1,0 +1,43 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# Not currently on any branch.
+# You are currently rebasing.
+#   (all conflicts fixed: run "git rebase --continue")
+#
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	new file:   Application/Ontolog-Module/Ontolog-Module/Classes/clsOntologyClipboard.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/DataSet_Config.Designer.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/My Project/Resources.Designer.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/My Project/Resources.resx
+#	modified:   Application/Ontolog-Module/Ontolog-Module/Ontolog-Module.vbproj
+#	new file:   Application/Ontolog-Module/Ontolog-Module/Resources/NavForward.png
+#	modified:   Application/Ontolog-Module/Ontolog-Module/UserControl_OItemList.Designer.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/UserControl_OItemList.resx
+#	modified:   Application/Ontolog-Module/Ontolog-Module/UserControl_OItemList.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/UserControl_ObjectAtt.Designer.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/UserControl_ObjectAtt.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/UserControl_ObjectEdit.Designer.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/UserControl_ObjectRel.Designer.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/UserControl_ObjectRel.resx
+#	modified:   Application/Ontolog-Module/Ontolog-Module/UserControl_ObjectRel.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/UserControl_ObjectTree.Designer.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/UserControl_ObjectTree.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/UserControl_TypeTree.Designer.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/UserControl_TypeTree.resx
+#	modified:   Application/Ontolog-Module/Ontolog-Module/UserControl_TypeTree.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/clsDBLevel.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/clsOntologyItem.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/frmMain.Designer.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/frmMain.resx
+#	modified:   Application/Ontolog-Module/Ontolog-Module/frmMain.vb
+#	modified:   Application/Ontolog-Module/Ontolog-Module/frm_Name.vb
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	5fqarv0d.j5t.txt
+#	5xbfntax.czl.txt
+
