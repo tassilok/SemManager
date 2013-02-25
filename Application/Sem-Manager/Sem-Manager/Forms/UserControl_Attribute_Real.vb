@@ -85,4 +85,5 @@
 
         Return boolResult
     End Function
+
 End Class

@@ -34,6 +34,28 @@
 
     Private boolApplyable As Boolean
 
+    Private strType_Applied As String
+    Private oList_Applied_Simple As List(Of clsOntologyItem)
+    Private oList_Applied_ObjRel As List(Of clsObjectRel)
+
+    Public ReadOnly Property Type_Applied As String
+        Get
+            Return strType_Applied
+        End Get
+    End Property
+
+    Public ReadOnly Property OList_Simple As List(Of clsOntologyItem)
+        Get
+            Return oList_Applied_Simple
+        End Get
+    End Property
+
+    Public ReadOnly Property OList_ObjectRel As List(Of clsObjectRel)
+        Get
+            Return oList_Applied_ObjRel
+        End Get
+    End Property
+
     Public Property Applyable As Boolean
         Get
             Return boolApplyable
@@ -53,6 +75,10 @@
 
     Private Sub applied_ListObjects() Handles objUserControl_OObjectList.applied_Items
 
+        oList_Applied_Simple = objUserControl_OObjectList.OList_Simple
+        strType_Applied = objLocalConfig.Globals.Type_Object
+        Me.DialogResult = Windows.Forms.DialogResult.OK
+        Me.Close()
     End Sub
 
     Private Sub applied_ListRelTypes() Handles objUserControl_ORelationTypeList.applied_Items
@@ -196,6 +222,7 @@
         objLocalConfig = New clsLocalConfig(New clsGlobals)
         strType_Entry = Nothing
         objOItem_Entry = Nothing
+        boolApplyable = False
         set_DBConnection()
         initialize()
     End Sub
@@ -232,26 +259,28 @@
         Dim objOItem_AttType As New clsOntologyItem(Nothing, Nothing, objLocalConfig.Globals.Type_AttributeType)
 
         objUserControl_TypeTree = New UserControl_TypeTree(objLocalConfig)
+        objUserControl_TypeTree.Applyable = boolApplyable
         objUserControl_TypeTree.Dock = DockStyle.Fill
         SplitContainer_TypeToken.Panel1.Controls.Clear()
         SplitContainer_TypeToken.Panel1.Controls.Add(objUserControl_TypeTree)
 
 
-
-
         objUserControl_OObjectList = New UserControl_OItemList(objLocalConfig)
+        objUserControl_OObjectList.Applyable = boolApplyable
         objUserControl_OObjectList.Dock = DockStyle.Fill
         SplitContainer_Token.Panel1.Controls.Clear()
         SplitContainer_Token.Panel1.Controls.Add(objUserControl_OObjectList)
 
 
         objUserControl_ORelationTypeList = New UserControl_OItemList(objLocalConfig)
+        objUserControl_ORelationTypeList.Applyable = boolApplyable
         objUserControl_ORelationTypeList.Dock = DockStyle.Fill
         Panel_RelationTypes.Controls.Clear()
         objUserControl_ORelationTypeList.initialize(objOItem_RelType)
         Panel_RelationTypes.Controls.Add(objUserControl_ORelationTypeList)
 
         objUserControl_OAttributeList = New UserControl_OItemList(objLocalConfig)
+        objUserControl_OAttributeList.Applyable = boolApplyable
         objUserControl_OAttributeList.Dock = DockStyle.Fill
         Panel_Attributes.Controls.Clear()
         objUserControl_OAttributeList.initialize(objOItem_AttType)
@@ -263,6 +292,7 @@
         SplitContainer_TokAttTokRel.Panel2.Controls.Add(objUserControl_ObjRel)
 
         objUserControl_ObjectTree = New UserControl_ObjectTree(objLocalConfig)
+        objUserControl_ObjectTree.Applyable = boolApplyable
         objUserControl_ObjectTree.Dock = DockStyle.Fill
         SplitContainer_Token.Panel2.Controls.Clear()
         SplitContainer_Token.Panel2.Controls.Add(objUserControl_ObjectTree)

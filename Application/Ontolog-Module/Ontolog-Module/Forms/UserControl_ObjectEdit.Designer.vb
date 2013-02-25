@@ -81,9 +81,9 @@ Partial Class UserControl_ObjectEdit
         'StatusStrip1
         '
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel_Database})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 407)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 405)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(558, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(558, 24)
         Me.StatusStrip1.TabIndex = 1
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -95,7 +95,7 @@ Partial Class UserControl_ObjectEdit
                     Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_Database.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter
         Me.ToolStripStatusLabel_Database.Name = "ToolStripStatusLabel_Database"
-        Me.ToolStripStatusLabel_Database.Size = New System.Drawing.Size(15, 17)
+        Me.ToolStripStatusLabel_Database.Size = New System.Drawing.Size(16, 19)
         Me.ToolStripStatusLabel_Database.Text = "-"
         '
         'ToolStripContainer1
@@ -108,11 +108,11 @@ Partial Class UserControl_ObjectEdit
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(558, 333)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(558, 331)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 24)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(558, 383)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(558, 381)
         Me.ToolStripContainer1.TabIndex = 2
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
@@ -126,7 +126,7 @@ Partial Class UserControl_ObjectEdit
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Nav_First, Me.ToolStripButton_Nav_Previous, Me.ToolStripButton_Nav_Next, Me.ToolStripButton_Nav_Last, Me.ToolStripSeparator1, Me.ToolStripLabel_ObjectCount, Me.ToolStripLabel_ObjectLabel})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(187, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(191, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Nav_First
@@ -173,13 +173,13 @@ Partial Class UserControl_ObjectEdit
         'ToolStripLabel_ObjectCount
         '
         Me.ToolStripLabel_ObjectCount.Name = "ToolStripLabel_ObjectCount"
-        Me.ToolStripLabel_ObjectCount.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripLabel_ObjectCount.Size = New System.Drawing.Size(24, 22)
         Me.ToolStripLabel_ObjectCount.Text = "0/0"
         '
         'ToolStripLabel_ObjectLabel
         '
         Me.ToolStripLabel_ObjectLabel.Name = "ToolStripLabel_ObjectLabel"
-        Me.ToolStripLabel_ObjectLabel.Size = New System.Drawing.Size(56, 22)
+        Me.ToolStripLabel_ObjectLabel.Size = New System.Drawing.Size(57, 22)
         Me.ToolStripLabel_ObjectLabel.Text = "x_Objects"
         '
         'SplitContainer1
@@ -188,7 +188,7 @@ Partial Class UserControl_ObjectEdit
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Size = New System.Drawing.Size(558, 333)
+        Me.SplitContainer1.Size = New System.Drawing.Size(558, 331)
         Me.SplitContainer1.SplitterDistance = 186
         Me.SplitContainer1.TabIndex = 0
         '
@@ -198,13 +198,13 @@ Partial Class UserControl_ObjectEdit
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_GUIDLbl, Me.ToolStripTextBox_GUID, Me.ToolStripSeparator2, Me.ToolStripLabel1, Me.ToolStripTextBox_Name})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(514, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(518, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripLabel_GUIDLbl
         '
         Me.ToolStripLabel_GUIDLbl.Name = "ToolStripLabel_GUIDLbl"
-        Me.ToolStripLabel_GUIDLbl.Size = New System.Drawing.Size(48, 22)
+        Me.ToolStripLabel_GUIDLbl.Size = New System.Drawing.Size(47, 22)
         Me.ToolStripLabel_GUIDLbl.Text = "x_GUID:"
         '
         'ToolStripTextBox_GUID
@@ -221,7 +221,7 @@ Partial Class UserControl_ObjectEdit
         'ToolStripLabel1
         '
         Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(46, 22)
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(49, 22)
         Me.ToolStripLabel1.Text = "x_Name"
         '
         'ToolStripTextBox_Name

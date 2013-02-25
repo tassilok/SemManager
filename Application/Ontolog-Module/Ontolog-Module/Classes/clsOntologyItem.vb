@@ -262,4 +262,12 @@
         Me.Type = Type
     End Sub
 
+    Public Sub New(ByVal GUID_Item As String, ByVal GUID_Relation As String, ByVal GUID_Related As String, ByVal Level As Long, ByVal Type As String)
+        GUID = GUID_Item
+        Me.GUID_Related = GUID_Related
+        Me.GUID_Relation = GUID_Relation
+        Me.Level = Level
+        Me.Type = Type
+    End Sub
+
 End Class

@@ -122,21 +122,21 @@
   <ItemGroup>
     <Compile Include="Classes\clsLocalConfig.vb" />
     <Compile Include="Classes\clsOntologyClipboard.vb" />
-    <Compile Include="clsAttribute.vb" />
-    <Compile Include="clsAttributeFilter.vb" />
-    <Compile Include="clsClassAtt.vb" />
-    <Compile Include="clsClassRel.vb" />
-    <Compile Include="clsDBLevel.vb" />
-    <Compile Include="clsGlobals.vb" />
-    <Compile Include="clsObjectAtt.vb" />
-    <Compile Include="clsObjectRel.vb" />
-    <Compile Include="clsOntologies.vb" />
-    <Compile Include="clsOntologyItem.vb" />
-    <Compile Include="clsObjectTree.vb" />
-    <Compile Include="clsReport.vb" />
-    <Compile Include="clsTransaction_AttributeTypes.vb" />
-    <Compile Include="clsTransaction_Objects.vb" />
-    <Compile Include="clsTransaction_RelationTypes.vb" />
+    <Compile Include="Classes\clsAttribute.vb" />
+    <Compile Include="Classes\clsAttributeFilter.vb" />
+    <Compile Include="Classes\clsClassAtt.vb" />
+    <Compile Include="Classes\clsClassRel.vb" />
+    <Compile Include="Classes\clsDBLevel.vb" />
+    <Compile Include="Classes\clsGlobals.vb" />
+    <Compile Include="Classes\clsObjectAtt.vb" />
+    <Compile Include="Classes\clsObjectRel.vb" />
+    <Compile Include="Classes\clsOntologies.vb" />
+    <Compile Include="Classes\clsOntologyItem.vb" />
+    <Compile Include="Classes\clsObjectTree.vb" />
+    <Compile Include="Classes\clsReport.vb" />
+    <Compile Include="Classes\clsTransaction_AttributeTypes.vb" />
+    <Compile Include="Classes\clsTransaction_Objects.vb" />
+    <Compile Include="Classes\clsTransaction_RelationTypes.vb" />
     <Compile Include="DataSet_Config.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -150,36 +150,84 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet_Report.xsd</DependentUpon>
     </Compile>
-    <Compile Include="frmClassEdit.Designer.vb">
+    <Compile Include="Forms\dlg_Attribute_Boolean.Designer.vb">
+      <DependentUpon>dlg_Attribute_Boolean.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\dlg_Attribute_Boolean.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\dlg_Attribute_DateTime.Designer.vb">
+      <DependentUpon>dlg_Attribute_DateTime.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\dlg_Attribute_DateTime.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\dlg_Attribute_Double.Designer.vb">
+      <DependentUpon>dlg_Attribute_Double.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\dlg_Attribute_Double.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\dlg_Attribute_Long.Designer.vb">
+      <DependentUpon>dlg_Attribute_Long.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\dlg_Attribute_Long.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\dlg_Attribute_String.Designer.vb">
+      <DependentUpon>dlg_Attribute_String.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\dlg_Attribute_String.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmClassEdit.Designer.vb">
       <DependentUpon>frmClassEdit.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmClassEdit.vb">
+    <Compile Include="Forms\frmClassEdit.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMain.vb">
+    <Compile Include="Forms\frmMain.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMain.Designer.vb">
+    <Compile Include="Forms\frmMain.Designer.vb">
       <DependentUpon>frmMain.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_AttributeTypeEdit.Designer.vb">
+    <Compile Include="Forms\frm_AttributeTypeEdit.Designer.vb">
       <DependentUpon>frm_AttributeTypeEdit.vb</DependentUpon>
     </Compile>
-    <Compile Include="frm_AttributeTypeEdit.vb">
+    <Compile Include="Forms\frm_AttributeTypeEdit.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_Name.Designer.vb">
+    <Compile Include="Forms\frm_Name.Designer.vb">
       <DependentUpon>frm_Name.vb</DependentUpon>
     </Compile>
-    <Compile Include="frm_Name.vb">
+    <Compile Include="Forms\frm_Name.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_ObjectEdit.Designer.vb">
+    <Compile Include="Forms\frm_ObjectEdit.Designer.vb">
       <DependentUpon>frm_ObjectEdit.vb</DependentUpon>
     </Compile>
-    <Compile Include="frm_ObjectEdit.vb">
+    <Compile Include="Forms\frm_ObjectEdit.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_Double.Designer.vb">
+      <DependentUpon>UserControl_Attribute_Double.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_Double.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_Long.Designer.vb">
+      <DependentUpon>UserControl_Attribute_Long.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_Long.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_String.Designer.vb">
+      <DependentUpon>UserControl_Attribute_String.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_String.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -196,82 +244,112 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="UserControl_AttributeTypeSel.Designer.vb">
+    <Compile Include="Forms\UserControl_AttributeTypeSel.Designer.vb">
       <DependentUpon>UserControl_AttributeTypeSel.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_AttributeTypeSel.vb">
+    <Compile Include="Forms\UserControl_AttributeTypeSel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl_ClassAttributeTypes.Designer.vb">
+    <Compile Include="Forms\UserControl_Attribute_Boolean.Designer.vb">
+      <DependentUpon>UserControl_Attribute_Boolean.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_Attribute_Boolean.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_ClassAttributeTypes.Designer.vb">
       <DependentUpon>UserControl_ClassAttributeTypes.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_ClassAttributeTypes.vb">
+    <Compile Include="Forms\UserControl_ClassAttributeTypes.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl_ClassRel.Designer.vb">
+    <Compile Include="Forms\UserControl_ClassRel.Designer.vb">
       <DependentUpon>UserControl_ClassRel.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_ClassRel.vb">
+    <Compile Include="Forms\UserControl_ClassRel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl_ObjectAtt.Designer.vb">
+    <Compile Include="Forms\UserControl_ObjectAtt.Designer.vb">
       <DependentUpon>UserControl_ObjectAtt.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_ObjectAtt.vb">
+    <Compile Include="Forms\UserControl_ObjectAtt.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl_ObjectRel.Designer.vb">
+    <Compile Include="Forms\UserControl_ObjectRel.Designer.vb">
       <DependentUpon>UserControl_ObjectRel.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_ObjectRel.vb">
+    <Compile Include="Forms\UserControl_ObjectRel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl_ObjectRelTree.Designer.vb">
+    <Compile Include="Forms\UserControl_ObjectRelTree.Designer.vb">
       <DependentUpon>UserControl_ObjectRelTree.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_ObjectRelTree.vb">
+    <Compile Include="Forms\UserControl_ObjectRelTree.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl_ObjectTree.Designer.vb">
+    <Compile Include="Forms\UserControl_ObjectTree.Designer.vb">
       <DependentUpon>UserControl_ObjectTree.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_ObjectTree.vb">
+    <Compile Include="Forms\UserControl_ObjectTree.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl_OItemList.Designer.vb">
+    <Compile Include="Forms\UserControl_OItemList.Designer.vb">
       <DependentUpon>UserControl_OItemList.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_OItemList.vb">
+    <Compile Include="Forms\UserControl_OItemList.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl_ObjectEdit.Designer.vb">
+    <Compile Include="Forms\UserControl_ObjectEdit.Designer.vb">
       <DependentUpon>UserControl_ObjectEdit.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_ObjectEdit.vb">
+    <Compile Include="Forms\UserControl_ObjectEdit.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl_TypeTree.Designer.vb">
+    <Compile Include="Forms\UserControl_TypeTree.Designer.vb">
       <DependentUpon>UserControl_TypeTree.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_TypeTree.vb">
+    <Compile Include="Forms\UserControl_TypeTree.vb">
       <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="frmClassEdit.resx">
+    <EmbeddedResource Include="Forms\dlg_Attribute_Boolean.resx">
+      <DependentUpon>dlg_Attribute_Boolean.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\dlg_Attribute_DateTime.resx">
+      <DependentUpon>dlg_Attribute_DateTime.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\dlg_Attribute_Double.resx">
+      <DependentUpon>dlg_Attribute_Double.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\dlg_Attribute_Long.resx">
+      <DependentUpon>dlg_Attribute_Long.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\dlg_Attribute_String.resx">
+      <DependentUpon>dlg_Attribute_String.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmClassEdit.resx">
       <DependentUpon>frmClassEdit.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmMain.resx">
+    <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm_AttributeTypeEdit.resx">
+    <EmbeddedResource Include="Forms\frm_AttributeTypeEdit.resx">
       <DependentUpon>frm_AttributeTypeEdit.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm_Name.resx">
+    <EmbeddedResource Include="Forms\frm_Name.resx">
       <DependentUpon>frm_Name.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm_ObjectEdit.resx">
+    <EmbeddedResource Include="Forms\frm_ObjectEdit.resx">
       <DependentUpon>frm_ObjectEdit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_Attribute_Double.resx">
+      <DependentUpon>UserControl_Attribute_Double.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_Attribute_Long.resx">
+      <DependentUpon>UserControl_Attribute_Long.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_Attribute_String.resx">
+      <DependentUpon>UserControl_Attribute_String.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -279,34 +357,37 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_AttributeTypeSel.resx">
+    <EmbeddedResource Include="Forms\UserControl_AttributeTypeSel.resx">
       <DependentUpon>UserControl_AttributeTypeSel.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_ClassAttributeTypes.resx">
+    <EmbeddedResource Include="Forms\UserControl_Attribute_Boolean.resx">
+      <DependentUpon>UserControl_Attribute_Boolean.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_ClassAttributeTypes.resx">
       <DependentUpon>UserControl_ClassAttributeTypes.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_ClassRel.resx">
+    <EmbeddedResource Include="Forms\UserControl_ClassRel.resx">
       <DependentUpon>UserControl_ClassRel.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_ObjectAtt.resx">
+    <EmbeddedResource Include="Forms\UserControl_ObjectAtt.resx">
       <DependentUpon>UserControl_ObjectAtt.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_ObjectRel.resx">
+    <EmbeddedResource Include="Forms\UserControl_ObjectRel.resx">
       <DependentUpon>UserControl_ObjectRel.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_ObjectRelTree.resx">
+    <EmbeddedResource Include="Forms\UserControl_ObjectRelTree.resx">
       <DependentUpon>UserControl_ObjectRelTree.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_ObjectTree.resx">
+    <EmbeddedResource Include="Forms\UserControl_ObjectTree.resx">
       <DependentUpon>UserControl_ObjectTree.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_OItemList.resx">
+    <EmbeddedResource Include="Forms\UserControl_OItemList.resx">
       <DependentUpon>UserControl_OItemList.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_ObjectEdit.resx">
+    <EmbeddedResource Include="Forms\UserControl_ObjectEdit.resx">
       <DependentUpon>UserControl_ObjectEdit.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_TypeTree.resx">
+    <EmbeddedResource Include="Forms\UserControl_TypeTree.resx">
       <DependentUpon>UserControl_TypeTree.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -409,6 +490,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -22,10 +22,19 @@
 
     Private objOList_Classes As New List(Of clsOntologyItem)
 
-    Private boolApply As Boolean
+    Private boolApplyable As Boolean
 
     Public Event selected_Class(ByVal OItem_Class As clsOntologyItem)
     Public Event applied_Class()
+
+    Public Property Applyable As Boolean
+        Get
+            Return boolApplyable
+        End Get
+        Set(ByVal value As Boolean)
+            boolApplyable = value
+        End Set
+    End Property
 
     Public ReadOnly Property List_Classes As List(Of clsOntologyItem)
         Get
@@ -62,8 +71,9 @@
     End Sub
 
     Private Sub initialize()
+        boolApplyable = False
         get_Data_Classes()
-        
+
     End Sub
 
     Public Sub initialize_Tree(Optional ByVal oItem_Class_Entry As clsOntologyItem = Nothing)
@@ -237,12 +247,16 @@
         Dim objTreeNode As TreeNode
 
         NewToolStripMenuItem.Enabled = False
+        ApplyToolStripMenuItem.Enabled = False
 
         objTreeNode = TreeView_Types.SelectedNode
         If Not objTreeNode Is Nothing Then
             If objTreeNode.ImageIndex = cint_ImageID_Class_Opened Or _
                 objTreeNode.ImageIndex = cint_ImageID_Root Then
                 NewToolStripMenuItem.Enabled = True
+                If boolApplyable = True Then
+                    ApplyToolStripMenuItem.Enabled = True
+                End If
             End If
         End If
     End Sub
@@ -300,5 +314,9 @@
             End If
         End If
 
+    End Sub
+
+    Protected Overrides Sub Finalize()
+        MyBase.Finalize()
     End Sub
 End Class

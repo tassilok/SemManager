@@ -130,9 +130,9 @@
             objDRV_Selected = objDGVR_Selected.DataBoundItem
 
             oList_Relation.Add(New clsOntologyItem(objDRV_Selected.Item("ID_Object"), _
-                                                   Nothing, _
                                                    objDRV_Selected.Item("ID_RelationType"), _
                                                    objDRV_Selected.Item("ID_Other"), _
+                                                   0, _
                                                    objLocalConfig.Globals.Type_ObjectRel))
 
 
@@ -367,6 +367,7 @@
     Private Function save_Relation() As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objOItem_ForListRelation As New clsOntologyItem
+        Dim objOList_Right As New List(Of clsOntologyItem)
         Dim objOItem_Clipboard As clsOntologyItem
 
         objOItem_Result = objLocalConfig.Globals.LState_Success
@@ -415,10 +416,11 @@
         End If
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_Right.Add(New clsOntologyItem(objOItem_Other.GUID, objOItem_RelationType.GUID, objOItem_Other.GUID, 1, objOItem_Other.Type))
+
             objOItem_Result = objDBLevel_ObjRel.save_ObjRel(objOItem_Object, _
-                                                            objOItem_RelationType, _
-                                                            objOItem_Other, _
-                                                            1)
+                                                            objOList_Right, _
+                                                            objLocalConfig.Globals.Direction_LeftRight)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                 RaiseEvent related_Items()
 

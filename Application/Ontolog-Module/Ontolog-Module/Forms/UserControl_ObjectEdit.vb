@@ -37,7 +37,7 @@
         Dim oItem_Direction As clsOntologyItem
         Dim oList_RelationType As New List(Of clsOntologyItem)
 
-        oList_Object.Add(New clsOntologyItem(oList_Selected(0).GUID, objLocalConfig.Globals.Type_Object))
+        oList_Object.Add(New clsOntologyItem(oList_Selected(0).GUID, oList_Selected(0).Name, oList_Selected(0).GUID_Parent, objLocalConfig.Globals.Type_Object))
         If oList_Selected(1).Type = objLocalConfig.Globals.Type_Class Then
             oList_Other.Add(New clsOntologyItem(Nothing, Nothing, oList_Selected(1).GUID, objLocalConfig.Globals.Type_Object))
         Else

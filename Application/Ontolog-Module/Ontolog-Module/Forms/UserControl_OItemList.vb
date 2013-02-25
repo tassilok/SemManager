@@ -15,6 +15,7 @@
 
     Private objOItem_RelationType As clsOntologyItem
     Private objOItem_Other As clsOntologyItem
+    Private objOItem_Object As clsOntologyItem
 
     Private objThread_List As Threading.Thread
 
@@ -115,14 +116,15 @@
             End If
 
         Else
+
             strType = objLocalConfig.Globals.Type_Other
             objOItem_Direction = OItem_Direction
             If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
-                If Not oItem_Object Is Nothing Then
-                    If oItem_Object.GUID <> "" Then
-                        strGUID_Filter = oItem_Object.GUID
+                If Not objOItem_Object Is Nothing Then
+                    If objOItem_Object.GUID <> "" Then
+                        strGUID_Filter = objOItem_Object.GUID
                     ElseIf oItem_Object.Name <> "" Then
-                        strGUID_Filter = oItem_Object.Name
+                        strGUID_Filter = objOItem_Object.Name
                     End If
                 End If
                 objOItem_Other = OItem_Other
@@ -451,6 +453,8 @@
     Private Sub ToolStripButton_AddItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_AddItem.Click
         Dim objOItem_Result As clsOntologyItem
         Dim objOItem_Class As New clsOntologyItem
+        Dim oList_Simple As List(Of clsOntologyItem)
+        Dim boolAdd As Boolean
         If Not objOItem_Parent Is Nothing Then
             Select Case objOItem_Parent.Type
                 Case objLocalConfig.Globals.Type_Object
@@ -503,17 +507,59 @@
                 Case objLocalConfig.Globals.Type_Other
                     Select Case objOItem_Other.Type
                         Case objLocalConfig.Globals.Type_Object
-                            objOItem_Class.GUID = objOItem_Other.GUID_Parent
-                            objOItem_Class.Type = objLocalConfig.Globals.Type_Class
+                            If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                                objOItem_Class.GUID = objOItem_Other.GUID_Parent
+                                objOItem_Class.Type = objLocalConfig.Globals.Type_Class
+                            Else
+                                objOItem_Class.GUID = strGUID_Class
+                                objOItem_Class.Type = objLocalConfig.Globals.Type_Class
+                            End If
+                            
 
                             objFrm_Main = New frmMain(objLocalConfig, objLocalConfig.Globals.Type_Class, objOItem_Class)
                             objFrm_Main.ShowDialog(Me)
+                            If objFrm_Main.DialogResult = DialogResult.OK Then
+                                If objFrm_Main.Type_Applied = objLocalConfig.Globals.Type_Object Then
+                                    oList_Simple = objFrm_Main.OList_Simple
+                                    boolAdd = True
+
+                                    Dim oLSel = From obj In oList_Simple
+                                                Group By obj.GUID_Parent Into Group
+
+                                    For Each oSel In oLSel
+                                        If Not oSel.GUID_Parent = objOItem_Class.GUID Then
+                                            boolAdd = False
+                                            Exit For
+                                        End If
+                                    Next
+
+                                Else
+                                    MsgBox("Bitte nur Objekte auswählen!", MsgBoxStyle.Information)
+                                End If
+
+
+                            End If
                     End Select
-                    If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
 
+                    If boolAdd = True Then
+                        If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                            objOItem_Result = objDBLevel.save_ObjRel(objOItem_Object, oList_Simple, objOItem_Direction, objOItem_RelationType, 1)
+                        Else
+                            objOItem_Result = objDBLevel.save_ObjRel(objOItem_Other, oList_Simple, objOItem_Direction, objOItem_RelationType, 1)
+                        End If
+
+                        If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            MsgBox("Beim Speichern ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+                        ElseIf objOItem_Result.Max1 > objOItem_Result.Val Then
+                            MsgBox("Es konnten nicht alle Beziehungen erzeugt werden!", MsgBoxStyle.Information)
+
+                        End If
+                        configure_TabPages()
                     Else
-
+                        MsgBox("Sie haben Objekte der falschen Klasse ausgewählt!", MsgBoxStyle.Exclamation)
                     End If
+
+
             End Select
 
         End If
@@ -670,7 +716,7 @@
                                                                           objDRV_Selected.Item("Name"), _
                                                                           objDRV_Selected.Item("ID_Parent"), _
                                                                           objLocalConfig.Globals.Type_Object))
-
+                            RaiseEvent applied_Items()
                         Case objLocalConfig.Globals.Type_RelationType
                         
                         Case objLocalConfig.Globals.Type_AttributeType

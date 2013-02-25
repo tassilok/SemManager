@@ -446,37 +446,118 @@ Public Class clsDBLevel
         Return objOItem_Result
     End Function
 
-    Public Function save_ObjRel(ByVal objOItem_Object As clsOntologyItem, ByVal objOItem_Other As clsOntologyItem, ByVal objOItem_RelationType As clsOntologyItem, ByVal OrderID As Integer) As clsOntologyItem
+    Public Function save_ObjRel(ByVal objOItem_Object As clsOntologyItem, ByVal objOL_Other As List(Of clsOntologyItem), ByVal objDirection As clsOntologyItem, Optional ByVal objOItem_RelationType As clsOntologyItem = Nothing, Optional ByVal Weight As Long = -1) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objDict As Dictionary(Of String, Object)
         Dim objBulkObjects(0) As ElasticSearch.Client.Domain.BulkObject
         Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+        Dim strGUID_RelationType As String
+        Dim lngWeight As Long
+        Dim strType As String
 
-        objDict = New Dictionary(Of String, Object)
-        objDict.Add(objLocalConfig.Globals.Field_ID_Object, objOItem_Object.GUID)
-        objDict.Add(objLocalConfig.Globals.Field_ID_Parent_Object, objOItem_Object.GUID_Parent)
-        objDict.Add(objLocalConfig.Globals.Field_ID_Other, objOItem_Other.GUID)
-        Select Case objOItem_Other.Type
-            Case objLocalConfig.Globals.Type_AttributeType
-                objDict.Add(objLocalConfig.Globals.Field_ID_Parent_Other, objOItem_Other.GUID_Parent)
-            Case objLocalConfig.Globals.Type_Class
-                objDict.Add(objLocalConfig.Globals.Field_ID_Parent_Other, objOItem_Other.GUID_Parent)
-            Case objLocalConfig.Globals.Type_Object
-                objDict.Add(objLocalConfig.Globals.Field_ID_Parent_Other, objOItem_Other.GUID_Parent)
-        End Select
-        objDict.Add(objLocalConfig.Globals.Field_ID_RelationType, objOItem_RelationType.GUID)
-        objDict.Add(objLocalConfig.Globals.Field_OrderID, OrderID)
-        objDict.Add(objLocalConfig.Globals.Field_Ontology, objOItem_Other.Type)
+        Dim l As Long
 
-        objBulkObjects(0) = New ElasticSearch.Client.Domain.BulkObject(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectRel, objOItem_Object.GUID & objOItem_Other.GUID & objOItem_RelationType.GUID, objDict)
+        Dim objL = From obj In objOL_Other
+                   Group By obj.Type Into Group
 
-        Try
-            objOPResult = objElConn.Bulk(objBulkObjects)
-            objBulkObjects = Nothing
-            objOItem_Result = objLocalConfig.Globals.LState_Success
-        Catch ex As Exception
-            objOItem_Result = objLocalConfig.Globals.LState_Error
-        End Try
+        objOItem_Result = objLocalConfig.Globals.LState_Success
+        If objL.Count > 0 Then
+            For Each objLI In objL
+                If objLI.Type <> objLocalConfig.Globals.Type_Object Then
+                    objOItem_Result = objLocalConfig.Globals.LState_Error
+                    Exit For
+                End If
+            Next
+        End If
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            For l = 0 To objOL_Other.Count - 1
+                objDict = New Dictionary(Of String, Object)
+                If objDirection.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                    objDict.Add(objLocalConfig.Globals.Field_ID_Object, objOItem_Object.GUID)
+                    objDict.Add(objLocalConfig.Globals.Field_ID_Parent_Object, objOItem_Object.GUID_Parent)
+                    objDict.Add(objLocalConfig.Globals.Field_ID_Other, objOL_Other(l).GUID)
+                    Select Case objOL_Other(l).Type
+                        Case objLocalConfig.Globals.Type_AttributeType
+                            objDict.Add(objLocalConfig.Globals.Field_ID_Parent_Other, objOL_Other(l).GUID_Parent)
+                        Case objLocalConfig.Globals.Type_Class
+                            objDict.Add(objLocalConfig.Globals.Field_ID_Parent_Other, objOL_Other(l).GUID_Parent)
+                        Case objLocalConfig.Globals.Type_Object
+                            objDict.Add(objLocalConfig.Globals.Field_ID_Parent_Other, objOL_Other(l).GUID_Parent)
+                    End Select
+                    If objOItem_RelationType Is Nothing Then
+                        strGUID_RelationType = objOL_Other(l).GUID_Relation
+
+                    Else
+                        strGUID_RelationType = objOItem_RelationType.GUID
+
+                    End If
+
+                    objDict.Add(objLocalConfig.Globals.Field_ID_RelationType, strGUID_RelationType)
+
+                    If Weight = -1 Then
+                        lngWeight = objOL_Other(l).Level
+
+                    Else
+                        lngWeight = Weight
+                    End If
+
+                    objDict.Add(objLocalConfig.Globals.Field_OrderID, lngWeight)
+                    objDict.Add(objLocalConfig.Globals.Field_Ontology, objOL_Other(l).Type)
+                Else
+                    objDict.Add(objLocalConfig.Globals.Field_ID_Object, objOL_Other(l).GUID)
+                    objDict.Add(objLocalConfig.Globals.Field_ID_Parent_Object, objOL_Other(l).GUID_Parent)
+                    objDict.Add(objLocalConfig.Globals.Field_ID_Other, objOItem_Object.GUID)
+                    objDict.Add(objLocalConfig.Globals.Field_ID_Parent_Other, objOItem_Object.GUID_Parent)
+                    If objOItem_RelationType Is Nothing Then
+                        strGUID_RelationType = objOL_Other(l).GUID_Relation
+
+                    Else
+                        strGUID_RelationType = objOItem_RelationType.GUID
+
+                    End If
+
+                    objDict.Add(objLocalConfig.Globals.Field_ID_RelationType, strGUID_RelationType)
+                    
+                    If Weight = -1 Then
+                        lngWeight = objOL_Other(l).Level
+
+                    Else
+                        lngWeight = Weight
+                    End If
+
+                    objDict.Add(objLocalConfig.Globals.Field_OrderID, lngWeight)
+                    
+
+                objDict.Add(objLocalConfig.Globals.Field_Ontology, objOL_Other(l).Type)
+                End If
+
+
+
+        ReDim Preserve objBulkObjects(l)
+        If objDirection.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                    objBulkObjects(l) = New ElasticSearch.Client.Domain.BulkObject(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectRel, objOItem_Object.GUID & objOL_Other(l).GUID & strGUID_RelationType, objDict)
+        Else
+                    objBulkObjects(l) = New ElasticSearch.Client.Domain.BulkObject(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectRel, objOL_Other(l).GUID & objOItem_Object.GUID & strGUID_RelationType, objDict)
+        End If
+
+
+
+            Next
+            Try
+
+                objOPResult = objElConn.Bulk(objBulkObjects)
+                objBulkObjects = Nothing
+                objOItem_Result = objLocalConfig.Globals.LState_Success
+                objOItem_Result.Max1 = objOL_Other.Count
+                objOItem_Result.Val = l
+
+            Catch ex As Exception
+                objOItem_Result = objLocalConfig.Globals.LState_Error
+
+            End Try
+        End If
+
 
         Return objOItem_Result
     End Function
