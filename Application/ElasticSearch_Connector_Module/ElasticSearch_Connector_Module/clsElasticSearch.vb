@@ -698,7 +698,7 @@ Public Class clsElasticSearch
                 objDict.Add("ID_Parent_Other", objDRC_TokenRel(i).Item("GUID_Type_Right").ToString.Replace("-", ""))
                 objDict.Add("Ontology", "Object")
                 objDict.Add("ID_RelationType", objDRC_TokenRel(i).Item("GUID_RelationType").ToString.Replace("-", ""))
-                objDict.Add("OrderID", objDRC_TokenRel(i).Item("OrderID").ToString)
+                objDict.Add("OrderID", objDRC_TokenRel(i).Item("OrderID"))
 
                 ReDim Preserve objBulkObjects(lngPack)
                 objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ObjectRel", objDRC_TokenRel(i).Item("GUID_Token_Left").ToString.Replace("-", "") & objDRC_TokenRel(i).Item("GUID_Token_Right").ToString.Replace("-", "") & objDRC_TokenRel(i).Item("GUID_RelationType").ToString.Replace("-", ""), objDict)
@@ -1318,8 +1318,8 @@ Public Class clsElasticSearch
                 objDict.Add("ID_Class", objDRC_TypeAtt(i).Item("GUID_Type").ToString.Replace("-", ""))
                 objDict.Add("ID_AttributeType", objDRC_TypeAtt(i).Item("GUID_Attribute").ToString.Replace("-", ""))
                 objDict.Add("ID_DataType", objDRC_TypeAtt(i).Item("GUID_AttributeType").ToString.Replace("-", ""))
-                objDict.Add("Min", objDRC_TypeAtt(i).Item("Min").ToString)
-                objDict.Add("Max", objDRC_TypeAtt(i).Item("Max").ToString)
+                objDict.Add("Min", objDRC_TypeAtt(i).Item("Min"))
+                objDict.Add("Max", objDRC_TypeAtt(i).Item("Max"))
 
                 ReDim Preserve objBulkObjects(lngPack)
                 objBulkObjects(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ClassAtt", objDRC_TypeAtt(i).Item("GUID_Type").ToString.Replace("-", "") & objDRC_TypeAtt(i).Item("GUID_Attribute").ToString.Replace("-", ""), objDict)
