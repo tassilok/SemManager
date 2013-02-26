@@ -270,7 +270,35 @@ Public Class clsDBLevel
 
         Return objOItem_Result
     End Function
+    Public Function del_ClassAttType(ByVal oItem_Class As clsOntologyItem, ByVal oItem_AttType As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objDBLevel_ObjAtt As clsDBLevel
+        Dim objOItem_Objects As New clsOntologyItem
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
 
+        objElConn.Flush()
+
+        objDBLevel_ObjAtt = New clsDBLevel(objLocalConfig)
+
+        objOItem_Objects.GUID_Parent = oItem_Class.GUID
+        objOItem_Objects.Type = objLocalConfig.Globals.Type_Object
+
+        objDBLevel_ObjAtt.get_Data_ObjectAtt(objOItem_Objects, oItem_AttType, False, True)
+
+        If objDBLevel_ObjAtt.OList_ObjectAtt_ID.Count = 0 Then
+            Try
+                objOPResult = objElConn.Delete(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ClassAtt, oItem_Class.GUID & oItem_AttType.GUID)
+                objOItem_Result = objLocalConfig.Globals.LState_Success
+            Catch ex As Exception
+                objOItem_Result = objLocalConfig.Globals.LState_Error
+            End Try
+
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Relation
+        End If
+
+        Return objOItem_Result
+    End Function
     Public Function del_Objects(ByVal List_Objects As List(Of clsOntologyItem)) As String()
         Dim objDBLevel_LeftRight As clsDBLevel
         Dim objDBLeveL_RightLeft As clsDBLevel
@@ -405,6 +433,119 @@ Public Class clsDBLevel
             End If
 
         End If
+
+        Return objOItem_Result
+    End Function
+    Public Function save_ClassRel(ByVal oItem_Class_Left As clsOntologyItem, ByVal oItem_RelationType As clsOntologyItem, ByVal Min_forw As Long, ByVal Max_forw As Long, ByVal Max_backw As Long, Optional ByVal oItem_Class_Right As clsOntologyItem = Nothing) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOList_Cl_Left As New List(Of clsOntologyItem)
+        Dim objOList_Cl_Right As New List(Of clsOntologyItem)
+        Dim objOList_RelType As New List(Of clsOntologyItem)
+        Dim objDict As Dictionary(Of String, Object)
+        Dim objBulkObjects(0) As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+        Dim boolRightOK As Boolean
+
+        objOList_Cl_Left.Add(oItem_Class_Left)
+        If Not oItem_Class_Right Is Nothing Then
+            objOList_Cl_Right.Add(oItem_Class_Right)
+        End If
+
+        objOList_RelType.Add(oItem_RelationType)
+
+        objOItem_Result = objLocalConfig.Globals.LState_Error
+
+        get_Data_Classes(objOList_Cl_Left, False, False)
+        If objOntologyList_Classes1.Count > 0 Then
+            get_Data_RelationTypes(objOList_RelType, False)
+            If objOntologyList_RelationTypes.Count > 0 Then
+
+                If Not oItem_Class_Right Is Nothing Then
+                    get_Data_Classes(objOList_Cl_Right, False, False)
+                    If objOntologyList_Classes1.Count > 0 Then
+                        boolRightOK = True
+                    End If
+                Else
+                    boolRightOK = True
+                End If
+
+                If boolRightOK = True Then
+                    objDict = New Dictionary(Of String, Object)
+                    objDict.Add(objLocalConfig.Globals.Field_ID_Class_Left, oItem_Class_Left.GUID)
+                    If Not oItem_Class_Right Is Nothing Then
+                        objDict.Add(objLocalConfig.Globals.Field_ID_Class_Right, oItem_Class_Right.GUID)
+                        objDict.Add(objLocalConfig.Globals.Field_Ontology, objLocalConfig.Globals.Type_Class)
+                    Else
+                        objDict.Add(objLocalConfig.Globals.Field_Ontology, objLocalConfig.Globals.Type_Other)
+                    End If
+
+
+
+                    objDict.Add(objLocalConfig.Globals.Field_ID_RelationType, oItem_RelationType.GUID)
+                    objDict.Add(objLocalConfig.Globals.Field_Min_forw, Min_forw)
+                    objDict.Add(objLocalConfig.Globals.Field_Max_forw, Max_forw)
+                    objDict.Add(objLocalConfig.Globals.Field_Max_backw, Max_backw)
+
+                    objBulkObjects(0) = New ElasticSearch.Client.Domain.BulkObject(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ClassRel, oItem_Class_Left.GUID & oItem_Class_Right.GUID & oItem_RelationType.GUID, objDict)
+
+                    Try
+                        objOPResult = objElConn.Bulk(objBulkObjects)
+                        objBulkObjects = Nothing
+                        objOItem_Result = objLocalConfig.Globals.LState_Success
+                    Catch ex As Exception
+                        objOItem_Result = objLocalConfig.Globals.LState_Error
+
+                    End Try
+                End If
+
+            End If
+
+
+        End If
+
+
+        Return objOItem_Result
+    End Function
+    Public Function save_ClassAttType(ByVal objOItem_Class As clsOntologyItem, ByVal oList_AttType As List(Of clsOntologyItem), ByVal Min As Long, ByVal Max As Long) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objDict As Dictionary(Of String, Object)
+        Dim objBulkObjects(0) As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+        Dim oList_Cl As New List(Of clsOntologyItem)
+        Dim oItem_AttributeType As clsOntologyItem
+
+
+        oList_Cl.Add(objOItem_Class)
+
+        get_Data_AttributeType(oList_AttType)
+        get_Data_Classes(oList_Cl)
+
+        If OList_Classes.Count > 0 And OList_AttributeTypes.Count > 0 Then
+            objOItem_Result = objLocalConfig.Globals.LState_Error
+            For Each oItem_AttributeType In OList_AttributeTypes
+                objDict = New Dictionary(Of String, Object)
+                objDict.Add(objLocalConfig.Globals.Field_ID_AttributeType, oItem_AttributeType.GUID)
+                objDict.Add(objLocalConfig.Globals.Field_ID_Class, OList_Classes(0).GUID)
+                objDict.Add(objLocalConfig.Globals.Field_ID_DataType, oItem_AttributeType.GUID_Parent)
+                objDict.Add(objLocalConfig.Globals.Field_Min, Min)
+                objDict.Add(objLocalConfig.Globals.Field_Max, Max)
+
+                objBulkObjects(0) = New ElasticSearch.Client.Domain.BulkObject(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ClassAtt, objOItem_Class.GUID & oItem_AttributeType.GUID, objDict)
+
+                Try
+                    objOPResult = objElConn.Bulk(objBulkObjects)
+                    objBulkObjects = Nothing
+                    objOItem_Result = objLocalConfig.Globals.LState_Success
+                Catch ex As Exception
+                    objOItem_Result = objLocalConfig.Globals.LState_Error
+                    Exit For
+                End Try
+            Next
+
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Error
+        End If
+
 
         Return objOItem_Result
     End Function
@@ -875,7 +1016,7 @@ Public Class clsDBLevel
     Private Sub create_BoolQuery_ClassRel(ByVal OList_Class_Left As List(Of clsOntologyItem), ByVal OList_Class_Right As List(Of clsOntologyItem), ByVal oList_RelationType As List(Of clsOntologyItem), Optional ByVal boolClear As Boolean = True)
         Dim strQuery As String
 
-        If boolClear = False Then
+        If boolClear = True Then
             objBoolQuery = New Lucene.Net.Search.BooleanQuery
         End If
 
@@ -1415,6 +1556,7 @@ Public Class clsDBLevel
         objOntologyList_RelationTypes.Clear()
         objOntologyList_ClassRel_ID.Clear()
         objOntologyList_ClassRel.Clear()
+        otblT_ClassRel.Clear()
 
         objOItem_Result = objLocalConfig.Globals.LState_Success
 
@@ -1624,7 +1766,20 @@ Public Class clsDBLevel
             End If
 
             If strQuery <> "" Then
-                objBoolQuery.Add(New WildcardQuery(New Term(objLocalConfig.Globals.Field_ID_Object, strQuery)), BooleanClause.Occur.MUST)
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Object, strQuery)), BooleanClause.Occur.MUST)
+            End If
+
+            strQuery = ""
+            If oItem_Object.GUID_Parent <> "" Then
+                If strQuery <> "" Then
+                    strQuery = strQuery & "\ OR\ "
+                End If
+
+                strQuery = strQuery & oItem_Object.GUID_Parent
+            End If
+
+            If strQuery <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Object, strQuery)), BooleanClause.Occur.MUST)
             End If
         End If
 

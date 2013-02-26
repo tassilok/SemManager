@@ -251,7 +251,7 @@
 
         objTreeNode = TreeView_Types.SelectedNode
         If Not objTreeNode Is Nothing Then
-            If objTreeNode.ImageIndex = cint_ImageID_Class_Opened Or _
+            If objTreeNode.ImageIndex = cint_ImageID_Class_Closed Or _
                 objTreeNode.ImageIndex = cint_ImageID_Root Then
                 NewToolStripMenuItem.Enabled = True
                 If boolApplyable = True Then
@@ -305,11 +305,11 @@
     Private Sub ApplyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApplyToolStripMenuItem.Click
         Dim objTreeNode As TreeNode
 
-        objList_Classes.Clear()
+        objOList_Classes.Clear()
         objTreeNode = TreeView_Types.SelectedNode
         If Not objTreeNode Is Nothing Then
             If objTreeNode.ImageIndex = cint_ImageID_Class_Closed Then
-                objList_Classes.Add(New clsOntologyItem(objTreeNode.Name, objTreeNode.Text, objTreeNode.Parent.Name, objLocalConfig.Globals.Type_Class))
+                objOList_Classes.Add(New clsOntologyItem(objTreeNode.Name, objTreeNode.Text, objTreeNode.Parent.Name, objLocalConfig.Globals.Type_Class))
                 RaiseEvent applied_Class()
             End If
         End If

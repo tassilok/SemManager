@@ -23,129 +23,67 @@ Partial Class UserControl_ClassRel
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UserControl_ClassRel))
-        Me.BindingNavigator_Relations = New System.Windows.Forms.BindingNavigator(Me.components)
-        Me.BindingNavigatorSeparator = New System.Windows.Forms.ToolStripSeparator()
-        Me.BindingNavigatorPositionItem = New System.Windows.Forms.ToolStripTextBox()
-        Me.BindingNavigatorCountItem = New System.Windows.Forms.ToolStripLabel()
-        Me.BindingNavigatorSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.BindingNavigatorSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.BindingNavigatorAddNewItem = New System.Windows.Forms.ToolStripButton()
-        Me.BindingNavigatorDeleteItem = New System.Windows.Forms.ToolStripButton()
-        Me.BindingNavigatorMoveFirstItem = New System.Windows.Forms.ToolStripButton()
-        Me.BindingNavigatorMovePreviousItem = New System.Windows.Forms.ToolStripButton()
-        Me.BindingNavigatorMoveNextItem = New System.Windows.Forms.ToolStripButton()
-        Me.BindingNavigatorMoveLastItem = New System.Windows.Forms.ToolStripButton()
         Me.BindingSource_Relations = New System.Windows.Forms.BindingSource(Me.components)
+        Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
+        Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripLabel_CountLBL = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.DataGridView_Relations = New System.Windows.Forms.DataGridView()
-        CType(Me.BindingNavigator_Relations, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.BindingNavigator_Relations.SuspendLayout()
+        Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButton_Add = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Dell = New System.Windows.Forms.ToolStripButton()
         CType(Me.BindingSource_Relations, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
+        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.SuspendLayout()
+        Me.ToolStrip1.SuspendLayout()
         CType(Me.DataGridView_Relations, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ToolStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
-        'BindingNavigator_Relations
+        'ToolStripContainer1
         '
-        Me.BindingNavigator_Relations.AddNewItem = Me.BindingNavigatorAddNewItem
-        Me.BindingNavigator_Relations.CountItem = Me.BindingNavigatorCountItem
-        Me.BindingNavigator_Relations.DeleteItem = Me.BindingNavigatorDeleteItem
-        Me.BindingNavigator_Relations.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.BindingNavigator_Relations.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BindingNavigatorMoveFirstItem, Me.BindingNavigatorMovePreviousItem, Me.BindingNavigatorSeparator, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.BindingNavigatorSeparator1, Me.BindingNavigatorMoveNextItem, Me.BindingNavigatorMoveLastItem, Me.BindingNavigatorSeparator2, Me.BindingNavigatorAddNewItem, Me.BindingNavigatorDeleteItem})
-        Me.BindingNavigator_Relations.Location = New System.Drawing.Point(0, 422)
-        Me.BindingNavigator_Relations.MoveFirstItem = Me.BindingNavigatorMoveFirstItem
-        Me.BindingNavigator_Relations.MoveLastItem = Me.BindingNavigatorMoveLastItem
-        Me.BindingNavigator_Relations.MoveNextItem = Me.BindingNavigatorMoveNextItem
-        Me.BindingNavigator_Relations.MovePreviousItem = Me.BindingNavigatorMovePreviousItem
-        Me.BindingNavigator_Relations.Name = "BindingNavigator_Relations"
-        Me.BindingNavigator_Relations.PositionItem = Me.BindingNavigatorPositionItem
-        Me.BindingNavigator_Relations.Size = New System.Drawing.Size(650, 25)
-        Me.BindingNavigator_Relations.TabIndex = 0
-        Me.BindingNavigator_Relations.Text = "BindingNavigator1"
         '
-        'BindingNavigatorSeparator
+        'ToolStripContainer1.BottomToolStripPanel
         '
-        Me.BindingNavigatorSeparator.Name = "BindingNavigatorSeparator"
-        Me.BindingNavigatorSeparator.Size = New System.Drawing.Size(6, 25)
+        Me.ToolStripContainer1.BottomToolStripPanel.Controls.Add(Me.ToolStrip1)
         '
-        'BindingNavigatorPositionItem
+        'ToolStripContainer1.ContentPanel
         '
-        Me.BindingNavigatorPositionItem.AccessibleName = "Position"
-        Me.BindingNavigatorPositionItem.AutoSize = False
-        Me.BindingNavigatorPositionItem.Name = "BindingNavigatorPositionItem"
-        Me.BindingNavigatorPositionItem.Size = New System.Drawing.Size(50, 21)
-        Me.BindingNavigatorPositionItem.Text = "0"
-        Me.BindingNavigatorPositionItem.ToolTipText = "Aktuelle Position"
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.DataGridView_Relations)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(650, 397)
+        Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.ToolStripContainer1.Name = "ToolStripContainer1"
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(650, 447)
+        Me.ToolStripContainer1.TabIndex = 0
+        Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
-        'BindingNavigatorCountItem
+        'ToolStripContainer1.TopToolStripPanel
         '
-        Me.BindingNavigatorCountItem.Name = "BindingNavigatorCountItem"
-        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(44, 22)
-        Me.BindingNavigatorCountItem.Text = "von {0}"
-        Me.BindingNavigatorCountItem.ToolTipText = "Die Gesamtanzahl der Elemente."
+        Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.ToolStrip2)
         '
-        'BindingNavigatorSeparator1
+        'ToolStrip1
         '
-        Me.BindingNavigatorSeparator1.Name = "BindingNavigatorSeparator"
-        Me.BindingNavigatorSeparator1.Size = New System.Drawing.Size(6, 25)
+        Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLBL, Me.ToolStripLabel_Count})
+        Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
+        Me.ToolStrip1.Name = "ToolStrip1"
+        Me.ToolStrip1.Size = New System.Drawing.Size(78, 25)
+        Me.ToolStrip1.TabIndex = 0
         '
-        'BindingNavigatorSeparator2
+        'ToolStripLabel_CountLBL
         '
-        Me.BindingNavigatorSeparator2.Name = "BindingNavigatorSeparator"
-        Me.BindingNavigatorSeparator2.Size = New System.Drawing.Size(6, 25)
+        Me.ToolStripLabel_CountLBL.Name = "ToolStripLabel_CountLBL"
+        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(53, 22)
+        Me.ToolStripLabel_CountLBL.Text = "x_Count:"
         '
-        'BindingNavigatorAddNewItem
+        'ToolStripLabel_Count
         '
-        Me.BindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorAddNewItem.Image = CType(resources.GetObject("BindingNavigatorAddNewItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorAddNewItem.Name = "BindingNavigatorAddNewItem"
-        Me.BindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorAddNewItem.Size = New System.Drawing.Size(23, 22)
-        Me.BindingNavigatorAddNewItem.Text = "Neu hinzufügen"
-        '
-        'BindingNavigatorDeleteItem
-        '
-        Me.BindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorDeleteItem.Image = CType(resources.GetObject("BindingNavigatorDeleteItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorDeleteItem.Name = "BindingNavigatorDeleteItem"
-        Me.BindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorDeleteItem.Size = New System.Drawing.Size(23, 22)
-        Me.BindingNavigatorDeleteItem.Text = "Löschen"
-        '
-        'BindingNavigatorMoveFirstItem
-        '
-        Me.BindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorMoveFirstItem.Image = CType(resources.GetObject("BindingNavigatorMoveFirstItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorMoveFirstItem.Name = "BindingNavigatorMoveFirstItem"
-        Me.BindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorMoveFirstItem.Size = New System.Drawing.Size(23, 22)
-        Me.BindingNavigatorMoveFirstItem.Text = "Erste verschieben"
-        '
-        'BindingNavigatorMovePreviousItem
-        '
-        Me.BindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorMovePreviousItem.Image = CType(resources.GetObject("BindingNavigatorMovePreviousItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorMovePreviousItem.Name = "BindingNavigatorMovePreviousItem"
-        Me.BindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorMovePreviousItem.Size = New System.Drawing.Size(23, 22)
-        Me.BindingNavigatorMovePreviousItem.Text = "Vorherige verschieben"
-        '
-        'BindingNavigatorMoveNextItem
-        '
-        Me.BindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorMoveNextItem.Image = CType(resources.GetObject("BindingNavigatorMoveNextItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorMoveNextItem.Name = "BindingNavigatorMoveNextItem"
-        Me.BindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorMoveNextItem.Size = New System.Drawing.Size(23, 22)
-        Me.BindingNavigatorMoveNextItem.Text = "Nächste verschieben"
-        '
-        'BindingNavigatorMoveLastItem
-        '
-        Me.BindingNavigatorMoveLastItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorMoveLastItem.Image = CType(resources.GetObject("BindingNavigatorMoveLastItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorMoveLastItem.Name = "BindingNavigatorMoveLastItem"
-        Me.BindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorMoveLastItem.Size = New System.Drawing.Size(23, 22)
-        Me.BindingNavigatorMoveLastItem.Text = "Letzte verschieben"
+        Me.ToolStripLabel_Count.Name = "ToolStripLabel_Count"
+        Me.ToolStripLabel_Count.Size = New System.Drawing.Size(13, 22)
+        Me.ToolStripLabel_Count.Text = "0"
         '
         'DataGridView_Relations
         '
@@ -156,39 +94,67 @@ Partial Class UserControl_ClassRel
         Me.DataGridView_Relations.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_Relations.Name = "DataGridView_Relations"
         Me.DataGridView_Relations.ReadOnly = True
-        Me.DataGridView_Relations.Size = New System.Drawing.Size(650, 422)
-        Me.DataGridView_Relations.TabIndex = 1
+        Me.DataGridView_Relations.Size = New System.Drawing.Size(650, 397)
+        Me.DataGridView_Relations.TabIndex = 4
+        '
+        'ToolStrip2
+        '
+        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Dell})
+        Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
+        Me.ToolStrip2.Name = "ToolStrip2"
+        Me.ToolStrip2.Size = New System.Drawing.Size(89, 25)
+        Me.ToolStrip2.TabIndex = 0
+        '
+        'ToolStripButton_Add
+        '
+        Me.ToolStripButton_Add.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Add.Image = Global.Ontolog_Module.My.Resources.Resources.b_plus
+        Me.ToolStripButton_Add.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Add.Name = "ToolStripButton_Add"
+        Me.ToolStripButton_Add.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_Add.Text = "ToolStripButton1"
+        '
+        'ToolStripButton_Dell
+        '
+        Me.ToolStripButton_Dell.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Dell.Image = Global.Ontolog_Module.My.Resources.Resources.b_minus
+        Me.ToolStripButton_Dell.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Dell.Name = "ToolStripButton_Dell"
+        Me.ToolStripButton_Dell.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_Dell.Text = "ToolStripButton2"
         '
         'UserControl_ClassRel
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.Controls.Add(Me.DataGridView_Relations)
-        Me.Controls.Add(Me.BindingNavigator_Relations)
+        Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "UserControl_ClassRel"
         Me.Size = New System.Drawing.Size(650, 447)
-        CType(Me.BindingNavigator_Relations, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.BindingNavigator_Relations.ResumeLayout(False)
-        Me.BindingNavigator_Relations.PerformLayout()
         CType(Me.BindingSource_Relations, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.ResumeLayout(False)
+        Me.ToolStripContainer1.PerformLayout()
+        Me.ToolStrip1.ResumeLayout(False)
+        Me.ToolStrip1.PerformLayout()
         CType(Me.DataGridView_Relations, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ToolStrip2.ResumeLayout(False)
+        Me.ToolStrip2.PerformLayout()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
-    Friend WithEvents BindingNavigator_Relations As System.Windows.Forms.BindingNavigator
-    Friend WithEvents BindingNavigatorAddNewItem As System.Windows.Forms.ToolStripButton
-    Friend WithEvents BindingNavigatorCountItem As System.Windows.Forms.ToolStripLabel
-    Friend WithEvents BindingNavigatorDeleteItem As System.Windows.Forms.ToolStripButton
-    Friend WithEvents BindingNavigatorMoveFirstItem As System.Windows.Forms.ToolStripButton
-    Friend WithEvents BindingNavigatorMovePreviousItem As System.Windows.Forms.ToolStripButton
-    Friend WithEvents BindingNavigatorSeparator As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents BindingNavigatorPositionItem As System.Windows.Forms.ToolStripTextBox
-    Friend WithEvents BindingNavigatorSeparator1 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents BindingNavigatorMoveNextItem As System.Windows.Forms.ToolStripButton
-    Friend WithEvents BindingNavigatorMoveLastItem As System.Windows.Forms.ToolStripButton
-    Friend WithEvents BindingNavigatorSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents BindingSource_Relations As System.Windows.Forms.BindingSource
+    Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
     Friend WithEvents DataGridView_Relations As System.Windows.Forms.DataGridView
+    Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
+    Friend WithEvents ToolStripLabel_CountLBL As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripLabel_Count As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStrip2 As System.Windows.Forms.ToolStrip
+    Friend WithEvents ToolStripButton_Add As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripButton_Dell As System.Windows.Forms.ToolStripButton
 
 End Class

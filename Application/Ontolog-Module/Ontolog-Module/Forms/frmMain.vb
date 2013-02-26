@@ -66,7 +66,10 @@
     End Property
 
     Private Sub applied_Class() Handles objUserControl_TypeTree.applied_Class
-
+        oList_Applied_Simple = objUserControl_TypeTree.List_Classes
+        strType_Applied = objLocalConfig.Globals.Type_Class
+        Me.DialogResult = Windows.Forms.DialogResult.OK
+        Me.Close()
     End Sub
 
     Private Sub applied_Objects_Tree() Handles objUserControl_ObjectTree.applied_Objects
@@ -82,11 +85,17 @@
     End Sub
 
     Private Sub applied_ListRelTypes() Handles objUserControl_ORelationTypeList.applied_Items
-
+        oList_Applied_Simple = objUserControl_ORelationTypeList.OList_Simple
+        strType_Applied = objLocalConfig.Globals.Type_RelationType
+        Me.DialogResult = Windows.Forms.DialogResult.OK
+        Me.Close()
     End Sub
 
     Private Sub applied_ListAttTypes() Handles objUserControl_OAttributeList.applied_Items
-
+        oList_Applied_Simple = objUserControl_OAttributeList.OList_Simple
+        strType_Applied = objLocalConfig.Globals.Type_AttributeType
+        Me.DialogResult = Windows.Forms.DialogResult.OK
+        Me.Close()
     End Sub
 
     Private Sub editAttributeType(ByVal strType As String, ByVal objOItem_Direction As clsOntologyItem) Handles objUserControl_OAttributeList.edit_Object
