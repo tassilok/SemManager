@@ -6,6 +6,14 @@ Public Class dlg_Attribute_Long
     Private lngValue As Long
     Private objLocalConfig As clsLocalConfig
 
+    Private objUserControl_Attribute_Long As UserControl_Attribute_Long
+
+    Public ReadOnly Property Value As Long
+        Get
+            Return objUserControl_Attribute_Long.Value
+        End Get
+    End Property
+
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.Close()
@@ -44,5 +52,9 @@ Public Class dlg_Attribute_Long
 
     Private Sub initialize()
         Me.Text = strCaption
+        objUserControl_Attribute_Long = New UserControl_Attribute_Long()
+        objUserControl_Attribute_Long.Value = lngValue
+        objUserControl_Attribute_Long.Dock = DockStyle.Fill
+        Panel_Value.Controls.Add(objUserControl_Attribute_Long)
     End Sub
 End Class

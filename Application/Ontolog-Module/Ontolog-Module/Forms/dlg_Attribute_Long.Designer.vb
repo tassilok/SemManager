@@ -26,7 +26,7 @@ Partial Class dlg_Attribute_Long
         Me.OK_Button = New System.Windows.Forms.Button()
         Me.Cancel_Button = New System.Windows.Forms.Button()
         Me.Button_Calc = New System.Windows.Forms.Button()
-        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Panel_Value = New System.Windows.Forms.Panel()
         Me.CheckBox_more = New System.Windows.Forms.CheckBox()
         Me.NumericUpDown_ItemCount = New System.Windows.Forms.NumericUpDown()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -82,12 +82,12 @@ Partial Class dlg_Attribute_Long
         Me.Button_Calc.Text = "x_C"
         Me.Button_Calc.UseVisualStyleBackColor = True
         '
-        'Panel1
+        'Panel_Value
         '
-        Me.Panel1.Location = New System.Drawing.Point(5, 4)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(300, 59)
-        Me.Panel1.TabIndex = 28
+        Me.Panel_Value.Location = New System.Drawing.Point(5, 4)
+        Me.Panel_Value.Name = "Panel_Value"
+        Me.Panel_Value.Size = New System.Drawing.Size(300, 59)
+        Me.Panel_Value.TabIndex = 28
         '
         'CheckBox_more
         '
@@ -130,7 +130,7 @@ Partial Class dlg_Attribute_Long
                     Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_DB.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
         Me.ToolStripStatusLabel_DB.Name = "ToolStripStatusLabel_DB"
-        Me.ToolStripStatusLabel_DB.Size = New System.Drawing.Size(35, 19)
+        Me.ToolStripStatusLabel_DB.Size = New System.Drawing.Size(34, 17)
         Me.ToolStripStatusLabel_DB.Text = "DB_f"
         '
         'TextBox_Term
@@ -144,9 +144,9 @@ Partial Class dlg_Attribute_Long
         'StatusStrip1
         '
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel_DB})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 134)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 136)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(311, 24)
+        Me.StatusStrip1.Size = New System.Drawing.Size(311, 22)
         Me.StatusStrip1.TabIndex = 25
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -158,7 +158,7 @@ Partial Class dlg_Attribute_Long
         Me.CancelButton = Me.Cancel_Button
         Me.ClientSize = New System.Drawing.Size(311, 158)
         Me.Controls.Add(Me.Button_Calc)
-        Me.Controls.Add(Me.Panel1)
+        Me.Controls.Add(Me.Panel_Value)
         Me.Controls.Add(Me.CheckBox_more)
         Me.Controls.Add(Me.NumericUpDown_ItemCount)
         Me.Controls.Add(Me.Label1)
@@ -184,7 +184,7 @@ Partial Class dlg_Attribute_Long
     Friend WithEvents OK_Button As System.Windows.Forms.Button
     Friend WithEvents Cancel_Button As System.Windows.Forms.Button
     Friend WithEvents Button_Calc As System.Windows.Forms.Button
-    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents Panel_Value As System.Windows.Forms.Panel
     Friend WithEvents CheckBox_more As System.Windows.Forms.CheckBox
     Friend WithEvents NumericUpDown_ItemCount As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label1 As System.Windows.Forms.Label

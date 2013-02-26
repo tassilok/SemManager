@@ -361,7 +361,56 @@ Public Class clsDBLevel
         Return strAIDs
     End Function
 
+    Public Function del_ClassRel(ByVal oItem_Class_Left As clsOntologyItem, ByVal oItem_RelationType As clsOntologyItem, Optional ByVal oItem_Class_Right As clsOntologyItem = Nothing) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+        Dim oList_Cl_Left As New List(Of clsOntologyItem)
+        Dim oList_Cl_Right As New List(Of clsOntologyItem)
+        Dim oList_RelType As New List(Of clsOntologyItem)
 
+        Dim strKey As String
+
+        objElConn.Flush()
+        objOItem_Result = objLocalConfig.Globals.LState_Nothing
+
+        oList_Cl_Left.Add(New clsOntologyItem(Nothing, Nothing, oItem_Class_Left.GUID, objLocalConfig.Globals.Type_Object))
+        If Not oItem_Class_Right Is Nothing Then
+            oList_Cl_Right.Add(New clsOntologyItem(Nothing, Nothing, oItem_Class_Right.GUID, objLocalConfig.Globals.Type_Object))
+        End If
+
+        oList_RelType.Add(oItem_RelationType)
+
+        If Not oItem_Class_Right Is Nothing Then
+            get_Data_ObjectRel(oList_Cl_Left, _
+                           oList_Cl_Right, _
+                           oList_RelType, False, True)
+        Else
+            get_Data_ObjectRel(oList_Cl_Left, _
+                           Nothing, _
+                           oList_RelType, False, True)
+        End If
+        
+
+        If objOntologyList_ObjectRel_ID.Count = 0 Then
+            If Not oItem_Class_Right Is Nothing Then
+                strKey = oItem_Class_Left.GUID & oItem_Class_Right.GUID & oItem_RelationType.GUID
+            Else
+                strKey = oItem_Class_Left.GUID & oItem_RelationType.GUID
+            End If
+
+
+            Try
+                objOPResult = objElConn.Delete(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectRel, strKey)
+                objOItem_Result = objLocalConfig.Globals.LState_Success
+            Catch ex As Exception
+                objOItem_Result = objLocalConfig.Globals.LState_Error
+            End Try
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Relation
+        End If
+
+        Return objOItem_Result
+    End Function
     Public Function del_ObjectRel(ByVal oList_Items As List(Of clsOntologyItem)) As clsOntologyItem
         Dim objItem As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem

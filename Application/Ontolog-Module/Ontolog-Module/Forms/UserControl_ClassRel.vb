@@ -139,9 +139,18 @@
     Private Sub DataGridView_Relations_CellDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles DataGridView_Relations.CellDoubleClick
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
-        Dim lngMin_Forw As Long
+        Dim objOItem_Class_Left As New clsOntologyItem
+        Dim objOItem_Class_Right As New clsOntologyItem
+        Dim objOItem_RelationType As New clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim lngValue As Long
+        Dim lngMin_forw As Long
+        Dim lngMax_forw As Long
+        Dim lngMax_backw As Long
 
-        If DataGridView_Relations.Columns(e.ColumnIndex).DataPropertyName = objLocalConfig.Globals.Field_Min_forw Then
+        If DataGridView_Relations.Columns(e.ColumnIndex).DataPropertyName = objLocalConfig.Globals.Field_Min_forw Or _
+           DataGridView_Relations.Columns(e.ColumnIndex).DataPropertyName = objLocalConfig.Globals.Field_Max_forw Or _
+           DataGridView_Relations.Columns(e.ColumnIndex).DataPropertyName = objLocalConfig.Globals.Field_Max_backw Then
 
 
             objDGVR_Selected = DataGridView_Relations.Rows(e.RowIndex)
@@ -150,8 +159,90 @@
             objDlg_Attribute_Long = New dlg_Attribute_Long(objLocalConfig.Globals.Field_OrderID, objLocalConfig, objDRV_Selected.Item(objLocalConfig.Globals.Field_Min_forw))
             objDlg_Attribute_Long.ShowDialog(Me)
             If objDlg_Attribute_Long.DialogResult = DialogResult.OK Then
-                lngMin_Forw = objDlg_Attribute_Long.
+                lngValue = objDlg_Attribute_Long.Value
+
+                objOItem_Result = objLocalConfig.Globals.LState_Error
+                Select Case DataGridView_Relations.Columns(e.ColumnIndex).DataPropertyName
+                    Case objLocalConfig.Globals.Field_Min_forw
+
+                        lngMax_forw = objDRV_Selected.Item("Max_forw")
+                        lngMax_backw = objDRV_Selected.Item("Max_backw")
+                        If (lngMax_forw >= lngValue Or lngMax_forw = -1) And _
+                            lngValue >= 0 Then
+                            lngMin_forw = lngValue
+                            objOItem_Result = objLocalConfig.Globals.LState_Success
+                        End If
+
+
+                    Case objLocalConfig.Globals.Field_Max_forw
+                        lngMin_forw = objDRV_Selected.Item("Min_forw")
+                        If (lngValue = -1 Or lngValue >= lngMin_forw) And _
+                            lngValue <> 0 Then
+                            lngMax_forw = lngValue
+                            objOItem_Result = objLocalConfig.Globals.LState_Success
+                        End If
+
+                        lngMax_backw = objDRV_Selected.Item("Max_backw")
+                    Case objLocalConfig.Globals.Field_Max_backw
+                        lngMin_forw = objDRV_Selected.Item("Min_forw")
+                        lngMax_forw = objDRV_Selected.Item("Max_forw")
+                        If lngValue = -1 Or lngValue > 0 Then
+                            lngMax_backw = lngValue
+                        End If
+
+                End Select
+
+                objOItem_Class_Left.GUID = objDRV_Selected.Item("ID_Class_Left")
+                objOItem_Class_Left.Type = objLocalConfig.Globals.Type_Class
+
+                objOItem_RelationType.GUID = objDRV_Selected.Item("ID_RelationType")
+                objOItem_RelationType.Type = objLocalConfig.Globals.Type_RelationType
+
+                If Not IsDBNull(objDRV_Selected.Item("ID_Class_Right")) Then
+                    objOItem_Class_Right.GUID = objDRV_Selected.Item("ID_Class_Right")
+                    objOItem_Class_Right.Type = objLocalConfig.Globals.Type_Class
+                Else
+                    objOItem_Class_Right = Nothing
+                End If
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objOItem_Result = objDBLevel.save_ClassRel(objOItem_Class_Left, _
+                                                           objOItem_RelationType, _
+                                                           lngMin_forw, _
+                                                           lngMax_forw, _
+                                                           lngMax_backw, _
+                                                           objOItem_Class_Right)
+                End If
+                
+
+                If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    MsgBox("Die Beziehung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                End If
+
+                get_Data_ClassRelations()
             End If
         End If
+    End Sub
+
+    Private Sub ToolStripButton_Dell_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Dell.Click
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+
+        Dim oItem_Class_Left As New clsOntologyItem
+        Dim oItem_Class_Right As New clsOntologyItem
+        Dim oItem_RelationType As New clsOntologyItem
+
+        For Each objDGVR_Selected In DataGridView_Relations.SelectedRows
+            objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+            oItem_Class_Left.GUID = objDRV_Selected.Item("ID_Class_Left")
+
+            If Not IsDBNull(objDRV_Selected.Item("ID_Class_Right")) Then
+
+            End If
+
+
+            objDBLevel.del_ClassRel(
+        Next
     End Sub
 End Class
