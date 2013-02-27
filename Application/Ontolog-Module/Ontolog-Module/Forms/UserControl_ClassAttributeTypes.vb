@@ -48,12 +48,18 @@
 
     Private Sub ToolStripButton_Add_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Add.Click
         Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_AttType As clsOntologyItem
+        Dim oList_ClassAtt As New List(Of clsClassAtt)
+
         objFrmMain = New frmMain(objLocalConfig, objLocalConfig.Globals.Type_AttributeType)
         objFrmMain.Applyable = True
         objFrmMain.ShowDialog(Me)
         If objFrmMain.DialogResult = DialogResult.OK Then
             If objFrmMain.Type_Applied = objLocalConfig.Globals.Type_AttributeType Then
-                objOItem_Result = objDBLevel.save_ClassAttType(objOItem_Class, objFrmMain.OList_Simple, 1, 1)
+                For Each objOItem_AttType In objFrmMain.OList_Simple
+                    oList_ClassAtt.Add(New clsClassAtt(objOItem_AttType.GUID, objOItem_AttType.GUID_Parent, objOItem_Class.GUID, 1, 1))
+                Next
+                objOItem_Result = objDBLevel.save_ClassAttType(oList_ClassAtt)
                 If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     MsgBox("Beim Speichern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
 
@@ -110,11 +116,12 @@
         Dim objDRV_Selected As DataRowView
         Dim objOItem_Class_Left As New clsOntologyItem
         Dim objOItem_AttributeType As New clsOntologyItem
-        Dim objOList_AttType As New List(Of clsOntologyItem)
+        Dim objOList_ClAtt As New List(Of clsClassAtt)
         Dim objOItem_Result As clsOntologyItem
         Dim lngValue As Long
         Dim lngMin_forw As Long
         Dim lngMax_forw As Long
+
 
         If DataGridView_AttributeTypes.Columns(e.ColumnIndex).DataPropertyName = objLocalConfig.Globals.Field_Min_forw Or _
            DataGridView_AttributeTypes.Columns(e.ColumnIndex).DataPropertyName = objLocalConfig.Globals.Field_Max_forw Then
@@ -155,15 +162,20 @@
                 objOItem_Class.Type = objLocalConfig.Globals.Type_Class
 
                 objOItem_AttributeType.GUID = objDRV_Selected.Item("ID_AttributeType")
+                objOItem_AttributeType.GUID_Parent = objDRV_Selected.Item("ID_DataType")
                 objOItem_AttributeType.Type = objLocalConfig.Globals.Type_AttributeType
 
                 
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    objOList_AttType.Add(objOItem_AttributeType)
-                    objOItem_Result = objDBLevel.save_ClassAttType(objOItem_Class, _
-                                                           objOList_AttType, _
-                                                           lngMin_forw, _
-                                                           lngMax_forw)
+                    objOList_ClAtt.Add(New clsClassAtt(objOItem_AttributeType.GUID, _
+                                                       objOItem_AttributeType.GUID_Parent, _
+                                                       objOItem_Class.GUID, _
+                                                       lngMin_forw, _
+                                                       lngMax_forw))
+
+
+
+                    objOItem_Result = objDBLevel.save_ClassAttType(objOList_ClAtt)
                 End If
 
 

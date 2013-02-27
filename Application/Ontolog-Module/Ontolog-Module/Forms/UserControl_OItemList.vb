@@ -474,6 +474,8 @@
         Dim objOItem_Result As clsOntologyItem
         Dim objOItem_Class As New clsOntologyItem
         Dim oList_Simple As List(Of clsOntologyItem)
+        Dim oList_ObjRel As New List(Of clsObjectRel)
+        Dim oItem_Obj As clsOntologyItem
         Dim boolAdd As Boolean
 
         Dim boolValue As Boolean
@@ -608,11 +610,16 @@
                     End Select
 
                     If boolAdd = True Then
-                        If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
-                            objOItem_Result = objDBLevel.save_ObjRel(objOItem_Object, oList_Simple, objOItem_Direction, objOItem_RelationType, 1)
-                        Else
-                            objOItem_Result = objDBLevel.save_ObjRel(objOItem_Other, oList_Simple, objOItem_Direction, objOItem_RelationType, 1)
-                        End If
+                        For Each oItem_Obj In oList_Simple
+                            If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                                oList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, objOItem_Object.GUID_Parent, oItem_Obj.GUID, oItem_Obj.GUID_Parent, objOItem_RelationType.GUID, oItem_Obj.Type, Nothing, 1))
+
+                            Else
+                                oList_ObjRel.Add(New clsObjectRel(objOItem_Other.GUID, objOItem_Other.GUID_Parent, oItem_Obj.GUID, oItem_Obj.GUID_Parent, objOItem_RelationType.GUID, oItem_Obj.Type, Nothing, 1))
+
+                            End If
+                        Next
+                        objOItem_Result = objDBLevel.save_ObjRel(oList_ObjRel)
 
                         If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             MsgBox("Beim Speichern ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)

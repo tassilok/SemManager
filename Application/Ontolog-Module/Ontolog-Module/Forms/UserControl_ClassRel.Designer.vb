@@ -31,7 +31,7 @@ Partial Class UserControl_ClassRel
         Me.DataGridView_Relations = New System.Windows.Forms.DataGridView()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Add = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Dell = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Del = New System.Windows.Forms.ToolStripButton()
         CType(Me.BindingSource_Relations, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -70,13 +70,13 @@ Partial Class UserControl_ClassRel
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLBL, Me.ToolStripLabel_Count})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(75, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(78, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_CountLBL
         '
         Me.ToolStripLabel_CountLBL.Name = "ToolStripLabel_CountLBL"
-        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(52, 22)
+        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(53, 22)
         Me.ToolStripLabel_CountLBL.Text = "x_Count:"
         '
         'ToolStripLabel_Count
@@ -100,10 +100,10 @@ Partial Class UserControl_ClassRel
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Dell})
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Del})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(87, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(89, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripButton_Add
@@ -115,14 +115,14 @@ Partial Class UserControl_ClassRel
         Me.ToolStripButton_Add.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_Add.Text = "ToolStripButton1"
         '
-        'ToolStripButton_Dell
+        'ToolStripButton_Del
         '
-        Me.ToolStripButton_Dell.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Dell.Image = Global.Ontolog_Module.My.Resources.Resources.b_minus
-        Me.ToolStripButton_Dell.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Dell.Name = "ToolStripButton_Dell"
-        Me.ToolStripButton_Dell.Size = New System.Drawing.Size(23, 22)
-        Me.ToolStripButton_Dell.Text = "ToolStripButton2"
+        Me.ToolStripButton_Del.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Del.Image = Global.Ontolog_Module.My.Resources.Resources.b_minus
+        Me.ToolStripButton_Del.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Del.Name = "ToolStripButton_Del"
+        Me.ToolStripButton_Del.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_Del.Text = "ToolStripButton2"
         '
         'UserControl_ClassRel
         '
@@ -155,6 +155,6 @@ Partial Class UserControl_ClassRel
     Friend WithEvents ToolStripLabel_Count As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStrip2 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripButton_Add As System.Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripButton_Dell As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripButton_Del As System.Windows.Forms.ToolStripButton
 
 End Class

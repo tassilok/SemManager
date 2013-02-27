@@ -88,8 +88,18 @@
 
 
     Private Sub ToolStripButton_Add_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Add.Click
+        If boolObjectReference = True Then
+            get_Relation_Or()
+        Else
+            get_Relation_Bi()
+        End If
+    End Sub
+    Private Sub get_Relation_Or()
+
+    End Sub
+    Private Sub get_Relation_Bi()
+        Dim oList_ClassRel As New List(Of clsClassRel)
         Dim oList_Class As List(Of clsOntologyItem)
-        Dim oList_RelationType As List(Of clsOntologyItem)
         Dim objOItem_Result As clsOntologyItem
 
         objFrmMain = New frmMain(objLocalConfig, objLocalConfig.Globals.Type_Class)
@@ -104,13 +114,24 @@
                     objFrmMain.ShowDialog(Me)
                     If objFrmMain.DialogResult = DialogResult.OK Then
                         If objFrmMain.Type_Applied = objLocalConfig.Globals.Type_RelationType Then
-                            oList_RelationType = objFrmMain.OList_Simple
-                            If oList_RelationType.Count = 1 Then
+
+                            If objFrmMain.OList_Simple.Count = 1 Then
                                 If objDirection.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
-                                    objOItem_Result = objDBLevel.save_ClassRel(objOItem_Class, oList_RelationType(0), 1, 1, -1, oList_Class(0))
+                                    oList_ClassRel.Add(New clsClassRel(objOItem_Class.GUID, _
+                                                                       oList_Class(0).GUID, _
+                                                                       objFrmMain.OList_Simple(0).GUID, _
+                                                                       objLocalConfig.Globals.Type_Class, _
+                                                                       1, 1, -1))
+
+                                    objOItem_Result = objDBLevel.save_ClassRel(oList_ClassRel)
 
                                 Else
-                                    objOItem_Result = objDBLevel.save_ClassRel(oList_Class(0), oList_RelationType(0), 1, 1, -1, objOItem_Class)
+                                    oList_ClassRel.Add(New clsClassRel(objOItem_Class.GUID, _
+                                                                       Nothing, _
+                                                                       objFrmMain.OList_Simple(0).GUID, _
+                                                                       objLocalConfig.Globals.Type_Other, _
+                                                                       1, 1, -1))
+                                    objOItem_Result = objDBLevel.save_ClassRel(oList_ClassRel)
                                 End If
 
                                 If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
@@ -122,7 +143,7 @@
                                 MsgBox("Bitte einen Beziehungstyp auswählen!", MsgBoxStyle.Information)
                             End If
                         Else
-                            MsgBox("Bitte einen Beziehungstyp auswählen!", MsgBoxStyle.Information)
+                                MsgBox("Bitte einen Beziehungstyp auswählen!", MsgBoxStyle.Information)
                         End If
                     Else
                         MsgBox("Bitte einen Beziehungstyp auswählen!", MsgBoxStyle.Information)
@@ -142,6 +163,7 @@
         Dim objOItem_Class_Left As New clsOntologyItem
         Dim objOItem_Class_Right As New clsOntologyItem
         Dim objOItem_RelationType As New clsOntologyItem
+        Dim oList_ClassRel As New List(Of clsClassRel)
         Dim objOItem_Result As clsOntologyItem
         Dim lngValue As Long
         Dim lngMin_forw As Long
@@ -206,12 +228,27 @@
                 End If
 
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    objOItem_Result = objDBLevel.save_ClassRel(objOItem_Class_Left, _
-                                                           objOItem_RelationType, _
+                    If Not objOItem_Class_Right Is Nothing Then
+                        oList_ClassRel.Add(New clsClassRel(objOItem_Class_Left.GUID, _
+                                                           objOItem_Class_Right.GUID, _
+                                                           objOItem_RelationType.GUID, _
+                                                           objLocalConfig.Globals.Type_Class, _
                                                            lngMin_forw, _
                                                            lngMax_forw, _
-                                                           lngMax_backw, _
-                                                           objOItem_Class_Right)
+                                                           lngMax_backw))
+
+                    Else
+                        oList_ClassRel.Add(New clsClassRel(objOItem_Class_Left.GUID, _
+                                                           Nothing, _
+                                                           objOItem_RelationType.GUID, _
+                                                           objLocalConfig.Globals.Type_Class, _
+                                                           lngMin_forw, _
+                                                           lngMax_forw, _
+                                                           lngMax_backw))
+                    End If
+
+
+                    objOItem_Result = objDBLevel.save_ClassRel(oList_ClassRel)
                 End If
                 
 
@@ -224,13 +261,15 @@
         End If
     End Sub
 
-    Private Sub ToolStripButton_Dell_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Dell.Click
+    Private Sub ToolStripButton_Dell_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Del.Click
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
 
         Dim oItem_Class_Left As New clsOntologyItem
         Dim oItem_Class_Right As New clsOntologyItem
         Dim oItem_RelationType As New clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim oList_ClRel As New List(Of clsClassRel)
 
         For Each objDGVR_Selected In DataGridView_Relations.SelectedRows
             objDRV_Selected = objDGVR_Selected.DataBoundItem
@@ -238,11 +277,34 @@
             oItem_Class_Left.GUID = objDRV_Selected.Item("ID_Class_Left")
 
             If Not IsDBNull(objDRV_Selected.Item("ID_Class_Right")) Then
+                oList_ClRel.Add(New clsClassRel(objDRV_Selected.Item("ID_Class_Left"), _
+                                            objDRV_Selected.Item("ID_Class_Right"), _
+                                            objDRV_Selected.Item("ID_RelationType"), _
+                                            objLocalConfig.Globals.Type_Class, _
+                                            0, 0, 0))
+            Else
+                oList_ClRel.Add(New clsClassRel(objDRV_Selected.Item("ID_Class_Left"), _
+                                            Nothing, _
+                                            objDRV_Selected.Item("ID_RelationType"), _
+                                            objLocalConfig.Globals.Type_Class, _
+                                            0, 0, 0))
 
             End If
 
 
-            objDBLevel.del_ClassRel(
+            
         Next
+
+        If oList_ClRel.Count > 0 Then
+            objOItem_Result = objDBLevel.del_ClassRel(oList_ClRel)
+            Select Case objOItem_Result.GUID
+                Case objLocalConfig.Globals.LState_Relation.GUID
+                    MsgBox("Es konnten nicht alle Beziehungen gelöscht werden, weil noch Ausprägungen existieren!", MsgBoxStyle.Exclamation)
+                Case objLocalConfig.Globals.LState_Error.GUID
+                    MsgBox("Beim Löschen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+            End Select
+        End If
+
+        get_Data_ClassRelations()
     End Sub
 End Class

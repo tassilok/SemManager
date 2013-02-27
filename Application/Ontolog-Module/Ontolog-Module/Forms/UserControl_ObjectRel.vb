@@ -368,7 +368,9 @@
         Dim objOItem_Result As clsOntologyItem
         Dim objOItem_ForListRelation As New clsOntologyItem
         Dim objOList_Right As New List(Of clsOntologyItem)
+        Dim objOItem_Right As clsOntologyItem
         Dim objOItem_Clipboard As clsOntologyItem
+        Dim oList_ObjRel As New List(Of clsObjectRel)
 
         objOItem_Result = objLocalConfig.Globals.LState_Success
 
@@ -417,10 +419,21 @@
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             objOList_Right.Add(New clsOntologyItem(objOItem_Other.GUID, objOItem_RelationType.GUID, objOItem_Other.GUID, 1, objOItem_Other.Type))
+            For Each objOItem_Right In objOList_Right
+                oList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, _
+                                                  objOItem_Object.GUID_Parent, _
+                                                  objOItem_Right.GUID, _
+                                                  objOItem_Right.GUID_Parent, _
+                                                  objOItem_RelationType.GUID, _
+                                                  objLocalConfig.Globals.Type_Object, _
+                                                  Nothing, _
+                                                  1))
+            Next
 
-            objOItem_Result = objDBLevel_ObjRel.save_ObjRel(objOItem_Object, _
-                                                            objOList_Right, _
-                                                            objLocalConfig.Globals.Direction_LeftRight)
+            If oList_ObjRel.Count > 0 Then
+                objOItem_Result = objDBLevel_ObjRel.save_ObjRel(oList_ObjRel)
+            End If
+
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                 RaiseEvent related_Items()
 
