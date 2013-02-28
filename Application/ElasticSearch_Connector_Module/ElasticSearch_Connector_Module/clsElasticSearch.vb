@@ -980,7 +980,7 @@ Public Class clsElasticSearch
                 Case objLocalConfig.Globals.AttributeType_Varchar255.GUID
                     objDRC_TokenAttribute = TokenAAttribute_Varchar255.GetData().Rows
                     strGUID_AttributeType = objLocalConfig.Globals.AttributeType_String.GUID.ToString
-                    strVal_RowName = "Val_VARCHAR255"
+                    strVal_RowName = "Val_String"
             End Select
 
 
@@ -1005,7 +1005,6 @@ Public Class clsElasticSearch
                         objDict.Add("Val_Name", objDRC_TokenAttribute(i).Item("Val").ToString)
                     Case "Val_String"
                         objDict.Add("Val_Name", objDRC_TokenAttribute(i).Item("Val").ToString)
-
                 End Select
                 objDict.Add("ID_Attribute", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""))
                 objDict.Add("ID_AttributeType", objDRC_TokenAttribute(i).Item("GUID_Attribute").ToString.Replace("-", ""))
