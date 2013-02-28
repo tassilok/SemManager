@@ -431,7 +431,7 @@
                         DataGridView_Items.Columns(15).Visible = False
 
                         ToolStripLabel_Count.Text = DataGridView_Items.RowCount
-                        strRowName_GUID = "ID_Item"
+                        strRowName_GUID = "ID_ObjectAttribute"
                     Case objLocalConfig.Globals.Type_Other
                         If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
                             DataGridView_Items.Columns(0).Visible = False
@@ -460,7 +460,7 @@
 
 
                 ToolStripLabel_Count.Text = DataGridView_Items.RowCount
-                strRowName_GUID = "ID_Other"
+
             End If
             ToolStripProgressBar_List.Value = 0
 

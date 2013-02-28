@@ -120,6 +120,7 @@ Partial Class UserControl_ObjectRel
         Me.DataGridView_Relations.AllowUserToAddRows = False
         Me.DataGridView_Relations.AllowUserToDeleteRows = False
         Me.DataGridView_Relations.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView_Relations.ContextMenuStrip = Me.ContextMenuStrip_TokRel
         Me.DataGridView_Relations.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView_Relations.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_Relations.Name = "DataGridView_Relations"
@@ -165,13 +166,13 @@ Partial Class UserControl_ObjectRel
         '
         Me.ContextMenuStrip_TokRel.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditToolStripMenuItem, Me.FilterToolStripMenuItem, Me.RelateToolStripMenuItem, Me.DeleteToolStripMenuItem})
         Me.ContextMenuStrip_TokRel.Name = "ContextMenuStrip_TokRel"
-        Me.ContextMenuStrip_TokRel.Size = New System.Drawing.Size(153, 114)
+        Me.ContextMenuStrip_TokRel.Size = New System.Drawing.Size(106, 92)
         '
         'EditToolStripMenuItem
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SetOrderIDToolStripMenuItem, Me.SetRelationTypeToolStripMenuItem, Me.ModuleEditToolStripMenuItem, Me.ModuleMenuToolStripMenuItem, Me.CopyValToolStripMenuItem1})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
         Me.EditToolStripMenuItem.Text = "Edit"
         '
         'SetOrderIDToolStripMenuItem
@@ -220,26 +221,26 @@ Partial Class UserControl_ObjectRel
         '
         Me.FilterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EqualToolStripMenuItem, Me.DifferentToolStripMenuItem, Me.ContainsToolStripMenuItem, Me.GreaterToolStripMenuItem, Me.LessThanToolStripMenuItem, Me.ClearFilterToolStripMenuItem})
         Me.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem"
-        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
         Me.FilterToolStripMenuItem.Text = "Filter"
         '
         'EqualToolStripMenuItem
         '
         Me.EqualToolStripMenuItem.Name = "EqualToolStripMenuItem"
-        Me.EqualToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EqualToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
         Me.EqualToolStripMenuItem.Text = "Equal"
         '
         'DifferentToolStripMenuItem
         '
         Me.DifferentToolStripMenuItem.Name = "DifferentToolStripMenuItem"
-        Me.DifferentToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DifferentToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
         Me.DifferentToolStripMenuItem.Text = "Different"
         '
         'ContainsToolStripMenuItem
         '
         Me.ContainsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripTextBox_TokRelContains})
         Me.ContainsToolStripMenuItem.Name = "ContainsToolStripMenuItem"
-        Me.ContainsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ContainsToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
         Me.ContainsToolStripMenuItem.Text = "Contains"
         '
         'ToolStripTextBox_TokRelContains
@@ -250,31 +251,31 @@ Partial Class UserControl_ObjectRel
         'GreaterToolStripMenuItem
         '
         Me.GreaterToolStripMenuItem.Name = "GreaterToolStripMenuItem"
-        Me.GreaterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.GreaterToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
         Me.GreaterToolStripMenuItem.Text = "Greater >"
         '
         'LessThanToolStripMenuItem
         '
         Me.LessThanToolStripMenuItem.Name = "LessThanToolStripMenuItem"
-        Me.LessThanToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.LessThanToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
         Me.LessThanToolStripMenuItem.Text = "Less than <"
         '
         'ClearFilterToolStripMenuItem
         '
         Me.ClearFilterToolStripMenuItem.Name = "ClearFilterToolStripMenuItem"
-        Me.ClearFilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ClearFilterToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
         Me.ClearFilterToolStripMenuItem.Text = "Clear Filter"
         '
         'RelateToolStripMenuItem
         '
         Me.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem"
-        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
         Me.RelateToolStripMenuItem.Text = "Relate"
         '
         'DeleteToolStripMenuItem
         '
         Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
         Me.DeleteToolStripMenuItem.Text = "delete"
         '
         'UserControl_ObjectRel

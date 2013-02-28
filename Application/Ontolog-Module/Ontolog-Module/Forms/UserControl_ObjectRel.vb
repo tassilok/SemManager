@@ -26,6 +26,21 @@
     Public Event selected_RelationType(ByVal oItem_RelationType As clsOntologyItem)
     Public Event related_Items()
 
+    Public Sub applied_Object(ByVal oList_Objects As List(Of clsOntologyItem))
+        Dim l As Long
+
+        For l = 0 To oList_Objects.Count - 1
+            objOItem_Other = oList_Objects(l)
+            save_Relation()
+        Next
+        initialize_Data()
+    End Sub
+
+    Public Sub applied_RelType(ByVal oItem_RelType As clsOntologyItem)
+        objOItem_RelationType = oItem_RelType
+        save_Relation()
+        initialize_Data()
+    End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
 
@@ -356,13 +371,9 @@
 
     Private Sub RelateToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RelateToolStripMenuItem.Click
         objOItem_Other = Nothing
-        objOItem_Object = New clsOntologyItem
-        objOItem_Object.GUID = objOItem_Object.GUID
-        objOItem_Object.Name = objOItem_Object.Name
-        objOItem_Object.GUID_Parent = objOItem_Object.GUID_Parent
-        objOItem_Object.Type = objLocalConfig.Globals.Type_Object
 
         save_Relation()
+        initialize_Data()
     End Sub
     Private Function save_Relation() As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
@@ -418,7 +429,7 @@
         End If
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            objOList_Right.Add(New clsOntologyItem(objOItem_Other.GUID, objOItem_RelationType.GUID, objOItem_Other.GUID, 1, objOItem_Other.Type))
+            objOList_Right.Add(New clsOntologyItem(objOItem_Other.GUID, objOItem_Other.Name, objOItem_Other.GUID_Parent, objOItem_Other.Type))
             For Each objOItem_Right In objOList_Right
                 oList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, _
                                                   objOItem_Object.GUID_Parent, _

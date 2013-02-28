@@ -38,6 +38,33 @@
     Private oList_Applied_Simple As List(Of clsOntologyItem)
     Private oList_Applied_ObjRel As List(Of clsObjectRel)
 
+    Private Sub selected_Left(ByVal objOItem_Object As clsOntologyItem) Handles objUserControl_ObjRel.selected_Left
+        If objOItem_Object Is Nothing Then
+            ToolStripStatusLabel_TokenRelLeft.Text = "-"
+        Else
+            ToolStripStatusLabel_TokenRelLeft.Text = objOItem_Object.Name
+        End If
+
+    End Sub
+
+    Private Sub selected_Right(ByVal objOItem_Object As clsOntologyItem) Handles objUserControl_ObjRel.selected_Right
+        If objOItem_Object Is Nothing Then
+            ToolStripStatusLabel_TokenRelRight.Text = "-"
+        Else
+            ToolStripStatusLabel_TokenRelRight.Text = objOItem_Object.Name
+        End If
+
+    End Sub
+
+    Private Sub selected_RelationType(ByVal objOItem_Object As clsOntologyItem) Handles objUserControl_ObjRel.selected_RelationType
+        If objOItem_Object Is Nothing Then
+            ToolStripStatusLabel_TokenRelRelation.Text = "-"
+        Else
+            ToolStripStatusLabel_TokenRelRelation.Text = objOItem_Object.Name
+        End If
+
+    End Sub
+
     Public ReadOnly Property Type_Applied As String
         Get
             Return strType_Applied
@@ -78,24 +105,43 @@
 
     Private Sub applied_ListObjects() Handles objUserControl_OObjectList.applied_Items
 
-        oList_Applied_Simple = objUserControl_OObjectList.OList_Simple
-        strType_Applied = objLocalConfig.Globals.Type_Object
-        Me.DialogResult = Windows.Forms.DialogResult.OK
-        Me.Close()
+        If boolApplyable = True Then
+            oList_Applied_Simple = objUserControl_OObjectList.OList_Simple
+            strType_Applied = objLocalConfig.Globals.Type_Object
+            Me.DialogResult = Windows.Forms.DialogResult.OK
+            Me.Close()
+        Else
+            oList_Applied_Simple = objUserControl_OObjectList.OList_Simple
+            objUserControl_ObjRel.applied_Object(oList_Applied_Simple)
+        End If
+        
     End Sub
 
     Private Sub applied_ListRelTypes() Handles objUserControl_ORelationTypeList.applied_Items
-        oList_Applied_Simple = objUserControl_ORelationTypeList.OList_Simple
-        strType_Applied = objLocalConfig.Globals.Type_RelationType
-        Me.DialogResult = Windows.Forms.DialogResult.OK
-        Me.Close()
+        If boolApplyable = True Then
+            oList_Applied_Simple = objUserControl_ORelationTypeList.OList_Simple
+            strType_Applied = objLocalConfig.Globals.Type_RelationType
+            Me.DialogResult = Windows.Forms.DialogResult.OK
+            Me.Close()
+        Else
+            oList_Applied_Simple = objUserControl_ORelationTypeList.OList_Simple
+            If oList_Applied_Simple.Count = 1 Then
+                objUserControl_ObjRel.applied_RelType(oList_Applied_Simple(0))
+            End If
+        End If
+        
     End Sub
 
     Private Sub applied_ListAttTypes() Handles objUserControl_OAttributeList.applied_Items
-        oList_Applied_Simple = objUserControl_OAttributeList.OList_Simple
-        strType_Applied = objLocalConfig.Globals.Type_AttributeType
-        Me.DialogResult = Windows.Forms.DialogResult.OK
-        Me.Close()
+        If boolApplyable = True Then
+            oList_Applied_Simple = objUserControl_OAttributeList.OList_Simple
+            strType_Applied = objLocalConfig.Globals.Type_AttributeType
+            Me.DialogResult = Windows.Forms.DialogResult.OK
+            Me.Close()
+        Else
+
+        End If
+        
     End Sub
 
     Private Sub editAttributeType(ByVal strType As String, ByVal objOItem_Direction As clsOntologyItem) Handles objUserControl_OAttributeList.edit_Object
@@ -275,21 +321,21 @@
 
 
         objUserControl_OObjectList = New UserControl_OItemList(objLocalConfig)
-        objUserControl_OObjectList.Applyable = boolApplyable
+        objUserControl_OObjectList.Applyable = True
         objUserControl_OObjectList.Dock = DockStyle.Fill
         SplitContainer_Token.Panel1.Controls.Clear()
         SplitContainer_Token.Panel1.Controls.Add(objUserControl_OObjectList)
 
 
         objUserControl_ORelationTypeList = New UserControl_OItemList(objLocalConfig)
-        objUserControl_ORelationTypeList.Applyable = boolApplyable
+        objUserControl_ORelationTypeList.Applyable = True
         objUserControl_ORelationTypeList.Dock = DockStyle.Fill
         Panel_RelationTypes.Controls.Clear()
         objUserControl_ORelationTypeList.initialize(objOItem_RelType)
         Panel_RelationTypes.Controls.Add(objUserControl_ORelationTypeList)
 
         objUserControl_OAttributeList = New UserControl_OItemList(objLocalConfig)
-        objUserControl_OAttributeList.Applyable = boolApplyable
+        objUserControl_OAttributeList.Applyable = True
         objUserControl_OAttributeList.Dock = DockStyle.Fill
         Panel_Attributes.Controls.Clear()
         objUserControl_OAttributeList.initialize(objOItem_AttType)
@@ -301,7 +347,7 @@
         SplitContainer_TokAttTokRel.Panel2.Controls.Add(objUserControl_ObjRel)
 
         objUserControl_ObjectTree = New UserControl_ObjectTree(objLocalConfig)
-        objUserControl_ObjectTree.Applyable = boolApplyable
+        objUserControl_ObjectTree.Applyable = True
         objUserControl_ObjectTree.Dock = DockStyle.Fill
         SplitContainer_Token.Panel2.Controls.Clear()
         SplitContainer_Token.Panel2.Controls.Add(objUserControl_ObjectTree)

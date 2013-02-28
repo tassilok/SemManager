@@ -27,6 +27,8 @@ Partial Class UserControl_ObjectAtt
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_CountLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripProgressBar_ObjectAtt = New System.Windows.Forms.ToolStripProgressBar()
         Me.DataGridView_ObjectAtt = New System.Windows.Forms.DataGridView()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_FilterLBL = New System.Windows.Forms.ToolStripLabel()
@@ -34,8 +36,6 @@ Partial Class UserControl_ObjectAtt
         Me.ToolStripButton_ClearFilter = New System.Windows.Forms.ToolStripButton()
         Me.BindingSource_ObjectAtt = New System.Windows.Forms.BindingSource(Me.components)
         Me.Timer_ObjectAtt = New System.Windows.Forms.Timer(Me.components)
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripProgressBar_ObjectAtt = New System.Windows.Forms.ToolStripProgressBar()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -74,7 +74,7 @@ Partial Class UserControl_ObjectAtt
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLBL, Me.ToolStripLabel_Count, Me.ToolStripSeparator1, Me.ToolStripProgressBar_ObjectAtt})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(214, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(183, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_CountLBL
@@ -88,6 +88,16 @@ Partial Class UserControl_ObjectAtt
         Me.ToolStripLabel_Count.Name = "ToolStripLabel_Count"
         Me.ToolStripLabel_Count.Size = New System.Drawing.Size(13, 22)
         Me.ToolStripLabel_Count.Text = "0"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripProgressBar_ObjectAtt
+        '
+        Me.ToolStripProgressBar_ObjectAtt.Name = "ToolStripProgressBar_ObjectAtt"
+        Me.ToolStripProgressBar_ObjectAtt.Size = New System.Drawing.Size(100, 22)
         '
         'DataGridView_ObjectAtt
         '
@@ -134,16 +144,6 @@ Partial Class UserControl_ObjectAtt
         'Timer_ObjectAtt
         '
         Me.Timer_ObjectAtt.Interval = 300
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripProgressBar_ObjectAtt
-        '
-        Me.ToolStripProgressBar_ObjectAtt.Name = "ToolStripProgressBar_ObjectAtt"
-        Me.ToolStripProgressBar_ObjectAtt.Size = New System.Drawing.Size(100, 22)
         '
         'UserControl_ObjectAtt
         '
