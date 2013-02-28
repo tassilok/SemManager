@@ -95,7 +95,36 @@
         End If
     End Sub
     Private Sub get_Relation_Or()
-
+        Dim oList_ClassRel As New List(Of clsClassRel)
+        Dim oList_RelType As New List(Of clsOntologyItem)
+        Dim objOItem_Result As clsOntologyItem
+        objFrmMain = New frmMain(objLocalConfig, objLocalConfig.Globals.Type_RelationType)
+        objFrmMain.Applyable = True
+        objFrmMain.ShowDialog(Me)
+        If objFrmMain.DialogResult = DialogResult.OK Then
+            If objFrmMain.Type_Applied = objLocalConfig.Globals.Type_RelationType Then
+                oList_RelType = objFrmMain.OList_Simple
+                If oList_RelType.Count = 1 Then
+                    oList_ClassRel.Add(New clsClassRel(objOItem_Class.GUID, _
+                                                       Nothing, _
+                                                       oList_RelType(0).GUID, _
+                                                       objLocalConfig.Globals.Type_Other, _
+                                                       1, _
+                                                       1, _
+                                                       1))
+                    objOItem_Result = objDBLevel.save_ClassRel(oList_ClassRel)
+                    If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        MsgBox("Die Beziehung konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                    Else
+                        get_Data_ClassRelations()
+                    End If
+                Else
+                    MsgBox("Bitte einen Beziehungstyp auswählen!", MsgBoxStyle.Information)
+                End If
+            Else
+                MsgBox("Bitte einen Beziehungstyp auswählen!", MsgBoxStyle.Information)
+            End If
+        End If
     End Sub
     Private Sub get_Relation_Bi()
         Dim oList_ClassRel As New List(Of clsClassRel)

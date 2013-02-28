@@ -37,15 +37,17 @@
         Dim oItem_Direction As clsOntologyItem
         Dim oList_RelationType As New List(Of clsOntologyItem)
 
-        oList_Object.Add(New clsOntologyItem(oList_Selected(0).GUID, oList_Selected(0).Name, oList_Selected(0).GUID_Parent, objLocalConfig.Globals.Type_Object))
-        If oList_Selected(1).Type = objLocalConfig.Globals.Type_Class Then
-            oList_Other.Add(New clsOntologyItem(Nothing, Nothing, oList_Selected(1).GUID, objLocalConfig.Globals.Type_Object))
-        Else
-            oList_Other.Add(New clsOntologyItem(oList_Selected(1).GUID, oList_Selected(1).Type))
-        End If
+        
 
 
-        If oList_Selected.Count > 2 Then
+        If oList_Selected.Count = 4 Then
+            oList_Object.Add(New clsOntologyItem(oList_Selected(0).GUID, oList_Selected(0).Name, oList_Selected(0).GUID_Parent, objLocalConfig.Globals.Type_Object))
+            If oList_Selected(1).Type = objLocalConfig.Globals.Type_Class Then
+                oList_Other.Add(New clsOntologyItem(Nothing, Nothing, oList_Selected(1).GUID, objLocalConfig.Globals.Type_Object))
+            Else
+                oList_Other.Add(New clsOntologyItem(oList_Selected(1).GUID, oList_Selected(1).Type))
+            End If
+
             oList_RelationType.Add(New clsOntologyItem(oList_Selected(2).GUID, objLocalConfig.Globals.Type_RelationType))
             If oList_Selected(3).GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
                 oItem_Direction = objLocalConfig.Globals.Direction_LeftRight
@@ -58,12 +60,28 @@
                                              oItem_Direction, _
                                              oList_Other(0), _
                                              oList_RelationType(0), False)
-        Else
+        ElseIf oList_Selected.Count = 2 Then
+            oList_Object.Add(New clsOntologyItem(oList_Selected(0).GUID, oList_Selected(0).Name, oList_Selected(0).GUID_Parent, objLocalConfig.Globals.Type_Object))
+            If oList_Selected(1).Type = objLocalConfig.Globals.Type_Class Then
+                oList_Other.Add(New clsOntologyItem(Nothing, Nothing, oList_Selected(1).GUID, objLocalConfig.Globals.Type_Object))
+            Else
+                oList_Other.Add(New clsOntologyItem(oList_Selected(1).GUID, oList_Selected(1).Type))
+            End If
             objUserControl_OItem_List.initialize(Nothing, _
                                                  oList_Object(0), _
                                              Nothing, _
                                              oList_Other(0), _
                                              Nothing, False)
+        Else
+            oList_Object.Add(New clsOntologyItem(oList_Selected(0).GUID, oList_Selected(0).Name, oList_Selected(0).GUID_Parent, objLocalConfig.Globals.Type_Object))
+            oList_RelationType.Add(New clsOntologyItem(oList_Selected(1).GUID, oList_Selected(1).Name, objLocalConfig.Globals.Type_RelationType))
+
+            objUserControl_OItem_List.initialize(Nothing, _
+                                                 oList_Object(0), _
+                                                 objLocalConfig.Globals.Direction_LeftRight, _
+                                                    Nothing, _
+                                                    oList_RelationType(0), _
+                                                    True)
         End If
 
         

@@ -389,13 +389,16 @@ Public Class clsDBLevel
                 If objOntologyList_ObjectRel_ID.Count = 0 Then
                     ReDim Preserve strKeys(l)
                     strKeys(l) = objOItem_ClRel.ID_Class_Left & objOItem_ClRel.ID_Class_Right & objOItem_ClRel.ID_RelationType
+                    l = l + 1
                 End If
             Else
                 get_Data_ObjectRel(oList_OB_Left, Nothing, oList_RelType, False, True)
                 Dim objL1 = From objO In objOntologyList_ObjectRel_ID
                             Where Not objO.Ontology = objLocalConfig.Globals.Type_Object
                 If objL1.Count = 0 Then
+                    ReDim Preserve strKeys(l)
                     strKeys(l) = objOItem_ClRel.ID_Class_Left & objOItem_ClRel.ID_RelationType
+                    l = l + 1
                 End If
 
             End If
@@ -614,7 +617,7 @@ Public Class clsDBLevel
             objDict.Add(objLocalConfig.Globals.Field_Min, objResult.Min)
             objDict.Add(objLocalConfig.Globals.Field_Max, objResult.Max)
 
-            objBulkObjects(0) = New ElasticSearch.Client.Domain.BulkObject(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ClassAtt, objResult.ID_AttributeType & objResult.ID_Class, objDict)
+            objBulkObjects(0) = New ElasticSearch.Client.Domain.BulkObject(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ClassAtt, objResult.ID_Class & objResult.ID_AttributeType, objDict)
 
             Try
                 objOPResult = objElConn.Bulk(objBulkObjects)
@@ -763,9 +766,11 @@ Public Class clsDBLevel
         End Try
         'objElConn = New ElasticSearch.Client.ElasticSearchClient("ontology_db")
     End Sub
-    Public Function get_Data_Attributes(Optional ByVal OList_Attributes As List(Of clsOntologyItem) = Nothing, _
+    Public Function get_Data_Attributes(Optional ByVal oItem_Attribute As clsOntologyItem = Nothing, _
                                         Optional ByVal OList_AttributeTypes As List(Of clsOntologyItem) = Nothing, _
-                                        Optional ByVal OList_DataTypes As List(Of clsOntologyItem) = Nothing) As clsOntologyItem
+                                        Optional ByVal OList_DataTypes As List(Of clsOntologyItem) = Nothing, _
+                                        Optional ByVal doCount As Boolean = False, _
+                                        Optional ByVal doClear As Boolean = True) As clsOntologyItem
 
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
@@ -778,15 +783,15 @@ Public Class clsDBLevel
         Dim intCount As Integer
         Dim intPos As Integer
         objElConn.Flush()
-        objOntologyList_Attributes.Clear()
-        otblT_RelationTypes.Clear()
-        objOntologyList_RelationTypes.Clear()
-
+        If doClear = True Then
+            objOntologyList_Attributes.Clear()
+        End If
 
         intCount = 0
         objOItem_Result = objLocalConfig.Globals.LState_Success
+        objOItem_Result.Count = 0
 
-        create_BoolQuery_Attributes(OList_Attributes, OList_DataTypes, OList_AttributeTypes, True)
+        create_BoolQuery_Attributes(oItem_Attribute, OList_DataTypes, OList_AttributeTypes, True)
 
         intCount = intPackageLength
         intPos = 0
@@ -794,75 +799,85 @@ Public Class clsDBLevel
 
             intCount = 0
             objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Attribute, objBoolQuery.ToString, intPos, intPackageLength)
-            objList = objSearchResult.GetHits.Hits
+            If doCount = False Then
+                objList = objSearchResult.GetHits.Hits
 
-            For Each objHit In objList
+                For Each objHit In objList
 
-                If objHit.Source.ContainsKey(objLocalConfig.Globals.Field_Val_Bool) Then
-                    objOntologyList_Attributes.Add(New clsAttribute(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
-                                               objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
-                                               objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString, _
-                                               objHit.Source(objLocalConfig.Globals.Field_Val_Bool).ToString, _
-                                               Nothing, _
-                                               Nothing, _
-                                               Nothing, _
-                                               Nothing, _
-                                               objHit.Source(objLocalConfig.Globals.Field_Val_Name).ToString))
-                ElseIf objHit.Source.ContainsKey(objLocalConfig.Globals.Field_Val_Datetime) Then
-                    objOntologyList_Attributes.Add(New clsAttribute(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
-                                               objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
-                                               objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString, _
-                                               Nothing, _
-                                               Nothing, _
-                                               Nothing, _
-                                               objHit.Source(objLocalConfig.Globals.Field_Val_Datetime).ToString, _
-                                               Nothing, _
-                                               objHit.Source(objLocalConfig.Globals.Field_Val_Name).ToString))
-                ElseIf objHit.Source.ContainsKey(objLocalConfig.Globals.Field_Val_Int) Then
-                    objOntologyList_Attributes.Add(New clsAttribute(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
-                                               objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
-                                               objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString, _
-                                               Nothing, _
-                                               objHit.Source(objLocalConfig.Globals.Field_Val_Int).ToString, _
-                                               Nothing, _
-                                               Nothing, _
-                                               Nothing, _
-                                               objHit.Source(objLocalConfig.Globals.Field_Val_Name).ToString))
-                ElseIf objHit.Source.ContainsKey(objLocalConfig.Globals.Field_Val_Real) Then
-                    objOntologyList_Attributes.Add(New clsAttribute(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
-                                               objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
-                                               objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString, _
-                                               Nothing, _
-                                               Nothing, _
-                                               objHit.Source(objLocalConfig.Globals.Field_Val_Real).ToString, _
-                                               Nothing, _
-                                               Nothing, _
-                                               objHit.Source(objLocalConfig.Globals.Field_Val_Name).ToString))
-                ElseIf objHit.Source.ContainsKey(objLocalConfig.Globals.Field_Val_String) Then
-                    objOntologyList_Attributes.Add(New clsAttribute(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
-                                               objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
-                                               objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString, _
-                                               Nothing, _
-                                               Nothing, _
-                                               Nothing, _
-                                               Nothing, _
-                                               objHit.Source(objLocalConfig.Globals.Field_Val_String).ToString, _
-                                               objHit.Source(objLocalConfig.Globals.Field_Val_Name).ToString))
+                    If objHit.Source.ContainsKey(objLocalConfig.Globals.Field_Val_Bool) Then
+                        objOntologyList_Attributes.Add(New clsAttribute(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_Val_Bool).ToString, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_Val_Name).ToString))
+                    ElseIf objHit.Source.ContainsKey(objLocalConfig.Globals.Field_Val_Datetime) Then
+                        objOntologyList_Attributes.Add(New clsAttribute(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_Val_Datetime).ToString, _
+                                                   Nothing, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_Val_Name).ToString))
+                    ElseIf objHit.Source.ContainsKey(objLocalConfig.Globals.Field_Val_Int) Then
+                        objOntologyList_Attributes.Add(New clsAttribute(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString, _
+                                                   Nothing, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_Val_Int).ToString, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_Val_Name).ToString))
+                    ElseIf objHit.Source.ContainsKey(objLocalConfig.Globals.Field_Val_Real) Then
+                        objOntologyList_Attributes.Add(New clsAttribute(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_Val_Real).ToString, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_Val_Name).ToString))
+                    ElseIf objHit.Source.ContainsKey(objLocalConfig.Globals.Field_Val_String) Then
+                        objOntologyList_Attributes.Add(New clsAttribute(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_Val_String).ToString, _
+                                                   objHit.Source(objLocalConfig.Globals.Field_Val_Name).ToString))
 
-                End If
-            Next
+                    End If
+                Next
 
-            intCount = objList.Count
+                intCount = objList.Count
+                intPos = intPos + intCount
+            Else
+                intCount = 0
+                objOItem_Result.Count = objOItem_Result.Count + objSearchResult.GetTotalCount
+            End If
+
 
             objList.Clear()
             objSearchResult = Nothing
             objList = Nothing
-            intPos = intPos + intCount
+
         End While
 
         Return objOItem_Result
     End Function
-    Public Function get_Data_RelationTypes(Optional ByVal OList_RelType As List(Of clsOntologyItem) = Nothing, Optional ByVal boolTable As Boolean = False) As clsOntologyItem
+    Public Function get_Data_RelationTypes(Optional ByVal OList_RelType As List(Of clsOntologyItem) = Nothing, _
+                                           Optional ByVal boolTable As Boolean = False, _
+                                           Optional ByVal doCount As Boolean = False) As clsOntologyItem
+
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
         Dim strQuery_ID As String
@@ -881,6 +896,7 @@ Public Class clsDBLevel
 
         intCount = 0
         objOItem_Result = objLocalConfig.Globals.LState_Success
+        objOItem_Result.Count = 0
 
         create_BoolQuery_Simple(OList_RelType, objLocalConfig.Globals.Type_RelationType)
 
@@ -890,27 +906,33 @@ Public Class clsDBLevel
 
             intCount = 0
             objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_RelationType, objBoolQuery.ToString, intPos, intPackageLength)
-            objList = objSearchResult.GetHits.Hits
+            If doCount = False Then
+                objList = objSearchResult.GetHits.Hits
 
-            For Each objHit In objList
-                If boolTable = False Then
-                    objOntologyList_RelationTypes.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                objHit.Source("Name_Item").ToString, _
-                                                                objLocalConfig.Globals.Type_RelationType))
-                Else
-                    otblT_RelationTypes.Rows.Add(objHit.Id.ToString, _
-                                                                objHit.Source("Name_Item").ToString)
-                End If
+                For Each objHit In objList
+                    If boolTable = False Then
+                        objOntologyList_RelationTypes.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                    objHit.Source("Name_Item").ToString, _
+                                                                    objLocalConfig.Globals.Type_RelationType))
+                    Else
+                        otblT_RelationTypes.Rows.Add(objHit.Id.ToString, _
+                                                                    objHit.Source("Name_Item").ToString)
+                    End If
 
 
-            Next
+                Next
 
-            intCount = objList.Count
+                intCount = objList.Count
+                intPos = intPos + intCount
+            Else
+                objOItem_Result.Count = objOItem_Result.Count + objSearchResult.GetTotalCount
+            End If
+            
 
             objList.Clear()
             objSearchResult = Nothing
             objList = Nothing
-            intPos = intPos + intCount
+
         End While
 
         Return objOItem_Result
@@ -1109,7 +1131,7 @@ Public Class clsDBLevel
         End If
     End Sub
 
-    Private Sub create_BoolQuery_Attributes(ByVal OList_Attributes As List(Of clsOntologyItem), ByVal OList_DataTypes As List(Of clsOntologyItem), ByVal OList_AttributeTypes As List(Of clsOntologyItem), Optional ByVal boolClear As Boolean = True)
+    Private Sub create_BoolQuery_Attributes(ByVal objOItem_Attribute As clsOntologyItem, ByVal OList_DataTypes As List(Of clsOntologyItem), ByVal OList_AttributeTypes As List(Of clsOntologyItem), Optional ByVal boolClear As Boolean = True)
         Dim strQuery As String
 
         If boolClear = True Then
@@ -1117,26 +1139,21 @@ Public Class clsDBLevel
         End If
 
 
-        If Not OList_Attributes Is Nothing Then
-            If OList_Attributes.Count > 0 Then
-                Dim objLQuery_ID = From at As clsOntologyItem In OList_Attributes Group By at.GUID Into Group
+        If Not objOItem_Attribute Is Nothing Then
 
-                strQuery = ""
+            strQuery = ""
 
-                For Each objQuery_ID In objLQuery_ID
-                    If strQuery <> "" Then
-                        strQuery = strQuery & "\ OR\ "
-                    End If
-                    strQuery = strQuery & objQuery_ID.GUID
-                Next
+            If objOItem_Attribute.GUID <> "" Then
+                strQuery = objOItem_Attribute.GUID
+            End If
 
-                If strQuery <> "" Then
-                    objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Attribute, strQuery)), BooleanClause.Occur.MUST)
-
-                End If
-
+            If strQuery <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Attribute, strQuery)), BooleanClause.Occur.MUST)
 
             End If
+
+
+
         End If
 
         If Not OList_AttributeTypes Is Nothing Then
@@ -1253,10 +1270,13 @@ Public Class clsDBLevel
                     strQuery = ""
 
                     For Each objQuery_ID In objLQuery_ID
-                        If strQuery <> "" Then
-                            strQuery = strQuery & "\ OR\ "
+                        If objQuery_ID.GUID <> "" Then
+                            If strQuery <> "" Then
+                                strQuery = strQuery & "\ OR\ "
+                            End If
+                            strQuery = strQuery & objQuery_ID.GUID
                         End If
-                        strQuery = strQuery & objQuery_ID.GUID
+                        
                     Next
 
                     If strQuery <> "" Then
@@ -1340,7 +1360,9 @@ Public Class clsDBLevel
         End If
     End Sub
 
-    Public Function get_Data_AttributeType(Optional ByVal OList_AttType As List(Of clsOntologyItem) = Nothing, Optional ByVal boolTable As Boolean = False) As clsOntologyItem
+    Public Function get_Data_AttributeType(Optional ByVal OList_AttType As List(Of clsOntologyItem) = Nothing, _
+                                           Optional ByVal boolTable As Boolean = False, _
+                                           Optional ByVal doCount As Boolean = False) As clsOntologyItem
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
         Dim objOItem_Result As clsOntologyItem
@@ -1354,6 +1376,7 @@ Public Class clsDBLevel
 
 
         objOItem_Result = objLocalConfig.Globals.LState_Success
+        objOItem_Result.Count = 0
 
         intCount = 0
 
@@ -1365,41 +1388,51 @@ Public Class clsDBLevel
 
             intCount = 0
             objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_AttributeType, objBoolQuery.ToString, intPos, intPackageLength)
-            objList = objSearchResult.GetHits.Hits
-            'Dim a = From obja In objList
-            'Where (Not obja.Source("@fields")("ex_cid") Is Nothing)
-            '       Group obja By key = obja.Source("@fields")("ex_cid").First.ToString Into Count() Select key, count = Count
+            If doCount = False Then
+                objList = objSearchResult.GetHits.Hits
+                'Dim a = From obja In objList
+                'Where (Not obja.Source("@fields")("ex_cid") Is Nothing)
+                '       Group obja By key = obja.Source("@fields")("ex_cid").First.ToString Into Count() Select key, count = Count
 
-            'For Each b In a
-            '    CidA_Count.Insert(Integer.Parse(b.key), b.count)
-            'Next
-            For Each objHit In objList
-                If boolTable = False Then
-                    objOntologyList_AttributTypes.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString, _
-                                                                objLocalConfig.Globals.Type_AttributeType))
-                Else
-                    otblT_AttributeTypes.Rows.Add(objHit.Id.ToString, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString)
-                End If
+                'For Each b In a
+                '    CidA_Count.Insert(Integer.Parse(b.key), b.count)
+                'Next
+                For Each objHit In objList
+                    If boolTable = False Then
+                        objOntologyList_AttributTypes.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString, _
+                                                                    objLocalConfig.Globals.Type_AttributeType))
+                    Else
+                        otblT_AttributeTypes.Rows.Add(objHit.Id.ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString)
+                    End If
 
 
-            Next
+                Next
 
-            intCount = objList.Count
+                intCount = objList.Count
+                intPos = intPos + intCount
+            Else
+                objOItem_Result.Count = objOItem_Result.Count + objSearchResult.GetTotalCount
+            End If
+            
 
             objList.Clear()
             objSearchResult = Nothing
             objList = Nothing
-            intPos = intPos + intCount
+
         End While
 
         Return objOItem_Result
     End Function
 
-    Public Function get_Data_ClassAtt(Optional ByVal oList_Class As List(Of clsOntologyItem) = Nothing, Optional ByVal oList_AttributeTyp As List(Of clsOntologyItem) = Nothing, Optional ByVal boolTable As Boolean = False, Optional ByVal boolIDs As Boolean = True) As clsOntologyItem
+    Public Function get_Data_ClassAtt(Optional ByVal oList_Class As List(Of clsOntologyItem) = Nothing, _
+                                      Optional ByVal oList_AttributeTyp As List(Of clsOntologyItem) = Nothing, _
+                                      Optional ByVal boolTable As Boolean = False, _
+                                      Optional ByVal boolIDs As Boolean = True, _
+                                      Optional ByVal doCount As Boolean = False) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim oList_Classes As New List(Of clsOntologyItem)
         Dim oList_AttributeTypes As New List(Of clsOntologyItem)
@@ -1412,6 +1445,7 @@ Public Class clsDBLevel
 
         objElConn.Flush()
         objOItem_Result = objLocalConfig.Globals.LState_Success
+        objOItem_Result.Count = 0
 
         oList_AttributeTypes.Clear()
         If Not oList_Class Is Nothing Then
@@ -1484,75 +1518,91 @@ Public Class clsDBLevel
         intPos = 0
         While intCount > 0
             objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ClassAtt, objBoolQuery.ToString, intPos, intPackageLength)
-            objList = objSearchResult.GetHits.Hits
+            If doCount = False Then
+                objList = objSearchResult.GetHits.Hits
 
-            For Each objHit In objList
+                For Each objHit In objList
 
-                objOntologyList_ClassAtt_ID.Add(New clsClassAtt(objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
-                                                             objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString, _
-                                                             objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
-                                                             objHit.Source(objLocalConfig.Globals.Field_Min).ToString, _
-                                                             objHit.Source(objLocalConfig.Globals.Field_Max).ToString))
-
-
-            Next
+                    objOntologyList_ClassAtt_ID.Add(New clsClassAtt(objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
+                                                                 objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString, _
+                                                                 objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
+                                                                 objHit.Source(objLocalConfig.Globals.Field_Min).ToString, _
+                                                                 objHit.Source(objLocalConfig.Globals.Field_Max).ToString))
 
 
-            intCount = objList.Count
+                Next
+
+
+                intCount = objList.Count
+                intPos = intPos + intCount
+            Else
+                objOItem_Result.Count = objOItem_Result.Count + objSearchResult.GetTotalCount
+                intCount = 0
+            End If
+            
 
             objList.Clear()
             objSearchResult = Nothing
             objList = Nothing
-            intPos = intPos + intCount
+
         End While
 
-        If boolIDs = False Then
-            Dim strLGUID_Attributetype = From obj In objOntologyList_ClassAtt_ID
-                               Group By obj.ID_AttributeType Into Group
-                               Select ID_AttributeType
+        If doCount = False Then
+            If boolIDs = False Then
+                Dim strLGUID_Attributetype = From obj In objOntologyList_ClassAtt_ID
+                                   Group By obj.ID_AttributeType Into Group
+                                   Select ID_AttributeType
 
-            For Each strGUID_AttributeType In strLGUID_Attributetype
-                oList_AttributeTypes.Add(New clsOntologyItem(strGUID_AttributeType, objLocalConfig.Globals.Type_AttributeType))
+                For Each strGUID_AttributeType In strLGUID_Attributetype
+                    oList_AttributeTypes.Add(New clsOntologyItem(strGUID_AttributeType, objLocalConfig.Globals.Type_AttributeType))
 
-            Next
-
-            If oList_AttributeTypes.Count > 0 Then
-                get_Data_AttributeType(oList_AttributeTypes, False)
-            End If
-
-            Dim strLGUID_Class = From obj In objOntologyList_ClassAtt_ID
-                                 Group By obj.ID_Class Into Group
-                                 Select ID_Class
-
-            For Each strGUID_Class In strLGUID_Class
-                oList_Classes.Add(New clsOntologyItem(strGUID_Class, objLocalConfig.Globals.Type_Class))
-
-            Next
-
-            If oList_Classes.Count > 0 Then
-                get_Data_Classes(oList_Classes, False)
-            End If
-
-            If boolTable = True Then
-                Dim objLClassAtt = From obj In objOntologyList_ClassAtt_ID
-                                   Join objAttType In objOntologyList_AttributTypes On obj.ID_AttributeType Equals objAttType.GUID
-                                   Join objClass In objOntologyList_Classes1 On obj.ID_Class Equals objClass.GUID
-
-                For Each objClassAtt In objLClassAtt
-                    otblT_ClassAtt.Rows.Add(objClassAtt.obj.ID_Class, _
-                                            objClassAtt.objClass.Name, _
-                                            objClassAtt.objAttType.GUID, _
-                                            objClassAtt.objAttType.Name, _
-                                            objClassAtt.obj.Min, _
-                                            objClassAtt.obj.Max)
                 Next
+
+                If oList_AttributeTypes.Count > 0 Then
+                    get_Data_AttributeType(oList_AttributeTypes, False)
+                End If
+
+                Dim strLGUID_Class = From obj In objOntologyList_ClassAtt_ID
+                                     Group By obj.ID_Class Into Group
+                                     Select ID_Class
+
+                For Each strGUID_Class In strLGUID_Class
+                    oList_Classes.Add(New clsOntologyItem(strGUID_Class, objLocalConfig.Globals.Type_Class))
+
+                Next
+
+                If oList_Classes.Count > 0 Then
+                    get_Data_Classes(oList_Classes, False)
+                End If
+
+                If boolTable = True Then
+                    Dim objLClassAtt = From obj In objOntologyList_ClassAtt_ID
+                                       Join objAttType In objOntologyList_AttributTypes On obj.ID_AttributeType Equals objAttType.GUID
+                                       Join objClass In objOntologyList_Classes1 On obj.ID_Class Equals objClass.GUID
+
+                    For Each objClassAtt In objLClassAtt
+                        otblT_ClassAtt.Rows.Add(objClassAtt.obj.ID_Class, _
+                                                objClassAtt.objClass.Name, _
+                                                objClassAtt.objAttType.GUID, _
+                                                objClassAtt.objAttType.Name, _
+                                                objClassAtt.obj.Min, _
+                                                objClassAtt.obj.Max)
+                    Next
+                End If
             End If
         End If
+        
 
         Return objOItem_Result
     End Function
 
-    Public Function get_Data_ClassRel(ByVal oList_Class As List(Of clsOntologyItem), ByVal Direction As clsOntologyItem, ByVal boolIDs As Boolean, Optional ByVal boolTable As Boolean = False, Optional ByVal boolOR As Boolean = False) As clsOntologyItem
+    Public Function get_Data_ClassRel(ByVal oList_Class As List(Of clsOntologyItem), _
+                                      ByVal Direction As clsOntologyItem, _
+                                      ByVal boolIDs As Boolean, _
+                                      Optional ByVal boolTable As Boolean = False, _
+                                      Optional ByVal boolOR As Boolean = False, _
+                                      Optional ByVal doCount As Boolean = False) As clsOntologyItem
+
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
         Dim objOItem_Result As clsOntologyItem
@@ -1574,6 +1624,7 @@ Public Class clsDBLevel
         otblT_ClassRel.Clear()
 
         objOItem_Result = objLocalConfig.Globals.LState_Success
+        objOItem_Result.Count = 0
 
         If Not Direction Is Nothing Then
             If Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
@@ -1596,143 +1647,153 @@ Public Class clsDBLevel
 
 
             objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ClassRel, objBoolQuery.ToString, intPos, intPackageLength)
-            objList = objSearchResult.GetHits.Hits
+            If doCount = False Then
+                objList = objSearchResult.GetHits.Hits
 
-            For Each objHit In objList
+                For Each objHit In objList
 
-                If objHit.Source(objLocalConfig.Globals.Field_Ontology).ToString = objLocalConfig.Globals.Type_Other Then
-                    objOntologyList_ClassRel_ID.Add(New clsClassRel(objHit.Source(objLocalConfig.Globals.Field_ID_Class_Left).ToString, _
-                                                             Nothing, _
-                                                             objHit.Source(objLocalConfig.Globals.Field_ID_RelationType).ToString, _
-                                                             objHit.Source(objLocalConfig.Globals.Field_Ontology).ToString, _
-                                                             objHit.Source(objLocalConfig.Globals.Field_Min_forw), _
-                                                             objHit.Source(objLocalConfig.Globals.Field_Max_forw), _
-                                                             Nothing))
-                Else
-                    objOntologyList_ClassRel_ID.Add(New clsClassRel(objHit.Source(objLocalConfig.Globals.Field_ID_Class_Left).ToString, _
-                                                             objHit.Source(objLocalConfig.Globals.Field_ID_Class_Right).ToString, _
-                                                             objHit.Source(objLocalConfig.Globals.Field_ID_RelationType).ToString, _
-                                                             objHit.Source(objLocalConfig.Globals.Field_Ontology).ToString, _
-                                                             objHit.Source(objLocalConfig.Globals.Field_Min_forw), _
-                                                             objHit.Source(objLocalConfig.Globals.Field_Max_forw), _
-                                                             objHit.Source(objLocalConfig.Globals.Field_Max_backw)))
-                End If
-
-
-
-            Next
+                    If objHit.Source(objLocalConfig.Globals.Field_Ontology).ToString = objLocalConfig.Globals.Type_Other Then
+                        objOntologyList_ClassRel_ID.Add(New clsClassRel(objHit.Source(objLocalConfig.Globals.Field_ID_Class_Left).ToString, _
+                                                                 Nothing, _
+                                                                 objHit.Source(objLocalConfig.Globals.Field_ID_RelationType).ToString, _
+                                                                 objHit.Source(objLocalConfig.Globals.Field_Ontology).ToString, _
+                                                                 objHit.Source(objLocalConfig.Globals.Field_Min_forw), _
+                                                                 objHit.Source(objLocalConfig.Globals.Field_Max_forw), _
+                                                                 Nothing))
+                    Else
+                        objOntologyList_ClassRel_ID.Add(New clsClassRel(objHit.Source(objLocalConfig.Globals.Field_ID_Class_Left).ToString, _
+                                                                 objHit.Source(objLocalConfig.Globals.Field_ID_Class_Right).ToString, _
+                                                                 objHit.Source(objLocalConfig.Globals.Field_ID_RelationType).ToString, _
+                                                                 objHit.Source(objLocalConfig.Globals.Field_Ontology).ToString, _
+                                                                 objHit.Source(objLocalConfig.Globals.Field_Min_forw), _
+                                                                 objHit.Source(objLocalConfig.Globals.Field_Max_forw), _
+                                                                 objHit.Source(objLocalConfig.Globals.Field_Max_backw)))
+                    End If
 
 
-            intCount = objList.Count
+
+                Next
+
+
+                intCount = objList.Count
+                intPos = intPos + intCount
+            Else
+                intCount = 0
+                objOItem_Result.Count = objOItem_Result.Count + objSearchResult.GetTotalCount
+            End If
+            
 
             objList.Clear()
             objSearchResult = Nothing
             objList = Nothing
-            intPos = intPos + intCount
+
         End While
 
-        If boolIDs = False Then
-            Dim objLClasses_Left = From obj In objOntologyList_ClassRel_ID
-                                   Group By obj.ID_Class_Left Into Group
+        If doCount = False Then
+            If boolIDs = False Then
+                Dim objLClasses_Left = From obj In objOntologyList_ClassRel_ID
+                                       Group By obj.ID_Class_Left Into Group
 
-            For Each objClasses_Left In objLClasses_Left
-                oList_Classes_Left.Add(New clsOntologyItem(objClasses_Left.ID_Class_Left, objLocalConfig.Globals.Type_Class))
-
-            Next
-
-            If oList_Classes_Left.Count > 0 Then
-                get_Data_Classes(oList_Classes_Left, False, False)
-            End If
-
-
-            Dim objLClasses_Right = From obj In objOntologyList_ClassRel_ID
-                                    Group By obj.ID_Class_Right Into Group
-
-            For Each objClasses_Right In objLClasses_Right
-                oList_Classes_Right.Add(New clsOntologyItem(objClasses_Right.ID_Class_Right, objLocalConfig.Globals.Type_Class))
-
-            Next
-
-            If oList_Classes_Right.Count > 0 Then
-                get_Data_Classes(oList_Classes_Right, False, True)
-            End If
-
-
-            Dim objLRelTypes = From obj In objOntologyList_ClassRel_ID
-                               Group By obj.ID_RelationType Into Group
-
-            For Each objRelType In objLRelTypes
-                oList_Rels.Add(New clsOntologyItem(objRelType.ID_RelationType, objLocalConfig.Globals.Type_RelationType))
-            Next
-
-            If oList_Rels.Count > 0 Then
-                get_Data_RelationTypes(oList_Rels, False)
-            End If
-
-            If boolOR = False Then
-                Dim objLRels = From objRel In objOntologyList_ClassRel_ID
-                          Join objClass_Left In objOntologyList_Classes1 On objClass_Left.GUID Equals objRel.ID_Class_Left
-                          Join objClass_Right In objOntologyList_Classes2 On objClass_Right.GUID Equals objRel.ID_Class_Right
-                          Join objRelType In objOntologyList_RelationTypes On objRelType.GUID Equals objRel.ID_RelationType
-
-                For Each objRel In objLRels
-                    If boolTable = False Then
-                        objOntologyList_ClassRel.Add(New clsClassRel(objRel.objClass_Left.GUID, objRel.objClass_Left.Name, _
-                                                                     objRel.objClass_Right.GUID, objRel.objClass_Right.Name, _
-                                                                     objRel.objRelType.GUID, objRel.objRelType.Name, _
-                                                                     objRel.objRel.Ontology, _
-                                                                     objRel.objRel.Min_Forw, _
-                                                                     objRel.objRel.Max_Forw, _
-                                                                     objRel.objRel.Max_Backw))
-                    Else
-                        otblT_ClassRel.Rows.Add(objRel.objRel.ID_Class_Left, _
-                                                             objRel.objClass_Left.Name, _
-                                                             objRel.objRel.ID_Class_Right, _
-                                                             objRel.objClass_Right.Name, _
-                                                             objRel.objRel.ID_RelationType, _
-                                                             objRel.objRelType.Name, _
-                                                             objRel.objRel.Ontology, _
-                                                             objRel.objRel.Min_Forw, _
-                                                             objRel.objRel.Max_Forw, _
-                                                             objRel.objRel.Max_Backw)
-                    End If
-
+                For Each objClasses_Left In objLClasses_Left
+                    oList_Classes_Left.Add(New clsOntologyItem(objClasses_Left.ID_Class_Left, objLocalConfig.Globals.Type_Class))
 
                 Next
-            Else
-                Dim objLRels = From objRel In objOntologyList_ClassRel_ID
-                          Join objClass_Left In objOntologyList_Classes1 On objClass_Left.GUID Equals objRel.ID_Class_Left
-                          Join objRelType In objOntologyList_RelationTypes On objRelType.GUID Equals objRel.ID_RelationType
-                          Where objRel.Ontology = objLocalConfig.Globals.Type_Other
 
-                For Each objRel In objLRels
-                    If boolTable = False Then
-                        objOntologyList_ClassRel.Add(New clsClassRel(objRel.objClass_Left.GUID, objRel.objClass_Left.Name, _
-                                                                     Nothing, Nothing, _
-                                                                     objRel.objRelType.GUID, objRel.objRelType.Name, _
-                                                                     objRel.objRel.Ontology, _
-                                                                     objRel.objRel.Min_Forw, _
-                                                                     objRel.objRel.Max_Forw, _
-                                                                     objRel.objRel.Max_Backw))
-                    Else
-                        otblT_ClassRel.Rows.Add(objRel.objRel.ID_Class_Left, _
-                                                             objRel.objClass_Left.Name, _
-                                                             Nothing, _
-                                                             Nothing, _
-                                                             objRel.objRel.ID_RelationType, _
-                                                             objRel.objRelType.Name, _
-                                                             objRel.objRel.Ontology, _
-                                                             objRel.objRel.Min_Forw, _
-                                                             objRel.objRel.Max_Forw, _
-                                                             objRel.objRel.Max_Backw)
-                    End If
+                If oList_Classes_Left.Count > 0 Then
+                    get_Data_Classes(oList_Classes_Left, False, False)
+                End If
 
+
+                Dim objLClasses_Right = From obj In objOntologyList_ClassRel_ID
+                                        Group By obj.ID_Class_Right Into Group
+
+                For Each objClasses_Right In objLClasses_Right
+                    oList_Classes_Right.Add(New clsOntologyItem(objClasses_Right.ID_Class_Right, objLocalConfig.Globals.Type_Class))
 
                 Next
+
+                If oList_Classes_Right.Count > 0 Then
+                    get_Data_Classes(oList_Classes_Right, False, True)
+                End If
+
+
+                Dim objLRelTypes = From obj In objOntologyList_ClassRel_ID
+                                   Group By obj.ID_RelationType Into Group
+
+                For Each objRelType In objLRelTypes
+                    oList_Rels.Add(New clsOntologyItem(objRelType.ID_RelationType, objLocalConfig.Globals.Type_RelationType))
+                Next
+
+                If oList_Rels.Count > 0 Then
+                    get_Data_RelationTypes(oList_Rels, False)
+                End If
+
+                If boolOR = False Then
+                    Dim objLRels = From objRel In objOntologyList_ClassRel_ID
+                              Join objClass_Left In objOntologyList_Classes1 On objClass_Left.GUID Equals objRel.ID_Class_Left
+                              Join objClass_Right In objOntologyList_Classes2 On objClass_Right.GUID Equals objRel.ID_Class_Right
+                              Join objRelType In objOntologyList_RelationTypes On objRelType.GUID Equals objRel.ID_RelationType
+
+                    For Each objRel In objLRels
+                        If boolTable = False Then
+                            objOntologyList_ClassRel.Add(New clsClassRel(objRel.objClass_Left.GUID, objRel.objClass_Left.Name, _
+                                                                         objRel.objClass_Right.GUID, objRel.objClass_Right.Name, _
+                                                                         objRel.objRelType.GUID, objRel.objRelType.Name, _
+                                                                         objRel.objRel.Ontology, _
+                                                                         objRel.objRel.Min_Forw, _
+                                                                         objRel.objRel.Max_Forw, _
+                                                                         objRel.objRel.Max_Backw))
+                        Else
+                            otblT_ClassRel.Rows.Add(objRel.objRel.ID_Class_Left, _
+                                                                 objRel.objClass_Left.Name, _
+                                                                 objRel.objRel.ID_Class_Right, _
+                                                                 objRel.objClass_Right.Name, _
+                                                                 objRel.objRel.ID_RelationType, _
+                                                                 objRel.objRelType.Name, _
+                                                                 objRel.objRel.Ontology, _
+                                                                 objRel.objRel.Min_Forw, _
+                                                                 objRel.objRel.Max_Forw, _
+                                                                 objRel.objRel.Max_Backw)
+                        End If
+
+
+                    Next
+                Else
+                    Dim objLRels = From objRel In objOntologyList_ClassRel_ID
+                              Join objClass_Left In objOntologyList_Classes1 On objClass_Left.GUID Equals objRel.ID_Class_Left
+                              Join objRelType In objOntologyList_RelationTypes On objRelType.GUID Equals objRel.ID_RelationType
+                              Where objRel.Ontology = objLocalConfig.Globals.Type_Other
+
+                    For Each objRel In objLRels
+                        If boolTable = False Then
+                            objOntologyList_ClassRel.Add(New clsClassRel(objRel.objClass_Left.GUID, objRel.objClass_Left.Name, _
+                                                                         Nothing, Nothing, _
+                                                                         objRel.objRelType.GUID, objRel.objRelType.Name, _
+                                                                         objRel.objRel.Ontology, _
+                                                                         objRel.objRel.Min_Forw, _
+                                                                         objRel.objRel.Max_Forw, _
+                                                                         objRel.objRel.Max_Backw))
+                        Else
+                            otblT_ClassRel.Rows.Add(objRel.objRel.ID_Class_Left, _
+                                                                 objRel.objClass_Left.Name, _
+                                                                 Nothing, _
+                                                                 Nothing, _
+                                                                 objRel.objRel.ID_RelationType, _
+                                                                 objRel.objRelType.Name, _
+                                                                 objRel.objRel.Ontology, _
+                                                                 objRel.objRel.Min_Forw, _
+                                                                 objRel.objRel.Max_Forw, _
+                                                                 objRel.objRel.Max_Backw)
+                        End If
+
+
+                    Next
+                End If
+
+
             End If
-
-
         End If
+        
 
 
 
@@ -1741,7 +1802,12 @@ Public Class clsDBLevel
 
 
 
-    Public Function get_Data_ObjectAtt(Optional ByRef oItem_Object As clsOntologyItem = Nothing, Optional ByVal oItem_AttributeType As clsOntologyItem = Nothing, Optional ByVal boolTable As Boolean = False, Optional ByVal boolIDs As Boolean = True) As clsOntologyItem
+    Public Function get_Data_ObjectAtt(Optional ByRef oItem_Object As clsOntologyItem = Nothing, _
+                                       Optional ByVal oItem_AttributeType As clsOntologyItem = Nothing, _
+                                       Optional ByVal boolTable As Boolean = False, _
+                                       Optional ByVal boolIDs As Boolean = True, _
+                                       Optional ByVal doCount As Boolean = False) As clsOntologyItem
+
         Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
@@ -1767,6 +1833,7 @@ Public Class clsDBLevel
         otblT_ObjectAtt.Clear()
 
         objOItem_Result = objLocalConfig.Globals.LState_Success
+        objOItem_Result.Count = 0
 
         strQuery = ""
         If Not oItem_Object Is Nothing Then
@@ -1821,294 +1888,307 @@ Public Class clsDBLevel
 
             intCount = 0
             objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectAtt, objBoolQuery.ToString, intPos, intPackageLength)
-            objList = objSearchResult.GetHits.Hits
+            If doCount = False Then
+                objList = objSearchResult.GetHits.Hits
 
-            For Each objHit In objList
+                For Each objHit In objList
 
-                objOntologyList_ObjAtt_ID.Add(New clsObjectAtt(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
-                                                               objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
-                                                               objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
-                                                               objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
-                                                               objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString))
+                    objOntologyList_ObjAtt_ID.Add(New clsObjectAtt(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
+                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
+                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
+                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
+                                                                   objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString))
 
-            Next
+                Next
 
-            intCount = objList.Count
+                intCount = objList.Count
+                intPos = intPos + intCount
+            Else
+                intCount = 0
+                objOItem_Result.Count = objOItem_Result.Count + objSearchResult.GetTotalCount
+            End If
+            
 
             objList.Clear()
             objSearchResult = Nothing
             objList = Nothing
-            intPos = intPos + intCount
+
         End While
 
-        If boolIDs = False Then
-            Dim oList_AttType = From objAtt In objOntologyList_ObjAtt_ID
-                            Group By objAtt.ID_AttributeType Into Group
+        If doCount = False Then
+            If boolIDs = False Then
+                Dim oList_AttType = From objAtt In objOntologyList_ObjAtt_ID
+                                Group By objAtt.ID_AttributeType Into Group
 
-            For Each oItem_AttType In oList_AttType
-                objOList_AttributeTypes.Add(New clsOntologyItem(oItem_AttType.ID_AttributeType, objLocalConfig.Globals.Type_AttributeType))
-            Next
+                For Each oItem_AttType In oList_AttType
+                    objOList_AttributeTypes.Add(New clsOntologyItem(oItem_AttType.ID_AttributeType, objLocalConfig.Globals.Type_AttributeType))
+                Next
 
-            If objOList_AttributeTypes.Count > 0 Then
-                get_Data_AttributeType(objOList_AttributeTypes)
-            End If
-
-
-            Dim oList_Classes = From objClass In objOntologyList_ObjAtt_ID
-                                Group By objClass.ID_Class Into Group
-
-            For Each oItem_Class In oList_Classes
-                objOList_Classes.Add(New clsOntologyItem(oItem_Class.ID_Class, objLocalConfig.Globals.Type_Class))
-
-            Next
-
-            If objOList_Classes.Count > 0 Then
-                get_Data_Classes(objOList_Classes, False, False)
-            End If
+                If objOList_AttributeTypes.Count > 0 Then
+                    get_Data_AttributeType(objOList_AttributeTypes)
+                End If
 
 
-            Dim oList_Objects = From objObj In objOntologyList_ObjAtt_ID
-                                Group By objObj.ID_Class Into Group
+                Dim oList_Classes = From objClass In objOntologyList_ObjAtt_ID
+                                    Group By objClass.ID_Class Into Group
 
-            For Each oItem_Objects In oList_Objects
-                objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, oItem_Objects.ID_Class, objLocalConfig.Globals.Type_Object))
-            Next
+                For Each oItem_Class In oList_Classes
+                    objOList_Classes.Add(New clsOntologyItem(oItem_Class.ID_Class, objLocalConfig.Globals.Type_Class))
 
-            If objOList_Objects.Count > 0 Then
-                get_Data_Objects(objOList_Objects)
-            End If
+                Next
 
-
-            Dim oList_ObjAtt = From objObjAtt In objOntologyList_ObjAtt_ID
-                               Group By objObjAtt.ID_Attribute Into Group
-
-            For Each oItem_ObjAtt In oList_ObjAtt
-                objOList_Attributes.Add(New clsOntologyItem(oItem_ObjAtt.ID_Attribute, objLocalConfig.Globals.Type_Attribute))
-            Next
-
-            If objOList_Attributes.Count > 0 Then
-                get_Data_Attributes(objOList_Attributes)
-            End If
+                If objOList_Classes.Count > 0 Then
+                    get_Data_Classes(objOList_Classes, False, False)
+                End If
 
 
-            Dim oList_DataType = From objDataType In objOntologyList_AttributTypes
-                                 Group By objDataType.GUID_Parent Into Group
+                Dim oList_Objects = From objObj In objOntologyList_ObjAtt_ID
+                                    Group By objObj.ID_Class Into Group
 
-            For Each oItem_DataType In oList_DataType
-                objOList_DataTypes.Add(New clsOntologyItem(oItem_DataType.GUID_Parent, objLocalConfig.Globals.Type_DataType))
+                For Each oItem_Objects In oList_Objects
+                    objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, oItem_Objects.ID_Class, objLocalConfig.Globals.Type_Object))
+                Next
 
-            Next
-
-            If objOList_DataTypes.Count > 0 Then
-                get_Data_DataTyps(objOList_DataTypes)
-            End If
+                If objOList_Objects.Count > 0 Then
+                    get_Data_Objects(objOList_Objects)
+                End If
 
 
-            Dim oListRel = From objRel In objOntologyList_ObjAtt_ID
-                           Join objAttType In objOntologyList_AttributTypes On objRel.ID_AttributeType Equals objAttType.GUID
-                           Join objClass In objOntologyList_Classes1 On objRel.ID_Class Equals objClass.GUID
-                           Join objAtt In objOntologyList_Attributes On objRel.ID_Attribute Equals objAtt.ID_Attribute
-                           Join objObj In objOntologyList_Objects On objRel.ID_Object Equals objObj.GUID
-                           Join objDataType In objOntologyList_DataTypes On objAttType.GUID_Parent Equals objDataType.GUID
-                           Group By objRel.ID_Attribute _
-                            , ID_AttributeType = objAttType.GUID _
-                            , Name_AttributeType = objAttType.Name _
-                            , ID_Class = objClass.GUID _
-                            , Name_Class = objClass.Name _
-                            , ID_Object = objObj.GUID _
-                            , Name_Object = objObj.Name _
-                            , ID_DataType = objDataType.GUID _
-                            , Name_DataType = objDataType.Name _
-                            , objRel.OrderID _
-                            , Val_Bool = objAtt.Val_Bool _
-                            , Val_Date = objAtt.Val_Date _
-                            , Val_Double = objAtt.Val_Double _
-                            , Val_Int = objAtt.Val_Long _
-                            , Val_String = objAtt.Val_String _
-                            , Val_Named = objAtt.Val_Name Into Group
+                Dim oList_ObjAtt = From objObjAtt In objOntologyList_ObjAtt_ID
+                                   Group By objObjAtt.ID_Attribute Into Group
 
-            oList_AttType = Nothing
+                For Each oItem_ObjAtt In oList_ObjAtt
+                    get_Data_Attributes(New clsOntologyItem(oItem_ObjAtt.ID_Attribute, objLocalConfig.Globals.Type_Attribute), Nothing, Nothing, False, False)
+                Next
 
-            For Each objORels In oListRel
-                If boolTable = False Then
-                    Select Case objORels.ID_DataType
-                        Case objLocalConfig.Globals.DType_Bool.GUID
-                            objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.ID_Attribute, _
-                                             objORels.ID_Object, _
-                                             objORels.Name_Object, _
-                                             objORels.ID_Class, _
-                                             objORels.Name_Class, _
-                                             objORels.ID_AttributeType, _
-                                             objORels.Name_AttributeType, _
-                                             objORels.OrderID, _
-                                             objORels.Val_Named, _
-                                             objORels.Val_Bool, _
-                                             Nothing, _
-                                             Nothing, _
-                                             Nothing, _
-                                             Nothing))
-                        Case objLocalConfig.Globals.DType_DateTime.GUID
-                            objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.ID_Attribute, _
-                                             objORels.ID_Object, _
-                                             objORels.Name_Object, _
-                                             objORels.ID_Class, _
-                                             objORels.Name_Class, _
-                                             objORels.ID_AttributeType, _
-                                             objORels.Name_AttributeType, _
-                                             objORels.OrderID, _
-                                             objORels.Val_Named, _
-                                             Nothing, _
-                                             objORels.Val_Date, _
-                                             Nothing, _
-                                             Nothing, _
-                                             Nothing))
-                        Case objLocalConfig.Globals.DType_Int.GUID
-                            objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.ID_Attribute, _
-                                             objORels.ID_Object, _
-                                             objORels.Name_Object, _
-                                             objORels.ID_Class, _
-                                             objORels.Name_Class, _
-                                             objORels.ID_AttributeType, _
-                                             objORels.Name_AttributeType, _
-                                             objORels.OrderID, _
-                                             objORels.Val_Named, _
-                                             Nothing, _
-                                             Nothing, _
-                                             objORels.Val_Int, _
-                                             Nothing, _
-                                             Nothing))
-                        Case objLocalConfig.Globals.DType_Real.GUID
-                            objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.ID_Attribute, _
-                                             objORels.ID_Object, _
-                                             objORels.Name_Object, _
-                                             objORels.ID_Class, _
-                                             objORels.Name_Class, _
-                                             objORels.ID_AttributeType, _
-                                             objORels.Name_AttributeType, _
-                                             objORels.OrderID, _
-                                             objORels.Val_Named, _
-                                             Nothing, _
-                                             Nothing, _
-                                             Nothing, _
-                                             objORels.Val_Double, _
-                                             Nothing))
-                        Case objLocalConfig.Globals.DType_String.GUID
-                            objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.ID_Attribute, _
-                                             objORels.ID_Object, _
-                                             objORels.Name_Object, _
-                                             objORels.ID_Class, _
-                                             objORels.Name_Class, _
-                                             objORels.ID_AttributeType, _
-                                             objORels.Name_AttributeType, _
-                                             objORels.OrderID, _
-                                             objORels.Val_Named, _
-                                             Nothing, _
-                                             Nothing, _
-                                             Nothing, _
-                                             Nothing, _
-                                             objORels.Val_String))
-                    End Select
-                Else
-                    Select Case objORels.ID_DataType
-                        Case objLocalConfig.Globals.DType_Bool.GUID
-                            otblT_ObjectAtt.Rows.Add(objORels.ID_Attribute, _
+                Dim oList_DataType = From objDataType In objOntologyList_AttributTypes
+                                     Group By objDataType.GUID_Parent Into Group
+
+                For Each oItem_DataType In oList_DataType
+                    objOList_DataTypes.Add(New clsOntologyItem(oItem_DataType.GUID_Parent, objLocalConfig.Globals.Type_DataType))
+
+                Next
+
+                If objOList_DataTypes.Count > 0 Then
+                    get_Data_DataTyps(objOList_DataTypes)
+                End If
+
+
+                Dim oListRel = From objRel In objOntologyList_ObjAtt_ID
+                               Join objAttType In objOntologyList_AttributTypes On objRel.ID_AttributeType Equals objAttType.GUID
+                               Join objClass In objOntologyList_Classes1 On objRel.ID_Class Equals objClass.GUID
+                               Join objAtt In objOntologyList_Attributes On objRel.ID_Attribute Equals objAtt.ID_Attribute
+                               Join objObj In objOntologyList_Objects On objRel.ID_Object Equals objObj.GUID
+                               Join objDataType In objOntologyList_DataTypes On objAttType.GUID_Parent Equals objDataType.GUID
+                               Group By objRel.ID_Attribute _
+                                , ID_AttributeType = objAttType.GUID _
+                                , Name_AttributeType = objAttType.Name _
+                                , ID_Class = objClass.GUID _
+                                , Name_Class = objClass.Name _
+                                , ID_Object = objObj.GUID _
+                                , Name_Object = objObj.Name _
+                                , ID_DataType = objDataType.GUID _
+                                , Name_DataType = objDataType.Name _
+                                , objRel.OrderID _
+                                , Val_Bool = objAtt.Val_Bool _
+                                , Val_Date = objAtt.Val_Date _
+                                , Val_Double = objAtt.Val_Double _
+                                , Val_Int = objAtt.Val_Long _
+                                , Val_String = objAtt.Val_String _
+                                , Val_Named = objAtt.Val_Name Into Group
+
+                oList_AttType = Nothing
+
+                For Each objORels In oListRel
+                    If boolTable = False Then
+                        Select Case objORels.ID_DataType
+                            Case objLocalConfig.Globals.DType_Bool.GUID
+                                objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.ID_Attribute, _
                                                  objORels.ID_Object, _
                                                  objORels.Name_Object, _
-                                                 objORels.ID_AttributeType, _
-                                                 objORels.Name_AttributeType, _
                                                  objORels.ID_Class, _
                                                  objORels.Name_Class, _
+                                                 objORels.ID_AttributeType, _
+                                                 objORels.Name_AttributeType, _
                                                  objORels.OrderID, _
                                                  objORels.Val_Named, _
                                                  objORels.Val_Bool, _
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing, _
-                                                 Nothing, _
-                                                 objORels.ID_DataType, _
-                                                 objORels.Name_DataType)
-                        Case objLocalConfig.Globals.DType_DateTime.GUID
-                            otblT_ObjectAtt.Rows.Add(objORels.ID_Attribute, _
-                                                     objORels.ID_Object, _
+                                                 Nothing))
+                            Case objLocalConfig.Globals.DType_DateTime.GUID
+                                objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.ID_Attribute, _
+                                                 objORels.ID_Object, _
                                                  objORels.Name_Object, _
-                                                 objORels.ID_AttributeType, _
-                                                 objORels.Name_AttributeType, _
                                                  objORels.ID_Class, _
                                                  objORels.Name_Class, _
+                                                 objORels.ID_AttributeType, _
+                                                 objORels.Name_AttributeType, _
                                                  objORels.OrderID, _
                                                  objORels.Val_Named, _
-                                                 Nothing, _
-                                                 Nothing, _
                                                  Nothing, _
                                                  objORels.Val_Date, _
                                                  Nothing, _
-                                                 objORels.ID_DataType, _
-                                                 objORels.Name_DataType)
-                        Case objLocalConfig.Globals.DType_Int.GUID
-                            otblT_ObjectAtt.Rows.Add(objORels.ID_Attribute, _
-                                                     objORels.ID_Object, _
+                                                 Nothing, _
+                                                 Nothing))
+                            Case objLocalConfig.Globals.DType_Int.GUID
+                                objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.ID_Attribute, _
+                                                 objORels.ID_Object, _
                                                  objORels.Name_Object, _
-                                                 objORels.ID_AttributeType, _
-                                                 objORels.Name_AttributeType, _
                                                  objORels.ID_Class, _
                                                  objORels.Name_Class, _
+                                                 objORels.ID_AttributeType, _
+                                                 objORels.Name_AttributeType, _
                                                  objORels.OrderID, _
                                                  objORels.Val_Named, _
+                                                 Nothing, _
                                                  Nothing, _
                                                  objORels.Val_Int, _
                                                  Nothing, _
-                                                 Nothing, _
-                                                 Nothing, _
-                                                 objORels.ID_DataType, _
-                                                 objORels.Name_DataType)
-                        Case objLocalConfig.Globals.DType_Real.GUID
-                            otblT_ObjectAtt.Rows.Add(objORels.ID_Attribute, _
-                                                     objORels.ID_Object, _
+                                                 Nothing))
+                            Case objLocalConfig.Globals.DType_Real.GUID
+                                objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.ID_Attribute, _
+                                                 objORels.ID_Object, _
                                                  objORels.Name_Object, _
-                                                 objORels.ID_AttributeType, _
-                                                 objORels.Name_AttributeType, _
                                                  objORels.ID_Class, _
                                                  objORels.Name_Class, _
+                                                 objORels.ID_AttributeType, _
+                                                 objORels.Name_AttributeType, _
                                                  objORels.OrderID, _
                                                  objORels.Val_Named, _
+                                                 Nothing, _
                                                  Nothing, _
                                                  Nothing, _
                                                  objORels.Val_Double, _
-                                                 Nothing, _
-                                                 Nothing, _
-                                                 objORels.ID_DataType, _
-                                                 objORels.Name_DataType)
-                        Case objLocalConfig.Globals.DType_String.GUID
-                            otblT_ObjectAtt.Rows.Add(objORels.ID_Attribute, _
-                                                     objORels.ID_Object, _
+                                                 Nothing))
+                            Case objLocalConfig.Globals.DType_String.GUID
+                                objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.ID_Attribute, _
+                                                 objORels.ID_Object, _
                                                  objORels.Name_Object, _
-                                                 objORels.ID_AttributeType, _
-                                                 objORels.Name_AttributeType, _
                                                  objORels.ID_Class, _
                                                  objORels.Name_Class, _
+                                                 objORels.ID_AttributeType, _
+                                                 objORels.Name_AttributeType, _
                                                  objORels.OrderID, _
                                                  objORels.Val_Named, _
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing, _
-                                                 objORels.Val_String, _
-                                                 objORels.ID_DataType, _
-                                                 objORels.Name_DataType)
-                    End Select
-                End If
+                                                 objORels.Val_String))
+                        End Select
+                    Else
+                        Select Case objORels.ID_DataType
+                            Case objLocalConfig.Globals.DType_Bool.GUID
+                                otblT_ObjectAtt.Rows.Add(objORels.ID_Attribute, _
+                                                     objORels.ID_Object, _
+                                                     objORels.Name_Object, _
+                                                     objORels.ID_AttributeType, _
+                                                     objORels.Name_AttributeType, _
+                                                     objORels.ID_Class, _
+                                                     objORels.Name_Class, _
+                                                     objORels.OrderID, _
+                                                     objORels.Val_Named, _
+                                                     objORels.Val_Bool, _
+                                                     Nothing, _
+                                                     Nothing, _
+                                                     Nothing, _
+                                                     Nothing, _
+                                                     objORels.ID_DataType, _
+                                                     objORels.Name_DataType)
+                            Case objLocalConfig.Globals.DType_DateTime.GUID
+                                otblT_ObjectAtt.Rows.Add(objORels.ID_Attribute, _
+                                                         objORels.ID_Object, _
+                                                     objORels.Name_Object, _
+                                                     objORels.ID_AttributeType, _
+                                                     objORels.Name_AttributeType, _
+                                                     objORels.ID_Class, _
+                                                     objORels.Name_Class, _
+                                                     objORels.OrderID, _
+                                                     objORels.Val_Named, _
+                                                     Nothing, _
+                                                     Nothing, _
+                                                     Nothing, _
+                                                     objORels.Val_Date, _
+                                                     Nothing, _
+                                                     objORels.ID_DataType, _
+                                                     objORels.Name_DataType)
+                            Case objLocalConfig.Globals.DType_Int.GUID
+                                otblT_ObjectAtt.Rows.Add(objORels.ID_Attribute, _
+                                                         objORels.ID_Object, _
+                                                     objORels.Name_Object, _
+                                                     objORels.ID_AttributeType, _
+                                                     objORels.Name_AttributeType, _
+                                                     objORels.ID_Class, _
+                                                     objORels.Name_Class, _
+                                                     objORels.OrderID, _
+                                                     objORels.Val_Named, _
+                                                     Nothing, _
+                                                     objORels.Val_Int, _
+                                                     Nothing, _
+                                                     Nothing, _
+                                                     Nothing, _
+                                                     objORels.ID_DataType, _
+                                                     objORels.Name_DataType)
+                            Case objLocalConfig.Globals.DType_Real.GUID
+                                otblT_ObjectAtt.Rows.Add(objORels.ID_Attribute, _
+                                                         objORels.ID_Object, _
+                                                     objORels.Name_Object, _
+                                                     objORels.ID_AttributeType, _
+                                                     objORels.Name_AttributeType, _
+                                                     objORels.ID_Class, _
+                                                     objORels.Name_Class, _
+                                                     objORels.OrderID, _
+                                                     objORels.Val_Named, _
+                                                     Nothing, _
+                                                     Nothing, _
+                                                     objORels.Val_Double, _
+                                                     Nothing, _
+                                                     Nothing, _
+                                                     objORels.ID_DataType, _
+                                                     objORels.Name_DataType)
+                            Case objLocalConfig.Globals.DType_String.GUID
+                                otblT_ObjectAtt.Rows.Add(objORels.ID_Attribute, _
+                                                         objORels.ID_Object, _
+                                                     objORels.Name_Object, _
+                                                     objORels.ID_AttributeType, _
+                                                     objORels.Name_AttributeType, _
+                                                     objORels.ID_Class, _
+                                                     objORels.Name_Class, _
+                                                     objORels.OrderID, _
+                                                     objORels.Val_Named, _
+                                                     Nothing, _
+                                                     Nothing, _
+                                                     Nothing, _
+                                                     Nothing, _
+                                                     objORels.Val_String, _
+                                                     objORels.ID_DataType, _
+                                                     objORels.Name_DataType)
+                        End Select
+                    End If
 
 
-            Next
+                Next
 
 
+            End If
         End If
+        
 
 
         Return objOItem_Result
     End Function
 
-    Public Function get_Data_ObjectRel(ByVal oList_Object As List(Of clsOntologyItem), ByVal oList_Other As List(Of clsOntologyItem), ByVal oList_RelType As List(Of clsOntologyItem), Optional ByVal boolTable As Boolean = False, Optional ByVal boolIDs As Boolean = True) As clsOntologyItem
+    Public Function get_Data_ObjectRel(ByVal oList_Object As List(Of clsOntologyItem), _
+                                       ByVal oList_Other As List(Of clsOntologyItem), _
+                                       ByVal oList_RelType As List(Of clsOntologyItem), _
+                                       Optional ByVal boolTable As Boolean = False, _
+                                       Optional ByVal boolIDs As Boolean = True, _
+                                       Optional ByVal doCount As Boolean = False, _
+                                       Optional ByVal Direction As String = Nothing, _
+                                       Optional ByVal boolClear As Boolean = True) As clsOntologyItem
+
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
         Dim objHit As ElasticSearch.Client.Domain.Hits
@@ -2131,7 +2211,13 @@ Public Class clsDBLevel
         objOntologyList_ObjectRel.Clear()
         objOntologyList_Objects.Clear()
         objOntologyList_RelationTypes.Clear()
-        otblT_ObjectRel.Clear()
+        If boolClear = True Then
+            otblT_ObjectRel.Clear()
+        End If
+
+
+        objOItem_Result = objLocalConfig.Globals.LState_Success
+        objOItem_Result.Count = 0
 
         create_BoolQuery_ObjectRel(oList_Object, oList_Other, oList_RelType)
 
@@ -2141,14 +2227,17 @@ Public Class clsDBLevel
 
             intCount = 0
             objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectRel, objBoolQuery.ToString, intPos, intPackageLength)
-            objList = objSearchResult.GetHits.Hits
+            If doCount = False Then
+                objList = objSearchResult.GetHits.Hits
 
-            For Each objHit In objList
+                For Each objHit In objList
 
 
-                If Not objHit.Source.ContainsKey(objLocalConfig.Globals.Field_ID_Parent_Other) Then
 
-                    objOntologyList_ObjectRel_ID.Add(New clsObjectRel(objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
+                    If Not objHit.Source.ContainsKey(objLocalConfig.Globals.Field_ID_Parent_Other) Then
+
+
+                        objOntologyList_ObjectRel_ID.Add(New clsObjectRel(objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
                                                             objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Object).ToString, _
                                                             objHit.Source(objLocalConfig.Globals.Field_ID_Other).ToString, _
                                                             Nothing, _
@@ -2158,271 +2247,283 @@ Public Class clsDBLevel
                                                             objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString))
 
 
-                Else
+                    Else
 
-                    objOntologyList_ObjectRel_ID.Add(New clsObjectRel(objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Object).ToString, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_ID_Other).ToString, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Other).ToString, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_ID_RelationType).ToString, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_Ontology).ToString, _
-                                                                objLocalConfig.Globals.Direction_LeftRight.GUID, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString))
-                End If
+                        objOntologyList_ObjectRel_ID.Add(New clsObjectRel(objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Object).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Other).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Parent_Other).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_RelationType).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_Ontology).ToString, _
+                                                                    objLocalConfig.Globals.Direction_LeftRight.GUID, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString))
+                    End If
 
 
-            Next
+                Next
 
-            intCount = objList.Count
+                intCount = objList.Count
+                intPos = intPos + intCount
+
+            Else
+                objOItem_Result.Count = objOItem_Result.Count + objSearchResult.GetTotalCount
+                intCount = 0
+            End If
+
 
             objList.Clear()
             objSearchResult = Nothing
             objList = Nothing
-            intPos = intPos + intCount
         End While
 
-
-        If objOntologyList_ObjectRel_ID.Count > 0 Then
-            If boolIDs = False Then
-
-                oList_RelType = New List(Of clsOntologyItem)
-                Dim objLCls = From objObj In objOntologyList_ObjectRel_ID
-                                 Group By objObj.ID_Parent_Object Into Group
-
-
-                For Each objCls In objLCls
-                    oList_Object.Add(New clsOntologyItem(Nothing, Nothing, objCls.ID_Parent_Object, objLocalConfig.Globals.Type_Object))
-
-                Next
+        If doCount = False Then
+            If objOntologyList_ObjectRel_ID.Count > 0 Then
+                If boolIDs = False Then
+                    oList_Object = New List(Of clsOntologyItem)
+                    oList_RelType = New List(Of clsOntologyItem)
+                    Dim objLCls = From objObj In objOntologyList_ObjectRel_ID
+                                     Group By objObj.ID_Parent_Object Into Group
 
 
-                If oList_Object.Count > 0 Then
-                    get_Data_Objects(oList_Object)
-                End If
+                    For Each objCls In objLCls
+                        oList_Object.Add(New clsOntologyItem(Nothing, Nothing, objCls.ID_Parent_Object, objLocalConfig.Globals.Type_Object))
 
-                Dim objLClasses = From objClass In objOntologyList_ObjectRel_ID
-                                  Group By objClass.ID_Parent_Object Into Group
-
-                For Each objClass In objLClasses
-                    oList_Class.Add(New clsOntologyItem(objClass.ID_Parent_Object, objLocalConfig.Globals.Type_Class))
+                    Next
 
 
-                Next
-
-                If oList_Class.Count > 0 Then
-                    get_Data_Classes(oList_Class)
-                End If
-
-                Dim objLRelType = From objRelType In objOntologyList_ObjectRel_ID
-                                  Group By objRelType.ID_RelationType Into Group
-
-                For Each objRelType In objLRelType
-                    oList_RelType.Add(New clsOntologyItem(objRelType.ID_RelationType, objLocalConfig.Globals.Type_RelationType))
-
-                Next
-
-                If oList_RelType.Count > 0 Then
-                    get_Data_RelationTypes(oList_RelType)
-                End If
-
-                Dim objLOther = From objOther In objOntologyList_ObjectRel_ID
-                                Group By objOther.Ontology, objOther.ID_Other, objOther.ID_Parent_Other Into Group
-
-                For Each objOther In objLOther
-                    Select Case objOther.Ontology
-                        Case objLocalConfig.Globals.Type_AttributeType
-                            OList_AttributeTypes.Add(New clsOntologyItem(objOther.ID_Other, objLocalConfig.Globals.Type_AttributeType))
-
-                        Case objLocalConfig.Globals.Type_Class
-                            OList_Classes.Add(New clsOntologyItem(objOther.ID_Other, objLocalConfig.Globals.Type_Class))
-
-                        Case objLocalConfig.Globals.Type_Object
-                            oList_Rel_Object.Add(New clsOntologyItem(Nothing, Nothing, objOther.ID_Parent_Other, objLocalConfig.Globals.Type_Object))
-
-                            Dim oLClasses = From objCls1 In objOntologyList_ObjectRel_ID
-                                            Group By objCls1.ID_Parent_Other Into Group
-
-                            For Each oClass In oLClasses
-                                oList_Rel_ObjectCls.Add(New clsOntologyItem(oClass.ID_Parent_Other, objLocalConfig.Globals.Type_Class))
-                            Next
-
-                        Case objLocalConfig.Globals.Type_RelationType
-                            oList_Rel_RelType.Add(New clsOntologyItem(objOther.ID_Other, objLocalConfig.Globals.Type_RelationType))
-
-                    End Select
-                Next
-
-                If OList_AttributeTypes.Count > 0 Then
-                    objDBLevel.get_Data_AttributeType(OList_AttributeTypes)
-
-                End If
-
-                If OList_Classes.Count > 0 Then
-                    objDBLevel.get_Data_Classes(OList_Classes)
-
-                End If
-
-                If oList_Object.Count > 0 Then
-                    objDBLevel.get_Data_Objects(oList_Rel_Object)
-                    objDBLevel.get_Data_Classes(oList_Rel_ObjectCls, False, True)
-                End If
-
-                If oList_Rel_RelType.Count > 0 Then
-                    objDBLevel.get_Data_RelationTypes(oList_Rel_RelType)
-
-                End If
-
-                Dim objLItems = From objRel In objOntologyList_ObjectRel_ID
-                            Join objObjs In objOntologyList_Objects On objRel.ID_Object Equals objObjs.GUID
-                            Join objCls In objOntologyList_Classes1 On objRel.ID_Parent_Object Equals objCls.GUID
-                            Join objRelTypes In objOntologyList_RelationTypes On objRelTypes.GUID Equals objRel.ID_RelationType
-                            Group Join objRelAtts In objDBLevel.objOntologyList_AttributTypes On objRelAtts.GUID Equals objRel.ID_Other Into Right_Attributes = Group
-                            Group Join objRelClasses In objDBLevel.objOntologyList_Classes1 On objRelClasses.GUID Equals objRel.ID_Other Into Right_Classes = Group
-                            Group Join objRelObjs In objDBLevel.objOntologyList_Objects On objRelObjs.GUID Equals objRel.ID_Other Into Right_Objects = Group
-                            Group Join objRelObjsCls In objDBLevel.objOntologyList_Classes2 On objRelObjsCls.GUID Equals objRel.ID_Parent_Other Into Right_ObjectClasses = Group
-                            Group Join objRelRels In objDBLevel.objOntologyList_RelationTypes On objRelRels.GUID Equals objRel.ID_Other Into Right_Rels = Group
-                            From oRightAtts In Right_Attributes.DefaultIfEmpty, _
-                                 oRightClasses In Right_Classes.DefaultIfEmpty, _
-                                 objRightObjs In Right_Objects.DefaultIfEmpty, _
-                                 objRightObjCls In Right_ObjectClasses.DefaultIfEmpty, _
-                                 objRightRels In Right_Rels.DefaultIfEmpty()
-
-                For Each oItem In objLItems
-                    If boolTable = False Then
-                        Select Case oItem.objRel.Ontology
-                            Case objLocalConfig.Globals.Type_Attribute
-                                objOntologyList_ObjectRel.Add(New clsObjectRel(oItem.objRel.ID_Object, _
-                                                                               oItem.objObjs.Name, _
-                                                                               oItem.objRel.ID_Parent_Object, _
-                                                                               oItem.objCls.Name, _
-                                                                               oItem.oRightAtts.GUID, _
-                                                                               oItem.oRightAtts.Name, _
-                                                                               oItem.oRightAtts.GUID_Parent, _
-                                                                               Nothing, _
-                                                                               oItem.objRelTypes.GUID, _
-                                                                               oItem.objRelTypes.Name, _
-                                                                               oItem.objRel.Ontology, _
-                                                                               Nothing, _
-                                                                               Nothing, _
-                                                                               oItem.objRel.OrderID))
-
-
-
-                            Case objLocalConfig.Globals.Type_Class
-                                objOntologyList_ObjectRel.Add(New clsObjectRel(oItem.objRel.ID_Object, _
-                                                                               oItem.objObjs.Name, _
-                                                                               oItem.objRel.ID_Parent_Object, _
-                                                                               oItem.objCls.Name, _
-                                                                               oItem.oRightClasses.GUID, _
-                                                                               oItem.oRightClasses.Name, _
-                                                                               oItem.oRightClasses.GUID_Parent, _
-                                                                               Nothing, _
-                                                                               oItem.objRelTypes.GUID, _
-                                                                               oItem.objRelTypes.Name, _
-                                                                               oItem.objRel.Ontology, _
-                                                                               Nothing, _
-                                                                               Nothing, _
-                                                                               oItem.objRel.OrderID))
-
-                            Case objLocalConfig.Globals.Type_Object
-                                objOntologyList_ObjectRel.Add(New clsObjectRel(oItem.objRel.ID_Object, _
-                                                                               oItem.objObjs.Name, _
-                                                                               oItem.objRel.ID_Parent_Object, _
-                                                                               oItem.objCls.Name, _
-                                                                               oItem.objRightObjs.GUID, _
-                                                                               oItem.objRightObjs.Name, _
-                                                                               oItem.objRightObjCls.GUID, _
-                                                                               oItem.objRightObjCls.Name, _
-                                                                               oItem.objRelTypes.GUID, _
-                                                                               oItem.objRelTypes.Name, _
-                                                                               oItem.objRel.Ontology, _
-                                                                               Nothing, _
-                                                                               Nothing, _
-                                                                               oItem.objRel.OrderID))
-                            Case objLocalConfig.Globals.Type_RelationType
-                                objOntologyList_ObjectRel.Add(New clsObjectRel(oItem.objRel.ID_Object, _
-                                                                               oItem.objObjs.Name, _
-                                                                               oItem.objRel.ID_Parent_Object, _
-                                                                               oItem.objCls.Name, _
-                                                                               oItem.objRightRels.GUID, _
-                                                                               oItem.objRightRels.Name, _
-                                                                               Nothing, _
-                                                                               Nothing, _
-                                                                               oItem.objRelTypes.GUID, _
-                                                                               oItem.objRelTypes.Name, _
-                                                                               oItem.objRel.Ontology, _
-                                                                               Nothing, _
-                                                                               Nothing, _
-                                                                               oItem.objRel.OrderID))
-                        End Select
-                    Else
-                        Select Case oItem.objRel.Ontology
-                            Case objLocalConfig.Globals.Type_Attribute
-                                otblT_ObjectRel.Rows.Add(oItem.objObjs.GUID, _
-                                                 oItem.objObjs.Name, _
-                                                 oItem.objCls.GUID, _
-                                                 oItem.objCls.Name, _
-                                                 oItem.objRelTypes.GUID, _
-                                                 oItem.objRelTypes.Name, _
-                                                 oItem.objRel.OrderID, _
-                                                 oItem.oRightAtts.GUID, _
-                                                 oItem.oRightAtts.Name, _
-                                                 Nothing, _
-                                                 Nothing, _
-                                                 oItem.objRel.Ontology)
-
-
-
-                            Case objLocalConfig.Globals.Type_Class
-                                otblT_ObjectRel.Rows.Add(oItem.objObjs.GUID, _
-                                                 oItem.objObjs.Name, _
-                                                 oItem.objCls.GUID, _
-                                                 oItem.objCls.Name, _
-                                                 oItem.objRelTypes.GUID, _
-                                                 oItem.objRelTypes.Name, _
-                                                 oItem.objRel.OrderID, _
-                                                 oItem.oRightClasses.GUID, _
-                                                 oItem.oRightClasses.Name, _
-                                                 Nothing, _
-                                                 Nothing, _
-                                                 oItem.objRel.Ontology)
-
-                            Case objLocalConfig.Globals.Type_Object
-                                otblT_ObjectRel.Rows.Add(oItem.objObjs.GUID, _
-                                                 oItem.objObjs.Name, _
-                                                 oItem.objCls.GUID, _
-                                                 oItem.objCls.Name, _
-                                                 oItem.objRelTypes.GUID, _
-                                                 oItem.objRelTypes.Name, _
-                                                 oItem.objRel.OrderID, _
-                                                 oItem.objRightObjs.GUID, _
-                                                 oItem.objRightObjs.Name, _
-                                                 oItem.objRightObjCls.GUID, _
-                                                 oItem.objRightObjCls.Name, _
-                                                 oItem.objRel.Ontology)
-
-                            Case objLocalConfig.Globals.Type_RelationType
-                                otblT_ObjectRel.Rows.Add(oItem.objObjs.GUID, _
-                                                 oItem.objObjs.Name, _
-                                                 oItem.objCls.GUID, _
-                                                 oItem.objCls.Name, _
-                                                 oItem.objRelTypes.GUID, _
-                                                 oItem.objRelTypes.Name, _
-                                                 oItem.objRel.OrderID, _
-                                                 oItem.objRightRels.GUID, _
-                                                 oItem.objRightRels.Name, _
-                                                 Nothing, _
-                                                 Nothing, _
-                                                 oItem.objRel.Ontology)
-                        End Select
+                    If oList_Object.Count > 0 Then
+                        get_Data_Objects(oList_Object)
                     End If
 
+                    Dim objLClasses = From objClass In objOntologyList_ObjectRel_ID
+                                      Group By objClass.ID_Parent_Object Into Group
+
+                    For Each objClass In objLClasses
+                        oList_Class.Add(New clsOntologyItem(objClass.ID_Parent_Object, objLocalConfig.Globals.Type_Class))
+
+
+                    Next
+
+                    If oList_Class.Count > 0 Then
+                        get_Data_Classes(oList_Class)
+                    End If
+
+                    Dim objLRelType = From objRelType In objOntologyList_ObjectRel_ID
+                                      Group By objRelType.ID_RelationType Into Group
+
+                    For Each objRelType In objLRelType
+                        oList_RelType.Add(New clsOntologyItem(objRelType.ID_RelationType, objLocalConfig.Globals.Type_RelationType))
+
+                    Next
+
+                    If oList_RelType.Count > 0 Then
+                        get_Data_RelationTypes(oList_RelType)
+                    End If
+
+                    Dim objLOther = From objOther In objOntologyList_ObjectRel_ID
+                                    Group By objOther.Ontology, objOther.ID_Other, objOther.ID_Parent_Other Into Group
+
+                    For Each objOther In objLOther
+                        Select Case objOther.Ontology
+                            Case objLocalConfig.Globals.Type_AttributeType
+                                OList_AttributeTypes.Add(New clsOntologyItem(objOther.ID_Other, objLocalConfig.Globals.Type_AttributeType))
+
+                            Case objLocalConfig.Globals.Type_Class
+                                OList_Classes.Add(New clsOntologyItem(objOther.ID_Other, objLocalConfig.Globals.Type_Class))
+
+                            Case objLocalConfig.Globals.Type_Object
+                                oList_Rel_Object.Add(New clsOntologyItem(Nothing, Nothing, objOther.ID_Parent_Other, objLocalConfig.Globals.Type_Object))
+
+                                Dim oLClasses = From objCls1 In objOntologyList_ObjectRel_ID
+                                                Group By objCls1.ID_Parent_Other Into Group
+
+                                For Each oClass In oLClasses
+                                    oList_Rel_ObjectCls.Add(New clsOntologyItem(oClass.ID_Parent_Other, objLocalConfig.Globals.Type_Class))
+                                Next
+
+                            Case objLocalConfig.Globals.Type_RelationType
+                                oList_Rel_RelType.Add(New clsOntologyItem(objOther.ID_Other, objLocalConfig.Globals.Type_RelationType))
+
+                        End Select
+                    Next
+
+                    If OList_AttributeTypes.Count > 0 Then
+                        objDBLevel.get_Data_AttributeType(OList_AttributeTypes)
+
+                    End If
+
+                    If OList_Classes.Count > 0 Then
+                        objDBLevel.get_Data_Classes(OList_Classes)
+
+                    End If
+
+                    If oList_Rel_Object.Count > 0 Then
+                        objDBLevel.get_Data_Objects(oList_Rel_Object)
+                        objDBLevel.get_Data_Classes(oList_Rel_ObjectCls, False, True)
+                    End If
+
+                    If oList_Rel_RelType.Count > 0 Then
+                        objDBLevel.get_Data_RelationTypes(oList_Rel_RelType)
+
+                    End If
+
+                    Dim objLItems = From objRel In objOntologyList_ObjectRel_ID
+                                Join objObjs In objOntologyList_Objects On objRel.ID_Object Equals objObjs.GUID
+                                Join objCls In objOntologyList_Classes1 On objRel.ID_Parent_Object Equals objCls.GUID
+                                Join objRelTypes In objOntologyList_RelationTypes On objRelTypes.GUID Equals objRel.ID_RelationType
+                                Group Join objRelAtts In objDBLevel.objOntologyList_AttributTypes On objRelAtts.GUID Equals objRel.ID_Other Into Right_Attributes = Group
+                                Group Join objRelClasses In objDBLevel.objOntologyList_Classes1 On objRelClasses.GUID Equals objRel.ID_Other Into Right_Classes = Group
+                                Group Join objRelObjs In objDBLevel.objOntologyList_Objects On objRelObjs.GUID Equals objRel.ID_Other Into Right_Objects = Group
+                                Group Join objRelObjsCls In objDBLevel.objOntologyList_Classes2 On objRelObjsCls.GUID Equals objRel.ID_Parent_Other Into Right_ObjectClasses = Group
+                                Group Join objRelRels In objDBLevel.objOntologyList_RelationTypes On objRelRels.GUID Equals objRel.ID_Other Into Right_Rels = Group
+                                From oRightAtts In Right_Attributes.DefaultIfEmpty, _
+                                     oRightClasses In Right_Classes.DefaultIfEmpty, _
+                                     objRightObjs In Right_Objects.DefaultIfEmpty, _
+                                     objRightObjCls In Right_ObjectClasses.DefaultIfEmpty, _
+                                     objRightRels In Right_Rels.DefaultIfEmpty()
+
+                    For Each oItem In objLItems
+                        If boolTable = False Then
+                            Select Case oItem.objRel.Ontology
+                                Case objLocalConfig.Globals.Type_Attribute
+                                    objOntologyList_ObjectRel.Add(New clsObjectRel(oItem.objRel.ID_Object, _
+                                                                                   oItem.objObjs.Name, _
+                                                                                   oItem.objRel.ID_Parent_Object, _
+                                                                                   oItem.objCls.Name, _
+                                                                                   oItem.oRightAtts.GUID, _
+                                                                                   oItem.oRightAtts.Name, _
+                                                                                   oItem.oRightAtts.GUID_Parent, _
+                                                                                   Nothing, _
+                                                                                   oItem.objRelTypes.GUID, _
+                                                                                   oItem.objRelTypes.Name, _
+                                                                                   oItem.objRel.Ontology, _
+                                                                                   Nothing, _
+                                                                                   Nothing, _
+                                                                                   oItem.objRel.OrderID))
+
+
+
+                                Case objLocalConfig.Globals.Type_Class
+                                    objOntologyList_ObjectRel.Add(New clsObjectRel(oItem.objRel.ID_Object, _
+                                                                                   oItem.objObjs.Name, _
+                                                                                   oItem.objRel.ID_Parent_Object, _
+                                                                                   oItem.objCls.Name, _
+                                                                                   oItem.oRightClasses.GUID, _
+                                                                                   oItem.oRightClasses.Name, _
+                                                                                   oItem.oRightClasses.GUID_Parent, _
+                                                                                   Nothing, _
+                                                                                   oItem.objRelTypes.GUID, _
+                                                                                   oItem.objRelTypes.Name, _
+                                                                                   oItem.objRel.Ontology, _
+                                                                                   Nothing, _
+                                                                                   Nothing, _
+                                                                                   oItem.objRel.OrderID))
+
+                                Case objLocalConfig.Globals.Type_Object
+                                    objOntologyList_ObjectRel.Add(New clsObjectRel(oItem.objRel.ID_Object, _
+                                                                                   oItem.objObjs.Name, _
+                                                                                   oItem.objRel.ID_Parent_Object, _
+                                                                                   oItem.objCls.Name, _
+                                                                                   oItem.objRightObjs.GUID, _
+                                                                                   oItem.objRightObjs.Name, _
+                                                                                   oItem.objRightObjCls.GUID, _
+                                                                                   oItem.objRightObjCls.Name, _
+                                                                                   oItem.objRelTypes.GUID, _
+                                                                                   oItem.objRelTypes.Name, _
+                                                                                   oItem.objRel.Ontology, _
+                                                                                   Nothing, _
+                                                                                   Nothing, _
+                                                                                   oItem.objRel.OrderID))
+                                Case objLocalConfig.Globals.Type_RelationType
+                                    objOntologyList_ObjectRel.Add(New clsObjectRel(oItem.objRel.ID_Object, _
+                                                                                   oItem.objObjs.Name, _
+                                                                                   oItem.objRel.ID_Parent_Object, _
+                                                                                   oItem.objCls.Name, _
+                                                                                   oItem.objRightRels.GUID, _
+                                                                                   oItem.objRightRels.Name, _
+                                                                                   Nothing, _
+                                                                                   Nothing, _
+                                                                                   oItem.objRelTypes.GUID, _
+                                                                                   oItem.objRelTypes.Name, _
+                                                                                   oItem.objRel.Ontology, _
+                                                                                   Nothing, _
+                                                                                   Nothing, _
+                                                                                   oItem.objRel.OrderID))
+                            End Select
+                        Else
+                            Select Case oItem.objRel.Ontology
+                                Case objLocalConfig.Globals.Type_AttributeType
+                                    otblT_ObjectRel.Rows.Add(oItem.objObjs.GUID, _
+                                                     oItem.objObjs.Name, _
+                                                     oItem.objCls.GUID, _
+                                                     oItem.objCls.Name, _
+                                                     oItem.objRelTypes.GUID, _
+                                                     oItem.objRelTypes.Name, _
+                                                     oItem.objRel.OrderID, _
+                                                     oItem.oRightAtts.GUID, _
+                                                     oItem.oRightAtts.Name, _
+                                                     Nothing, _
+                                                     Nothing, _
+                                                     oItem.objRel.Ontology, _
+                                                     Direction)
+
+
+
+                                Case objLocalConfig.Globals.Type_Class
+                                    otblT_ObjectRel.Rows.Add(oItem.objObjs.GUID, _
+                                                     oItem.objObjs.Name, _
+                                                     oItem.objCls.GUID, _
+                                                     oItem.objCls.Name, _
+                                                     oItem.objRelTypes.GUID, _
+                                                     oItem.objRelTypes.Name, _
+                                                     oItem.objRel.OrderID, _
+                                                     oItem.oRightClasses.GUID, _
+                                                     oItem.oRightClasses.Name, _
+                                                     Nothing, _
+                                                     Nothing, _
+                                                     oItem.objRel.Ontology, _
+                                                     Direction)
+
+                                Case objLocalConfig.Globals.Type_Object
+                                    otblT_ObjectRel.Rows.Add(oItem.objObjs.GUID, _
+                                                     oItem.objObjs.Name, _
+                                                     oItem.objCls.GUID, _
+                                                     oItem.objCls.Name, _
+                                                     oItem.objRelTypes.GUID, _
+                                                     oItem.objRelTypes.Name, _
+                                                     oItem.objRel.OrderID, _
+                                                     oItem.objRightObjs.GUID, _
+                                                     oItem.objRightObjs.Name, _
+                                                     oItem.objRightObjCls.GUID, _
+                                                     oItem.objRightObjCls.Name, _
+                                                     oItem.objRel.Ontology, _
+                                                     Direction)
+
+                                Case objLocalConfig.Globals.Type_RelationType
+                                    otblT_ObjectRel.Rows.Add(oItem.objObjs.GUID, _
+                                                     oItem.objObjs.Name, _
+                                                     oItem.objCls.GUID, _
+                                                     oItem.objCls.Name, _
+                                                     oItem.objRelTypes.GUID, _
+                                                     oItem.objRelTypes.Name, _
+                                                     oItem.objRel.OrderID, _
+                                                     oItem.objRightRels.GUID, _
+                                                     oItem.objRightRels.Name, _
+                                                     Nothing, _
+                                                     Nothing, _
+                                                     oItem.objRel.Ontology, _
+                                                     Direction)
+                            End Select
+                        End If
 
 
 
 
-                Next
+
+                    Next
+                End If
             End If
+
         End If
 
 
@@ -2437,7 +2538,10 @@ Public Class clsDBLevel
 
 
 
-    Public Function get_Data_DataTyps(Optional ByVal oList_DataTypes As List(Of clsOntologyItem) = Nothing, Optional ByVal boolTable As Boolean = False) As clsOntologyItem
+    Public Function get_Data_DataTyps(Optional ByVal oList_DataTypes As List(Of clsOntologyItem) = Nothing, _
+                                      Optional ByVal boolTable As Boolean = False, _
+                                      Optional ByVal doCount As Boolean = False) As clsOntologyItem
+
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
         Dim objOItem_Result As clsOntologyItem
@@ -2453,6 +2557,7 @@ Public Class clsDBLevel
         objOntologyList_DataTypes.Clear()
 
         objOItem_Result = objLocalConfig.Globals.LState_Success
+        objOItem_Result.Count = 0
         intCount = 0
 
 
@@ -2467,33 +2572,45 @@ Public Class clsDBLevel
 
             intCount = 0
             objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_DataType, objBoolQuery.ToString, intPos, intPackageLength)
-            objList = objSearchResult.GetHits.Hits
+            If doCount = False Then
+                objList = objSearchResult.GetHits.Hits
 
-            For Each objHit In objList
-                If boolTable = False Then
-                    objOntologyList_DataTypes.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
-                                                                objLocalConfig.Globals.Type_DataType))
-                Else
-                    otblT_DataTypes.Rows.Add(objHit.Id.ToString, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString)
-                End If
+                For Each objHit In objList
+                    If boolTable = False Then
+                        objOntologyList_DataTypes.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
+                                                                    objLocalConfig.Globals.Type_DataType))
+                    Else
+                        otblT_DataTypes.Rows.Add(objHit.Id.ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString)
+                    End If
 
 
-            Next
+                Next
 
-            intCount = objList.Count
+                intCount = objList.Count
+                intPos = intPos + intCount
+            Else
+                intCount = 0
+                objOItem_Result.Count = objOItem_Result.Count + objSearchResult.GetTotalCount
+            End If
+
 
             objList.Clear()
             objSearchResult = Nothing
             objList = Nothing
-            intPos = intPos + intCount
+
         End While
 
         Return objOItem_Result
     End Function
 
-    Public Function get_Data_Objects_Tree(ByVal objOItem_Class_Par As clsOntologyItem, ByVal objOitem_Class_Child As clsOntologyItem, ByVal objOItem_RelationType As clsOntologyItem, Optional ByVal boolTable As Boolean = False) As clsOntologyItem
+    Public Function get_Data_Objects_Tree(ByVal objOItem_Class_Par As clsOntologyItem, _
+                                          ByVal objOitem_Class_Child As clsOntologyItem, _
+                                          ByVal objOItem_RelationType As clsOntologyItem, _
+                                          Optional ByVal boolTable As Boolean = False, _
+                                          Optional ByVal doCount As Boolean = False) As clsOntologyItem
+
         Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
@@ -2507,6 +2624,7 @@ Public Class clsDBLevel
 
         objElConn.Flush()
         objOItem_Result = objLocalConfig.Globals.LState_Success
+        objOItem_Result.Count = 0
 
         objOntologyList_ObjectTree.Clear()
         otblT_ObjectTree.Clear()
@@ -2528,42 +2646,51 @@ Public Class clsDBLevel
         While intCount > 0
             intCount = 0
             objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectRel, objBoolQuery.ToString, intPos, intPackageLength)
-            objList = objSearchResult.GetHits.Hits
+            If doCount = False Then
+                objList = objSearchResult.GetHits.Hits
 
 
-            Dim objList_Items = From obj In objList
-                                Join objLeft In objOntologyList_Objects On obj.Source(objLocalConfig.Globals.Field_ID_Object).ToString Equals objLeft.GUID
-                                Join objRight In objOntologyList_Objects On obj.Source(objLocalConfig.Globals.Field_ID_Other).ToString Equals objRight.GUID
-                                Join objRel In objOList_RelationTypes On obj.Source(objLocalConfig.Globals.Field_ID_RelationType).ToString Equals objRel.GUID
-                                Select ID_Object = objRight.GUID, Name_Object = objRight.Name, ID_Parent = objRight.GUID_Parent, ID_Object_Parent = objLeft.GUID
+                Dim objList_Items = From obj In objList
+                                    Join objLeft In objOntologyList_Objects On obj.Source(objLocalConfig.Globals.Field_ID_Object).ToString Equals objLeft.GUID
+                                    Join objRight In objOntologyList_Objects On obj.Source(objLocalConfig.Globals.Field_ID_Other).ToString Equals objRight.GUID
+                                    Join objRel In objOList_RelationTypes On obj.Source(objLocalConfig.Globals.Field_ID_RelationType).ToString Equals objRel.GUID
+                                    Select ID_Object = objRight.GUID, Name_Object = objRight.Name, ID_Parent = objRight.GUID_Parent, ID_Object_Parent = objLeft.GUID
 
-            For Each objList_Item In objList_Items
-                If boolTable = False Then
-                    objOntologyList_ObjectTree.Add(New clsObjectTree(objList_Item.ID_Object, _
-                                                                     objList_Item.Name_Object, _
-                                                                     objList_Item.ID_Parent, _
-                                                                     objList_Item.ID_Object_Parent))
-                Else
-                    otblT_ObjectTree.Rows.Add(objList_Item.ID_Object, _
-                                              objList_Item.Name_Object, _
-                                              objList_Item.ID_Object_Parent, _
-                                              objList_Item.ID_Parent)
+                For Each objList_Item In objList_Items
+                    If boolTable = False Then
+                        objOntologyList_ObjectTree.Add(New clsObjectTree(objList_Item.ID_Object, _
+                                                                         objList_Item.Name_Object, _
+                                                                         objList_Item.ID_Parent, _
+                                                                         objList_Item.ID_Object_Parent))
+                    Else
+                        otblT_ObjectTree.Rows.Add(objList_Item.ID_Object, _
+                                                  objList_Item.Name_Object, _
+                                                  objList_Item.ID_Object_Parent, _
+                                                  objList_Item.ID_Parent)
 
 
-                End If
-            Next
+                    End If
+                Next
 
-            intCount = objList.Count
+                intCount = objList.Count
+                intPos = intPos + intCount
+            Else
+                objOItem_Result.Count = objOItem_Result.Count + objSearchResult.GetTotalCount
+            End If
+
 
             objList.Clear()
             objSearchResult = Nothing
             objList = Nothing
-            intPos = intPos + intCount
+
         End While
 
         Return objOItem_Result
     End Function
-    Public Function get_Data_Objects(Optional ByVal oList_Objects As List(Of clsOntologyItem) = Nothing, Optional ByVal boolTable As Boolean = False) As clsOntologyItem
+    Public Function get_Data_Objects(Optional ByVal oList_Objects As List(Of clsOntologyItem) = Nothing, _
+                                     Optional ByVal boolTable As Boolean = False, _
+                                     Optional ByVal doCount As Boolean = False) As clsOntologyItem
+
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
         Dim objOItem_Result As clsOntologyItem
@@ -2579,6 +2706,7 @@ Public Class clsDBLevel
         create_BoolQuery_Simple(oList_Objects, objLocalConfig.Globals.Type_Object)
 
         objOItem_Result = objLocalConfig.Globals.LState_Success
+        objOItem_Result.Count = 0
         intCount = 0
 
         intCount = intPackageLength
@@ -2587,29 +2715,37 @@ Public Class clsDBLevel
 
             intCount = 0
             objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Object, objBoolQuery.ToString, intPos, intPackageLength)
-            objList = objSearchResult.GetHits.Hits
+            If doCount = False Then
+                objList = objSearchResult.GetHits.Hits
 
-            For Each objHit In objList
-                If boolTable = False Then
-                    objOntologyList_Objects.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
-                                                                objLocalConfig.Globals.Type_Object))
-                Else
-                    otblT_Objects.Rows.Add(objHit.Id.ToString, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
-                                                                objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString)
-                End If
+                For Each objHit In objList
+                    If boolTable = False Then
+                        objOntologyList_Objects.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
+                                                                    objLocalConfig.Globals.Type_Object))
+                    Else
+                        otblT_Objects.Rows.Add(objHit.Id.ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
+                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString)
+                    End If
 
 
-            Next
+                Next
 
-            intCount = objList.Count
+                intCount = objList.Count
+                intPos = intPos + intCount
+            Else
+                objOItem_Result.Count = objOItem_Result.Count + objSearchResult.GetTotalCount
+                intCount = 0
+
+            End If
+
 
             objList.Clear()
             objSearchResult = Nothing
             objList = Nothing
-            intPos = intPos + intCount
+
         End While
 
         Return objOItem_Result
@@ -2688,7 +2824,11 @@ Public Class clsDBLevel
         End While
     End Function
 
-    Public Function get_Data_Classes(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing, Optional ByVal boolTable As Boolean = False, Optional ByVal boolClasses_Right As Boolean = False, Optional ByVal strSort As String = Nothing) As clsOntologyItem
+    Public Function get_Data_Classes(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing, _
+                                     Optional ByVal boolTable As Boolean = False, _
+                                     Optional ByVal boolClasses_Right As Boolean = False, _
+                                     Optional ByVal strSort As String = Nothing, _
+                                     Optional ByVal doCount As Boolean = False) As clsOntologyItem
 
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
@@ -2712,6 +2852,7 @@ Public Class clsDBLevel
         tbl_Classes.Clear()
 
         objOItem_Result = objLocalConfig.Globals.LState_Success
+        objOItem_Result.Count = 0
         intCount = 0
 
         create_BoolQuery_Simple(OList_Classes, objLocalConfig.Globals.Type_Class)
@@ -2723,65 +2864,72 @@ Public Class clsDBLevel
 
             intCount = 0
             objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Class, objBoolQuery.ToString, intPos, intPackageLength)
-            objList = objSearchResult.GetHits.Hits
-            'Dim a = From obja In objList
-            'Where (Not obja.Source("@fields")("ex_cid") Is Nothing)
-            '       Group obja By key = obja.Source("@fields")("ex_cid").First.ToString Into Count() Select key, count = Count
+            If doCount = False Then
+                objList = objSearchResult.GetHits.Hits
+                'Dim a = From obja In objList
+                'Where (Not obja.Source("@fields")("ex_cid") Is Nothing)
+                '       Group obja By key = obja.Source("@fields")("ex_cid").First.ToString Into Count() Select key, count = Count
 
-            'For Each b In a
-            '    CidA_Count.Insert(Integer.Parse(b.key), b.count)
-            'Next
-            For Each objHit In objList
-                If boolTable = False Then
-                    If Not objHit.Source("ID_Parent") = "" Then
-                        If boolClasses_Right = False Then
-                            objOntologyList_Classes1.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                    objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
-                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Parent).ToString, _
-                                                                    objLocalConfig.Globals.Type_Class))
+                'For Each b In a
+                '    CidA_Count.Insert(Integer.Parse(b.key), b.count)
+                'Next
+                For Each objHit In objList
+                    If boolTable = False Then
+                        If Not objHit.Source("ID_Parent") = "" Then
+                            If boolClasses_Right = False Then
+                                objOntologyList_Classes1.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                        objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
+                                                                        objHit.Source(objLocalConfig.Globals.Field_ID_Parent).ToString, _
+                                                                        objLocalConfig.Globals.Type_Class))
+                            Else
+                                objOntologyList_Classes2.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                        objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
+                                                                        objHit.Source(objLocalConfig.Globals.Field_ID_Parent).ToString, _
+                                                                        objLocalConfig.Globals.Type_Class))
+                            End If
+
                         Else
-                            objOntologyList_Classes2.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                    objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
-                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Parent).ToString, _
-                                                                    objLocalConfig.Globals.Type_Class))
-                        End If
+                            If boolClasses_Right = False Then
+                                objOntologyList_Classes1.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                        objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
+                                                                        objLocalConfig.Globals.Type_Class))
+                            Else
+                                objOntologyList_Classes2.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                        objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
+                                                                        objLocalConfig.Globals.Type_Class))
+                            End If
 
+                        End If
                     Else
-                        If boolClasses_Right = False Then
-                            objOntologyList_Classes1.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                    objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
-                                                                    objLocalConfig.Globals.Type_Class))
+                        If Not objHit.Source("ID_Parent") = "" Then
+                            otblT_Classes.Rows.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                        objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
+                                                                        objHit.Source(objLocalConfig.Globals.Field_ID_Parent).ToString))
                         Else
-                            objOntologyList_Classes2.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                    objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
-                                                                    objLocalConfig.Globals.Type_Class))
+                            otblT_Classes.Rows.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                        objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
+                                                                        Nothing))
                         End If
-
                     End If
-                Else
-                    If Not objHit.Source("ID_Parent") = "" Then
-                        otblT_Classes.Rows.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                    objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
-                                                                    objHit.Source(objLocalConfig.Globals.Field_ID_Parent).ToString))
-                    Else
-                        otblT_Classes.Rows.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                    objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _
-                                                                    Nothing))
-                    End If
-                End If
 
 
 
 
 
-            Next
+                Next
 
-            intCount = objList.Count
+                intCount = objList.Count
+                intPos = intPos + intCount
+            Else
+                objOItem_Result.Count = objOItem_Result.Count + objSearchResult.GetTotalCount
+                intCount = 0
+            End If
+
 
             objList.Clear()
             objSearchResult = Nothing
             objList = Nothing
-            intPos = intPos + intCount
+
         End While
 
         Return objOItem_Result

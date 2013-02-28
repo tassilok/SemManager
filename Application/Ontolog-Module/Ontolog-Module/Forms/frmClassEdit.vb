@@ -98,4 +98,8 @@
         End If
 
     End Sub
+
+    Private Sub ToolStripButton_DelClass_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_DelClass.Click
+
+    End Sub
 End Class

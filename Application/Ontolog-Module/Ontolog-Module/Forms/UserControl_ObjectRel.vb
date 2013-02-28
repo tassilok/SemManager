@@ -96,8 +96,8 @@
 
     Private Sub get_Data()
 
-        objDBLevel_ObjRel.get_Data_ObjectRel(objOList_Object, Nothing, Nothing, True, False)
-
+        objDBLevel_ObjRel.get_Data_ObjectRel(objOList_Object, Nothing, Nothing, True, False, False, objLocalConfig.Globals.Direction_LeftRight.Name)
+        objDBLevel_ObjRel.get_Data_ObjectRel(Nothing, objOList_Object, Nothing, True, False, False, objLocalConfig.Globals.Direction_RightLeft.Name, False)
         boolDataDone = True
 
     End Sub
@@ -111,14 +111,14 @@
             Timer_TokenRelation.Stop()
             BindingSource_ObjectRel.DataSource = objDBLevel_ObjRel.tbl_ObjectRelation
             DataGridView_Relations.DataSource = BindingSource_ObjectRel
+            DataGridView_Relations.Columns(12).DisplayIndex = 0
+
             DataGridView_Relations.Columns(0).Visible = False
-            DataGridView_Relations.Columns(1).Visible = False
             DataGridView_Relations.Columns(2).Visible = False
-            DataGridView_Relations.Columns(3).Visible = False
             DataGridView_Relations.Columns(4).Visible = False
             DataGridView_Relations.Columns(7).Visible = False
             DataGridView_Relations.Columns(9).Visible = False
-            'DataGridView_Relations.Columns(12).Visible = False
+            
             ToolStripProgressBar_TokenRelation.Value = 0
         Else
             ToolStripProgressBar_TokenRelation.Value = 50
@@ -133,7 +133,7 @@
 
     End Sub
 
-    
+
 
     Private Sub DeleteToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteToolStripMenuItem.Click
         Dim objDGVR_Selected As DataGridViewRow
@@ -244,7 +244,22 @@
         strTokRelFilter = BindingSource_ObjectRel.Filter
 
         Select Case objDGVCO_Selected.HeaderText
+            Case "Direction"
+                If Not (strOperator = "<" Or strOperator = ">") Then
+                    If strTokRelFilter <> "" Then
+                        strTokRelFilter = strTokRelFilter & " AND "
+                    End If
+                    If strOperator = "NOT" Then
+                        strTokRelFilter = strTokRelFilter & " NOT "
+                        strOperator = "="
+                    End If
+                    If Not strOperator = "LIKE" Then
+                        strTokRelFilter = strTokRelFilter & "Direction " & strOperator & " '" & objDRV_Selected.Item("Direction") & "'"
+                    Else
+                        strTokRelFilter = strTokRelFilter & "Direction LIKE '%" & strValue.Replace("'", "''") & "%'"
+                    End If
 
+                End If
             Case "Name_Object"
                 If Not (strOperator = "<" Or strOperator = ">") Then
                     If strTokRelFilter <> "" Then

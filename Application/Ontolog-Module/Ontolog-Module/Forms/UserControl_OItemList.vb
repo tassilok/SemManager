@@ -207,25 +207,32 @@
 
 
         Else
-            Select Case objOItem_Other.Type
+            If Not objOItem_Other Is Nothing Then
+                Select Case objOItem_Other.Type
 
 
 
-                Case objLocalConfig.Globals.Type_RelationType
-                    oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objLocalConfig.Globals.Type_RelationType))
-                    objDBLevel.get_Data_RelationTypes(oList_Items, True)
+                    Case objLocalConfig.Globals.Type_RelationType
+                        oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objLocalConfig.Globals.Type_RelationType))
+                        objDBLevel.get_Data_RelationTypes(oList_Items, True)
 
-                Case objLocalConfig.Globals.Type_AttributeType
+                    Case objLocalConfig.Globals.Type_AttributeType
 
-                    objDBLevel.get_Data_ObjectAtt(objOItem_Object, objOItem_Other, True, False)
+                        objDBLevel.get_Data_ObjectAtt(objOItem_Object, objOItem_Other, True, False)
 
-                Case Else
-                    oList_Other.Add(objOItem_Other)
-                    oList_RelType.Add(objOItem_RelationType)
+                    Case Else
+                        oList_Other.Add(objOItem_Other)
+                        oList_RelType.Add(objOItem_RelationType)
 
-                    oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
-                    objDBLevel.get_Data_ObjectRel(oList_Items, oList_Other, oList_RelType, True, False)
-            End Select
+                        oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
+                        objDBLevel.get_Data_ObjectRel(oList_Items, oList_Other, oList_RelType, True, False)
+                End Select
+            Else
+                oList_RelType.Add(objOItem_RelationType)
+                oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
+                objDBLevel.get_Data_ObjectRel(oList_Items, Nothing, oList_RelType, True, False)
+            End If
+            
 
         End If
         boolFinished = True

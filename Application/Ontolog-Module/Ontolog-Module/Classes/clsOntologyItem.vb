@@ -24,7 +24,17 @@
     Private intMax As Long
     Private intMax2 As Long
     Private lngVal As Long
+    Private lngCount As Long
 
+
+    Public Property Count As Long
+        Get
+            Return lngCount
+        End Get
+        Set(ByVal value As Long)
+            lngCount = value
+        End Set
+    End Property
     Public Property Val As Long
         Get
             Return lngVal

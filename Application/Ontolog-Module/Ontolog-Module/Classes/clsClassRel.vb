@@ -10,6 +10,33 @@
     Dim lngMax_Forw As Long
     Dim lngMax_Backw As Long
 
+    Public Property Name_Class_Left As String
+        Get
+            Return strName_Class_Left
+        End Get
+        Set(ByVal value As String)
+            strName_Class_Left = value
+        End Set
+    End Property
+
+    Public Property Name_Class_Right As String
+        Get
+            Return strName_Class_Right
+        End Get
+        Set(ByVal value As String)
+            strName_Class_Right = value
+        End Set
+    End Property
+
+    Public Property Name_RelationType As String
+        Get
+            Return strName_RelationType
+        End Get
+        Set(ByVal value As String)
+            strName_RelationType = value
+        End Set
+    End Property
+
     Public Property Ontology As String
         Get
             Return strOntology
