@@ -9,6 +9,12 @@ Public Class dlg_Attribute_Double
     Private strCaption As String
     Private dblValue As Double
 
+    Public ReadOnly Property Value As Double
+        Get
+            Return dblValue
+        End Get
+    End Property
+
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
         If objUserControl_Attribute_Double.Test_Value = True Then
             dblValue = objUserControl_Attribute_Double.Value

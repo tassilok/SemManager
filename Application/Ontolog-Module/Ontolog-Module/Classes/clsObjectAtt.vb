@@ -7,6 +7,7 @@
     Private strID_Class As String
     Private strName_Class As String
     Private strVal_Named As String
+    Private strID_DataType As String
     Private boolVal As Boolean
     Private lngVal As Long
     Private dblVal As Double
@@ -14,6 +15,14 @@
     Private strVal As String
     Private lngOrderID As Long
 
+    Public Property ID_DataType As String
+        Get
+            Return strID_DataType
+        End Get
+        Set(ByVal value As String)
+            strID_DataType = value
+        End Set
+    End Property
     Public Property ID_Attribute As String
         Get
             Return strID_Attribute
@@ -149,7 +158,7 @@
         lngOrderID = OrderID
     End Sub
 
-    Public Sub New(ByVal ID_Attribute As String, ByVal ID_Object As String, ByVal Name_Object As String, ByVal ID_Class As String, ByVal Name_Class As String, ByVal ID_AttributeType As String, ByVal Name_AttributeType As String, ByVal OrderID As Long, ByVal val_Named As String, ByVal val_Bit As Boolean, ByVal val_Datetime As DateTime, ByVal val_Int As Long, ByVal val_Real As Double, ByVal val_String As String)
+    Public Sub New(ByVal ID_Attribute As String, ByVal ID_Object As String, ByVal Name_Object As String, ByVal ID_Class As String, ByVal Name_Class As String, ByVal ID_AttributeType As String, ByVal Name_AttributeType As String, ByVal OrderID As Long, ByVal val_Named As String, ByVal val_Bit As Boolean, ByVal val_Datetime As DateTime, ByVal val_Int As Long, ByVal val_Real As Double, ByVal val_String As String, ByVal ID_DataType As String)
         strID_Attribute = ID_Attribute
         strID_AttributeType = ID_AttributeType
         strName_AttributeType = Name_AttributeType
@@ -164,7 +173,7 @@
         dblVal = val_Real
         dateVal = val_Datetime
         strVal = val_String
-
+        strID_DataType = ID_DataType
     End Sub
 
 End Class

@@ -497,6 +497,77 @@ Public Class clsDBLevel
 
         Return objOItem_Result
     End Function
+
+    Public Function del_Class(ByVal oList_Class As List(Of clsOntologyItem)) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+        Dim oList_Objects As New List(Of clsOntologyItem)
+        Dim strACl() As String
+        Dim l As Long
+
+        objOItem_Result = get_Data_ClassRel(oList_Class, objLocalConfig.Globals.Direction_LeftRight, False, False, False, True)
+        If objOItem_Result.Count > 0 Then
+            objOItem_Result = objLocalConfig.Globals.LState_Relation
+        Else
+            objOItem_Result = get_Data_ClassRel(oList_Class, objLocalConfig.Globals.Direction_RightLeft, False, False, False, True)
+
+            If objOItem_Result.Count > 0 Then
+                objOItem_Result = objLocalConfig.Globals.LState_Relation
+            Else
+                objOItem_Result = get_Data_ClassRel(oList_Class, objLocalConfig.Globals.Direction_LeftRight, False, False, True, True)
+
+                If objOItem_Result.Count > 0 Then
+                    objOItem_Result = objLocalConfig.Globals.LState_Relation
+                Else
+                    objOItem_Result = get_Data_ClassAtt(oList_Class, Nothing, False, False, True)
+                    If objOItem_Result.Count > 0 Then
+                        objOItem_Result = objLocalConfig.Globals.LState_Relation
+                    Else
+                        Dim objL = From obj In oList_Class
+                                   Group By obj.GUID_Parent Into Group
+
+                        For Each objC In objL
+                            oList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objC.GUID_Parent, objLocalConfig.Globals.Type_Object))
+                        Next
+
+                        objOItem_Result = get_Data_Objects(oList_Objects, False, True)
+
+                        If objOItem_Result.Count > 0 Then
+                            objOItem_Result = objLocalConfig.Globals.LState_Relation
+                        Else
+                            Dim objACl = From obj In oList_Class
+                                         Group By obj.GUID Into Group
+                                         Select GUID
+
+
+                            For l = 0 To objACl.Count - 1
+                                ReDim Preserve strACl(l)
+                                strACl(l) = objACl(l)
+                            Next
+                            If Not strACl Is Nothing Then
+                                If strACl.Count > 0 Then
+                                    Try
+
+                                        objOPResult = objElConn.Delete(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Class, strACl)
+                                        objOItem_Result = objLocalConfig.Globals.LState_Success
+                                    Catch ex As Exception
+                                        objOItem_Result = objLocalConfig.Globals.LState_Error
+                                    End Try
+                                End If
+                            End If
+
+                            
+                            
+                        End If
+                    End If
+                End If
+            End If
+        End If
+
+        Return objOItem_Result
+    End Function
+
     Public Function save_ClassRel(ByVal oList_ClassRel As List(Of clsClassRel)) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objOList_Cl_Left As New List(Of clsOntologyItem)
@@ -717,6 +788,119 @@ Public Class clsDBLevel
         End If
 
 
+
+        Return objOItem_Result
+    End Function
+
+    Public Function save_ObjAtt(ByVal oList_ObjAtt As List(Of clsObjectAtt)) As clsOntologyItem
+        Dim objOItem_ObjAtt As clsObjectAtt
+        Dim objOItem_Result As clsOntologyItem
+        Dim strID_Attribute As String
+        Dim objBulkObjects_ObjAtt() As ElasticSearch.Client.Domain.BulkObject
+        Dim objBulkObjects_Attribute() As ElasticSearch.Client.Domain.BulkObject
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+        Dim objDict_ObjAtt As Dictionary(Of String, Object)
+        Dim objDict_Attribute As Dictionary(Of String, Object)
+        Dim l As Long
+        Dim k As Long
+
+        objOItem_Result = objLocalConfig.Globals.LState_Success
+
+        k = 0
+        For l = 0 To oList_ObjAtt.Count - 1
+            If oList_ObjAtt(l).ID_Attribute Is Nothing Then
+                strID_Attribute = Guid.NewGuid.ToString.Replace("-", "")
+                objDict_ObjAtt = New Dictionary(Of String, Object)
+                objDict_ObjAtt.Add(objLocalConfig.Globals.Field_ID_Object, oList_ObjAtt(l).ID_Object)
+                objDict_ObjAtt.Add(objLocalConfig.Globals.Field_ID_Class, oList_ObjAtt(l).ID_Class)
+                objDict_ObjAtt.Add(objLocalConfig.Globals.Field_ID_Attribute, strID_Attribute)
+                objDict_ObjAtt.Add(objLocalConfig.Globals.Field_ID_AttributeType, oList_ObjAtt(l).ID_AttributeType)
+                objDict_ObjAtt.Add(objLocalConfig.Globals.Field_OrderID, oList_ObjAtt(l).OrderID)
+
+                ReDim Preserve objBulkObjects_Attribute(k)
+                objBulkObjects_Attribute(k) = New ElasticSearch.Client.Domain.BulkObject(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectAtt, oList_ObjAtt(l).ID_Object & strID_Attribute, objDict_ObjAtt)
+                k = k + 1
+            Else
+                strID_Attribute = oList_ObjAtt(l).ID_Attribute
+            End If
+
+            objDict_Attribute = New Dictionary(Of String, Object)
+            Select Case oList_ObjAtt(l).ID_DataType
+                Case objLocalConfig.Globals.DType_Bool.GUID
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_ID_Attribute, strID_Attribute)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_ID_AttributeType, oList_ObjAtt(l).ID_AttributeType)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_ID_DataType, oList_ObjAtt(l).ID_DataType)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_Val_Name, oList_ObjAtt(l).val_Named)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_Val_Bool, oList_ObjAtt(l).Val_Bit)
+
+                Case objLocalConfig.Globals.DType_DateTime.GUID
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_ID_Attribute, strID_Attribute)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_ID_AttributeType, oList_ObjAtt(l).ID_AttributeType)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_ID_DataType, oList_ObjAtt(l).ID_DataType)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_Val_Name, oList_ObjAtt(l).val_Named)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_Val_Datetime, oList_ObjAtt(l).Val_Date)
+
+                Case objLocalConfig.Globals.DType_Int.GUID
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_ID_Attribute, strID_Attribute)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_ID_AttributeType, oList_ObjAtt(l).ID_AttributeType)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_ID_DataType, oList_ObjAtt(l).ID_DataType)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_Val_Name, oList_ObjAtt(l).val_Named)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_Val_Int, oList_ObjAtt(l).Val_lng)
+
+                Case objLocalConfig.Globals.DType_Real.GUID
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_ID_Attribute, strID_Attribute)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_ID_AttributeType, oList_ObjAtt(l).ID_AttributeType)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_ID_DataType, oList_ObjAtt(l).ID_DataType)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_Val_Name, oList_ObjAtt(l).val_Named)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_Val_Real, oList_ObjAtt(l).Val_Double)
+
+                Case objLocalConfig.Globals.DType_String.GUID
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_ID_Attribute, strID_Attribute)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_ID_AttributeType, oList_ObjAtt(l).ID_AttributeType)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_ID_DataType, oList_ObjAtt(l).ID_DataType)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_Val_Name, oList_ObjAtt(l).val_Named)
+                    objDict_Attribute.Add(objLocalConfig.Globals.Field_Val_String, oList_ObjAtt(l).Val_String)
+
+            End Select
+
+            ReDim Preserve objBulkObjects_ObjAtt(l)
+            objBulkObjects_ObjAtt(l) = New ElasticSearch.Client.Domain.BulkObject(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Attribute, oList_ObjAtt(l).ID_Object & strID_Attribute, objDict_Attribute)
+
+        Next
+
+        If Not objBulkObjects_Attribute Is Nothing Then
+            If objBulkObjects_Attribute.Count > 0 Then
+                Try
+                    objOPResult = objElConn.Bulk(objBulkObjects_Attribute)
+                    objBulkObjects_Attribute = Nothing
+                    objOItem_Result = objLocalConfig.Globals.LState_Success
+                Catch ex As Exception
+                    objOItem_Result = objLocalConfig.Globals.LState_Error
+
+                End Try
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If Not objBulkObjects_ObjAtt Is Nothing Then
+                        If objBulkObjects_ObjAtt.Count > 0 Then
+                            Try
+                                objOPResult = objElConn.Bulk(objBulkObjects_ObjAtt)
+                                objBulkObjects_ObjAtt = Nothing
+                                objOItem_Result = objLocalConfig.Globals.LState_Success
+                            Catch ex As Exception
+                                objOItem_Result = objLocalConfig.Globals.LState_Error
+
+                            End Try
+                        Else
+                            objOItem_Result = objLocalConfig.Globals.LState_Error
+                        End If
+                    Else
+                        objOItem_Result = objLocalConfig.Globals.LState_Error
+                    End If
+
+                End If
+            End If
+        End If
+        
 
         Return objOItem_Result
     End Function
@@ -2016,7 +2200,8 @@ Public Class clsDBLevel
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing, _
-                                                 Nothing))
+                                                 Nothing, _
+                                                 objLocalConfig.Globals.DType_Bool.GUID))
                             Case objLocalConfig.Globals.DType_DateTime.GUID
                                 objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.ID_Attribute, _
                                                  objORels.ID_Object, _
@@ -2031,7 +2216,8 @@ Public Class clsDBLevel
                                                  objORels.Val_Date, _
                                                  Nothing, _
                                                  Nothing, _
-                                                 Nothing))
+                                                 Nothing, _
+                                                 objLocalConfig.Globals.DType_DateTime.GUID))
                             Case objLocalConfig.Globals.DType_Int.GUID
                                 objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.ID_Attribute, _
                                                  objORels.ID_Object, _
@@ -2046,7 +2232,8 @@ Public Class clsDBLevel
                                                  Nothing, _
                                                  objORels.Val_Int, _
                                                  Nothing, _
-                                                 Nothing))
+                                                 Nothing, _
+                                                 objLocalConfig.Globals.DType_Int.GUID))
                             Case objLocalConfig.Globals.DType_Real.GUID
                                 objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.ID_Attribute, _
                                                  objORels.ID_Object, _
@@ -2061,7 +2248,8 @@ Public Class clsDBLevel
                                                  Nothing, _
                                                  Nothing, _
                                                  objORels.Val_Double, _
-                                                 Nothing))
+                                                 Nothing, _
+                                                 objLocalConfig.Globals.DType_Real.GUID))
                             Case objLocalConfig.Globals.DType_String.GUID
                                 objOntologyList_ObjAtt.Add(New clsObjectAtt(objORels.ID_Attribute, _
                                                  objORels.ID_Object, _
@@ -2076,7 +2264,8 @@ Public Class clsDBLevel
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing, _
-                                                 objORels.Val_String))
+                                                 objORels.Val_String, _
+                                                 objLocalConfig.Globals.DType_String.GUID))
                         End Select
                     Else
                         Select Case objORels.ID_DataType

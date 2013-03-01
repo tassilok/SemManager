@@ -100,6 +100,25 @@
     End Sub
 
     Private Sub ToolStripButton_DelClass_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_DelClass.Click
+        Dim oList_Class As New List(Of clsOntologyItem)
+        Dim objOItem_Result As clsOntologyItem
 
+        oList_Class.Add(objOItem_Class)
+        objOItem_Result = objDBLevel.del_Class(oList_Class)
+        Select Case objOItem_Result.GUID
+            Case objLocalConfig.Globals.LState_Relation.GUID
+                objOItem_Class.deleted = False
+                MsgBox("Eine der Klassen hat noch Beziehungen oder Objekte!", MsgBoxStyle.Exclamation)
+            Case objLocalConfig.Globals.LState_Error.GUID
+                MsgBox("Beim Löschen ist ein Fehler aufgetreten.", MsgBoxStyle.Critical)
+                objOItem_Class.deleted = False
+                Me.DialogResult = Windows.Forms.DialogResult.Cancel
+                Me.Close()
+            Case objLocalConfig.Globals.LState_Success.GUID
+                objOItem_Class.deleted = True
+                objOItem_Result = objLocalConfig.Globals.LState_Delete
+                Me.DialogResult = Windows.Forms.DialogResult.OK
+                Me.Close()
+        End Select
     End Sub
 End Class

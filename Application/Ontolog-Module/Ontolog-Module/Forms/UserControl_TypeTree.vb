@@ -227,17 +227,22 @@
             objFrm_Class = New frmClassEdit(objLocalConfig, objOItem_Class)
             objFrm_Class.ShowDialog(Me)
 
-            If objFrm_Class.OItem_Class.deleted = True Then
-            Else
-                If e.Node.Parent.Name = objFrm_Class.OItem_Class.GUID_Parent Then
-                    If Not objFrm_Class.OItem_Class.Name = objTreeNode.Text Then
-                        objTreeNode.Text = objFrm_Class.OItem_Class.Name
-                    End If
-                Else
-                    'New Parent
-                End If
+            If objFrm_Class.DialogResult = DialogResult.OK Then
 
+                If objFrm_Class.OItem_Class.deleted = True Then
+                    objTreeNode.Remove()
+                Else
+                    If e.Node.Parent.Name = objFrm_Class.OItem_Class.GUID_Parent Then
+                        If Not objFrm_Class.OItem_Class.Name = objTreeNode.Text Then
+                            objTreeNode.Text = objFrm_Class.OItem_Class.Name
+                        End If
+                    Else
+                        'New Parent
+                    End If
+
+                End If
             End If
+            
 
         End If
 

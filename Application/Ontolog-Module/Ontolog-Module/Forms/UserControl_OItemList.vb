@@ -111,7 +111,10 @@
             End If
             objOItem_Other = OItem_Other
 
+            
             objOItem_Object = oItem_Object
+
+
             objOItem_RelationType = OItem_RelType
             objOItem_Parent = OItem_Parent
 
@@ -134,6 +137,7 @@
                         strGUID_Filter = oItem_Object.Name
                     End If
                 End If
+                objOItem_Object = oItem_Object
                 objOItem_Other = OItem_Other
 
                 objOItem_RelationType = OItem_RelType
@@ -482,6 +486,8 @@
         Dim objOItem_Class As New clsOntologyItem
         Dim oList_Simple As List(Of clsOntologyItem)
         Dim oList_ObjRel As New List(Of clsObjectRel)
+        Dim oList_AttType As New List(Of clsOntologyItem)
+        Dim oList_ObjAtt As New List(Of clsObjectAtt)
         Dim oItem_Obj As clsOntologyItem
         Dim boolAdd As Boolean
 
@@ -490,6 +496,7 @@
         Dim lngValue As Long
         Dim dblValue As Double
         Dim strValue As String
+        Dim strVal_Named As String
 
         If Not objOItem_Parent Is Nothing Then
             Select Case objOItem_Parent.Type
@@ -537,42 +544,172 @@
 
 
                 Case objLocalConfig.Globals.Type_AttributeType
-                    Dim objLDT = From objDT In objDBLevel.OList_DataTypes
-                               Group By objDT.GUID, objDT.Name Into Group
+                    oList_AttType.Add(New clsOntologyItem(objOItem_Other.GUID, objLocalConfig.Globals.Type_AttributeType))
+                    objDBLevel.get_Data_AttributeType(oList_AttType, False, False)
+
 
                     Dim objLAT = From objAT In objDBLevel.OList_AttributeTypes
-                                 Group By objAT.GUID, objAT.Name Into Group
-                    If objLDT.Count > 0 Then
-                        Select Case objLDT(0).GUID
+                                 Group By objAT.GUID, objAT.Name, objAT.GUID_Parent Into Group
+                    If objLAT.Count > 0 Then
+                        Select Case objLAT(0).GUID_Parent
                             Case objLocalConfig.Globals.DType_Bool.GUID
-                                objDlg_Attribute_Boolean = New dlg_Attribute_Boolean(objLAT(0).Name & "/" & objLDT(0).Name, objLocalConfig)
+                                objDlg_Attribute_Boolean = New dlg_Attribute_Boolean(objLAT(0).Name & "/" & objLocalConfig.Globals.DType_Bool.Name, objLocalConfig)
                                 objDlg_Attribute_Boolean.ShowDialog(Me)
                                 If objDlg_Attribute_Boolean.DialogResult = DialogResult.OK Then
+                                    boolValue = objDlg_Attribute_Boolean.Value
+                                    If boolValue = True Then
+                                        strVal_Named = "True"
+                                    Else
+                                        strVal_Named = "False"
+                                    End If
 
+                                    oList_ObjAtt.Clear()
+                                    oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
+                                                                       objOItem_Object.GUID, _
+                                                                       objOItem_Object.Name, _
+                                                                       objOItem_Other.GUID, _
+                                                                       Nothing, _
+                                                                       objLAT(0).GUID_Parent, _
+                                                                       objLAT(0).Name, _
+                                                                       1, _
+                                                                       strVal_Named, _
+                                                                       boolValue, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       objLocalConfig.Globals.DType_Bool.GUID))
+
+                                    objOItem_Result = objDBLevel.save_ObjAtt(oList_ObjAtt)
+                                    If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        MsgBox("Leider konnte das Attribut nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+
+                                    End If
+                                    configure_TabPages()
                                 End If
                             Case objLocalConfig.Globals.DType_DateTime.GUID
-                                objDlg_Attribute_DateTime = New dlg_Attribute_DateTime(objLAT(0).Name & "/" & objLDT(0).Name, objLocalConfig)
+                                objDlg_Attribute_DateTime = New dlg_Attribute_DateTime(objLAT(0).Name & "/" & objLocalConfig.Globals.DType_DateTime.Name, objLocalConfig)
                                 objDlg_Attribute_DateTime.ShowDialog(Me)
                                 If objDlg_Attribute_DateTime.DialogResult = DialogResult.OK Then
                                     dateValue = objDlg_Attribute_DateTime.Value
+
+                                    strVal_Named = dateValue.ToString
+                                    oList_ObjAtt.Clear()
+                                    oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
+                                                                       objOItem_Object.GUID, _
+                                                                       objOItem_Object.Name, _
+                                                                       objOItem_Other.GUID, _
+                                                                       Nothing, _
+                                                                       objLAT(0).GUID_Parent, _
+                                                                       objLAT(0).Name, _
+                                                                       1, _
+                                                                       strVal_Named, _
+                                                                       Nothing, _
+                                                                       dateValue, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       objLocalConfig.Globals.DType_DateTime.GUID))
+
+                                    objOItem_Result = objDBLevel.save_ObjAtt(oList_ObjAtt)
+                                    If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        MsgBox("Leider konnte das Attribut nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+
+                                    End If
+                                    configure_TabPages()
                                 End If
                             Case objLocalConfig.Globals.DType_Int.GUID
-                                objDlg_Attribute_Long = New dlg_Attribute_Long(objLAT(0).Name & "/" & objLDT(0).Name, objLocalConfig)
+                                objDlg_Attribute_Long = New dlg_Attribute_Long(objLAT(0).Name & "/" & objLocalConfig.Globals.DType_Int.Name, objLocalConfig)
                                 objDlg_Attribute_Long.ShowDialog(Me)
                                 If objDlg_Attribute_Long.DialogResult = DialogResult.OK Then
+                                    lngValue = objDlg_Attribute_Long.Value
 
+                                    strVal_Named = lngValue.ToString
+                                    oList_ObjAtt.Clear()
+                                    oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
+                                                                       objOItem_Object.GUID, _
+                                                                       objOItem_Object.Name, _
+                                                                       objOItem_Other.GUID, _
+                                                                       Nothing, _
+                                                                       objLAT(0).GUID_Parent, _
+                                                                       objLAT(0).Name, _
+                                                                       1, _
+                                                                       strVal_Named, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       lngValue, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       objLocalConfig.Globals.DType_Int.GUID))
+
+                                    objOItem_Result = objDBLevel.save_ObjAtt(oList_ObjAtt)
+                                    If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        MsgBox("Leider konnte das Attribut nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+
+                                    End If
+                                    configure_TabPages()
                                 End If
                             Case objLocalConfig.Globals.DType_Real.GUID
-                                objDlg_Attribute_Double = New dlg_Attribute_Double(objLAT(0).Name & "/" & objLDT(0).Name, objLocalConfig)
+                                objDlg_Attribute_Double = New dlg_Attribute_Double(objLAT(0).Name & "/" & objLocalConfig.Globals.DType_Real.Name, objLocalConfig)
                                 objDlg_Attribute_Double.ShowDialog(Me)
                                 If objDlg_Attribute_Double.DialogResult = DialogResult.OK Then
+                                    dblValue = objDlg_Attribute_Double.Value
 
+                                    strVal_Named = dblValue.ToString
+                                    oList_ObjAtt.Clear()
+                                    oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
+                                                                       objOItem_Object.GUID, _
+                                                                       objOItem_Object.Name, _
+                                                                       objOItem_Other.GUID, _
+                                                                       Nothing, _
+                                                                       objLAT(0).GUID_Parent, _
+                                                                       objLAT(0).Name, _
+                                                                       1, _
+                                                                       strVal_Named, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       dblValue, _
+                                                                       Nothing, _
+                                                                       objLocalConfig.Globals.DType_Real.GUID))
+
+                                    objOItem_Result = objDBLevel.save_ObjAtt(oList_ObjAtt)
+                                    If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        MsgBox("Leider konnte das Attribut nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+
+                                    End If
+                                    configure_TabPages()
                                 End If
                             Case objLocalConfig.Globals.DType_String.GUID
-                                objDlg_Attribute_String = New dlg_Attribute_String(objLAT(0).Name & "/" & objLDT(0).Name, objLocalConfig)
+                                objDlg_Attribute_String = New dlg_Attribute_String(objLAT(0).Name & "/" & objLocalConfig.Globals.DType_String.Name, objLocalConfig)
                                 objDlg_Attribute_String.ShowDialog(Me)
                                 If objDlg_Attribute_String.DialogResult = DialogResult.OK Then
+                                    strValue = objDlg_Attribute_String.Value
 
+                                    strVal_Named = strValue
+                                    oList_ObjAtt.Clear()
+                                    oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
+                                                                       objOItem_Object.GUID, _
+                                                                       objOItem_Object.Name, _
+                                                                       objOItem_Other.GUID, _
+                                                                       Nothing, _
+                                                                       objLAT(0).GUID_Parent, _
+                                                                       objLAT(0).Name, _
+                                                                       1, _
+                                                                       strVal_Named, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       strValue, _
+                                                                       objLocalConfig.Globals.DType_String.GUID))
+
+                                    objOItem_Result = objDBLevel.save_ObjAtt(oList_ObjAtt)
+                                    If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        MsgBox("Leider konnte das Attribut nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+
+                                    End If
+                                    configure_TabPages()
                                 End If
                         End Select
 
@@ -622,7 +759,7 @@
                                 oList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, objOItem_Object.GUID_Parent, oItem_Obj.GUID, oItem_Obj.GUID_Parent, objOItem_RelationType.GUID, oItem_Obj.Type, Nothing, 1))
 
                             Else
-                                oList_ObjRel.Add(New clsObjectRel(objOItem_Other.GUID, objOItem_Other.GUID_Parent, oItem_Obj.GUID, oItem_Obj.GUID_Parent, objOItem_RelationType.GUID, oItem_Obj.Type, Nothing, 1))
+                                oList_ObjRel.Add(New clsObjectRel(oItem_Obj.GUID, oItem_Obj.GUID_Parent, objOItem_Other.GUID, objOItem_Other.GUID_Parent, objOItem_RelationType.GUID, oItem_Obj.Type, Nothing, 1))
 
                             End If
                         Next

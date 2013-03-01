@@ -8,6 +8,12 @@ Public Class dlg_Attribute_Boolean
     Private strCaption As String
     Private boolValue As Boolean
 
+    Public ReadOnly Property Value As Boolean
+        Get
+            Return boolValue
+        End Get
+    End Property
+
     Private Sub changed_Value() Handles objUserControl_Attribute_Boolean.state_Changed
         boolValue = objUserControl_Attribute_Boolean.Value
     End Sub
