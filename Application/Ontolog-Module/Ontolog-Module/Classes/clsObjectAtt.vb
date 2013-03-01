@@ -176,4 +176,7 @@
         strID_DataType = ID_DataType
     End Sub
 
+    Protected Overrides Sub Finalize()
+        MyBase.Finalize()
+    End Sub
 End Class

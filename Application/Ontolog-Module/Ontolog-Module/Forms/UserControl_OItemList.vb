@@ -567,10 +567,10 @@
                                     oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
                                                                        objOItem_Object.GUID, _
                                                                        objOItem_Object.Name, _
+                                                                       objOItem_Object.GUID_Parent, _
+                                                                       Nothing, _
                                                                        objOItem_Other.GUID, _
                                                                        Nothing, _
-                                                                       objLAT(0).GUID_Parent, _
-                                                                       objLAT(0).Name, _
                                                                        1, _
                                                                        strVal_Named, _
                                                                        boolValue, _
@@ -598,10 +598,10 @@
                                     oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
                                                                        objOItem_Object.GUID, _
                                                                        objOItem_Object.Name, _
+                                                                       objOItem_Object.GUID_Parent, _
+                                                                       Nothing, _
                                                                        objOItem_Other.GUID, _
                                                                        Nothing, _
-                                                                       objLAT(0).GUID_Parent, _
-                                                                       objLAT(0).Name, _
                                                                        1, _
                                                                        strVal_Named, _
                                                                        Nothing, _
@@ -629,10 +629,10 @@
                                     oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
                                                                        objOItem_Object.GUID, _
                                                                        objOItem_Object.Name, _
+                                                                       objOItem_Object.GUID_Parent, _
+                                                                       Nothing, _
                                                                        objOItem_Other.GUID, _
                                                                        Nothing, _
-                                                                       objLAT(0).GUID_Parent, _
-                                                                       objLAT(0).Name, _
                                                                        1, _
                                                                        strVal_Named, _
                                                                        Nothing, _
@@ -660,10 +660,10 @@
                                     oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
                                                                        objOItem_Object.GUID, _
                                                                        objOItem_Object.Name, _
+                                                                       objOItem_Object.GUID_Parent, _
+                                                                       Nothing, _
                                                                        objOItem_Other.GUID, _
                                                                        Nothing, _
-                                                                       objLAT(0).GUID_Parent, _
-                                                                       objLAT(0).Name, _
                                                                        1, _
                                                                        strVal_Named, _
                                                                        Nothing, _
@@ -691,10 +691,10 @@
                                     oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
                                                                        objOItem_Object.GUID, _
                                                                        objOItem_Object.Name, _
+                                                                       objOItem_Object.GUID_Parent, _
+                                                                       Nothing, _
                                                                        objOItem_Other.GUID, _
                                                                        Nothing, _
-                                                                       objLAT(0).GUID_Parent, _
-                                                                       objLAT(0).Name, _
                                                                        1, _
                                                                        strVal_Named, _
                                                                        Nothing, _
