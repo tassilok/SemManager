@@ -1008,18 +1008,9 @@ Public Class clsElasticSearch
                 End Select
                 objDict.Add("ID_Attribute", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""))
                 objDict.Add("ID_AttributeType", objDRC_TokenAttribute(i).Item("GUID_Attribute").ToString.Replace("-", ""))
-
-                objDict.Add("ID_DataType", strGUID_AttributeType)
-
-
-                ReDim Preserve objBulkObjects_AttItems(lngPack)
-                objBulkObjects_AttItems(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "Attribute", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""), objDict)
-                objDict = Nothing
-                objDict = New Dictionary(Of String, Object)
+                objDict.Add("ID_DataType", strGUID_AttributeType.Replace("-", ""))
                 objDict.Add("ID_Object", objDRC_TokenAttribute(i).Item("GUID_Token").ToString.Replace("-", ""))
                 objDict.Add("ID_Class", objDRC_TokenAttribute(i).Item("GUID_Type").ToString.Replace("-", ""))
-                objDict.Add("ID_Attribute", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""))
-                objDict.Add("ID_AttributeType", objDRC_TokenAttribute(i).Item("GUID_Attribute").ToString.Replace("-", ""))
                 objDict.Add("OrderID", objDRC_TokenAttribute(i).Item("OrderID"))
 
                 ReDim Preserve objBulkObjects_ObjAtt(lngPack)
@@ -1030,7 +1021,6 @@ Public Class clsElasticSearch
 
                 If lngPack = 10000 Then
                     Try
-                        objOPResult = objElConn.Bulk(objBulkObjects_AttItems)
                         objOPResult = objElConn.Bulk(objBulkObjects_ObjAtt)
                         objBulkObjects_AttItems = Nothing
                         objBulkObjects_ObjAtt = Nothing
