@@ -50,6 +50,8 @@ Public Class clsLocalConfig
     Private objSemItem_RelationType_Table_Config As New clsSemItem
     Private objSemItem_RelationType_Row_Config As New clsSemItem
     Private objSemItem_RelationType_Cell_Config As New clsSemItem
+    Private objSemItem_RelationType_belonging_Resources As New clsSemItem
+    Private objSemItem_RelationType_belonging_Source As New clsSemItem
 
 
     'Types
@@ -77,8 +79,11 @@ Public Class clsLocalConfig
     Private objSemItem_Type_XML As New clsSemItem
     Private objSemItem_type_User As New clsSemItem
     Private objSemItem_Type_DataTypes__Ms_SQL_ As New clsSemItem
+    Private objSemItem_Type_Indexes__Elastic_Search_ As New clsSemItem
+    Private objSemItem_Type_Server_Port As New clsSemItem
+    Private objSemItem_Type_Port As New clsSemItem
 
-    
+
     'Token
     Private objSemItem_Token_Report_Type_View As New clsSemItem
     Private objSemItem_Token_Report_Type_Token_Report As New clsSemItem
@@ -98,6 +103,7 @@ Public Class clsLocalConfig
     Private objSemItem_Token_Variable_COLCOUNT As New clsSemItem
     Private objSemItem_Token_Variable_DATETIME_TZ As New clsSemItem
     Private objSemItem_Token_Field_Type_DateTime As New clsSemItem
+    Private objSemItem_Token_Report_Type_ElasticView As New clsSemItem
 
     'Attributes
     Public ReadOnly Property SemItem_attribute_dbPostfix() As clsSemItem
@@ -228,6 +234,17 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property SemItem_RelationType_belonging_Resources() As clsSemItem
+        Get
+            Return objSemItem_RelationType_belonging_Resources
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_RelationType_belonging_Source() As clsSemItem
+        Get
+            Return objSemItem_RelationType_belonging_Source
+        End Get
+    End Property
 
 
     'Types
@@ -375,6 +392,25 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property SemItem_Type_Indexes__Elastic_Search_() As clsSemItem
+        Get
+            Return objSemItem_Type_Indexes__Elastic_Search_
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_Type_Server_Port() As clsSemItem
+        Get
+            Return objSemItem_Type_Server_Port
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_Type_Port() As clsSemItem
+        Get
+            Return objSemItem_Type_Port
+        End Get
+    End Property
+
+
 
     'Token
     Public ReadOnly Property SemItem_Token_Report_Type_View() As clsSemItem
@@ -482,6 +518,12 @@ Public Class clsLocalConfig
     Public ReadOnly Property SemItem_Token_Field_Type_DateTime() As clsSemItem
         Get
             Return objSemItem_Token_Field_Type_DateTime
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_Token_Report_Type_ElasticView() As clsSemItem
+        Get
+            Return objSemItem_Token_Report_Type_ElasticView
         End Get
     End Property
 
@@ -955,6 +997,39 @@ Public Class clsLocalConfig
             Err.Raise(1, "Config not set")
         End If
 
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='RelationType_belonging_Source'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_RelationType_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_RelationType_belonging_Source.GUID = objDRC_Ref(0).Item("GUID_RelationType")
+                objSemItem_RelationType_belonging_Source.Name = objDRC_Ref(0).Item("Name_RelationType")
+                objSemItem_RelationType_belonging_Source.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
+
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='RelationType_belonging_Resources'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_RelationType_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_RelationType_belonging_Resources.GUID = objDRC_Ref(0).Item("GUID_RelationType")
+                objSemItem_RelationType_belonging_Resources.Name = objDRC_Ref(0).Item("Name_RelationType")
+                objSemItem_RelationType_belonging_Resources.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
+
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
     End Sub
 
     Private Sub get_Config_Token()
@@ -1258,6 +1333,23 @@ Public Class clsLocalConfig
             Err.Raise(1, "Config not set")
         End If
 
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Token_Report_Type_ElasticView'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Token_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Token_Report_Type_ElasticView.GUID = objDRC_Ref(0).Item("GUID_Token")
+                objSemItem_Token_Report_Type_ElasticView.Name = objDRC_Ref(0).Item("Name_Token")
+                objSemItem_Token_Report_Type_ElasticView.GUID_Parent = objDRC_Ref(0).Item("GUID_Type")
+                objSemItem_Token_Report_Type_ElasticView.GUID_Type = objGlobals.ObjectReferenceType_Token.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
     End Sub
 
     Private Sub get_Config_Types()
@@ -1729,6 +1821,63 @@ Public Class clsLocalConfig
                 objSemItem_Token_Field_Type_Zahl.Name = objDRC_Ref(0).Item("Name_Token")
                 objSemItem_Token_Field_Type_Zahl.GUID_Parent = objDRC_Ref(0).Item("GUID_Type")
                 objSemItem_Token_Field_Type_Zahl.GUID_Type = objGlobals.ObjectReferenceType_Token.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Type_Indexes__Elastic_Search_'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Type_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Type_Indexes__Elastic_Search_.GUID = objDRC_Ref(0).Item("GUID_Type")
+                objSemItem_Type_Indexes__Elastic_Search_.Name = objDRC_Ref(0).Item("Name_Type")
+                If Not IsDBNull(objDRC_Ref(0).Item("GUID_Type_Parent")) Then
+                    objSemItem_Type_Indexes__Elastic_Search_.GUID_Parent = objDRC_Ref(0).Item("GUID_Type_Parent")
+                End If
+                objSemItem_Type_Indexes__Elastic_Search_.GUID_Type = objGlobals.ObjectReferenceType_Type.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Type_Server_Port'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Type_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Type_Server_Port.GUID = objDRC_Ref(0).Item("GUID_Type")
+                objSemItem_Type_Server_Port.Name = objDRC_Ref(0).Item("Name_Type")
+                If Not IsDBNull(objDRC_Ref(0).Item("GUID_Type_Parent")) Then
+                    objSemItem_Type_Server_Port.GUID_Parent = objDRC_Ref(0).Item("GUID_Type_Parent")
+                End If
+                objSemItem_Type_Server_Port.GUID_Type = objGlobals.ObjectReferenceType_Type.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Type_Port'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Type_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Type_Port.GUID = objDRC_Ref(0).Item("GUID_Type")
+                objSemItem_Type_Port.Name = objDRC_Ref(0).Item("Name_Type")
+                If Not IsDBNull(objDRC_Ref(0).Item("GUID_Type_Parent")) Then
+                    objSemItem_Type_Port.GUID_Parent = objDRC_Ref(0).Item("GUID_Type_Parent")
+                End If
+                objSemItem_Type_Port.GUID_Type = objGlobals.ObjectReferenceType_Type.GUID
             Else
                 Err.Raise(1, "Config not set")
             End If
