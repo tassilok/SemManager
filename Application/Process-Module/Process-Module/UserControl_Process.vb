@@ -48,6 +48,8 @@ Public Class UserControl_Process
     Private intCount_Nodes As Integer
     Private intCount_Nodes_Done As Integer
     Private intID_Node As Integer
+    Private strHTML_List As String
+    Private strHTML_Processes As String
 
     Private boolPChange_Process As Boolean
 
@@ -983,6 +985,8 @@ Public Class UserControl_Process
         Dim intLevel As Integer
 
         objTreeNode = TreeView_Process.SelectedNode
+        strHTML_Processes = ""
+        strHTML_List = ""
 
         If Not objTreeNode Is Nothing Then
 
@@ -1022,11 +1026,14 @@ Public Class UserControl_Process
                     objSemItem_Process.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
 
                     intLevel = 1
+                    
 
                     strLine = objHTMLCreation.get_HTML_Heading(intLevel, False)
                     objHTMLCreation.write_Line(strLine)
 
                     strLine = objHTMLCreation.encode_HTML(objSemItem_Process.Name)
+                    strHTML_List = strHTML_List & "<ul>" & vbCrLf
+                    strHTML_List = strHTML_List & "<li>" & strLine & "</li>" & vbCrLf
                     objHTMLCreation.write_Line(strLine)
                     strLine = objHTMLCreation.get_HTML_Heading(intLevel, True)
                     objHTMLCreation.write_Line(strLine)
@@ -1037,6 +1044,10 @@ Public Class UserControl_Process
 
                     export_HTML_Process(objSemItem_Process, intLevel)
 
+                    strHTML_List = strHTML_List & "</ul>"
+                    objHTMLCreation.write_Line(strHTML_List)
+                    objHTMLCreation.write_Line("<hr>" & vbCrLf)
+                    objHTMLCreation.write_Line(strHTML_Processes)
                     strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Body, True)
                     objHTMLCreation.write_Line(strLine)
 
@@ -1061,6 +1072,8 @@ Public Class UserControl_Process
 
         Dim strLine As String
 
+        strHTML_List = strHTML_List & "<ul>" & vbCrLf
+
         objDRC_Processes = funcA_TokenToken.GetData_LeftRight_Ordered_By_GUIDs(SemItem_Process.GUID, _
                                                                                objLocalConfig.SemItem_Type_Process.GUID, _
                                                                                objLocalConfig.SemItem_RelationType_superordinate.GUID, _
@@ -1072,11 +1085,15 @@ Public Class UserControl_Process
             objSemItem_Process_Sub.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
 
             strLine = objHTMLCreation.get_HTML_Heading(intLevel, False)
-            objHTMLCreation.write_Line(strLine)
+            strHTML_Processes = strHTML_Processes & strLine
+            'objHTMLCreation.write_Line(strLine)
             strLine = objHTMLCreation.encode_HTML(objSemItem_Process_Sub.Name)
-            objHTMLCreation.write_Line(strLine)
+            strHTML_List = strHTML_List & "<li>" & strLine & "</li>"
+            strHTML_Processes = strHTML_Processes & strLine
+            'objHTMLCreation.write_Line(strLine)
             strLine = objHTMLCreation.get_HTML_Heading(intLevel, True)
-            objHTMLCreation.write_Line(strLine)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
 
             export_HTML_Description(objSemItem_Process_Sub)
             export_HTML_Requirements(objSemItem_Process_Sub)
@@ -1084,7 +1101,7 @@ Public Class UserControl_Process
 
             export_HTML_Process(objSemItem_Process_Sub, intLevel + 1)
         Next
-
+        strHTML_List = strHTML_List & "</ul>" & vbCrLf
     End Sub
     Private Function export_HTML_Images(ByVal SemItem_Process As clsSemItem) As clsSemItem
         Dim objSemIteM_Result As clsSemItem
@@ -1095,7 +1112,8 @@ Public Class UserControl_Process
         objSemIteM_Result = objImageWork.get_Images(SemItem_Process)
         If objSemIteM_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
             strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Table, False)
-            objHTMLCreation.write_Line(strLine)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
             For Each objDR_Image In objImageWork.Rows_Images
                 objSemItem_File.GUID = objDR_Image.Item("GUID_File")
                 objSemItem_File.Name = objDR_Image.Item("Name_File")
@@ -1105,21 +1123,27 @@ Public Class UserControl_Process
                 objSemIteM_Result = objHTMLCreation.export_File(objSemItem_File)
                 If objSemIteM_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
                     strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
-                    objHTMLCreation.write_Line(strLine)
+                    strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                    'objHTMLCreation.write_Line(strLine)
                     strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                    objHTMLCreation.write_Line(strLine)
+                    strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                    'objHTMLCreation.write_Line(strLine)
                     objHTMLCreation.add_Attribute(objHTMLCreation.SemItem_Attribute_SRC.Name, objSemIteM_Result.Additional1)
                     strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Images, False)
-                    objHTMLCreation.write_Line(strLine)
+                    strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                    'objHTMLCreation.write_Line(strLine)
 
                     strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                    objHTMLCreation.write_Line(strLine)
+                    strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                    'objHTMLCreation.write_Line(strLine)
                     strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
-                    objHTMLCreation.write_Line(strLine)
+                    strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                    'objHTMLCreation.write_Line(strLine)
                 End If
             Next
             strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Table, True)
-            objHTMLCreation.write_Line(strLine)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
         End If
 
         Return objSemIteM_Result
@@ -1133,12 +1157,14 @@ Public Class UserControl_Process
 
         If objDRC_Description.Count > 0 Then
             strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Paragraph, False)
-
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
             strLine = objHTMLCreation.encode_HTML(objDRC_Description(0).Item("Val_VARCHARMAX"))
-            objHTMLCreation.write_Line(strLine)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            ' objHTMLCreation.write_Line(strLine)
 
             strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Paragraph, True)
-            objHTMLCreation.write_Line(strLine)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
         End If
     End Sub
 
@@ -1164,386 +1190,502 @@ Public Class UserControl_Process
             objHTMLCreation.add_Attribute(objHTMLCreation.SemItem_Attribute_Border.Name, "1")
 
             strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Table, False)
-            objHTMLCreation.write_Line(strLine)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
 
             strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
-            objHTMLCreation.write_Line(strLine)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
 
             strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-            objHTMLCreation.write_Line(strLine)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
 
             strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & "Type" & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
-            objHTMLCreation.write_Line(strLine)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
 
             strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-            objHTMLCreation.write_Line(strLine)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
 
             strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-            objHTMLCreation.write_Line(strLine)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
+
 
             strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & "Requirement" & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
-            objHTMLCreation.write_Line(strLine)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
 
             strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-            objHTMLCreation.write_Line(strLine)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
 
             strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
-            objHTMLCreation.write_Line(strLine)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
 
 
             For Each objDR_Item In objUserControl_References.tbl_Application.Rows
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_Type_Application.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
             Next
 
             For Each objDR_Item In objUserControl_References.tbl_Belonging.Rows
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_RelationType_belonging_Sem_Item.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Ref"))
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
             Next
 
             For Each objDR_Item In objUserControl_References.tbl_Document.Rows
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_RelationType_needed_Documentation.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Ref"))
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
             Next
 
             For Each objDR_Item In objUserControl_References.tbl_File.Rows
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_Type_File.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
             Next
 
             For Each objDR_Item In objUserControl_References.tbl_Folder.Rows
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_type_Folder.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
             Next
 
             For Each objDR_Item In objUserControl_References.tbl_Group.Rows
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_Type_Group.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
             Next
 
             For Each objDR_Item In objUserControl_References.tbl_Manual.Rows
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_Type_Manual.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
             Next
 
             For Each objDR_Item In objUserControl_References.tbl_Media.Rows
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_Type_Media.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
             Next
 
             For Each objDR_Item In objUserControl_References.tbl_Needs.Rows
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_RelationType_needs.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Ref"))
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
             Next
 
             For Each objDR_Item In objUserControl_References.tbl_NeedsChild.Rows
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_RelationType_needs_Child.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Ref"))
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
             Next
 
             For Each objDR_Item In objUserControl_References.tbl_Responsiblity.Rows
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_Type_responsibility.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
             Next
 
             For Each objDR_Item In objUserControl_References.tbl_Role.Rows
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_Type_Role.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
             Next
 
             For Each objDR_Item In objUserControl_References.tbl_User.Rows
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, False) & objHTMLCreation.encode_HTML(objLocalConfig.SemItem_type_User.Name) & objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Bold, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, False)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.encode_HTML(objDR_Item.Item("Name_Token_Right"))
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableCol, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
 
                 strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_TableRow, True)
-                objHTMLCreation.write_Line(strLine)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
             Next
 
             strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.SemItem_DocType_Table, True)
-            objHTMLCreation.write_Line(strLine)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
         End If
 
         
