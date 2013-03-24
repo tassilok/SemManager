@@ -47,6 +47,7 @@ Partial Class frmFilesystemManagement
         Me.MenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MetaBlobsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GetHashOfFilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeView_Folder = New System.Windows.Forms.TreeView()
@@ -88,7 +89,7 @@ Partial Class frmFilesystemManagement
         Me.ToolStripLabel_ObjectList = New System.Windows.Forms.ToolStripLabel()
         Me.FolderBrowserDialog_Download = New System.Windows.Forms.FolderBrowserDialog()
         Me.BindingSource_Files = New System.Windows.Forms.BindingSource(Me.components)
-        Me.GetHashOfFilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GUIDAsNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -140,7 +141,7 @@ Partial Class frmFilesystemManagement
         'StatusToolStripLable_Ctrl
         '
         Me.StatusToolStripLable_Ctrl.Name = "StatusToolStripLable_Ctrl"
-        Me.StatusToolStripLable_Ctrl.Size = New System.Drawing.Size(24, 19)
+        Me.StatusToolStripLable_Ctrl.Size = New System.Drawing.Size(24, 17)
         Me.StatusToolStripLable_Ctrl.Text = "Ctrl"
         Me.StatusToolStripLable_Ctrl.Visible = False
         '
@@ -279,6 +280,12 @@ Partial Class frmFilesystemManagement
         Me.MetaBlobsToolStripMenuItem.Name = "MetaBlobsToolStripMenuItem"
         Me.MetaBlobsToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
         Me.MetaBlobsToolStripMenuItem.Text = "x_Meta (Blobs)"
+        '
+        'GetHashOfFilesToolStripMenuItem
+        '
+        Me.GetHashOfFilesToolStripMenuItem.Name = "GetHashOfFilesToolStripMenuItem"
+        Me.GetHashOfFilesToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.GetHashOfFilesToolStripMenuItem.Text = "x_get Hash of Files"
         '
         'ToolStripContainer1
         '
@@ -446,7 +453,7 @@ Partial Class frmFilesystemManagement
         '
         Me.ContextMenuStrip_DataGrid.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem_DataGrid, Me.OpenToolStripMenuItem, Me.ApplyFilesToolStripMenuItem, Me.ModuleActionsToolStripMenuItem, Me.EditToolStripMenuItem, Me.BlobsToolStripMenuItem})
         Me.ContextMenuStrip_DataGrid.Name = "ContextMenuStrip_DataGrid"
-        Me.ContextMenuStrip_DataGrid.Size = New System.Drawing.Size(160, 136)
+        Me.ContextMenuStrip_DataGrid.Size = New System.Drawing.Size(160, 158)
         '
         'NewToolStripMenuItem_DataGrid
         '
@@ -489,7 +496,7 @@ Partial Class frmFilesystemManagement
         'CopyPathToolStripMenuItem
         '
         Me.CopyPathToolStripMenuItem.Name = "CopyPathToolStripMenuItem"
-        Me.CopyPathToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+        Me.CopyPathToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.CopyPathToolStripMenuItem.Text = "x_Copy Path"
         '
         'BlobsToolStripMenuItem
@@ -513,6 +520,7 @@ Partial Class frmFilesystemManagement
         '
         'DownloadToolStripMenuItem
         '
+        Me.DownloadToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GUIDAsNameToolStripMenuItem})
         Me.DownloadToolStripMenuItem.Name = "DownloadToolStripMenuItem"
         Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
         Me.DownloadToolStripMenuItem.Text = "x_Download"
@@ -602,11 +610,12 @@ Partial Class frmFilesystemManagement
         Me.ToolStripLabel_ObjectList.Size = New System.Drawing.Size(11, 22)
         Me.ToolStripLabel_ObjectList.Text = "-"
         '
-        'GetHashOfFilesToolStripMenuItem
+        'GUIDAsNameToolStripMenuItem
         '
-        Me.GetHashOfFilesToolStripMenuItem.Name = "GetHashOfFilesToolStripMenuItem"
-        Me.GetHashOfFilesToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
-        Me.GetHashOfFilesToolStripMenuItem.Text = "x_get Hash of Files"
+        Me.GUIDAsNameToolStripMenuItem.CheckOnClick = True
+        Me.GUIDAsNameToolStripMenuItem.Name = "GUIDAsNameToolStripMenuItem"
+        Me.GUIDAsNameToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.GUIDAsNameToolStripMenuItem.Text = "GUID as Name"
         '
         'frmFilesystemManagement
         '
@@ -719,5 +728,6 @@ Partial Class frmFilesystemManagement
     Friend WithEvents ToolStripButton_ClearSearch As System.Windows.Forms.ToolStripButton
     Friend WithEvents GetMetaToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents GetHashOfFilesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GUIDAsNameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

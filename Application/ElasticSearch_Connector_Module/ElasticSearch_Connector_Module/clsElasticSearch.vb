@@ -1014,7 +1014,7 @@ Public Class clsElasticSearch
                 objDict.Add("OrderID", objDRC_TokenAttribute(i).Item("OrderID"))
 
                 ReDim Preserve objBulkObjects_ObjAtt(lngPack)
-                objBulkObjects_ObjAtt(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ObjectAttribute", objDRC_TokenAttribute(i).Item("GUID_Token").ToString.Replace("-", "") & objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""), objDict)
+                objBulkObjects_ObjAtt(lngPack) = New ElasticSearch.Client.Domain.BulkObject(objSemItem_Index.Name, "ObjectAttribute", objDRC_TokenAttribute(i).Item("GUID_TokenAttribute").ToString.Replace("-", ""), objDict)
                 objDict = Nothing
 
                 lngPack = lngPack + 1

@@ -1384,20 +1384,29 @@ Public Class frmFilesystemManagement
             For Each objDGVR_Selected In DataGridView_Files.SelectedRows
                 objDRV_Selected = objDGVR_Selected.DataBoundItem
 
-                If objDRV_Selected.Item("is Blob") = True Then
-                    Try
-                        objSemItem_File.GUID = objDRV_Selected.Item("GUID_File")
-                        objSemItem_File.Name = objDRV_Selected.Item("Name_File")
-                        objSemItem_File.GUID_Parent = objLocalConfig.SemItem_Type_Filesystem_Management.GUID
-                        objSemItem_File.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                If Not IsDBNull(objDRV_Selected.Item("is Blob")) Then
+                    If objDRV_Selected.Item("is Blob") = True Then
+                        Try
+                            objSemItem_File.GUID = objDRV_Selected.Item("GUID_File")
+                            If GUIDAsNameToolStripMenuItem.Checked = True Then
+                                objSemItem_File.Name = objDRV_Selected.Item("GUID_File").ToString.Replace("-", "")
+                            Else
+                                objSemItem_File.Name = objDRV_Selected.Item("Name_File")
+                            End If
 
-                        objSemItem_Result = objBlobConnection.save_Blob_To_File(objSemItem_File, strPath & "\" & objSemItem_File.Name)
-                        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
-                            intDone = intDone + 1
-                        End If
-                    Catch ex As Exception
+                            objSemItem_File.GUID_Parent = objLocalConfig.SemItem_Type_Filesystem_Management.GUID
+                            objSemItem_File.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
 
-                    End Try
+                            objSemItem_Result = objBlobConnection.save_Blob_To_File(objSemItem_File, strPath & "\" & objSemItem_File.Name)
+                            If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                intDone = intDone + 1
+                            End If
+                        Catch ex As Exception
+
+                        End Try
+                    End If
+
+
                 End If
             Next
             If intDone < intToDo Then

@@ -61,6 +61,9 @@ Partial Class frmImageModule
         Me.FolderBrowserDialog_Export = New System.Windows.Forms.FolderBrowserDialog()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Timer_Filter = New System.Windows.Forms.Timer(Me.components)
+        Me.GUIDAsNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RefAsFolderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SubnodesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -107,7 +110,7 @@ Partial Class frmImageModule
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(62, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(59, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Close
@@ -116,7 +119,7 @@ Partial Class frmImageModule
         Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
         Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
-        Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripButton_Close.Size = New System.Drawing.Size(49, 22)
         Me.ToolStripButton_Close.Text = "x_Close"
         '
         'SplitContainer1
@@ -161,13 +164,13 @@ Partial Class frmImageModule
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_Items, Me.ToolStripLabel_ItemCount, Me.ToolStripSeparator2, Me.ToolStripLabel_LastRelationLBL, Me.ToolStripLabel_LastRelation})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(181, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(176, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripLabel_Items
         '
         Me.ToolStripLabel_Items.Name = "ToolStripLabel_Items"
-        Me.ToolStripLabel_Items.Size = New System.Drawing.Size(49, 22)
+        Me.ToolStripLabel_Items.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripLabel_Items.Text = "x_Items:"
         '
         'ToolStripLabel_ItemCount
@@ -184,13 +187,13 @@ Partial Class frmImageModule
         'ToolStripLabel_LastRelationLBL
         '
         Me.ToolStripLabel_LastRelationLBL.Name = "ToolStripLabel_LastRelationLBL"
-        Me.ToolStripLabel_LastRelationLBL.Size = New System.Drawing.Size(89, 22)
+        Me.ToolStripLabel_LastRelationLBL.Size = New System.Drawing.Size(86, 22)
         Me.ToolStripLabel_LastRelationLBL.Text = "x_Last-Relation:"
         '
         'ToolStripLabel_LastRelation
         '
         Me.ToolStripLabel_LastRelation.Name = "ToolStripLabel_LastRelation"
-        Me.ToolStripLabel_LastRelation.Size = New System.Drawing.Size(12, 22)
+        Me.ToolStripLabel_LastRelation.Size = New System.Drawing.Size(11, 22)
         Me.ToolStripLabel_LastRelation.Text = "/"
         '
         'TreeView_RelatedItems
@@ -209,37 +212,38 @@ Partial Class frmImageModule
         '
         Me.ContextMenuStrip_Item.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.SaveToolStripMenuItem, Me.RelateToolStripMenuItem, Me.ChangeParentToolStripMenuItem, Me.RemoveFromTreeToolStripMenuItem})
         Me.ContextMenuStrip_Item.Name = "ContextMenuStrip_Item"
-        Me.ContextMenuStrip_Item.Size = New System.Drawing.Size(183, 114)
+        Me.ContextMenuStrip_Item.Size = New System.Drawing.Size(176, 136)
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.NewToolStripMenuItem.Text = "x_New"
         '
         'SaveToolStripMenuItem
         '
+        Me.SaveToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GUIDAsNameToolStripMenuItem, Me.RefAsFolderToolStripMenuItem, Me.SubnodesToolStripMenuItem})
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.SaveToolStripMenuItem.Text = "x_Save"
         '
         'RelateToolStripMenuItem
         '
         Me.RelateToolStripMenuItem.Enabled = False
         Me.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem"
-        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.RelateToolStripMenuItem.Text = "x_Relate"
         '
         'ChangeParentToolStripMenuItem
         '
         Me.ChangeParentToolStripMenuItem.Name = "ChangeParentToolStripMenuItem"
-        Me.ChangeParentToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.ChangeParentToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.ChangeParentToolStripMenuItem.Text = "x_Change Parent"
         '
         'RemoveFromTreeToolStripMenuItem
         '
         Me.RemoveFromTreeToolStripMenuItem.Name = "RemoveFromTreeToolStripMenuItem"
-        Me.RemoveFromTreeToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.RemoveFromTreeToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.RemoveFromTreeToolStripMenuItem.Text = "x_Remove from Tree"
         '
         'ImageList_RelatedItems
@@ -270,7 +274,7 @@ Partial Class frmImageModule
         Me.ToolStrip4.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_SearchTemplate, Me.ToolStripTextBox_Filter, Me.ToolStripButton_Filter})
         Me.ToolStrip4.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip4.Name = "ToolStrip4"
-        Me.ToolStrip4.Size = New System.Drawing.Size(432, 25)
+        Me.ToolStrip4.Size = New System.Drawing.Size(430, 25)
         Me.ToolStrip4.TabIndex = 0
         '
         'ToolStripComboBox_SearchTemplate
@@ -300,13 +304,13 @@ Partial Class frmImageModule
         Me.ToolStrip3.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_MediaType, Me.ToolStripComboBox_MediaType, Me.ToolStripSplitButton_OrderType, Me.ToolStripButton_OpenGrid, Me.ToolStripSeparator1, Me.ToolStripButton_Meta})
         Me.ToolStrip3.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip3.Name = "ToolStrip3"
-        Me.ToolStrip3.Size = New System.Drawing.Size(604, 25)
+        Me.ToolStrip3.Size = New System.Drawing.Size(588, 25)
         Me.ToolStrip3.TabIndex = 0
         '
         'ToolStripLabel_MediaType
         '
         Me.ToolStripLabel_MediaType.Name = "ToolStripLabel_MediaType"
-        Me.ToolStripLabel_MediaType.Size = New System.Drawing.Size(79, 22)
+        Me.ToolStripLabel_MediaType.Size = New System.Drawing.Size(75, 22)
         Me.ToolStripLabel_MediaType.Text = "x_MediaType:"
         '
         'ToolStripComboBox_MediaType
@@ -321,7 +325,7 @@ Partial Class frmImageModule
         Me.ToolStripSplitButton_OrderType.Image = CType(resources.GetObject("ToolStripSplitButton_OrderType.Image"), System.Drawing.Image)
         Me.ToolStripSplitButton_OrderType.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripSplitButton_OrderType.Name = "ToolStripSplitButton_OrderType"
-        Me.ToolStripSplitButton_OrderType.Size = New System.Drawing.Size(94, 22)
+        Me.ToolStripSplitButton_OrderType.Size = New System.Drawing.Size(91, 22)
         Me.ToolStripSplitButton_OrderType.Text = "x_Order-Type"
         '
         'ToolStripMenuItem_Semantic
@@ -329,26 +333,26 @@ Partial Class frmImageModule
         Me.ToolStripMenuItem_Semantic.Checked = True
         Me.ToolStripMenuItem_Semantic.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ToolStripMenuItem_Semantic.Name = "ToolStripMenuItem_Semantic"
-        Me.ToolStripMenuItem_Semantic.Size = New System.Drawing.Size(182, 22)
+        Me.ToolStripMenuItem_Semantic.Size = New System.Drawing.Size(171, 22)
         Me.ToolStripMenuItem_Semantic.Text = "x_semantic"
         '
         'ToolStripMenuItem_Chrono
         '
         Me.ToolStripMenuItem_Chrono.Name = "ToolStripMenuItem_Chrono"
-        Me.ToolStripMenuItem_Chrono.Size = New System.Drawing.Size(182, 22)
+        Me.ToolStripMenuItem_Chrono.Size = New System.Drawing.Size(171, 22)
         Me.ToolStripMenuItem_Chrono.Text = "x_Chrono"
         '
         'ToolStripMenuItem_ChronoSemantic
         '
         Me.ToolStripMenuItem_ChronoSemantic.Name = "ToolStripMenuItem_ChronoSemantic"
-        Me.ToolStripMenuItem_ChronoSemantic.Size = New System.Drawing.Size(182, 22)
+        Me.ToolStripMenuItem_ChronoSemantic.Size = New System.Drawing.Size(171, 22)
         Me.ToolStripMenuItem_ChronoSemantic.Text = "x_Chrono-Semantic"
         '
         'NamedSemanticsToolStripMenuItem
         '
         Me.NamedSemanticsToolStripMenuItem.CheckOnClick = True
         Me.NamedSemanticsToolStripMenuItem.Name = "NamedSemanticsToolStripMenuItem"
-        Me.NamedSemanticsToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.NamedSemanticsToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
         Me.NamedSemanticsToolStripMenuItem.Text = "x_Named-Semantics"
         '
         'ToolStripButton_OpenGrid
@@ -358,7 +362,7 @@ Partial Class frmImageModule
         Me.ToolStripButton_OpenGrid.Image = CType(resources.GetObject("ToolStripButton_OpenGrid.Image"), System.Drawing.Image)
         Me.ToolStripButton_OpenGrid.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_OpenGrid.Name = "ToolStripButton_OpenGrid"
-        Me.ToolStripButton_OpenGrid.Size = New System.Drawing.Size(75, 22)
+        Me.ToolStripButton_OpenGrid.Size = New System.Drawing.Size(71, 22)
         Me.ToolStripButton_OpenGrid.Text = "x_Open Grid"
         '
         'ToolStripSeparator1
@@ -373,12 +377,35 @@ Partial Class frmImageModule
         Me.ToolStripButton_Meta.Image = CType(resources.GetObject("ToolStripButton_Meta.Image"), System.Drawing.Image)
         Me.ToolStripButton_Meta.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Meta.Name = "ToolStripButton_Meta"
-        Me.ToolStripButton_Meta.Size = New System.Drawing.Size(86, 22)
+        Me.ToolStripButton_Meta.Size = New System.Drawing.Size(83, 22)
         Me.ToolStripButton_Meta.Text = "x_Get Metadat"
         '
         'Timer_Filter
         '
         Me.Timer_Filter.Interval = 300
+        '
+        'GUIDAsNameToolStripMenuItem
+        '
+        Me.GUIDAsNameToolStripMenuItem.CheckOnClick = True
+        Me.GUIDAsNameToolStripMenuItem.Name = "GUIDAsNameToolStripMenuItem"
+        Me.GUIDAsNameToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
+        Me.GUIDAsNameToolStripMenuItem.Text = "x_GUID as Name"
+        '
+        'RefAsFolderToolStripMenuItem
+        '
+        Me.RefAsFolderToolStripMenuItem.Checked = True
+        Me.RefAsFolderToolStripMenuItem.CheckOnClick = True
+        Me.RefAsFolderToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.RefAsFolderToolStripMenuItem.Name = "RefAsFolderToolStripMenuItem"
+        Me.RefAsFolderToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
+        Me.RefAsFolderToolStripMenuItem.Text = "x_Ref As Folder"
+        '
+        'SubnodesToolStripMenuItem
+        '
+        Me.SubnodesToolStripMenuItem.CheckOnClick = True
+        Me.SubnodesToolStripMenuItem.Name = "SubnodesToolStripMenuItem"
+        Me.SubnodesToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
+        Me.SubnodesToolStripMenuItem.Text = "x_Subnodes"
         '
         'frmImageModule
         '
@@ -455,4 +482,7 @@ Partial Class frmImageModule
     Friend WithEvents NamedSemanticsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ChangeParentToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RemoveFromTreeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GUIDAsNameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RefAsFolderToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SubnodesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

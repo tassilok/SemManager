@@ -1176,14 +1176,24 @@ Public Class frmImageModule
         objSemItem_Result = objLocalConfig.Globals.LogState_Success
         objSemItem_MediaType = ToolStripComboBox_MediaType.ComboBox.SelectedItem
 
-        strPath_Create = objTreeNode.Text
+        If RefAsFolderToolStripMenuItem.Checked = True Then
+            strPath_Create = objTreeNode.Text
+        Else
+            strPath_Create = strPath
+        End If
+
         If IO.Directory.Exists(strPath) Then
             Chars_Invalid = IO.Path.GetInvalidPathChars()
             For Each CharInvalid In Chars_Invalid
                 strPath_Create = strPath_Create.Replace(CharInvalid, "_")
             Next
 
-            strPath_Create = strPath & "\" & strPath_Create
+            If RefAsFolderToolStripMenuItem.Checked = True Then
+                strPath_Create = strPath & "\" & strPath_Create
+            Else
+                strPath_Create = strPath
+            End If
+
             Try
                 If IO.Directory.Exists(strPath_Create) = False Then
                     IO.Directory.CreateDirectory(strPath_Create)
@@ -1242,29 +1252,43 @@ Public Class frmImageModule
 
                             For Each objDR_Image In objDRC_Image
                                 objSemItem_File.GUID = objDR_Image.Item("GUID_File")
-                                strFileName = objDR_Image.Item("Name_File")
-                                If strFileName.LastIndexOf(".") > 0 Then
-                                    strFileName = strFileName.Substring(strFileName.LastIndexOf("."))
+                                If GUIDAsNameToolStripMenuItem.Checked = True Then
+                                    strFileName = objDR_Image.Item("GUID_File").ToString
+                                    objSemItem_File.Name = strFileName.Replace("-", "")
+
+                                Else
+                                    strFileName = objDR_Image.Item("Name_File")
+                                    If strFileName.LastIndexOf(".") > 0 Then
+                                        strFileName = strFileName.Substring(strFileName.LastIndexOf("."))
+                                    End If
+                                    objSemItem_File.Name = objDR_Image.Item(strName_Row)
+
+                                    objSemItem_File.GUID_Parent = objLocalConfig.SemItem_Type_File.GUID
+                                    objSemItem_File.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                                    strID = ""
+                                    For i = 4 To objDR_Image.Item("OrderID").ToString.Length Step -1
+                                        strID = strID & "0"
+                                    Next
+                                    strID = strID & objDR_Image.Item("OrderID").ToString
+
+                                    
+                                    objSemItem_File.Name = objSemItem_File.Name & strID & strFileName
+
                                 End If
-                                objSemItem_File.Name = objDR_Image.Item(strName_Row)
 
-                                objSemItem_File.GUID_Parent = objLocalConfig.SemItem_Type_File.GUID
-                                objSemItem_File.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                                
 
-                                strID = ""
-                                For i = 4 To objDR_Image.Item("OrderID").ToString.Length Step -1
-                                    strID = strID & "0"
-                                Next
-                                strID = strID & objDR_Image.Item("OrderID").ToString
-
-                                objSemItem_File.Name = objSemItem_File.Name & strID & strFileName
 
                                 'strFileName = "Abb. " & strID & ".jpg"
                                 strPathFile = strPath_Create & "\" & objSemItem_File.Name
-                                objSemItem_Result = objBlobConnection.save_Blob_To_File(objSemItem_File, strPathFile)
-                                If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Error.GUID Then
-                                    Exit For
+                                If IO.File.Exists(strPathFile) = False Then
+                                    objSemItem_Result = objBlobConnection.save_Blob_To_File(objSemItem_File, strPathFile)
+                                    If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Error.GUID Then
+                                        Exit For
+                                    End If
                                 End If
+                                
                             Next
                         Next
 
@@ -1274,12 +1298,15 @@ Public Class frmImageModule
 
                 End If
                 If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
-                    For Each objTreeNode_Sub In objTreeNode.Nodes
-                        objSemItem_Result = create_Folders_And_Media(strPath_Create, objTreeNode_Sub)
-                        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Error.GUID Then
-                            Exit For
-                        End If
-                    Next
+                    If SubnodesToolStripMenuItem.Checked = True Then
+                        For Each objTreeNode_Sub In objTreeNode.Nodes
+                            objSemItem_Result = create_Folders_And_Media(strPath_Create, objTreeNode_Sub)
+                            If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Error.GUID Then
+                                Exit For
+                            End If
+                        Next
+                    End If
+                    
                 End If
             Catch ex As Exception
                 MsgBox("Die Bilder können nicht exportiert werden!", MsgBoxStyle.Exclamation)
