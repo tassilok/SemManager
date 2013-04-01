@@ -41,6 +41,7 @@ Public Class clsLocalConfig
     Private objSemItem_Attribute_Beg_nstigter_Zahlungspflichtiger As New clsSemItem
     Private objSemItem_Attribute_Valutatag As New clsSemItem
     Private objSemItem_Attribute_part____ As New clsSemItem
+    Private objSemItem_Attribute_percent As New clsSemItem
 
     'Token
     Private objSemItem_Token_Currency_Standard As New clsSemItem
@@ -185,6 +186,13 @@ Public Class clsLocalConfig
             Return objSemItem_Attribute_part____
         End Get
     End Property
+
+    Public ReadOnly Property SemItem_Attribute_percent() As clsSemItem
+        Get
+            Return objSemItem_Attribute_percent
+        End Get
+    End Property
+
 
     'Token
     Public ReadOnly Property SemItems_Token_Languages() As clsSemItem()
@@ -556,6 +564,23 @@ Public Class clsLocalConfig
         Dim objDRC_RelData As DataRowCollection
         Dim objDRs_ConfigItem() As DataRow
         Dim objDRC_Ref As DataRowCollection
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Attribute_percent'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Attribute_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Attribute_percent.GUID = objDRC_Ref(0).Item("GUID_Attribute")
+                objSemItem_Attribute_percent.Name = objDRC_Ref(0).Item("Name_Attribute")
+                objSemItem_Attribute_percent.GUID_Parent = objDRC_Ref(0).Item("GUID_AttributeType")
+                objSemItem_Attribute_percent.GUID_Type = objGlobals.ObjectReferenceType_Attribute.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
 
         objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='attribute_dbPostfix'")
         If objDRs_ConfigItem.Length > 0 Then
