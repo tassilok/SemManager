@@ -32,14 +32,14 @@ Partial Class UserControl_PDFViewer
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_Delete = New System.Windows.Forms.ToolStripButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.AxFoxitReaderOCX_Viewer = New AxFOXITREADEROCXLib.AxFoxitReaderOCX()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Add = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_Replace = New System.Windows.Forms.ToolStripButton()
-        Me.OpenFileDialog_PDF = New System.Windows.Forms.OpenFileDialog()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_Edit = New System.Windows.Forms.ToolStripButton()
+        Me.OpenFileDialog_PDF = New System.Windows.Forms.OpenFileDialog()
+        Me.AxFoxitCtl_Main = New AxFOXITREADERLib.AxFoxitCtl()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -48,8 +48,8 @@ Partial Class UserControl_PDFViewer
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.AxFoxitReaderOCX_Viewer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStrip2.SuspendLayout()
+        CType(Me.AxFoxitCtl_Main, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -148,20 +148,10 @@ Partial Class UserControl_PDFViewer
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.AxFoxitReaderOCX_Viewer)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.AxFoxitCtl_Main)
         Me.SplitContainer1.Size = New System.Drawing.Size(514, 418)
         Me.SplitContainer1.SplitterDistance = 290
         Me.SplitContainer1.TabIndex = 1
-        '
-        'AxFoxitReaderOCX_Viewer
-        '
-        Me.AxFoxitReaderOCX_Viewer.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.AxFoxitReaderOCX_Viewer.Enabled = True
-        Me.AxFoxitReaderOCX_Viewer.Location = New System.Drawing.Point(0, 0)
-        Me.AxFoxitReaderOCX_Viewer.Name = "AxFoxitReaderOCX_Viewer"
-        Me.AxFoxitReaderOCX_Viewer.OcxState = CType(resources.GetObject("AxFoxitReaderOCX_Viewer.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.AxFoxitReaderOCX_Viewer.Size = New System.Drawing.Size(286, 414)
-        Me.AxFoxitReaderOCX_Viewer.TabIndex = 0
         '
         'ToolStrip2
         '
@@ -169,7 +159,7 @@ Partial Class UserControl_PDFViewer
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripSeparator2, Me.ToolStripButton_Replace, Me.ToolStripSeparator3, Me.ToolStripButton_Edit})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(181, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(150, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripButton_Add
@@ -196,11 +186,6 @@ Partial Class UserControl_PDFViewer
         Me.ToolStripButton_Replace.Size = New System.Drawing.Size(62, 22)
         Me.ToolStripButton_Replace.Text = "x_Replace"
         '
-        'OpenFileDialog_PDF
-        '
-        Me.OpenFileDialog_PDF.Filter = "PDF-Dateien|*.pdf"
-        Me.OpenFileDialog_PDF.Multiselect = True
-        '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
@@ -214,6 +199,21 @@ Partial Class UserControl_PDFViewer
         Me.ToolStripButton_Edit.Name = "ToolStripButton_Edit"
         Me.ToolStripButton_Edit.Size = New System.Drawing.Size(41, 22)
         Me.ToolStripButton_Edit.Text = "x_Edit"
+        '
+        'OpenFileDialog_PDF
+        '
+        Me.OpenFileDialog_PDF.Filter = "PDF-Dateien|*.pdf"
+        Me.OpenFileDialog_PDF.Multiselect = True
+        '
+        'AxFoxitCtl_Main
+        '
+        Me.AxFoxitCtl_Main.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.AxFoxitCtl_Main.Enabled = True
+        Me.AxFoxitCtl_Main.Location = New System.Drawing.Point(0, 0)
+        Me.AxFoxitCtl_Main.Name = "AxFoxitCtl_Main"
+        Me.AxFoxitCtl_Main.OcxState = CType(resources.GetObject("AxFoxitCtl_Main.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.AxFoxitCtl_Main.Size = New System.Drawing.Size(286, 414)
+        Me.AxFoxitCtl_Main.TabIndex = 0
         '
         'UserControl_PDFViewer
         '
@@ -234,9 +234,9 @@ Partial Class UserControl_PDFViewer
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.AxFoxitReaderOCX_Viewer, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
+        CType(Me.AxFoxitCtl_Main, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -255,8 +255,8 @@ Partial Class UserControl_PDFViewer
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripButton_Replace As System.Windows.Forms.ToolStripButton
     Friend WithEvents OpenFileDialog_PDF As System.Windows.Forms.OpenFileDialog
-    Friend WithEvents AxFoxitReaderOCX_Viewer As AxFOXITREADEROCXLib.AxFoxitReaderOCX
     Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripButton_Edit As System.Windows.Forms.ToolStripButton
+    Friend WithEvents AxFoxitCtl_Main As AxFOXITREADERLib.AxFoxitCtl
 
 End Class

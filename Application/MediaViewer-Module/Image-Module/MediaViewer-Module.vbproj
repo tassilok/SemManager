@@ -53,6 +53,12 @@
     <ApplicationIcon>Multimedia.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AxInterop.FOXITREADEROCXLib">
+      <HintPath>..\..\Libraries\AxInterop.FOXITREADEROCXLib.dll</HintPath>
+    </Reference>
+    <Reference Include="AxInterop.WMPLib">
+      <HintPath>..\..\Libraries\AxInterop.WMPLib.dll</HintPath>
+    </Reference>
     <Reference Include="ClassLibrary_ShellWork">
       <HintPath>..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\bin\Debug\ClassLibrary_ShellWork.dll</HintPath>
     </Reference>
@@ -61,6 +67,10 @@
     </Reference>
     <Reference Include="Id3Lib">
       <HintPath>..\..\Libraries\Id3Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.WMPLib">
+      <HintPath>..\..\Libraries\Interop.WMPLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Localizing-Manager">
       <HintPath>..\..\Localizing-Manager\Localizing-Manager\bin\Debug\Localizing-Manager.exe</HintPath>
@@ -409,33 +419,16 @@
     <None Include="Resources\pulsante_01_architetto_f_01 First.png" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="AxFOXITREADEROCXLib">
-      <Guid>{3D20F47F-E818-4A03-AD52-45B708ACCF23}</Guid>
+    <COMReference Include="AxFOXITREADERLib">
+      <Guid>{3A8BD65E-9922-4162-A649-83F2D5326BBE}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
-    <COMReference Include="AxWMPLib">
-      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>aximp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
-    <COMReference Include="FOXITREADEROCXLib">
-      <Guid>{3D20F47F-E818-4A03-AD52-45B708ACCF23}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="WMPLib">
-      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+    <COMReference Include="FOXITREADERLib">
+      <Guid>{3A8BD65E-9922-4162-A649-83F2D5326BBE}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>

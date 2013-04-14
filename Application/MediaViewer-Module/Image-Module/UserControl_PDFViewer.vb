@@ -166,13 +166,13 @@ Public Class UserControl_PDFViewer
     End Sub
 
     Public Sub clear()
-        AxFoxitReaderOCX_Viewer = Nothing
-        AxFoxitReaderOCX_Viewer = New AxFOXITREADEROCXLib.AxFoxitReaderOCX
+        AxFoxitCtl_Main = Nothing
+        AxFoxitCtl_Main = New AxFOXITREADERLib.AxFoxitCtl
         objUserControl_Localized.clear_LanguageTree()
     End Sub
 
     Private Sub configure_PDFs()
-        AxFoxitReaderOCX_Viewer.OpenFile(Nothing)
+        AxFoxitCtl_Main.OpenFile(Nothing)
         get_PDFs()
         show_PDF()
         If objSemItem_Showed.GUID = objLocalConfig.Globals.LogState_Error.GUID Then
@@ -206,7 +206,7 @@ Public Class UserControl_PDFViewer
             objSemItem_Showed = objBlobConnection.save_Blob_To_File(objSemItem_File, strPath)
             If objSemItem_Showed.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
 
-                AxFoxitReaderOCX_Viewer.OpenFile(strPath)
+                AxFoxitCtl_Main.OpenFile(strPath)
                 objSemItem_Showed = objLocalConfig.Globals.LogState_Success
                 objSemItem_PDFDocument = New clsSemItem
                 objSemItem_PDFDocument.GUID = objDR_Image.Item("GUID_PDF_Documents")
@@ -544,7 +544,7 @@ Public Class UserControl_PDFViewer
 
     Protected Overrides Sub Finalize()
         Try
-            AxFoxitReaderOCX_Viewer.Dispose()
+            AxFoxitCtl_Main.Dispose()
         Catch ex As Exception
 
         End Try

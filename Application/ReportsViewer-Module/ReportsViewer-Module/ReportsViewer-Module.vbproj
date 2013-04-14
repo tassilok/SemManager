@@ -53,9 +53,8 @@
     <ApplicationIcon>clipboard_01.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ClassLibrary_ShellWork, Version=0.1.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\SemModules\Semantic-Management\ClassLibrary_ShellWork.dll</HintPath>
+    <Reference Include="ClassLibrary_ShellWork">
+      <HintPath>..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\bin\Debug\ClassLibrary_ShellWork.dll</HintPath>
     </Reference>
     <Reference Include="Filesystem-Management">
       <HintPath>..\..\Filesystem-Management\Filesystem-Management\bin\Debug\Filesystem-Management.exe</HintPath>

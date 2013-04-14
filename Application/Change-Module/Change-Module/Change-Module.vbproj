@@ -54,7 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Log-Manager">
-      <HintPath>..\..\..\..\GitHub\SemManager\Application\Log-Manager\Log-Manager\bin\Debug\Log-Manager.exe</HintPath>
+      <HintPath>..\..\Log-Manager\Log-Manager\bin\Debug\Log-Manager.exe</HintPath>
     </Reference>
     <Reference Include="MediaViewer-Module, Version=0.0.0.139, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
