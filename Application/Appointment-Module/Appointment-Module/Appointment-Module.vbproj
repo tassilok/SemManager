@@ -50,9 +50,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Partner-Manager, Version=0.1.0.54, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <ExecutableExtension>.exe</ExecutableExtension>
+    <Reference Include="Partner-Manager">
       <HintPath>..\..\Partner-Manager\Partner-Manager\bin\Debug\Partner-Manager.exe</HintPath>
     </Reference>
     <Reference Include="Sem-Manager, Version=0.2.0.9, Culture=neutral, processorArchitecture=x86">

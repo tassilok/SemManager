@@ -53,9 +53,6 @@
     <Reference Include="Filesystem-Management">
       <HintPath>..\..\Filesystem-Management\Filesystem-Management\bin\Debug\Filesystem-Management.exe</HintPath>
     </Reference>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\..\Libraries\DotNetZip\Ionic.Zip.dll</HintPath>
-    </Reference>
     <Reference Include="Security-Module">
       <HintPath>..\..\Security-Module\Security-Module\bin\Debug\Security-Module.exe</HintPath>
     </Reference>
