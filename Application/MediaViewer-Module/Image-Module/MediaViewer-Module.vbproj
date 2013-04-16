@@ -68,10 +68,6 @@
     <Reference Include="Id3Lib">
       <HintPath>..\..\Libraries\Id3Lib.dll</HintPath>
     </Reference>
-    <Reference Include="Interop.WMPLib">
-      <HintPath>..\..\Libraries\Interop.WMPLib.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="Localizing-Manager">
       <HintPath>..\..\Localizing-Manager\Localizing-Manager\bin\Debug\Localizing-Manager.exe</HintPath>
     </Reference>
@@ -429,6 +425,15 @@
     </COMReference>
     <COMReference Include="FOXITREADERLib">
       <Guid>{3A8BD65E-9922-4162-A649-83F2D5326BBE}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>

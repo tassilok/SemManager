@@ -14,7 +14,7 @@
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>DB_Name_User</ConfigItem_Name>
-    <ConfigItem_Value>sem_db_work</ConfigItem_Value>
+    <ConfigItem_Value>sem_db_home</ConfigItem_Value>
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>Name_User</ConfigItem_Name>
