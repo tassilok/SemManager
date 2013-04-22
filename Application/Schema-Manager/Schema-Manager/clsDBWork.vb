@@ -1063,7 +1063,9 @@ Public Class clsDBWork
                         objSemItem_SQLFile.GUID_Parent = objDRC_SQLFile(0).Item("GUID_Type_Right")
                         objSemItem_SQLFile.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
 
-                        strPathSQL = objFileWork.get_Path_FileSystemObject(objSemItem_SQLFile)
+                    'strPathSQL = objFileWork.get_Path_FileSystemObject(objSemItem_SQLFile)
+                    strPathSQL = "%temp%\" & Guid.NewGuid.ToString & ".sql"
+                    strPathSQL = Environment.ExpandEnvironmentVariables(strPathSQL)
                         Try
                             objTextWriter = New IO.StreamWriter(strPathSQL, False)
 
