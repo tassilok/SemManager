@@ -1215,7 +1215,6 @@ Public Class frmFilesystemManagement
                     If is_File_Locked(objSemItem_File.Additional1) = False Then
                         objSemItem_Result = objBlobConnection.save_File_To_Blob(objSemItem_File, objSemItem_File.Additional1)
                         If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
-
                             Try
                                 IO.File.Delete(objSemItem_File.Additional1)
                                 intCount_Done = intCount_Done + 1

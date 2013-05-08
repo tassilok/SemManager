@@ -352,7 +352,11 @@ Public Class clsBlobConnection
 
         objDRC_File = procA_Files_MD5.GetData(strHash_File).Rows
 
-        objSemItem_Result = objLocalConfig.Globals.LogState_Success
+        objSemItem_Result = New clsSemItem
+        objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID
+        objSemItem_Result.Name = objLocalConfig.Globals.LogState_Success.Name
+        objSemItem_Result.GUID_Parent = objLocalConfig.Globals.LogState_Success.GUID_Parent
+        objSemItem_Result.GUID_Type = objLocalConfig.Globals.LogState_Success.GUID_Type
 
         If objDRC_File.Count > 0 Then
             objFileStream.Seek(0, IO.SeekOrigin.Begin)
@@ -388,29 +392,32 @@ Public Class clsBlobConnection
                         Dim objSQLFs As New SqlTypes.SqlFileStream(strFilePath, objTxCtx, IO.FileAccess.Read)
                         Dim lngPos As Long = 0
 
+                        If objFileStream.Length = objSQLFs.Length Then
+                            ReDim byteFile(objSQLFs.Length - 1)
+                            For i = 0 To objSQLFs.Length - 1
+                                byteFile(i) = objSQLFs.ReadByte
 
-                        ReDim byteFile(objSQLFs.Length - 1)
-                        For i = 0 To objSQLFs.Length - 1
-                            byteFile(i) = objSQLFs.ReadByte
-
-                        Next
-
-
-                        strHash = getHash(byteFile, objSQLFs.Length - 1)
+                            Next
 
 
+                            strHash = getHash(byteFile, objSQLFs.Length - 1)
 
+
+
+                
+
+                            If strHash = strHash_File Then
+                                objSemItem_Result.GUID = objDR_File.Item("GUID_Blob")
+                                objSemItem_Result.GUID_Parent = objLocalConfig.SemItem_Type_File.GUID
+                                objSemItem_Result.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                                Exit For
+                            End If
+                        End If
+                        
                         objSQLFs.Close()
                         objCMD.Transaction.Rollback()
-
-                        If strHash = strHash_File Then
-                            objSemItem_Result.GUID = objDR_File.Item("GUID_Blob")
-                            objSemItem_Result.GUID_Parent = objLocalConfig.SemItem_Type_File.GUID
-                            objSemItem_Result.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
-
-                            Exit For
-                        End If
-
+                        objTX.Dispose()
                     Else
                         objSemItem_Result = objLocalConfig.Globals.LogState_Error
                     End If
@@ -840,3 +847,4 @@ Public Class clsBlobConnection
         Return objSemItem_Result
     End Function
 End Class
+
