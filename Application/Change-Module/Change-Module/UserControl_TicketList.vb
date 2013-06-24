@@ -353,6 +353,7 @@ Public Class UserControl_TicketList
                                                     objLocalConfig.SemItem_type_Logstate.GUID, _
                                                     objLocalConfig.SemItem_Type_LogEntry.GUID, _
                                                     objLocalConfig.SemItem_RelationType_belongsTo.GUID, _
+                                                    objLocalConfig.SemItem_RelationType_belonging_Resource.GUID, _
                                                     objLocalConfig.SemItem_RelationType_Last_Done.GUID, _
                                                     objLocalConfig.SemItem_RelationType_isInState.GUID, _
                                                     objLocalConfig.SemItem_RelationType_provides.GUID, _

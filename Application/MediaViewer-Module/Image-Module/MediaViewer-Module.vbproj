@@ -53,9 +53,6 @@
     <ApplicationIcon>Multimedia.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AxInterop.FOXITREADEROCXLib">
-      <HintPath>..\..\Libraries\AxInterop.FOXITREADEROCXLib.dll</HintPath>
-    </Reference>
     <Reference Include="AxInterop.WMPLib">
       <HintPath>..\..\Libraries\AxInterop.WMPLib.dll</HintPath>
     </Reference>

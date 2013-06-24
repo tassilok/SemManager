@@ -1136,9 +1136,7 @@ Public Class UserControl_Galery
     End Sub
 
     Private Sub PictureBox_Image_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles PictureBox_Image.Paint
-        If Not objImage Is Nothing Then
-            configure_Zoom_Image()
-        End If
+        
     End Sub
 
 
@@ -1325,8 +1323,12 @@ Public Class UserControl_Galery
             If Not intRowID = -1 Then
                 RelateToolStripMenuItem.Enabled = True
                 RelateAllToolStripMenuItem.Enabled = True
-                SaveImagesToolStripMenuItem.Enabled = True
+
             End If
+        End If
+
+        If Not intRowID = -1 Then
+            SaveImagesToolStripMenuItem.Enabled = True
         End If
 
     End Sub
@@ -1478,28 +1480,72 @@ Public Class UserControl_Galery
 
     Private Sub SaveImagesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveImagesToolStripMenuItem.Click
         Dim objDR_Row As DataRow
+        Dim objSemItem_File As New clsSemItem
+        Dim objSemItem_Result As clsSemItem
         Dim strPath As String
-
+        Dim strPath_File As String
+        Dim intID As Integer
+        Dim intToDo As Integer
+        Dim intDone As Integer
 
         FolderBrowserDialog_Save.SelectedPath = Application.ExecutablePath
-        If objSemItem_Ref Is Nothing Then
-            For Each objDR_Row In procT_Medias_Chrono.Rows
 
-            Next
-            
-        Else
-            If boolIsNamed = False Then
-                For Each objDR_Row In procT_Image_Of_Or.Rows
+        If FolderBrowserDialog_Save.ShowDialog(Me) = DialogResult.OK Then
+            strPath = FolderBrowserDialog_Save.SelectedPath
+            If objSemItem_Ref Is Nothing Then
+                intToDo = objDRs_Images.Count
+                intDone = 0
+                For Each objDR_Row In objDRs_Images
+                    intID = 0
+                    Do
+                        If intID = 0 Then
+                            strPath_File = strPath & IO.Path.DirectorySeparatorChar & objDR_Row.Item("Name_Images__Graphic_")
+                        Else
+                            strPath_File = strPath & IO.Path.DirectorySeparatorChar & "(" & intID & ")" & objDR_Row.Item("Name_Images__Graphic_")
+                        End If
+                        If IO.Path.GetExtension(strPath_File) = "" Then
+                            strPath_File = strPath_File & IO.Path.GetExtension(objDR_Row.Item("Name_File"))
+                        End If
+                        intID = intID + 1
+                    Loop Until IO.File.Exists(strPath_File) = False
 
+                    objSemItem_File.GUID = objDR_Row.Item("GUID_File")
+                    objSemItem_File.Name = objDR_Row.Item("Name_File")
+                    objSemItem_File.GUID_Parent = objLocalConfig.SemItem_Type_File.GUID
+                    objSemItem_File.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+                    objSemItem_Result = objBlobConnection.save_Blob_To_File(objSemItem_File, strPath_File)
+
+                    If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                        intDone = intDone + 1
+                    End If
                 Next
 
+                If intDone < intToDo Then
+                    MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Images gespeichert werden!", MsgBoxStyle.Exclamation)
+                End If
             Else
-                For Each objDR_Row In procT_Images_Of_NamedRelated.Rows
+                If boolIsNamed = False Then
+                    For Each objDR_Row In procT_Image_Of_Or.Rows
 
-                Next
+                    Next
+
+                Else
+                    For Each objDR_Row In procT_Images_Of_NamedRelated.Rows
+
+                    Next
+                End If
             End If
         End If
 
+        
 
+
+    End Sub
+
+    Private Sub PictureBox_Image_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles PictureBox_Image.Resize
+        If Not objImage Is Nothing Then
+            configure_Zoom_Image()
+        End If
     End Sub
 End Class

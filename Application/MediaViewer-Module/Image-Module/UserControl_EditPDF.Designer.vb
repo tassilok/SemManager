@@ -23,31 +23,31 @@ Partial Class UserControl_EditPDF
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UserControl_EditPDF))
-        Me.AxFoxitReaderOCX_Viewer = New AxFOXITREADEROCXLib.AxFoxitReaderOCX()
-        CType(Me.AxFoxitReaderOCX_Viewer, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.AxFoxitCtl_Main = New AxFOXITREADERLib.AxFoxitCtl()
+        CType(Me.AxFoxitCtl_Main, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'AxFoxitReaderOCX_Viewer
+        'AxFoxitCtl_Main
         '
-        Me.AxFoxitReaderOCX_Viewer.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.AxFoxitReaderOCX_Viewer.Enabled = True
-        Me.AxFoxitReaderOCX_Viewer.Location = New System.Drawing.Point(0, 0)
-        Me.AxFoxitReaderOCX_Viewer.Name = "AxFoxitReaderOCX_Viewer"
-        Me.AxFoxitReaderOCX_Viewer.OcxState = CType(resources.GetObject("AxFoxitReaderOCX_Viewer.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.AxFoxitReaderOCX_Viewer.Size = New System.Drawing.Size(448, 432)
-        Me.AxFoxitReaderOCX_Viewer.TabIndex = 1
+        Me.AxFoxitCtl_Main.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.AxFoxitCtl_Main.Enabled = True
+        Me.AxFoxitCtl_Main.Location = New System.Drawing.Point(0, 0)
+        Me.AxFoxitCtl_Main.Name = "AxFoxitCtl_Main"
+        Me.AxFoxitCtl_Main.OcxState = CType(resources.GetObject("AxFoxitCtl_Main.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.AxFoxitCtl_Main.Size = New System.Drawing.Size(448, 432)
+        Me.AxFoxitCtl_Main.TabIndex = 0
         '
         'UserControl_EditPDF
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.Controls.Add(Me.AxFoxitReaderOCX_Viewer)
+        Me.Controls.Add(Me.AxFoxitCtl_Main)
         Me.Name = "UserControl_EditPDF"
         Me.Size = New System.Drawing.Size(448, 432)
-        CType(Me.AxFoxitReaderOCX_Viewer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.AxFoxitCtl_Main, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents AxFoxitReaderOCX_Viewer As AxFOXITREADEROCXLib.AxFoxitReaderOCX
+    Friend WithEvents AxFoxitCtl_Main As AxFOXITREADERLib.AxFoxitCtl
 
 End Class

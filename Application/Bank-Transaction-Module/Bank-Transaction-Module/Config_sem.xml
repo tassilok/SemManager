@@ -26,7 +26,7 @@
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>DB_Name_System</ConfigItem_Name>
-    <ConfigItem_Value>sem_db_System</ConfigItem_Value>
+    <ConfigItem_Value>sem_db_system</ConfigItem_Value>
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>DB_Name_Change</ConfigItem_Name>

@@ -58,7 +58,7 @@ Public Class UserControl_EditPDF
         End If
 
         If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
-            AxFoxitReaderOCX_Viewer.OpenFile(strPath)
+            AxFoxitCtl_Main.OpenFile(strPath)
         End If
     End Sub
 

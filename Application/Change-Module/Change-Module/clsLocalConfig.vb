@@ -92,6 +92,7 @@ Public Class clsLocalConfig
     Private objSemItem_RelationType_Error_Queue As New clsSemItem
     Private objSemItem_RelationType_correlation_Done As New clsSemItem
     Private objSemItem_RelationType_superordinate As New clsSemItem
+    Private objSemItem_RelationType_belonging_Resource As New clsSemItem
 
     Private objSemItem_User As clsSemItem
     Private objSemItem_Group As clsSemItem
@@ -470,6 +471,12 @@ Public Class clsLocalConfig
     Public ReadOnly Property SemItem_RelationType_superordinate() As clsSemItem
         Get
             Return objSemItem_RelationType_superordinate
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_RelationType_belonging_Resource() As clsSemItem
+        Get
+            Return objSemItem_RelationType_belonging_Resource
         End Get
     End Property
 
@@ -992,6 +999,23 @@ Public Class clsLocalConfig
                 objSemItem_RelationType_superordinate.GUID = objDRC_Ref(0).Item("GUID_RelationType")
                 objSemItem_RelationType_superordinate.Name = objDRC_Ref(0).Item("Name_RelationType")
                 objSemItem_RelationType_superordinate.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
+
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='RelationType_belonging_Resource'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_RelationType_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_RelationType_belonging_Resource.GUID = objDRC_Ref(0).Item("GUID_RelationType")
+                objSemItem_RelationType_belonging_Resource.Name = objDRC_Ref(0).Item("Name_RelationType")
+                objSemItem_RelationType_belonging_Resource.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
 
             Else
                 Err.Raise(1, "Config not set")

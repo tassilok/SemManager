@@ -829,14 +829,14 @@ Public Class clsTransaction_Ticket
 
         If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
             objDRC_SemItem = funcA_Token_OR.GetData_By_GUIDTokenLeft_And_GUIDRelationType(objSemItem_Ticket.GUID, _
-                                                                                           objLocalConfig.SemItem_RelationType_belongsTo.GUID).Rows
+                                                                                           objLocalConfig.SemItem_RelationType_belonging_Resource.GUID).Rows
             For Each objDR_SemItem In objDRC_SemItem
                 If objDR_SemItem.Item("GUID_ObjectReference") = objSemItem_RefOR.GUID Then
                     boolAdd = False
                 Else
                     objDRC_LogState = semprocA_DBWork_Del_Token_OR.GetData(objSemItem_Ticket.GUID, _
                                                                            objDR_SemItem.Item("GUID_ObjectReference"), _
-                                                                           objLocalConfig.SemItem_RelationType_belongsTo.GUID).Rows
+                                                                           objLocalConfig.SemItem_RelationType_belonging_Resource.GUID).Rows
                     If objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Error.GUID Then
                         boolAdd = False
                         objSemItem_Result = objLocalConfig.Globals.LogState_Error
@@ -847,7 +847,7 @@ Public Class clsTransaction_Ticket
             If boolAdd = True Then
                 objDRC_LogState = semprocA_DBWork_Save_Token_OR.GetData(objSemItem_Ticket.GUID, _
                                                                         objSemItem_RefOR.GUID, _
-                                                                        objLocalConfig.SemItem_RelationType_belongsTo.GUID, 0).Rows
+                                                                        objLocalConfig.SemItem_RelationType_belonging_Resource.GUID, 0).Rows
                 If Not objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Error.GUID Then
                     objSemItem_Result = objLocalConfig.Globals.LogState_Success
                 Else
@@ -874,12 +874,12 @@ Public Class clsTransaction_Ticket
             objSemItem_RefOR = SemItem_RefOR
         End If
         objDRC_SemItem = funcA_Token_OR.GetData_By_GUIDTokenLeft_And_GUIDRelationType(objSemItem_Ticket.GUID, _
-                                                                                      objLocalConfig.SemItem_RelationType_belongsTo.GUID).Rows
+                                                                                      objLocalConfig.SemItem_RelationType_belonging_Resource.GUID).Rows
         objSemItem_Result = objLocalConfig.Globals.LogState_Success
         For Each objDR_SemItem In objDRC_SemItem
             objDRC_LogState = semprocA_DBWork_Del_Token_OR.GetData(objSemItem_Ticket.GUID, _
                                                                    objSemItem_RefOR.GUID, _
-                                                                   objLocalConfig.SemItem_RelationType_belongsTo.GUID).Rows
+                                                                   objLocalConfig.SemItem_RelationType_belonging_Resource.GUID).Rows
             If Not objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Error.GUID Then
                 objSemItem_Result = objLocalConfig.Globals.LogState_Error
                 Exit For

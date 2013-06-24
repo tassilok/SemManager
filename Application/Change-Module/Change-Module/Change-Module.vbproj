@@ -52,6 +52,9 @@
   <PropertyGroup>
     <ApplicationIcon>kexi_kexi_team_01.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Log-Manager">
       <HintPath>..\..\Log-Manager\Log-Manager\bin\Debug\Log-Manager.exe</HintPath>
@@ -197,6 +200,7 @@
     <None Include="ds_ChangeModule.xss">
       <DependentUpon>ds_ChangeModule.xsd</DependentUpon>
     </None>
+    <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

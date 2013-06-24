@@ -31,12 +31,12 @@ Partial Class UserControl_TicketTree
         Me.ContextMenuStrip_TicketTree = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.CreateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RemoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ApplyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImageList_Main = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_SelectedRange = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_DateRange = New System.Windows.Forms.ToolStripTextBox()
         Me.Timer_Related = New System.Windows.Forms.Timer(Me.components)
-        Me.ApplyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -74,7 +74,7 @@ Partial Class UserControl_TicketTree
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripProgressBar_Related})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(112, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(114, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripProgressBar_Related
@@ -99,19 +99,26 @@ Partial Class UserControl_TicketTree
         '
         Me.ContextMenuStrip_TicketTree.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateToolStripMenuItem, Me.RemoveToolStripMenuItem, Me.ApplyToolStripMenuItem})
         Me.ContextMenuStrip_TicketTree.Name = "ContextMenuStrip_TicketTree"
-        Me.ContextMenuStrip_TicketTree.Size = New System.Drawing.Size(153, 92)
+        Me.ContextMenuStrip_TicketTree.Size = New System.Drawing.Size(128, 70)
         '
         'CreateToolStripMenuItem
         '
         Me.CreateToolStripMenuItem.Name = "CreateToolStripMenuItem"
-        Me.CreateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.CreateToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
         Me.CreateToolStripMenuItem.Text = "x_Create"
         '
         'RemoveToolStripMenuItem
         '
         Me.RemoveToolStripMenuItem.Name = "RemoveToolStripMenuItem"
-        Me.RemoveToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.RemoveToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
         Me.RemoveToolStripMenuItem.Text = "x_Remove"
+        '
+        'ApplyToolStripMenuItem
+        '
+        Me.ApplyToolStripMenuItem.Enabled = False
+        Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
+        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.ApplyToolStripMenuItem.Text = "x_Apply"
         '
         'ImageList_Main
         '
@@ -135,13 +142,13 @@ Partial Class UserControl_TicketTree
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_SelectedRange, Me.ToolStripTextBox_DateRange})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(310, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(314, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_SelectedRange
         '
         Me.ToolStripLabel_SelectedRange.Name = "ToolStripLabel_SelectedRange"
-        Me.ToolStripLabel_SelectedRange.Size = New System.Drawing.Size(98, 22)
+        Me.ToolStripLabel_SelectedRange.Size = New System.Drawing.Size(100, 22)
         Me.ToolStripLabel_SelectedRange.Text = "x_Selected Range:"
         '
         'ToolStripTextBox_DateRange
@@ -152,13 +159,6 @@ Partial Class UserControl_TicketTree
         'Timer_Related
         '
         Me.Timer_Related.Interval = 300
-        '
-        'ApplyToolStripMenuItem
-        '
-        Me.ApplyToolStripMenuItem.Enabled = False
-        Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
-        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.ApplyToolStripMenuItem.Text = "x_Apply"
         '
         'UserControl_TicketTree
         '

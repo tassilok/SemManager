@@ -46,7 +46,12 @@ Public Class clsLocalConfig
     Private objSemItem_RelationType_provides As New clsSemItem
     Private objSemItem_RelationType_was_finished_with As New clsSemItem
     Private objSemItem_RelationType_Log_of As New clsSemItem
-
+    Private objSemItem_RelationType_contains As New clsSemItem
+    Private objSemItem_RelationType_belonging_Type As New clsSemItem
+    Private objSemItem_RelationType_belonging_Token As New clsSemItem
+    Private objSemItem_RelationType_belonging_RelationType As New clsSemItem
+    Private objSemItem_RelationType_belonging_Attribute As New clsSemItem
+    Private objSemItem_RelationType_is As New clsSemItem
 
     'Type
     Private objSemItem_Type_Alternate_Currency_Name As New clsSemItem
@@ -66,6 +71,10 @@ Public Class clsLocalConfig
     Private objSemItem_Type_Kontodaten As New clsSemItem
     Private objSemItem_Type_Bank_Transaktionen__Sparkasse____Archiv As New clsSemItem
     Private objSemItem_Type_Financial_Transaction___Archive As New clsSemItem
+    Private objSemItem_Type_Report_Field As New clsSemItem
+    Private objSemItem_Type_Ontology_Item As New clsSemItem
+    Private objSemItem_Type_Ontology_Join As New clsSemItem
+    Private objSemItem_Type_Partner As New clsSemItem
 
     'Token
     Private objSemItem_Token_Logstate_Config_Error As New clsSemItem
@@ -208,6 +217,42 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property SemItem_RelationType_contains() As clsSemItem
+        Get
+            Return objSemItem_RelationType_contains
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_RelationType_belonging_Type() As clsSemItem
+        Get
+            Return objSemItem_RelationType_belonging_Type
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_RelationType_belonging_Token() As clsSemItem
+        Get
+            Return objSemItem_RelationType_belonging_Token
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_RelationType_belonging_RelationType() As clsSemItem
+        Get
+            Return objSemItem_RelationType_belonging_RelationType
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_RelationType_belonging_Attribute() As clsSemItem
+        Get
+            Return objSemItem_RelationType_belonging_Attribute
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_RelationType_is() As clsSemItem
+        Get
+            Return objSemItem_RelationType_is
+        End Get
+    End Property
+
     'Types
     Public ReadOnly Property SemItem_Type_Alternate_Currency_Name() As clsSemItem
         Get
@@ -281,6 +326,12 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property SemItem_Type_Partner() As clsSemItem
+        Get
+            Return objSemItem_Type_Partner
+        End Get
+    End Property
+
     Public ReadOnly Property SemItem_Development As clsSemItem
         Get
             Return objSemItem_Development
@@ -319,6 +370,24 @@ Public Class clsLocalConfig
     Public ReadOnly Property SemItem_Type_Financial_Transaction___Archive() As clsSemItem
         Get
             Return objSemItem_Type_Financial_Transaction___Archive
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_Type_Report_Field() As clsSemItem
+        Get
+            Return objSemItem_Type_Report_Field
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_Type_Ontology_Item() As clsSemItem
+        Get
+            Return objSemItem_Type_Ontology_Item
+        End Get
+    End Property
+
+    Public ReadOnly Property SemItem_Type_Ontology_Join() As clsSemItem
+        Get
+            Return objSemItem_Type_Ontology_Join
         End Get
     End Property
 
@@ -778,6 +847,109 @@ Public Class clsLocalConfig
         Else
             Err.Raise(1, "Config not set")
         End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='RelationType_contains'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_RelationType_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_RelationType_contains.GUID = objDRC_Ref(0).Item("GUID_RelationType")
+                objSemItem_RelationType_contains.Name = objDRC_Ref(0).Item("Name_RelationType")
+                objSemItem_RelationType_contains.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
+
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='RelationType_belonging_Type'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_RelationType_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_RelationType_belonging_Type.GUID = objDRC_Ref(0).Item("GUID_RelationType")
+                objSemItem_RelationType_belonging_Type.Name = objDRC_Ref(0).Item("Name_RelationType")
+                objSemItem_RelationType_belonging_Type.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
+
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='RelationType_belonging_Token'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_RelationType_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_RelationType_belonging_Token.GUID = objDRC_Ref(0).Item("GUID_RelationType")
+                objSemItem_RelationType_belonging_Token.Name = objDRC_Ref(0).Item("Name_RelationType")
+                objSemItem_RelationType_belonging_Token.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
+
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='RelationType_belonging_RelationType'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_RelationType_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_RelationType_belonging_RelationType.GUID = objDRC_Ref(0).Item("GUID_RelationType")
+                objSemItem_RelationType_belonging_RelationType.Name = objDRC_Ref(0).Item("Name_RelationType")
+                objSemItem_RelationType_belonging_RelationType.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
+
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='RelationType_belonging_Attribute'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_RelationType_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_RelationType_belonging_Attribute.GUID = objDRC_Ref(0).Item("GUID_RelationType")
+                objSemItem_RelationType_belonging_Attribute.Name = objDRC_Ref(0).Item("Name_RelationType")
+                objSemItem_RelationType_belonging_Attribute.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
+
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='RelationType_is'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_RelationType_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_RelationType_is.GUID = objDRC_Ref(0).Item("GUID_RelationType")
+                objSemItem_RelationType_is.Name = objDRC_Ref(0).Item("Name_RelationType")
+                objSemItem_RelationType_is.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
+
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
     End Sub
 
     Private Sub get_Config_Token()
@@ -1154,5 +1326,82 @@ Public Class clsLocalConfig
         Else
             Err.Raise(1, "Config not set")
         End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Type_Report_Field'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Type_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Type_Report_Field.GUID = objDRC_Ref(0).Item("GUID_Type")
+                objSemItem_Type_Report_Field.Name = objDRC_Ref(0).Item("Name_Type")
+                If Not IsDBNull(objDRC_Ref(0).Item("GUID_Type_Parent")) Then
+                    objSemItem_Type_Report_Field.GUID_Parent = objDRC_Ref(0).Item("GUID_Type_Parent")
+                End If
+                objSemItem_Type_Report_Field.GUID_Type = objGlobals.ObjectReferenceType_Type.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Type_Ontology_Item'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Type_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Type_Ontology_Item.GUID = objDRC_Ref(0).Item("GUID_Type")
+                objSemItem_Type_Ontology_Item.Name = objDRC_Ref(0).Item("Name_Type")
+                If Not IsDBNull(objDRC_Ref(0).Item("GUID_Type_Parent")) Then
+                    objSemItem_Type_Ontology_Item.GUID_Parent = objDRC_Ref(0).Item("GUID_Type_Parent")
+                End If
+                objSemItem_Type_Ontology_Item.GUID_Type = objGlobals.ObjectReferenceType_Type.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Type_Ontology_Join'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Type_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Type_Ontology_Join.GUID = objDRC_Ref(0).Item("GUID_Type")
+                objSemItem_Type_Ontology_Join.Name = objDRC_Ref(0).Item("Name_Type")
+                If Not IsDBNull(objDRC_Ref(0).Item("GUID_Type_Parent")) Then
+                    objSemItem_Type_Ontology_Join.GUID_Parent = objDRC_Ref(0).Item("GUID_Type_Parent")
+                End If
+                objSemItem_Type_Ontology_Join.GUID_Type = objGlobals.ObjectReferenceType_Type.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
+        objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select("Name_Token_ConfigItem='Type_Partner'")
+        If objDRs_ConfigItem.Length > 0 Then
+            objDRC_Ref = procA_OR_Type_By_GUID.GetData(objDRs_ConfigItem(0).Item("GUID_ObjectReference")).Rows
+            If objDRC_Ref.Count > 0 Then
+                objSemItem_Type_Partner.GUID = objDRC_Ref(0).Item("GUID_Type")
+                objSemItem_Type_Partner.Name = objDRC_Ref(0).Item("Name_Type")
+                If Not IsDBNull(objDRC_Ref(0).Item("GUID_Type_Parent")) Then
+                    objSemItem_Type_Partner.GUID_Parent = objDRC_Ref(0).Item("GUID_Type_Parent")
+                End If
+                objSemItem_Type_Partner.GUID_Type = objGlobals.ObjectReferenceType_Type.GUID
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+
+
+        Else
+            Err.Raise(1, "Config not set")
+        End If
+
     End Sub
 End Class
