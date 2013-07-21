@@ -34,6 +34,6 @@
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>Module-Path</ConfigItem_Name>
-    <ConfigItem_Value>C:\Users\tassilok\Documents\Development\Semantic\Modules</ConfigItem_Value>
+    <ConfigItem_Value>C:\Program Files (x86)\SemModule</ConfigItem_Value>
   </dtbl_BaseConfig>
 </DocumentElement>

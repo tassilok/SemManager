@@ -140,6 +140,12 @@
     <Compile Include="UserControl_LiteraturQuelle.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControl_VideoQuelle.Designer.vb">
+      <DependentUpon>UserControl_VideoQuelle.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_VideoQuelle.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmMain.resx">
@@ -159,6 +165,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_LiteraturQuelle.resx">
       <DependentUpon>UserControl_LiteraturQuelle.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_VideoQuelle.resx">
+      <DependentUpon>UserControl_VideoQuelle.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

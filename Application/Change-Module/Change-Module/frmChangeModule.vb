@@ -1251,7 +1251,7 @@ Public Class frmChangeModule
 
                         objSemItem_Result = objTransaction_ProcessLog.save_001_ProcessLogIncident(objSemItem_Incident)
                         If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
-                            objSemItem_ProcessLog = objTicketWork.get_ProcessLog(objSemItems_Parents(1), objSemItems_Parents(0))
+
                             objSemItem_Result = objTransaction_ProcessLog.save_005_Incident_To_Parent(objSemItem_ProcessLog)
                             If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
                                 objSemItem_Result = objTransaction_Ticket.save_013_Ticket_To_ProcessLogIncident(objSemItem_Incident, objSemItems_Parents(0))
