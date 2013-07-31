@@ -545,7 +545,7 @@ Public Class UserControl_Galery
 
 
                 End If
-                objUserControl_Localized.initialize(objSemItem_Ref, objSemItems_Languages, True)
+                objUserControl_Localized.initialize(objSemItem_ImageGraphic, objSemItems_Languages, True)
 
 
             Else
