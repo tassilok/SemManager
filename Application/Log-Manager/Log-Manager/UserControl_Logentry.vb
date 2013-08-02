@@ -5,6 +5,8 @@ Public Class UserControl_Logentry
 
     Private objUserControl_Relations As UserControl_SemItemList
 
+    Private objFrmTokenEdit As frmTokenEdit
+
     Private semtblA_Token As New ds_SemDBTableAdapters.semtbl_TokenTableAdapter
     Private semtblT_LogStates As New ds_SemDB.semtbl_TokenDataTable
     Private semtblT_User As New ds_SemDB.semtbl_TokenDataTable
@@ -22,6 +24,9 @@ Public Class UserControl_Logentry
     Private boolDone_User As Boolean
 
     Private objSemItem_Logentry As clsSemItem
+
+    Private objSemItem_LogState_Standard As clsSemItem
+    Private objSemItem_User_Standard As clsSemItem
 
     Private objThread_Data As Threading.Thread
     Private objTransaction_LogEntry As clsTransaction_Logentries
@@ -163,6 +168,10 @@ Public Class UserControl_Logentry
         If boolDone_LogState = True Then
             If objDRC_LogState.Count > 0 Then
                 ComboBox_Logstate.SelectedValue = objDRC_LogState(0).Item("GUID_Token_Right")
+            ElseIf Not objSemItem_LogState_Standard Is Nothing Then
+
+                ComboBox_Logstate.SelectedValue = objSemItem_LogState_Standard.GUID
+                save_LogState()
             End If
             ComboBox_Logstate.Enabled = True
             intCount = intCount + 1
@@ -183,7 +192,10 @@ Public Class UserControl_Logentry
         If boolDone_User = True Then
             If objDRC_User.Count > 0 Then
                 ComboBox_User.SelectedValue = objDRC_User(0).Item("GUID_Token_Right")
+            ElseIf Not objSemItem_User_Standard Is Nothing Then
 
+                ComboBox_User.SelectedValue = objSemItem_User_Standard.GUID
+                save_User()
             End If
             ComboBox_User.Enabled = True
             intCount = intCount + 1
@@ -337,6 +349,8 @@ Public Class UserControl_Logentry
         End If
     End Sub
 
+   
+
     Private Sub ComboBox_Logstate_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ComboBox_Logstate.SelectedIndexChanged
         If ComboBox_Logstate.Enabled = True Then
             save_LogState()
@@ -426,6 +440,8 @@ Public Class UserControl_Logentry
         
     End Sub
 
+    
+
     Private Sub ComboBox_User_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ComboBox_User.SelectedIndexChanged
         If ComboBox_User.Enabled = True Then
             save_User()
@@ -443,6 +459,132 @@ Public Class UserControl_Logentry
     Private Sub Button_FromTimestamp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_FromTimestamp.Click
         If TextBox_Caption.Enabled = True Then
             TextBox_Caption.Text = DateTimePicker_DateTimeStamp.Value.ToString
+        End If
+    End Sub
+
+    Private Sub ContextMenuStrip_LogState_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_LogState.Opening
+
+        LogStateStandardToolStripMenuItem.Enabled = False
+        LogStateOpenTokenEditToolStripMenuItem.Enabled = False
+
+        If Not ComboBox_Logstate.SelectedItem Is Nothing Then
+            LogStateStandardToolStripMenuItem.Enabled = True
+            LogStateOpenTokenEditToolStripMenuItem.Enabled = True
+        End If
+
+
+    End Sub
+
+    Private Sub LogStateStandardToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LogStateStandardToolStripMenuItem.Click
+        Dim objDRV_Selected As DataRowView
+
+        objSemItem_LogState_Standard = Nothing
+
+        If Not ComboBox_Logstate.SelectedItem Is Nothing Then
+            objDRV_Selected = ComboBox_Logstate.SelectedItem
+            objSemItem_LogState_Standard = New clsSemItem()
+            objSemItem_LogState_Standard.GUID = objDRV_Selected.Item("GUID_Token")
+            objSemItem_LogState_Standard.Name = objDRV_Selected.Item("Name_Token")
+            objSemItem_LogState_Standard.GUID_Parent = objDRV_Selected.Item("GUID_Type")
+            objSemItem_LogState_Standard.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+        End If
+
+        showStandards()
+    End Sub
+
+    Private Sub showStandards()
+        If Not objSemItem_LogState_Standard Is Nothing Then
+            ToolStripButton_LogState.Text = objSemItem_LogState_Standard.Name
+        Else
+            ToolStripButton_LogState.Text = "-"
+        End If
+
+        If Not objSemItem_User_Standard Is Nothing Then
+            ToolStripButton_User.Text = objSemItem_User_Standard.Name
+        Else
+            ToolStripButton_User.Text = "-"
+        End If
+    End Sub
+
+    Private Sub clearStandard(SemItem_Standard As clsSemItem)
+        SemItem_Standard = Nothing
+
+
+        showStandards()
+    End Sub
+
+    Private Sub ToolStripButton_User_Click(sender As Object, e As EventArgs) Handles ToolStripButton_User.Click
+        clearStandard(objSemItem_User_Standard)
+    End Sub
+
+    Private Sub ToolStripButton_LogState_Click(sender As Object, e As EventArgs) Handles ToolStripButton_LogState.Click
+        clearStandard(objSemItem_LogState_Standard)
+    End Sub
+
+    Private Sub UserStandardToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UserStandardToolStripMenuItem.Click
+        Dim objDRV_Selected As DataRowView
+
+        objSemItem_User_Standard = Nothing
+
+        If Not ComboBox_User.SelectedItem Is Nothing Then
+            objDRV_Selected = ComboBox_User.SelectedItem
+            objSemItem_User_Standard = New clsSemItem()
+            objSemItem_User_Standard.GUID = objDRV_Selected.Item("GUID_Token")
+            objSemItem_User_Standard.Name = objDRV_Selected.Item("Name_Token")
+            objSemItem_User_Standard.GUID_Parent = objDRV_Selected.Item("GUID_Type")
+            objSemItem_User_Standard.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+        End If
+
+        showStandards()
+    End Sub
+
+    Private Sub ContextMenuStrip_User_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_User.Opening
+        UserStandardToolStripMenuItem.Enabled = False
+        UserOpenTokenEditToolStripMenuItem.Enabled = False
+
+        If Not ComboBox_Logstate.SelectedItem Is Nothing Then
+            UserStandardToolStripMenuItem.Enabled = True
+            UserOpenTokenEditToolStripMenuItem.Enabled = True
+        End If
+
+
+    End Sub
+
+    Private Sub UserOpenTokenEditToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UserOpenTokenEditToolStripMenuItem.Click
+        Dim objDRV_Selected As DataRowView
+        Dim objSemItem_User As New clsSemItem
+
+        If Not ComboBox_User.SelectedItem Is Nothing Then
+            objDRV_Selected = ComboBox_User.SelectedItem
+
+            objSemItem_User.GUID = objDRV_Selected.Item("GUID_Token")
+            objSemItem_User.Name = objDRV_Selected.Item("Name_Token")
+            objSemItem_User.GUID_Parent = objDRV_Selected.Item("GUID_Type")
+            objSemItem_User.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+            objFrmTokenEdit = New frmTokenEdit(objSemItem_User, objLocalConfig.Globals)
+            objFrmTokenEdit.ShowDialog(Me)
+
+        End If
+    End Sub
+
+    Private Sub LogStateOpenTokenEditToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LogStateOpenTokenEditToolStripMenuItem.Click
+        Dim objDRV_Selected As DataRowView
+        Dim objSemItem_LogState As New clsSemItem
+
+        If Not ComboBox_Logstate.SelectedItem Is Nothing Then
+            objDRV_Selected = ComboBox_Logstate.SelectedItem
+
+            objSemItem_LogState.GUID = objDRV_Selected.Item("GUID_Token")
+            objSemItem_LogState.Name = objDRV_Selected.Item("Name_Token")
+            objSemItem_LogState.GUID_Parent = objDRV_Selected.Item("GUID_Type")
+            objSemItem_LogState.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+            objFrmTokenEdit = New frmTokenEdit(objSemItem_LogState, objLocalConfig.Globals)
+            objFrmTokenEdit.ShowDialog(Me)
+
         End If
     End Sub
 End Class
