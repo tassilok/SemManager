@@ -1396,10 +1396,13 @@ Public Class frmFilesystemManagement
                             objSemItem_File.GUID_Parent = objLocalConfig.SemItem_Type_Filesystem_Management.GUID
                             objSemItem_File.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
 
-                            objSemItem_Result = objBlobConnection.save_Blob_To_File(objSemItem_File, strPath & "\" & objSemItem_File.Name)
-                            If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
-                                intDone = intDone + 1
+                            If IO.File.Exists(strPath & "\" & objSemItem_File.Name) = False Then
+                                objSemItem_Result = objBlobConnection.save_Blob_To_File(objSemItem_File, strPath & "\" & objSemItem_File.Name)
+                                If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                    intDone = intDone + 1
+                                End If
                             End If
+                            
                         Catch ex As Exception
 
                         End Try
