@@ -45,6 +45,12 @@ Public Class UserControl_Report
 
     Private boolFilterChanged As Boolean
 
+    Public ReadOnly Property DataGridview_Viewed As DataGridView
+        Get
+            Return DataGridView_Reports
+        End Get
+    End Property
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
 
         ' This call is required by the designer.
