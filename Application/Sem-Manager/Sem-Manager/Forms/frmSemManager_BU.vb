@@ -749,6 +749,7 @@
     End Sub
 
     Private Sub RelateToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RelateToolStripMenuItem.Click
+        Dim objSemItem_Result As clsSemItem
         objSemItem_Right = Nothing
         objSemItem_Token_Left = New clsSemItem
         objSemItem_Token_Left.GUID = objSemItem_Token.GUID
@@ -756,7 +757,11 @@
         objSemItem_Token_Left.GUID_Parent = objSemItem_Token.GUID_Parent
         objSemItem_Token_Left.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
 
-        save_Relation()
+        objSemItem_Result = save_Relation()
+        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID And objSemItem_Result.Mark=True Then
+            get_TokenRelation(objSemItem_Token)
+            
+        End If
     End Sub
     Private Sub save_TokenAttribute()
         Dim boolRelate As Boolean
@@ -797,6 +802,7 @@
         Dim objSemItem_ForListRelation As New clsSemItem
         Dim objSemItem_Clipboard As clsSemItem
         Dim objDRC_Token As DataRowCollection
+        Dim boolRefresh as Boolean = False
 
         objSemItem_Result = objLocalConfig.Globals.LogState_Success
 
@@ -828,6 +834,7 @@
                     objSemItem_Right.Name = objDRC_Token(0).Item("Name_Token")
                     objSemItem_Right.GUID_Parent = objDRC_Token(0).Item("GUID_Type")
                     objSemItem_Right.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                    boolRefresh = True
                 End If
             End If
             If Not objSemItem_Right Is Nothing Then
@@ -863,6 +870,11 @@
                 objSemItem_Result = objLocalConfig.Globals.LogState_Nothing
             End If
         End If
+
+        If boolRefresh = true Then
+            objSemItem_Result.Mark = True
+        End If
+       
         Return objSemItem_Result
     End Function
 
