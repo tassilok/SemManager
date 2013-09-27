@@ -84,6 +84,8 @@ Public Class UserControl_Report
         Else
             get_Data()
         End If
+
+        ConfigureCalculation()
     End Sub
 
     Private Sub get_Data()
@@ -165,7 +167,7 @@ Public Class UserControl_Report
 
         Next
 
-
+        DataGridView_Reports.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
     End Sub
 
     Private Sub DataGridView_Reports_CellMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellMouseEventArgs) Handles DataGridView_Reports.CellMouseClick
@@ -913,4 +915,100 @@ Public Class UserControl_Report
     Private Sub FieldToSortToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FieldToSortToolStripMenuItem.Click
         ToolStripTextBox_Sort.Text = ToolStripTextBox_Sort.Text & DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName
     End Sub
+
+
+    Private Sub ToolStripMenuItemCalcAdd_Click( sender As Object,  e As EventArgs) Handles ToolStripMenuItemCalcAdd.Click
+        ConfigureCalculation(ToolStripMenuItemCalcAdd)
+    End Sub
+
+    Private Sub ToolStripMenuItemCalcMult_Click( sender As Object,  e As EventArgs) Handles ToolStripMenuItemCalcMult.Click
+        ConfigureCalculation(ToolStripMenuItemCalcMult)
+    End Sub
+
+    Private sub ConfigureCalculation(optional menuItem As ToolStripMenuItem = Nothing)
+        If menuItem Is Nothing Then
+            ToolStripMenuItemCalcAdd.Checked=True
+            ConfigureCalculation(ToolStripMenuItemCalcAdd)
+            return
+        End If
+
+        Select Case menuItem.Name
+            Case ToolStripMenuItemCalcAdd.Name
+                ToolStripMenuItemCalcAdd.Checked = True
+                ToolStripMenuItemCalcMult.Checked = False
+                AVGToolStripMenuItem.Checked = False
+
+            Case ToolStripMenuItemCalcMult.Name
+                ToolStripMenuItemCalcMult.Checked = True
+                ToolStripMenuItemCalcAdd.Checked = False
+                AVGToolStripMenuItem.Checked = false
+
+            Case AVGToolStripMenuItem.Name
+                AVGToolStripMenuItem.Checked = True
+                ToolStripMenuItemCalcAdd.Checked = False
+                ToolStripMenuItemCalcMult.Checked = False
+        End Select
+
+        ToolStripSplitButton_Calculation.Text = menuItem.Text
+        Calculate()
+    End Sub
+
+    Private Sub DataGridView_Reports_CellClick( sender As Object,  e As DataGridViewCellEventArgs) Handles DataGridView_Reports.CellClick
+        Calculate()
+    End Sub
+
+    Private sub Calculate
+        Dim calcTest As Double
+        Dim calculation As Double = 0
+        Dim first As Boolean = True
+        If DataGridview_Viewed.SelectedCells.Count>0 Then
+            for each cell As DataGridViewCell in DataGridview_Viewed.SelectedCells
+            If Not Double.TryParse(cell.Value.ToString(),calcTest) Then
+                ToolStripTextBox_Calculation.Text = ""
+                return
+            Else 
+                Try
+                    If ToolStripMenuItemCalcMult.Checked then
+                        If first Then
+                            calculation = calcTest
+                            first = False
+                        Else 
+                            calculation = calculation * calcTest
+                        End If
+                    Elseif ToolStripMenuItemCalcAdd.Checked Or AVGToolStripMenuItem.Checked then
+                        calculation = calculation + calcTest
+                    End If
+                    Catch ex As Exception
+                        ToolStripTextBox_Calculation.Text = ""
+                        return
+                    End Try
+                End If
+            Next
+
+            If AVGToolStripMenuItem.Checked Then
+                calculation = calculation / DataGridview_Viewed.SelectedCells.Count
+            End If
+            ToolStripTextBox_Calculation.Text = calculation.ToString()
+        Else 
+            ToolStripTextBox_Calculation.Text = ""
+        End If
+        
+        
+
+        
+    End Sub
+
+    Private Sub AVGToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles AVGToolStripMenuItem.Click
+        ConfigureCalculation(AVGToolStripMenuItem)
+    End Sub
+
+    Private Sub DataGridView_Reports_KeyUp( sender As Object,  e As KeyEventArgs) Handles DataGridView_Reports.KeyUp
+        select Case e.KeyCode
+            Case Keys.C
+                If e.Control
+                    Clipboard.SetDataObject(DataGridView_Reports.GetClipboardContent())
+                End If
+        End Select
+    End Sub
+
 End Class

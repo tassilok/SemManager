@@ -23,16 +23,14 @@ Partial Class UserControl_SemItemList
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UserControl_SemItemList))
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.ToolStrip_Filter = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton_Filter = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripTextBox_Filter = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripButton_FilterAdvanced = New System.Windows.Forms.ToolStripButton()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_CountLbl = New System.Windows.Forms.ToolStripLabel()
@@ -40,14 +38,9 @@ Partial Class UserControl_SemItemList
         Me.ToolStripLabel_GUID = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_GUID = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStrip_Edit = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton_AddItem = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_DelItem = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripButton_Sort = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Down = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Up = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripButton_Report = New System.Windows.Forms.ToolStripButton()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage_List = New System.Windows.Forms.TabPage()
         Me.DataGridView_Items = New System.Windows.Forms.DataGridView()
@@ -62,34 +55,43 @@ Partial Class UserControl_SemItemList
         Me.ToClipboardToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabPage_Tree = New System.Windows.Forms.TabPage()
         Me.Timer_Filter = New System.Windows.Forms.Timer(Me.components)
+        Me.ToolTip_Item = New System.Windows.Forms.ToolTip(Me.components)
+        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripButton_Filter = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_FilterAdvanced = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_AddItem = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_DelItem = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Relate = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Sort = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Down = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Up = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Report = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Replace = New System.Windows.Forms.ToolStripButton()
         Me.BindingSource_Attribute = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_Type = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_Token = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_RelationType = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_TokenToken = New System.Windows.Forms.BindingSource(Me.components)
-        Me.ToolTip_Item = New System.Windows.Forms.ToolTip(Me.components)
-        Me.ToolStripButton_Relate = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
-        Me.TableLayoutPanel1.SuspendLayout()
-        Me.ToolStrip_Filter.SuspendLayout()
-        Me.ToolStrip2.SuspendLayout()
-        Me.ToolStrip_Edit.SuspendLayout()
-        Me.TabControl1.SuspendLayout()
-        Me.TabPage_List.SuspendLayout()
-        CType(Me.DataGridView_Items, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ContextMenuStrip_SemList.SuspendLayout()
-        CType(Me.BindingSource_Attribute, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BindingSource_Type, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BindingSource_Token, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BindingSource_RelationType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BindingSource_TokenToken, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SuspendLayout()
+        Me.TableLayoutPanel1.SuspendLayout
+        Me.ToolStrip_Filter.SuspendLayout
+        Me.ToolStrip2.SuspendLayout
+        Me.ToolStrip_Edit.SuspendLayout
+        Me.TabControl1.SuspendLayout
+        Me.TabPage_List.SuspendLayout
+        CType(Me.DataGridView_Items,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.ContextMenuStrip_SemList.SuspendLayout
+        CType(Me.BindingSource_Attribute,System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BindingSource_Type,System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BindingSource_Token,System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BindingSource_RelationType,System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BindingSource_TokenToken,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SuspendLayout
         '
         'TableLayoutPanel1
         '
         Me.TableLayoutPanel1.ColumnCount = 2
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100!))
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30!))
         Me.TableLayoutPanel1.Controls.Add(Me.ToolStrip_Filter, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.ToolStrip2, 0, 2)
         Me.TableLayoutPanel1.Controls.Add(Me.ToolStrip_Edit, 1, 1)
@@ -98,9 +100,9 @@ Partial Class UserControl_SemItemList
         Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 0)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 3
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25!))
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(600, 511)
         Me.TableLayoutPanel1.TabIndex = 0
         '
@@ -114,15 +116,6 @@ Partial Class UserControl_SemItemList
         Me.ToolStrip_Filter.TabIndex = 0
         Me.ToolStrip_Filter.Text = "ToolStrip1"
         '
-        'ToolStripButton_Filter
-        '
-        Me.ToolStripButton_Filter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Filter.Image = CType(resources.GetObject("ToolStripButton_Filter.Image"), System.Drawing.Image)
-        Me.ToolStripButton_Filter.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Filter.Name = "ToolStripButton_Filter"
-        Me.ToolStripButton_Filter.Size = New System.Drawing.Size(51, 22)
-        Me.ToolStripButton_Filter.Text = "x_Filter:"
-        '
         'ToolStripTextBox_Filter
         '
         Me.ToolStripTextBox_Filter.Name = "ToolStripTextBox_Filter"
@@ -132,16 +125,6 @@ Partial Class UserControl_SemItemList
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
         Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripButton_FilterAdvanced
-        '
-        Me.ToolStripButton_FilterAdvanced.CheckOnClick = True
-        Me.ToolStripButton_FilterAdvanced.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_FilterAdvanced.Image = CType(resources.GetObject("ToolStripButton_FilterAdvanced.Image"), System.Drawing.Image)
-        Me.ToolStripButton_FilterAdvanced.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_FilterAdvanced.Name = "ToolStripButton_FilterAdvanced"
-        Me.ToolStripButton_FilterAdvanced.Size = New System.Drawing.Size(110, 22)
-        Me.ToolStripButton_FilterAdvanced.Text = "x_Advanced Filter..."
         '
         'ToolStrip2
         '
@@ -173,24 +156,192 @@ Partial Class UserControl_SemItemList
         'ToolStripLabel_GUID
         '
         Me.ToolStripLabel_GUID.Name = "ToolStripLabel_GUID"
-        Me.ToolStripLabel_GUID.Size = New System.Drawing.Size(99, 22)
+        Me.ToolStripLabel_GUID.Size = New System.Drawing.Size(101, 22)
         Me.ToolStripLabel_GUID.Text = "x_GUID (selected):"
         '
         'ToolStripTextBox_GUID
         '
         Me.ToolStripTextBox_GUID.Name = "ToolStripTextBox_GUID"
-        Me.ToolStripTextBox_GUID.ReadOnly = True
+        Me.ToolStripTextBox_GUID.ReadOnly = true
         Me.ToolStripTextBox_GUID.Size = New System.Drawing.Size(250, 25)
         '
         'ToolStrip_Edit
         '
         Me.ToolStrip_Edit.Dock = System.Windows.Forms.DockStyle.Right
-        Me.ToolStrip_Edit.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_AddItem, Me.ToolStripButton_DelItem, Me.ToolStripSeparator1, Me.ToolStripButton_Relate, Me.ToolStripSeparator5, Me.ToolStripButton_Sort, Me.ToolStripButton_Down, Me.ToolStripButton_Up, Me.ToolStripSeparator2, Me.ToolStripButton_Report})
+        Me.ToolStrip_Edit.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_AddItem, Me.ToolStripButton_DelItem, Me.ToolStripSeparator1, Me.ToolStripButton_Relate, Me.ToolStripSeparator5, Me.ToolStripButton_Sort, Me.ToolStripButton_Down, Me.ToolStripButton_Up, Me.ToolStripSeparator2, Me.ToolStripButton_Report, Me.ToolStripSeparator6, Me.ToolStripButton_Replace})
         Me.ToolStrip_Edit.Location = New System.Drawing.Point(570, 25)
         Me.ToolStrip_Edit.Name = "ToolStrip_Edit"
         Me.ToolStrip_Edit.Size = New System.Drawing.Size(30, 461)
         Me.ToolStrip_Edit.TabIndex = 2
         Me.ToolStrip_Edit.Text = "ToolStrip3"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(29, 6)
+        '
+        'ToolStripSeparator5
+        '
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(29, 6)
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(29, 6)
+        '
+        'TabControl1
+        '
+        Me.TabControl1.Controls.Add(Me.TabPage_List)
+        Me.TabControl1.Controls.Add(Me.TabPage_Tree)
+        Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControl1.Location = New System.Drawing.Point(3, 28)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(564, 455)
+        Me.TabControl1.TabIndex = 3
+        '
+        'TabPage_List
+        '
+        Me.TabPage_List.Controls.Add(Me.DataGridView_Items)
+        Me.TabPage_List.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage_List.Name = "TabPage_List"
+        Me.TabPage_List.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage_List.Size = New System.Drawing.Size(556, 429)
+        Me.TabPage_List.TabIndex = 0
+        Me.TabPage_List.Text = "x_List"
+        Me.TabPage_List.UseVisualStyleBackColor = true
+        '
+        'DataGridView_Items
+        '
+        Me.DataGridView_Items.AllowUserToAddRows = false
+        Me.DataGridView_Items.AllowUserToDeleteRows = false
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView_Items.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
+        Me.DataGridView_Items.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView_Items.ContextMenuStrip = Me.ContextMenuStrip_SemList
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.DataGridView_Items.DefaultCellStyle = DataGridViewCellStyle5
+        Me.DataGridView_Items.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView_Items.Location = New System.Drawing.Point(3, 3)
+        Me.DataGridView_Items.Name = "DataGridView_Items"
+        Me.DataGridView_Items.ReadOnly = true
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView_Items.RowHeadersDefaultCellStyle = DataGridViewCellStyle6
+        Me.DataGridView_Items.Size = New System.Drawing.Size(550, 423)
+        Me.DataGridView_Items.TabIndex = 4
+        '
+        'ContextMenuStrip_SemList
+        '
+        Me.ContextMenuStrip_SemList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditToolStripMenuItem, Me.ApplyToolStripMenuItem, Me.ToClipboardToolStripMenuItem})
+        Me.ContextMenuStrip_SemList.Name = "ContextMenuStrip_SemList"
+        Me.ContextMenuStrip_SemList.Size = New System.Drawing.Size(151, 70)
+        '
+        'EditToolStripMenuItem
+        '
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.ModuleMenuToolStripMenuItem, Me.ModuleEditToolStripMenuItem})
+        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.EditToolStripMenuItem.Text = "x_Edit"
+        '
+        'CopyNameToolStripMenuItem
+        '
+        Me.CopyNameToolStripMenuItem.Name = "CopyNameToolStripMenuItem"
+        Me.CopyNameToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
+        Me.CopyNameToolStripMenuItem.Text = "x_Copy Name"
+        '
+        'ModuleMenuToolStripMenuItem
+        '
+        Me.ModuleMenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_ModuleMenu})
+        Me.ModuleMenuToolStripMenuItem.Name = "ModuleMenuToolStripMenuItem"
+        Me.ModuleMenuToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
+        Me.ModuleMenuToolStripMenuItem.Text = "x_Module-Menu"
+        '
+        'ToolStripComboBox_ModuleMenu
+        '
+        Me.ToolStripComboBox_ModuleMenu.Name = "ToolStripComboBox_ModuleMenu"
+        Me.ToolStripComboBox_ModuleMenu.Size = New System.Drawing.Size(250, 23)
+        '
+        'ModuleEditToolStripMenuItem
+        '
+        Me.ModuleEditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_ModuleEdit})
+        Me.ModuleEditToolStripMenuItem.Name = "ModuleEditToolStripMenuItem"
+        Me.ModuleEditToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
+        Me.ModuleEditToolStripMenuItem.Text = "x_Module-Edit"
+        '
+        'ToolStripComboBox_ModuleEdit
+        '
+        Me.ToolStripComboBox_ModuleEdit.Name = "ToolStripComboBox_ModuleEdit"
+        Me.ToolStripComboBox_ModuleEdit.Size = New System.Drawing.Size(121, 23)
+        '
+        'ApplyToolStripMenuItem
+        '
+        Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
+        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.ApplyToolStripMenuItem.Text = "x_Apply"
+        Me.ApplyToolStripMenuItem.Visible = false
+        '
+        'ToClipboardToolStripMenuItem
+        '
+        Me.ToClipboardToolStripMenuItem.Name = "ToClipboardToolStripMenuItem"
+        Me.ToClipboardToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.ToClipboardToolStripMenuItem.Text = "x_to Clipboard"
+        '
+        'TabPage_Tree
+        '
+        Me.TabPage_Tree.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage_Tree.Name = "TabPage_Tree"
+        Me.TabPage_Tree.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage_Tree.Size = New System.Drawing.Size(556, 429)
+        Me.TabPage_Tree.TabIndex = 1
+        Me.TabPage_Tree.Text = "x_Tree"
+        Me.TabPage_Tree.UseVisualStyleBackColor = true
+        '
+        'Timer_Filter
+        '
+        Me.Timer_Filter.Interval = 500
+        '
+        'ToolStripSeparator6
+        '
+        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
+        Me.ToolStripSeparator6.Size = New System.Drawing.Size(29, 6)
+        '
+        'ToolStripButton_Filter
+        '
+        Me.ToolStripButton_Filter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Filter.Image = CType(resources.GetObject("ToolStripButton_Filter.Image"),System.Drawing.Image)
+        Me.ToolStripButton_Filter.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Filter.Name = "ToolStripButton_Filter"
+        Me.ToolStripButton_Filter.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripButton_Filter.Text = "x_Filter:"
+        '
+        'ToolStripButton_FilterAdvanced
+        '
+        Me.ToolStripButton_FilterAdvanced.CheckOnClick = true
+        Me.ToolStripButton_FilterAdvanced.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_FilterAdvanced.Image = CType(resources.GetObject("ToolStripButton_FilterAdvanced.Image"),System.Drawing.Image)
+        Me.ToolStripButton_FilterAdvanced.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_FilterAdvanced.Name = "ToolStripButton_FilterAdvanced"
+        Me.ToolStripButton_FilterAdvanced.Size = New System.Drawing.Size(112, 22)
+        Me.ToolStripButton_FilterAdvanced.Text = "x_Advanced Filter..."
         '
         'ToolStripButton_AddItem
         '
@@ -210,10 +361,17 @@ Partial Class UserControl_SemItemList
         Me.ToolStripButton_DelItem.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_DelItem.Text = "ToolStripButton2"
         '
-        'ToolStripSeparator1
+        'ToolStripButton_Relate
         '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(29, 6)
+        Me.ToolStripButton_Relate.CheckOnClick = true
+        Me.ToolStripButton_Relate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Relate.Enabled = false
+        Me.ToolStripButton_Relate.Image = Global.Sem_Manager.My.Resources.Resources.RelationTypes_gpride_jean_victor_balin_
+        Me.ToolStripButton_Relate.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Relate.Name = "ToolStripButton_Relate"
+        Me.ToolStripButton_Relate.Size = New System.Drawing.Size(29, 20)
+        Me.ToolStripButton_Relate.Text = "ToolStripButton1"
+        Me.ToolStripButton_Relate.ToolTipText = "Relate Items"
         '
         'ToolStripButton_Sort
         '
@@ -242,11 +400,6 @@ Partial Class UserControl_SemItemList
         Me.ToolStripButton_Up.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_Up.Text = "ToolStripButton1"
         '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(29, 6)
-        '
         'ToolStripButton_Report
         '
         Me.ToolStripButton_Report.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -256,134 +409,15 @@ Partial Class UserControl_SemItemList
         Me.ToolStripButton_Report.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_Report.Text = "ToolStripButton1"
         '
-        'TabControl1
+        'ToolStripButton_Replace
         '
-        Me.TabControl1.Controls.Add(Me.TabPage_List)
-        Me.TabControl1.Controls.Add(Me.TabPage_Tree)
-        Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControl1.Location = New System.Drawing.Point(3, 28)
-        Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(564, 455)
-        Me.TabControl1.TabIndex = 3
-        '
-        'TabPage_List
-        '
-        Me.TabPage_List.Controls.Add(Me.DataGridView_Items)
-        Me.TabPage_List.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage_List.Name = "TabPage_List"
-        Me.TabPage_List.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_List.Size = New System.Drawing.Size(556, 429)
-        Me.TabPage_List.TabIndex = 0
-        Me.TabPage_List.Text = "x_List"
-        Me.TabPage_List.UseVisualStyleBackColor = True
-        '
-        'DataGridView_Items
-        '
-        Me.DataGridView_Items.AllowUserToAddRows = False
-        Me.DataGridView_Items.AllowUserToDeleteRows = False
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView_Items.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
-        Me.DataGridView_Items.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView_Items.ContextMenuStrip = Me.ContextMenuStrip_SemList
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.DataGridView_Items.DefaultCellStyle = DataGridViewCellStyle2
-        Me.DataGridView_Items.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView_Items.Location = New System.Drawing.Point(3, 3)
-        Me.DataGridView_Items.Name = "DataGridView_Items"
-        Me.DataGridView_Items.ReadOnly = True
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView_Items.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
-        Me.DataGridView_Items.Size = New System.Drawing.Size(550, 423)
-        Me.DataGridView_Items.TabIndex = 4
-        '
-        'ContextMenuStrip_SemList
-        '
-        Me.ContextMenuStrip_SemList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditToolStripMenuItem, Me.ApplyToolStripMenuItem, Me.ToClipboardToolStripMenuItem})
-        Me.ContextMenuStrip_SemList.Name = "ContextMenuStrip_SemList"
-        Me.ContextMenuStrip_SemList.Size = New System.Drawing.Size(145, 70)
-        '
-        'EditToolStripMenuItem
-        '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.ModuleMenuToolStripMenuItem, Me.ModuleEditToolStripMenuItem})
-        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
-        Me.EditToolStripMenuItem.Text = "x_Edit"
-        '
-        'CopyNameToolStripMenuItem
-        '
-        Me.CopyNameToolStripMenuItem.Name = "CopyNameToolStripMenuItem"
-        Me.CopyNameToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.CopyNameToolStripMenuItem.Text = "x_Copy Name"
-        '
-        'ModuleMenuToolStripMenuItem
-        '
-        Me.ModuleMenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_ModuleMenu})
-        Me.ModuleMenuToolStripMenuItem.Name = "ModuleMenuToolStripMenuItem"
-        Me.ModuleMenuToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.ModuleMenuToolStripMenuItem.Text = "x_Module-Menu"
-        '
-        'ToolStripComboBox_ModuleMenu
-        '
-        Me.ToolStripComboBox_ModuleMenu.Name = "ToolStripComboBox_ModuleMenu"
-        Me.ToolStripComboBox_ModuleMenu.Size = New System.Drawing.Size(250, 21)
-        '
-        'ModuleEditToolStripMenuItem
-        '
-        Me.ModuleEditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_ModuleEdit})
-        Me.ModuleEditToolStripMenuItem.Name = "ModuleEditToolStripMenuItem"
-        Me.ModuleEditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.ModuleEditToolStripMenuItem.Text = "x_Module-Edit"
-        '
-        'ToolStripComboBox_ModuleEdit
-        '
-        Me.ToolStripComboBox_ModuleEdit.Name = "ToolStripComboBox_ModuleEdit"
-        Me.ToolStripComboBox_ModuleEdit.Size = New System.Drawing.Size(121, 21)
-        '
-        'ApplyToolStripMenuItem
-        '
-        Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
-        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
-        Me.ApplyToolStripMenuItem.Text = "x_Apply"
-        Me.ApplyToolStripMenuItem.Visible = False
-        '
-        'ToClipboardToolStripMenuItem
-        '
-        Me.ToClipboardToolStripMenuItem.Name = "ToClipboardToolStripMenuItem"
-        Me.ToClipboardToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
-        Me.ToClipboardToolStripMenuItem.Text = "x_to Clipboard"
-        '
-        'TabPage_Tree
-        '
-        Me.TabPage_Tree.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage_Tree.Name = "TabPage_Tree"
-        Me.TabPage_Tree.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_Tree.Size = New System.Drawing.Size(556, 429)
-        Me.TabPage_Tree.TabIndex = 1
-        Me.TabPage_Tree.Text = "x_Tree"
-        Me.TabPage_Tree.UseVisualStyleBackColor = True
-        '
-        'Timer_Filter
-        '
-        Me.Timer_Filter.Interval = 500
+        Me.ToolStripButton_Replace.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Replace.Image = Global.Sem_Manager.My.Resources.Resources.edit_find_replace
+        Me.ToolStripButton_Replace.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Replace.Name = "ToolStripButton_Replace"
+        Me.ToolStripButton_Replace.Size = New System.Drawing.Size(29, 20)
+        Me.ToolStripButton_Replace.Text = "ToolStripButton1"
+        Me.ToolStripButton_Replace.ToolTipText = "Replace"
         '
         'BindingSource_Attribute
         '
@@ -400,50 +434,33 @@ Partial Class UserControl_SemItemList
         'BindingSource_TokenToken
         '
         '
-        'ToolStripButton_Relate
-        '
-        Me.ToolStripButton_Relate.CheckOnClick = True
-        Me.ToolStripButton_Relate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Relate.Enabled = False
-        Me.ToolStripButton_Relate.Image = Global.Sem_Manager.My.Resources.Resources.RelationTypes_gpride_jean_victor_balin_
-        Me.ToolStripButton_Relate.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Relate.Name = "ToolStripButton_Relate"
-        Me.ToolStripButton_Relate.Size = New System.Drawing.Size(29, 20)
-        Me.ToolStripButton_Relate.Text = "ToolStripButton1"
-        Me.ToolStripButton_Relate.ToolTipText = "Relate Items"
-        '
-        'ToolStripSeparator5
-        '
-        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(29, 6)
-        '
         'UserControl_SemItemList
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.TableLayoutPanel1)
         Me.Name = "UserControl_SemItemList"
         Me.Size = New System.Drawing.Size(600, 511)
-        Me.TableLayoutPanel1.ResumeLayout(False)
-        Me.TableLayoutPanel1.PerformLayout()
-        Me.ToolStrip_Filter.ResumeLayout(False)
-        Me.ToolStrip_Filter.PerformLayout()
-        Me.ToolStrip2.ResumeLayout(False)
-        Me.ToolStrip2.PerformLayout()
-        Me.ToolStrip_Edit.ResumeLayout(False)
-        Me.ToolStrip_Edit.PerformLayout()
-        Me.TabControl1.ResumeLayout(False)
-        Me.TabPage_List.ResumeLayout(False)
-        CType(Me.DataGridView_Items, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ContextMenuStrip_SemList.ResumeLayout(False)
-        CType(Me.BindingSource_Attribute, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BindingSource_Type, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BindingSource_Token, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BindingSource_RelationType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BindingSource_TokenToken, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ResumeLayout(False)
+        Me.TableLayoutPanel1.ResumeLayout(false)
+        Me.TableLayoutPanel1.PerformLayout
+        Me.ToolStrip_Filter.ResumeLayout(false)
+        Me.ToolStrip_Filter.PerformLayout
+        Me.ToolStrip2.ResumeLayout(false)
+        Me.ToolStrip2.PerformLayout
+        Me.ToolStrip_Edit.ResumeLayout(false)
+        Me.ToolStrip_Edit.PerformLayout
+        Me.TabControl1.ResumeLayout(false)
+        Me.TabPage_List.ResumeLayout(false)
+        CType(Me.DataGridView_Items,System.ComponentModel.ISupportInitialize).EndInit
+        Me.ContextMenuStrip_SemList.ResumeLayout(false)
+        CType(Me.BindingSource_Attribute,System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BindingSource_Type,System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BindingSource_Token,System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BindingSource_RelationType,System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BindingSource_TokenToken,System.ComponentModel.ISupportInitialize).EndInit
+        Me.ResumeLayout(false)
 
-    End Sub
+End Sub
     Friend WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents ToolStrip_Filter As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStrip2 As System.Windows.Forms.ToolStrip
@@ -487,5 +504,7 @@ Partial Class UserControl_SemItemList
     Friend WithEvents ToClipboardToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripButton_Relate As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripSeparator6 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripButton_Replace As System.Windows.Forms.ToolStripButton
 
 End Class

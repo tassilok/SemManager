@@ -12,7 +12,7 @@
     <AssemblyName>Sem-Manager</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <OptionExplicit>On</OptionExplicit>
     <OptionCompare>Binary</OptionCompare>
     <OptionStrict>Off</OptionStrict>
@@ -47,6 +47,7 @@
     <DocumentationFile>Sem-Manager.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -57,6 +58,7 @@
     <DocumentationFile>Sem-Manager.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Vogelschwarm%2520klein.ico</ApplicationIcon>
@@ -165,6 +167,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ds_ObjectReference.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Databases\ds_Replace.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_Replace.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Databases\ds_SemDB.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -272,6 +279,12 @@
       <DependentUpon>frmRelationTypeEdit.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmRelationTypeEdit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmReplace.Designer.vb">
+      <DependentUpon>FrmReplace.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmReplace.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmSearchResult.Designer.vb">
@@ -476,6 +489,9 @@
       <DependentUpon>frmRelationTypeEdit.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmReplace.resx">
+      <DependentUpon>FrmReplace.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSearchResult.resx">
       <DependentUpon>frmSearchResult.vb</DependentUpon>
     </EmbeddedResource>
@@ -580,6 +596,17 @@
     <None Include="Databases\ds_Config.xss">
       <DependentUpon>ds_Config.xsd</DependentUpon>
     </None>
+    <None Include="Databases\ds_Replace.xsc">
+      <DependentUpon>ds_Replace.xsd</DependentUpon>
+    </None>
+    <None Include="Databases\ds_Replace.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_Replace.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Databases\ds_Replace.xss">
+      <DependentUpon>ds_Replace.xsd</DependentUpon>
+    </None>
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
@@ -604,6 +631,7 @@
     <None Include="Resources\XSDSchema_SequenceIcon.png" />
     <None Include="Resources\base_checkmark_32.png" />
     <None Include="Resources\DoubleRightArrowHS.png" />
+    <None Include="Resources\edit-find-replace.png" />
     <Content Include="Vogelschwarm%2520klein.ico" />
     <None Include="Resources\saveHS.png" />
     <None Include="Resources\Export_to_DB.png" />

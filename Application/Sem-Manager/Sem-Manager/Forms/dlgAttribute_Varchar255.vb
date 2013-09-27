@@ -264,4 +264,6 @@ Public Class dlgAttribute_Varchar255
             Panel_Data.Controls.Add(objUserControl_Varchar255)
         End If
     End Sub
+
+    
 End Class

@@ -5,8 +5,8 @@ Public Class frmBlobWatcher
     Private objLocalConfig As clsLocalConfig_FileManager
 
     Private semtblA_Token As New ds_SemDBTableAdapters.semtbl_TokenTableAdapter
-    Private dtblA_CheckedOut As New db_BlobManagementDataSetTableAdapters.dtbl_CheckedOutTableAdapter
-    Private dtblT_CheckedOut As New db_BlobManagementDataSet.dtbl_CheckedOutDataTable
+    Private dtblA_CheckedOut As New ds_BlobManagementDataSetTableAdapters.dtbl_CheckedOutTableAdapter
+    Private dtblT_CheckedOut As New ds_BlobManagementDataSet.dtbl_CheckedOutDataTable
 
     Private objBlobConnection As clsBlobConnection
     Private objFileWork As clsFileWork

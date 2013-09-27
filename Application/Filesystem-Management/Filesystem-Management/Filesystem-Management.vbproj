@@ -12,7 +12,7 @@
     <AssemblyName>Filesystem-Management</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <OptionExplicit>On</OptionExplicit>
     <OptionCompare>Binary</OptionCompare>
     <OptionStrict>Off</OptionStrict>
@@ -47,6 +47,7 @@
     <DocumentationFile>Filesystem-Management.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -57,6 +58,7 @@
     <DocumentationFile>Filesystem-Management.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
@@ -103,15 +105,15 @@
     <Compile Include="clsLocalConfig_FileManager.vb" />
     <Compile Include="clsModule.vb" />
     <Compile Include="clsTransaction_Insert_FileSystemObject.vb" />
-    <Compile Include="db_BlobManagementDataSet.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>db_BlobManagementDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="ds_Blob.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ds_Blob.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ds_BlobManagementDataSet.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ds_BlobManagementDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="ds_FilesystemManagement.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -203,17 +205,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="db_BlobManagementDataSet.xsc">
-      <DependentUpon>db_BlobManagementDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="db_BlobManagementDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>db_BlobManagementDataSet.Designer.vb</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="db_BlobManagementDataSet.xss">
-      <DependentUpon>db_BlobManagementDataSet.xsd</DependentUpon>
-    </None>
     <None Include="ds_Blob.xsc">
       <DependentUpon>ds_Blob.xsd</DependentUpon>
     </None>
@@ -224,6 +215,17 @@
     </None>
     <None Include="ds_Blob.xss">
       <DependentUpon>ds_Blob.xsd</DependentUpon>
+    </None>
+    <None Include="ds_BlobManagementDataSet.xsc">
+      <DependentUpon>ds_BlobManagementDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="ds_BlobManagementDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ds_BlobManagementDataSet.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="ds_BlobManagementDataSet.xss">
+      <DependentUpon>ds_BlobManagementDataSet.xsd</DependentUpon>
     </None>
     <None Include="ds_FilesystemManagement.xsc">
       <DependentUpon>ds_FilesystemManagement.xsd</DependentUpon>

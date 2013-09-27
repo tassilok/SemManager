@@ -27,6 +27,8 @@ Partial Class dlgAttribute_Varchar255
         Me.Cancel_Button = New System.Windows.Forms.Button()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel_DB = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel_LengthLBL = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel_Length = New System.Windows.Forms.ToolStripStatusLabel()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.EditfToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.InsertToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -39,26 +41,24 @@ Partial Class dlgAttribute_Varchar255
         Me.NumericUpDown_ItemCount = New System.Windows.Forms.NumericUpDown()
         Me.Panel_Data = New System.Windows.Forms.Panel()
         Me.CheckBox_SemItem = New System.Windows.Forms.CheckBox()
-        Me.ToolStripStatusLabel_LengthLBL = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.ToolStripStatusLabel_Length = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.TableLayoutPanel1.SuspendLayout()
-        Me.StatusStrip1.SuspendLayout()
-        Me.MenuStrip1.SuspendLayout()
-        CType(Me.NumericUpDown_ItemCount, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SuspendLayout()
+        Me.TableLayoutPanel1.SuspendLayout
+        Me.StatusStrip1.SuspendLayout
+        Me.MenuStrip1.SuspendLayout
+        CType(Me.NumericUpDown_ItemCount,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SuspendLayout
         '
         'TableLayoutPanel1
         '
-        Me.TableLayoutPanel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TableLayoutPanel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.TableLayoutPanel1.ColumnCount = 2
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50!))
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50!))
         Me.TableLayoutPanel1.Controls.Add(Me.OK_Button, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.Cancel_Button, 1, 0)
         Me.TableLayoutPanel1.Location = New System.Drawing.Point(277, 166)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50!))
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(146, 29)
         Me.TableLayoutPanel1.TabIndex = 0
         '
@@ -93,14 +93,26 @@ Partial Class dlgAttribute_Varchar255
         'ToolStripStatusLabel_DB
         '
         Me.ToolStripStatusLabel_DB.BackColor = System.Drawing.SystemColors.HighlightText
-        Me.ToolStripStatusLabel_DB.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.ToolStripStatusLabel_DB.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)  _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)  _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom),System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_DB.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
         Me.ToolStripStatusLabel_DB.Image = Global.Sem_Manager.My.Resources.Resources.bb_home_
         Me.ToolStripStatusLabel_DB.Name = "ToolStripStatusLabel_DB"
         Me.ToolStripStatusLabel_DB.Size = New System.Drawing.Size(51, 20)
         Me.ToolStripStatusLabel_DB.Text = "DB_f"
+        '
+        'ToolStripStatusLabel_LengthLBL
+        '
+        Me.ToolStripStatusLabel_LengthLBL.Name = "ToolStripStatusLabel_LengthLBL"
+        Me.ToolStripStatusLabel_LengthLBL.Size = New System.Drawing.Size(52, 20)
+        Me.ToolStripStatusLabel_LengthLBL.Text = "x_Länge:"
+        '
+        'ToolStripStatusLabel_Length
+        '
+        Me.ToolStripStatusLabel_Length.Name = "ToolStripStatusLabel_Length"
+        Me.ToolStripStatusLabel_Length.Size = New System.Drawing.Size(13, 20)
+        Me.ToolStripStatusLabel_Length.Text = "0"
         '
         'MenuStrip1
         '
@@ -151,28 +163,28 @@ Partial Class dlgAttribute_Varchar255
         '
         'ListToolStripMenuItem
         '
-        Me.ListToolStripMenuItem.CheckOnClick = True
+        Me.ListToolStripMenuItem.CheckOnClick = true
         Me.ListToolStripMenuItem.Name = "ListToolStripMenuItem"
         Me.ListToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ListToolStripMenuItem.Text = "x_List"
         '
         'CheckBox_more
         '
-        Me.CheckBox_more.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.CheckBox_more.AutoSize = True
+        Me.CheckBox_more.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.CheckBox_more.AutoSize = true
         Me.CheckBox_more.Location = New System.Drawing.Point(351, 212)
         Me.CheckBox_more.Name = "CheckBox_more"
         Me.CheckBox_more.Size = New System.Drawing.Size(69, 17)
         Me.CheckBox_more.TabIndex = 12
         Me.CheckBox_more.Text = "weitere_f"
-        Me.CheckBox_more.UseVisualStyleBackColor = True
-        Me.CheckBox_more.Visible = False
+        Me.CheckBox_more.UseVisualStyleBackColor = true
+        Me.CheckBox_more.Visible = false
         '
         'NumericUpDown_ItemCount
         '
-        Me.NumericUpDown_ItemCount.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NumericUpDown_ItemCount.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.NumericUpDown_ItemCount.Location = New System.Drawing.Point(306, 210)
         Me.NumericUpDown_ItemCount.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
         Me.NumericUpDown_ItemCount.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
@@ -180,7 +192,7 @@ Partial Class dlgAttribute_Varchar255
         Me.NumericUpDown_ItemCount.Size = New System.Drawing.Size(41, 20)
         Me.NumericUpDown_ItemCount.TabIndex = 11
         Me.NumericUpDown_ItemCount.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NumericUpDown_ItemCount.Visible = False
+        Me.NumericUpDown_ItemCount.Visible = false
         '
         'Panel_Data
         '
@@ -191,31 +203,19 @@ Partial Class dlgAttribute_Varchar255
         '
         'CheckBox_SemItem
         '
-        Me.CheckBox_SemItem.AutoSize = True
-        Me.CheckBox_SemItem.Enabled = False
+        Me.CheckBox_SemItem.AutoSize = true
+        Me.CheckBox_SemItem.Enabled = false
         Me.CheckBox_SemItem.Location = New System.Drawing.Point(13, 173)
         Me.CheckBox_SemItem.Name = "CheckBox_SemItem"
         Me.CheckBox_SemItem.Size = New System.Drawing.Size(78, 17)
         Me.CheckBox_SemItem.TabIndex = 14
         Me.CheckBox_SemItem.Text = "x_SemItem"
-        Me.CheckBox_SemItem.UseVisualStyleBackColor = True
-        '
-        'ToolStripStatusLabel_LengthLBL
-        '
-        Me.ToolStripStatusLabel_LengthLBL.Name = "ToolStripStatusLabel_LengthLBL"
-        Me.ToolStripStatusLabel_LengthLBL.Size = New System.Drawing.Size(52, 20)
-        Me.ToolStripStatusLabel_LengthLBL.Text = "x_Länge:"
-        '
-        'ToolStripStatusLabel_Length
-        '
-        Me.ToolStripStatusLabel_Length.Name = "ToolStripStatusLabel_Length"
-        Me.ToolStripStatusLabel_Length.Size = New System.Drawing.Size(13, 20)
-        Me.ToolStripStatusLabel_Length.Text = "0"
+        Me.CheckBox_SemItem.UseVisualStyleBackColor = true
         '
         'dlgAttribute_Varchar255
         '
         Me.AcceptButton = Me.OK_Button
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Cancel_Button
         Me.ClientSize = New System.Drawing.Size(435, 232)
@@ -228,22 +228,22 @@ Partial Class dlgAttribute_Varchar255
         Me.Controls.Add(Me.TableLayoutPanel1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MainMenuStrip = Me.MenuStrip1
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
+        Me.MaximizeBox = false
+        Me.MinimizeBox = false
         Me.Name = "dlgAttribute_Varchar255"
-        Me.ShowInTaskbar = False
+        Me.ShowInTaskbar = false
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "dlgAttribute_Varchar255"
-        Me.TableLayoutPanel1.ResumeLayout(False)
-        Me.StatusStrip1.ResumeLayout(False)
-        Me.StatusStrip1.PerformLayout()
-        Me.MenuStrip1.ResumeLayout(False)
-        Me.MenuStrip1.PerformLayout()
-        CType(Me.NumericUpDown_ItemCount, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+        Me.TableLayoutPanel1.ResumeLayout(false)
+        Me.StatusStrip1.ResumeLayout(false)
+        Me.StatusStrip1.PerformLayout
+        Me.MenuStrip1.ResumeLayout(false)
+        Me.MenuStrip1.PerformLayout
+        CType(Me.NumericUpDown_ItemCount,System.ComponentModel.ISupportInitialize).EndInit
+        Me.ResumeLayout(false)
+        Me.PerformLayout
 
-    End Sub
+End Sub
     Friend WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents OK_Button As System.Windows.Forms.Button
     Friend WithEvents Cancel_Button As System.Windows.Forms.Button

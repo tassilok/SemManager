@@ -121,11 +121,17 @@
   <data name="b_down_minus" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\b_down_minus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="bb_sort2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bb_sort2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="bb_home_" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bb_home_.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="b_up_Infinite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\b_up_Infinite.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="b_down_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\b_down_0.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="tasto_4_architetto_franc_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tasto_4_architetto_franc_01.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -139,6 +145,9 @@
   <data name="appunti_architetto_franc_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\appunti_architetto_franc_01.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="DoubleRightArrowHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DoubleRightArrowHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="b_minus" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\b_minus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -147,6 +156,9 @@
   </data>
   <data name="Export_to_DB" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Export_to_DB.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="b_plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\b_plus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="saveHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\saveHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -169,12 +181,6 @@
   <data name="Procedures" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Procedures.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="tasto_8_architetto_franc_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\tasto_8_architetto_franc_01.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="b_plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\b_plus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Types_Closed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Types_Closed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -190,16 +196,13 @@
   <data name="slim_cd_drive_frederic_m_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\slim_cd_drive_frederic_m_01.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="bb_sort2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bb_sort2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="pulsante_02_architetto_f_01_Last" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pulsante_02_architetto_f_01 Last.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="b_down_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\b_down_0.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="tasto_8_architetto_franc_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tasto_8_architetto_franc_01.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DoubleRightArrowHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DoubleRightArrowHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="edit-find-replace" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\edit-find-replace.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

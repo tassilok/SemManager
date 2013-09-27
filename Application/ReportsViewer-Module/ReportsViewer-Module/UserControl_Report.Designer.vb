@@ -39,6 +39,8 @@ Partial Class UserControl_Report
         Me.ContainsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripTextBox_contains = New System.Windows.Forms.ToolStripTextBox()
         Me.ClearFilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FieldToFilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FieldToSortToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Timer_Data = New System.Windows.Forms.Timer(Me.components)
         Me.Timer_Password = New System.Windows.Forms.Timer(Me.components)
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
@@ -56,6 +58,12 @@ Partial Class UserControl_Report
         Me.ToolStripTextBox_Filter = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripLabel_Sort = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Sort = New System.Windows.Forms.ToolStripTextBox()
+        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel_Calculation = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripTextBox_Calculation = New System.Windows.Forms.ToolStripTextBox()
+        Me.ToolStripSplitButton_Calculation = New System.Windows.Forms.ToolStripSplitButton()
+        Me.ToolStripMenuItemCalcAdd = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItemCalcMult = New System.Windows.Forms.ToolStripMenuItem()
         Me.DataGridView_Reports = New System.Windows.Forms.DataGridView()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_DrillDown = New System.Windows.Forms.ToolStripButton()
@@ -73,30 +81,29 @@ Partial Class UserControl_Report
         Me.ToolStripButton_DecodePassword = New System.Windows.Forms.ToolStripButton()
         Me.FolderBrowserDialog_Save = New System.Windows.Forms.FolderBrowserDialog()
         Me.BindingSource_Reports = New System.Windows.Forms.BindingSource(Me.components)
-        Me.FieldToFilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.FieldToSortToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ContextMenuStrip_Reports.SuspendLayout()
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
-        Me.ToolStripContainer1.RightToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer1.SuspendLayout()
-        CType(Me.BindingNavigator_Reports, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.BindingNavigator_Reports.SuspendLayout()
-        CType(Me.DataGridView_Reports, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ToolStrip1.SuspendLayout()
-        CType(Me.BindingSource_Reports, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SuspendLayout()
+        Me.AVGToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ContextMenuStrip_Reports.SuspendLayout
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout
+        Me.ToolStripContainer1.RightToolStripPanel.SuspendLayout
+        Me.ToolStripContainer1.SuspendLayout
+        CType(Me.BindingNavigator_Reports,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.BindingNavigator_Reports.SuspendLayout
+        CType(Me.DataGridView_Reports,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.ToolStrip1.SuspendLayout
+        CType(Me.BindingSource_Reports,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SuspendLayout
         '
         'ContextMenuStrip_Reports
         '
         Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FilesToolStripMenuItem, Me.EditToolStripMenuItem, Me.FilterToolStripMenuItem})
         Me.ContextMenuStrip_Reports.Name = "ContextMenuStrip_Reports"
-        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(153, 92)
+        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(111, 70)
         '
         'FilesToolStripMenuItem
         '
         Me.FilesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.CopyPathToolStripMenuItem})
         Me.FilesToolStripMenuItem.Name = "FilesToolStripMenuItem"
-        Me.FilesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FilesToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
         Me.FilesToolStripMenuItem.Text = "x_Files"
         '
         'OpenToolStripMenuItem
@@ -115,7 +122,7 @@ Partial Class UserControl_Report
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.CopyGUIDToolStripMenuItem, Me.XEditSemItemToolStripMenuItem, Me.DecodePasswordToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
         Me.EditToolStripMenuItem.Text = "x_Edit"
         '
         'CopyNameToolStripMenuItem
@@ -146,7 +153,7 @@ Partial Class UserControl_Report
         '
         Me.FilterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EqualToolStripMenuItem, Me.DifferentToolStripMenuItem, Me.ContainsToolStripMenuItem, Me.ClearFilterToolStripMenuItem, Me.FieldToFilterToolStripMenuItem, Me.FieldToSortToolStripMenuItem})
         Me.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem"
-        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
         Me.FilterToolStripMenuItem.Text = "x_Filter"
         '
         'EqualToolStripMenuItem
@@ -179,6 +186,18 @@ Partial Class UserControl_Report
         Me.ClearFilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ClearFilterToolStripMenuItem.Text = "x_clear Filter"
         '
+        'FieldToFilterToolStripMenuItem
+        '
+        Me.FieldToFilterToolStripMenuItem.Name = "FieldToFilterToolStripMenuItem"
+        Me.FieldToFilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FieldToFilterToolStripMenuItem.Text = "x_Field to Filter"
+        '
+        'FieldToSortToolStripMenuItem
+        '
+        Me.FieldToSortToolStripMenuItem.Name = "FieldToSortToolStripMenuItem"
+        Me.FieldToSortToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FieldToSortToolStripMenuItem.Text = "x_Field to Sort"
+        '
         'Timer_Data
         '
         Me.Timer_Data.Interval = 300
@@ -194,7 +213,7 @@ Partial Class UserControl_Report
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.BindingNavigator_Reports)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.DataGridView_Reports)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1294, 493)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1366, 493)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
@@ -202,7 +221,7 @@ Partial Class UserControl_Report
         'ToolStripContainer1.RightToolStripPanel
         '
         Me.ToolStripContainer1.RightToolStripPanel.Controls.Add(Me.ToolStrip1)
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(1318, 518)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(1390, 518)
         Me.ToolStripContainer1.TabIndex = 2
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
@@ -212,7 +231,7 @@ Partial Class UserControl_Report
         Me.BindingNavigator_Reports.CountItem = Me.BindingNavigatorCountItem
         Me.BindingNavigator_Reports.DeleteItem = Nothing
         Me.BindingNavigator_Reports.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.BindingNavigator_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BindingNavigatorMoveFirstItem, Me.BindingNavigatorMovePreviousItem, Me.BindingNavigatorSeparator, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.BindingNavigatorSeparator1, Me.BindingNavigatorMoveNextItem, Me.BindingNavigatorMoveLastItem, Me.BindingNavigatorSeparator2, Me.ToolStripButton_Filter, Me.ToolStripTextBox_Filter, Me.ToolStripLabel_Sort, Me.ToolStripTextBox_Sort})
+        Me.BindingNavigator_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BindingNavigatorMoveFirstItem, Me.BindingNavigatorMovePreviousItem, Me.BindingNavigatorSeparator, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.BindingNavigatorSeparator1, Me.BindingNavigatorMoveNextItem, Me.BindingNavigatorMoveLastItem, Me.BindingNavigatorSeparator2, Me.ToolStripButton_Filter, Me.ToolStripTextBox_Filter, Me.ToolStripLabel_Sort, Me.ToolStripTextBox_Sort, Me.ToolStripSeparator5, Me.ToolStripLabel_Calculation, Me.ToolStripTextBox_Calculation, Me.ToolStripSplitButton_Calculation})
         Me.BindingNavigator_Reports.Location = New System.Drawing.Point(0, 468)
         Me.BindingNavigator_Reports.MoveFirstItem = Me.BindingNavigatorMoveFirstItem
         Me.BindingNavigator_Reports.MoveLastItem = Me.BindingNavigatorMoveLastItem
@@ -220,7 +239,7 @@ Partial Class UserControl_Report
         Me.BindingNavigator_Reports.MovePreviousItem = Me.BindingNavigatorMovePreviousItem
         Me.BindingNavigator_Reports.Name = "BindingNavigator_Reports"
         Me.BindingNavigator_Reports.PositionItem = Me.BindingNavigatorPositionItem
-        Me.BindingNavigator_Reports.Size = New System.Drawing.Size(1294, 25)
+        Me.BindingNavigator_Reports.Size = New System.Drawing.Size(1366, 25)
         Me.BindingNavigator_Reports.TabIndex = 2
         Me.BindingNavigator_Reports.Text = "BindingNavigator1"
         '
@@ -234,18 +253,18 @@ Partial Class UserControl_Report
         'BindingNavigatorMoveFirstItem
         '
         Me.BindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorMoveFirstItem.Image = CType(resources.GetObject("BindingNavigatorMoveFirstItem.Image"), System.Drawing.Image)
+        Me.BindingNavigatorMoveFirstItem.Image = CType(resources.GetObject("BindingNavigatorMoveFirstItem.Image"),System.Drawing.Image)
         Me.BindingNavigatorMoveFirstItem.Name = "BindingNavigatorMoveFirstItem"
-        Me.BindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = True
+        Me.BindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true
         Me.BindingNavigatorMoveFirstItem.Size = New System.Drawing.Size(23, 22)
         Me.BindingNavigatorMoveFirstItem.Text = "Move first"
         '
         'BindingNavigatorMovePreviousItem
         '
         Me.BindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorMovePreviousItem.Image = CType(resources.GetObject("BindingNavigatorMovePreviousItem.Image"), System.Drawing.Image)
+        Me.BindingNavigatorMovePreviousItem.Image = CType(resources.GetObject("BindingNavigatorMovePreviousItem.Image"),System.Drawing.Image)
         Me.BindingNavigatorMovePreviousItem.Name = "BindingNavigatorMovePreviousItem"
-        Me.BindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = True
+        Me.BindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true
         Me.BindingNavigatorMovePreviousItem.Size = New System.Drawing.Size(23, 22)
         Me.BindingNavigatorMovePreviousItem.Text = "Move previous"
         '
@@ -257,7 +276,7 @@ Partial Class UserControl_Report
         'BindingNavigatorPositionItem
         '
         Me.BindingNavigatorPositionItem.AccessibleName = "Position"
-        Me.BindingNavigatorPositionItem.AutoSize = False
+        Me.BindingNavigatorPositionItem.AutoSize = false
         Me.BindingNavigatorPositionItem.Name = "BindingNavigatorPositionItem"
         Me.BindingNavigatorPositionItem.Size = New System.Drawing.Size(50, 23)
         Me.BindingNavigatorPositionItem.Text = "0"
@@ -271,18 +290,18 @@ Partial Class UserControl_Report
         'BindingNavigatorMoveNextItem
         '
         Me.BindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorMoveNextItem.Image = CType(resources.GetObject("BindingNavigatorMoveNextItem.Image"), System.Drawing.Image)
+        Me.BindingNavigatorMoveNextItem.Image = CType(resources.GetObject("BindingNavigatorMoveNextItem.Image"),System.Drawing.Image)
         Me.BindingNavigatorMoveNextItem.Name = "BindingNavigatorMoveNextItem"
-        Me.BindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = True
+        Me.BindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true
         Me.BindingNavigatorMoveNextItem.Size = New System.Drawing.Size(23, 22)
         Me.BindingNavigatorMoveNextItem.Text = "Move next"
         '
         'BindingNavigatorMoveLastItem
         '
         Me.BindingNavigatorMoveLastItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorMoveLastItem.Image = CType(resources.GetObject("BindingNavigatorMoveLastItem.Image"), System.Drawing.Image)
+        Me.BindingNavigatorMoveLastItem.Image = CType(resources.GetObject("BindingNavigatorMoveLastItem.Image"),System.Drawing.Image)
         Me.BindingNavigatorMoveLastItem.Name = "BindingNavigatorMoveLastItem"
-        Me.BindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = True
+        Me.BindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true
         Me.BindingNavigatorMoveLastItem.Size = New System.Drawing.Size(23, 22)
         Me.BindingNavigatorMoveLastItem.Text = "Move last"
         '
@@ -293,9 +312,9 @@ Partial Class UserControl_Report
         '
         'ToolStripButton_Filter
         '
-        Me.ToolStripButton_Filter.CheckOnClick = True
+        Me.ToolStripButton_Filter.CheckOnClick = true
         Me.ToolStripButton_Filter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Filter.Image = CType(resources.GetObject("ToolStripButton_Filter.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Filter.Image = CType(resources.GetObject("ToolStripButton_Filter.Image"),System.Drawing.Image)
         Me.ToolStripButton_Filter.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Filter.Name = "ToolStripButton_Filter"
         Me.ToolStripButton_Filter.Size = New System.Drawing.Size(50, 22)
@@ -317,19 +336,60 @@ Partial Class UserControl_Report
         Me.ToolStripTextBox_Sort.Name = "ToolStripTextBox_Sort"
         Me.ToolStripTextBox_Sort.Size = New System.Drawing.Size(200, 25)
         '
+        'ToolStripSeparator5
+        '
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripLabel_Calculation
+        '
+        Me.ToolStripLabel_Calculation.Name = "ToolStripLabel_Calculation"
+        Me.ToolStripLabel_Calculation.Size = New System.Drawing.Size(80, 22)
+        Me.ToolStripLabel_Calculation.Text = "x_Calculation:"
+        '
+        'ToolStripTextBox_Calculation
+        '
+        Me.ToolStripTextBox_Calculation.Name = "ToolStripTextBox_Calculation"
+        Me.ToolStripTextBox_Calculation.ReadOnly = true
+        Me.ToolStripTextBox_Calculation.Size = New System.Drawing.Size(100, 25)
+        '
+        'ToolStripSplitButton_Calculation
+        '
+        Me.ToolStripSplitButton_Calculation.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripSplitButton_Calculation.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemCalcAdd, Me.ToolStripMenuItemCalcMult, Me.AVGToolStripMenuItem})
+        Me.ToolStripSplitButton_Calculation.Image = CType(resources.GetObject("ToolStripSplitButton_Calculation.Image"),System.Drawing.Image)
+        Me.ToolStripSplitButton_Calculation.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripSplitButton_Calculation.Name = "ToolStripSplitButton_Calculation"
+        Me.ToolStripSplitButton_Calculation.Size = New System.Drawing.Size(28, 22)
+        Me.ToolStripSplitButton_Calculation.Text = "-"
+        '
+        'ToolStripMenuItemCalcAdd
+        '
+        Me.ToolStripMenuItemCalcAdd.Checked = true
+        Me.ToolStripMenuItemCalcAdd.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ToolStripMenuItemCalcAdd.Name = "ToolStripMenuItemCalcAdd"
+        Me.ToolStripMenuItemCalcAdd.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItemCalcAdd.Text = "+"
+        '
+        'ToolStripMenuItemCalcMult
+        '
+        Me.ToolStripMenuItemCalcMult.Name = "ToolStripMenuItemCalcMult"
+        Me.ToolStripMenuItemCalcMult.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItemCalcMult.Text = "*"
+        '
         'DataGridView_Reports
         '
-        Me.DataGridView_Reports.AllowUserToAddRows = False
-        Me.DataGridView_Reports.AllowUserToDeleteRows = False
-        Me.DataGridView_Reports.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DataGridView_Reports.AllowUserToAddRows = false
+        Me.DataGridView_Reports.AllowUserToDeleteRows = false
+        Me.DataGridView_Reports.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.DataGridView_Reports.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView_Reports.ContextMenuStrip = Me.ContextMenuStrip_Reports
         Me.DataGridView_Reports.Location = New System.Drawing.Point(3, 3)
         Me.DataGridView_Reports.Name = "DataGridView_Reports"
-        Me.DataGridView_Reports.ReadOnly = True
-        Me.DataGridView_Reports.Size = New System.Drawing.Size(1288, 462)
+        Me.DataGridView_Reports.ReadOnly = true
+        Me.DataGridView_Reports.Size = New System.Drawing.Size(1360, 462)
         Me.DataGridView_Reports.TabIndex = 1
         '
         'ToolStrip1
@@ -344,7 +404,7 @@ Partial Class UserControl_Report
         'ToolStripButton_DrillDown
         '
         Me.ToolStripButton_DrillDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_DrillDown.Enabled = False
+        Me.ToolStripButton_DrillDown.Enabled = false
         Me.ToolStripButton_DrillDown.Image = Global.ReportsTest.My.Resources.Resources._112_ArrowCurve_Blue_Right_32x32_72
         Me.ToolStripButton_DrillDown.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_DrillDown.Name = "ToolStripButton_DrillDown"
@@ -360,7 +420,7 @@ Partial Class UserControl_Report
         'ToolStripButton_OpenLink
         '
         Me.ToolStripButton_OpenLink.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_OpenLink.Enabled = False
+        Me.ToolStripButton_OpenLink.Enabled = false
         Me.ToolStripButton_OpenLink.Image = Global.ReportsTest.My.Resources.Resources.bb_wrld_
         Me.ToolStripButton_OpenLink.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_OpenLink.Name = "ToolStripButton_OpenLink"
@@ -376,7 +436,7 @@ Partial Class UserControl_Report
         'ToolStripButton_OpenFile
         '
         Me.ToolStripButton_OpenFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_OpenFile.Enabled = False
+        Me.ToolStripButton_OpenFile.Enabled = false
         Me.ToolStripButton_OpenFile.Image = Global.ReportsTest.My.Resources.Resources._1683_Lightbulb_32x32
         Me.ToolStripButton_OpenFile.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_OpenFile.Name = "ToolStripButton_OpenFile"
@@ -387,7 +447,7 @@ Partial Class UserControl_Report
         'ToolStripButton_DownloadFile
         '
         Me.ToolStripButton_DownloadFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_DownloadFile.Enabled = False
+        Me.ToolStripButton_DownloadFile.Enabled = false
         Me.ToolStripButton_DownloadFile.Image = Global.ReportsTest.My.Resources.Resources._010_LowPriority_32x32_72
         Me.ToolStripButton_DownloadFile.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_DownloadFile.Name = "ToolStripButton_DownloadFile"
@@ -398,7 +458,7 @@ Partial Class UserControl_Report
         'ToolStripButton_CopyPath
         '
         Me.ToolStripButton_CopyPath.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_CopyPath.Enabled = False
+        Me.ToolStripButton_CopyPath.Enabled = false
         Me.ToolStripButton_CopyPath.Image = Global.ReportsTest.My.Resources.Resources.CopyHS
         Me.ToolStripButton_CopyPath.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_CopyPath.Name = "ToolStripButton_CopyPath"
@@ -414,7 +474,7 @@ Partial Class UserControl_Report
         'ToolStripButton_OpenImage
         '
         Me.ToolStripButton_OpenImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_OpenImage.Enabled = False
+        Me.ToolStripButton_OpenImage.Enabled = false
         Me.ToolStripButton_OpenImage.Image = Global.ReportsTest.My.Resources.Resources.generic_picture
         Me.ToolStripButton_OpenImage.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_OpenImage.Name = "ToolStripButton_OpenImage"
@@ -424,7 +484,7 @@ Partial Class UserControl_Report
         'ToolStripButton_OpenMedia
         '
         Me.ToolStripButton_OpenMedia.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_OpenMedia.Enabled = False
+        Me.ToolStripButton_OpenMedia.Enabled = false
         Me.ToolStripButton_OpenMedia.Image = Global.ReportsTest.My.Resources.Resources.AudioCD
         Me.ToolStripButton_OpenMedia.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_OpenMedia.Name = "ToolStripButton_OpenMedia"
@@ -434,7 +494,7 @@ Partial Class UserControl_Report
         'ToolStripButton_OpenPDF
         '
         Me.ToolStripButton_OpenPDF.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_OpenPDF.Enabled = False
+        Me.ToolStripButton_OpenPDF.Enabled = false
         Me.ToolStripButton_OpenPDF.Image = Global.ReportsTest.My.Resources.Resources.pdf_preview
         Me.ToolStripButton_OpenPDF.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_OpenPDF.Name = "ToolStripButton_OpenPDF"
@@ -449,49 +509,43 @@ Partial Class UserControl_Report
         'ToolStripButton_DecodePassword
         '
         Me.ToolStripButton_DecodePassword.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_DecodePassword.Enabled = False
+        Me.ToolStripButton_DecodePassword.Enabled = false
         Me.ToolStripButton_DecodePassword.Image = Global.ReportsTest.My.Resources.Resources.Key
         Me.ToolStripButton_DecodePassword.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_DecodePassword.Name = "ToolStripButton_DecodePassword"
         Me.ToolStripButton_DecodePassword.Size = New System.Drawing.Size(22, 20)
         Me.ToolStripButton_DecodePassword.Text = "ToolStripButton1"
         '
-        'FieldToFilterToolStripMenuItem
+        'AVGToolStripMenuItem
         '
-        Me.FieldToFilterToolStripMenuItem.Name = "FieldToFilterToolStripMenuItem"
-        Me.FieldToFilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.FieldToFilterToolStripMenuItem.Text = "x_Field to Filter"
-        '
-        'FieldToSortToolStripMenuItem
-        '
-        Me.FieldToSortToolStripMenuItem.Name = "FieldToSortToolStripMenuItem"
-        Me.FieldToSortToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.FieldToSortToolStripMenuItem.Text = "x_Field to Sort"
+        Me.AVGToolStripMenuItem.Name = "AVGToolStripMenuItem"
+        Me.AVGToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AVGToolStripMenuItem.Text = "AVG"
         '
         'UserControl_Report
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "UserControl_Report"
-        Me.Size = New System.Drawing.Size(1318, 518)
-        Me.ContextMenuStrip_Reports.ResumeLayout(False)
-        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.ContentPanel.PerformLayout()
-        Me.ToolStripContainer1.RightToolStripPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.RightToolStripPanel.PerformLayout()
-        Me.ToolStripContainer1.ResumeLayout(False)
-        Me.ToolStripContainer1.PerformLayout()
-        CType(Me.BindingNavigator_Reports, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.BindingNavigator_Reports.ResumeLayout(False)
-        Me.BindingNavigator_Reports.PerformLayout()
-        CType(Me.DataGridView_Reports, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ToolStrip1.ResumeLayout(False)
-        Me.ToolStrip1.PerformLayout()
-        CType(Me.BindingSource_Reports, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ResumeLayout(False)
+        Me.Size = New System.Drawing.Size(1390, 518)
+        Me.ContextMenuStrip_Reports.ResumeLayout(false)
+        Me.ToolStripContainer1.ContentPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.ContentPanel.PerformLayout
+        Me.ToolStripContainer1.RightToolStripPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.RightToolStripPanel.PerformLayout
+        Me.ToolStripContainer1.ResumeLayout(false)
+        Me.ToolStripContainer1.PerformLayout
+        CType(Me.BindingNavigator_Reports,System.ComponentModel.ISupportInitialize).EndInit
+        Me.BindingNavigator_Reports.ResumeLayout(false)
+        Me.BindingNavigator_Reports.PerformLayout
+        CType(Me.DataGridView_Reports,System.ComponentModel.ISupportInitialize).EndInit
+        Me.ToolStrip1.ResumeLayout(false)
+        Me.ToolStrip1.PerformLayout
+        CType(Me.BindingSource_Reports,System.ComponentModel.ISupportInitialize).EndInit
+        Me.ResumeLayout(false)
 
-    End Sub
+End Sub
     Friend WithEvents BindingSource_Reports As System.Windows.Forms.BindingSource
     Friend WithEvents Timer_Data As System.Windows.Forms.Timer
     Friend WithEvents ContextMenuStrip_Reports As System.Windows.Forms.ContextMenuStrip
@@ -543,5 +597,12 @@ Partial Class UserControl_Report
     Friend WithEvents ToolStripTextBox_Sort As System.Windows.Forms.ToolStripTextBox
     Friend WithEvents FieldToFilterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FieldToSortToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripLabel_Calculation As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripTextBox_Calculation As System.Windows.Forms.ToolStripTextBox
+    Friend WithEvents ToolStripSplitButton_Calculation As System.Windows.Forms.ToolStripSplitButton
+    Friend WithEvents ToolStripMenuItemCalcAdd As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItemCalcMult As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AVGToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

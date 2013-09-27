@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ds_Replace" targetNamespace="http://tempuri.org/ds_Replace.xsd" xmlns:mstns="http://tempuri.org/ds_Replace.xsd" xmlns="http://tempuri.org/ds_Replace.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="ds_Replace" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="ds_Replace" msprop:Generator_UserDSName="ds_Replace">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtbl_Replace" msprop:Generator_TableClassName="dtbl_ReplaceDataTable" msprop:Generator_TableVarName="tabledtbl_Replace" msprop:Generator_TablePropName="dtbl_Replace" msprop:Generator_RowDeletingName="dtbl_ReplaceRowDeleting" msprop:Generator_RowChangingName="dtbl_ReplaceRowChanging" msprop:Generator_RowEvHandlerName="dtbl_ReplaceRowChangeEventHandler" msprop:Generator_RowDeletedName="dtbl_ReplaceRowDeleted" msprop:Generator_UserTableName="dtbl_Replace" msprop:Generator_RowChangedName="dtbl_ReplaceRowChanged" msprop:Generator_RowEvArgName="dtbl_ReplaceRowChangeEvent" msprop:Generator_RowClassName="dtbl_ReplaceRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="GUID_Item" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnGUID_Item" msprop:Generator_ColumnPropNameInRow="GUID_Item" msprop:Generator_ColumnPropNameInTable="GUID_ItemColumn" msprop:Generator_UserColumnName="GUID_Item" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_Item" msprop:Generator_ColumnVarNameInTable="columnName_Item" msprop:Generator_ColumnPropNameInRow="Name_Item" msprop:Generator_ColumnPropNameInTable="Name_ItemColumn" msprop:Generator_UserColumnName="Name_Item" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Name_ReplacedItem" msprop:Generator_ColumnVarNameInTable="columnName_ReplacedItem" msprop:Generator_ColumnPropNameInRow="Name_ReplacedItem" msprop:Generator_ColumnPropNameInTable="Name_ReplacedItemColumn" msprop:Generator_UserColumnName="Name_ReplacedItem" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="GUID_Parent" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnGUID_Parent" msprop:Generator_ColumnPropNameInRow="GUID_Parent" msprop:Generator_ColumnPropNameInTable="GUID_ParentColumn" msprop:Generator_UserColumnName="GUID_Parent" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -11,6 +11,7 @@
     Private objDlgAttribute_VarcharMax As dlgAttribute_VarcharMax
     Private objFrm_RelationTypeEdit As frmRelationTypeEdit
     Private objFrm_FilterAdvanced As frmFilter_Advanced
+    Private objFrm_Replace As FrmReplace
 
     Private objFrmAttributeEdit As frmAttributeEdit
 
@@ -1576,30 +1577,40 @@
 
 
         If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Nothing.GUID Then
-            If objSemItem_Other.Direction = objSemItem_Other.Direction_LeftRight Then
-                If objSemItem_Other.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID Then
-                    objDRC_LogState = semprocA_DBWork_Save_TokenRel.GetData(objSemItem_Item.GUID, _
-                                                                            objSemItem_Other.GUID, _
-                                                                            objSemItem_RelationType.GUID, 1).Rows
-                Else
-                    objSemItem_Result = objLocalConfig.Globals.LogState_Error
-                End If
-            Else
-                If objSemItem_Other.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID Then
-                    objDRC_LogState = semprocA_DBWork_Save_TokenRel.GetData(objSemItem_Other.GUID, _
-                                                                            objSemItem_Item.GUID, _
-                                                                            objSemItem_RelationType.GUID, 1).Rows
-                Else
-                    objSemItem_Result = objLocalConfig.Globals.LogState_Error
-                End If
-            End If
-            If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Nothing.GUID Then
-                If Not objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Error.GUID Then
+            If Not  objSemItem_Other is nothing Then
+                If objLocalConfig.Globals.is_GUID(objSemItem_Other.Direction)
+                    If objSemItem_Other.Direction = objSemItem_Other.Direction_LeftRight Then
+                        If objSemItem_Other.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID Then
+                            objDRC_LogState = semprocA_DBWork_Save_TokenRel.GetData(objSemItem_Item.GUID, _
+                                                                                    objSemItem_Other.GUID, _
+                                                                                    objSemItem_RelationType.GUID, 1).Rows
+                        Else
+                            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                        End If
+                    Else
+                        If objSemItem_Other.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID Then
+                            objDRC_LogState = semprocA_DBWork_Save_TokenRel.GetData(objSemItem_Other.GUID, _
+                                                                                    objSemItem_Item.GUID, _
+                                                                                    objSemItem_RelationType.GUID, 1).Rows
+                        Else
+                            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                        End If
+                    End If
+                    If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Nothing.GUID Then
+                        If Not objDRC_LogState(0).Item("GUID_Token") = objLocalConfig.Globals.LogState_Error.GUID Then
+                            objSemItem_Result = objLocalConfig.Globals.LogState_Success
+                        Else
+                            objSemItem_Result = objLocalConfig.Globals.LogState_Error
+                        End If
+                    End If
+                Else 
                     objSemItem_Result = objLocalConfig.Globals.LogState_Success
-                Else
-                    objSemItem_Result = objLocalConfig.Globals.LogState_Error
                 End If
+            Else 
+                objSemItem_Result = objLocalConfig.Globals.LogState_Success
             End If
+            
+            
         End If
 
         Return objSemItem_Result
@@ -1620,6 +1631,7 @@
         Dim intDone As Integer = 0
         Dim boolAdd As Boolean
         Dim boolMessageExists As Boolean
+        Dim boolContinueWithChoose as Boolean
 
 
         strCaption = objLocalConfig.Globals.ObjectReferenceType_Token.Name
@@ -1631,24 +1643,27 @@
         If objDlgAttribute_Varchar255.DialogResult = DialogResult.OK Then
             boolMessageExists = False
             If objDlgAttribute_Varchar255.isList = True Then
+                boolContinueWithChoose = False
                 For Each strVal In objDlgAttribute_Varchar255.Values
+                    strVal = strVal.Replace(vbCr,"")
+                    strVal = strVal.Replace(vbLf,"")
                     objDRC_Token = semtblA_Token.GetData_Token_By_Name_And_GUIDType(objGUID_Type, strVal).Rows
-                    If boolMessageExists = False Then
-                        If objDRC_Token.Count > 0 Then
-                            If MsgBox("Es existiert bereits ein Token mit der Bezeichnung """ & strVal & """. Soll ein zweites erzeugt werden?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                                boolAdd = True
-                            Else
-                                boolAdd = False
-                            End If
-                        Else
+                    
+                    If objDRC_Token.Count > 0 Then
+                        If MsgBox("Es existiert bereits ein Token mit der Bezeichnung """ & strVal & """. Soll ein zweites erzeugt werden?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
                             boolAdd = True
+                                
+                        Else
+                            If MsgBox("Sollen weiter eingefügt werden?",MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                                boolContinueWithChoose=True
+                            End If
+                            boolAdd = False
                         End If
-                        boolMessageExists = True
                     Else
-
                         boolAdd = True
                     End If
 
+                    
 
                     If boolAdd = True Then
                         objSemItem_Selected = New clsSemItem
@@ -1671,7 +1686,10 @@
                         End If
                         get_Data()
                     Else
-                        Exit For
+                        If Not boolContinueWithChoose
+                            Exit For
+                        End If
+                        
                     End If
                 Next
             Else
@@ -2515,6 +2533,7 @@
         Dim objDGVR As DataGridViewRow
         Dim objDRV As DataRowView
 
+        ToolStripButton_Replace.Enabled = False
         If DataGridView_Items.SelectedRows.Count = 1 Then
             objDGVR = DataGridView_Items.SelectedRows(0)
             objDRV = objDGVR.DataBoundItem
@@ -2522,6 +2541,9 @@
         Else
             ToolStripTextBox_GUID.Clear()
         End If
+        
+        ToolStripButton_Replace.Enabled = EnabledReplace()
+        
         If boolProgChange = False Then
             RaiseEvent Selection_Changed()
         End If
@@ -3006,5 +3028,63 @@
                     End If
             End Select
         End If
+    End Sub
+
+    Private Function EnabledReplace() As Boolean
+        
+
+        If DataGridView_Items.SelectedRows.Count>0 Then
+            Dim objGUID_Type as Guid
+            Dim boolObjectReference as Boolean
+
+            If objSemItem_Complex_Base Is Nothing Then
+                objGUID_Type = objSemItem_Parent.GUID_Type
+                boolObjectReference = False
+
+            Else
+                objGUID_Type = objSemItem_Complex_Base.GUID_Type
+                boolObjectReference = objSemItem_Complex_Base.Rel_ObjectReference
+            End If
+
+            If boolObjectReference = False Then
+                Select Case objGUID_Type
+                    Case objLocalConfig.Globals.ObjectReferenceType_Attribute.GUID, _
+                            objLocalConfig.Globals.ObjectReferenceType_TokenAttributeBit.GUID, _
+                            objLocalConfig.Globals.ObjectReferenceType_TokenAttributeDate.GUID, _
+                            objLocalConfig.Globals.ObjectReferenceType_TokenAttributeDatetime.GUID, _
+                            objLocalConfig.Globals.ObjectReferenceType_TokenAttributeInt.GUID, _
+                            objLocalConfig.Globals.ObjectReferenceType_TokenAttributeReal.GUID, _
+                            objLocalConfig.Globals.ObjectReferenceType_TokenAttributeTime.GUID, _
+                            objLocalConfig.Globals.ObjectReferenceType_TokenAttributeVarchar255.GUID, _
+                            objLocalConfig.Globals.ObjectReferenceType_TokenAttributeVarcharMAX.GUID
+
+                        Return False
+
+                    Case objLocalConfig.Globals.ObjectReferenceType_RelationType.GUID
+                        Return False
+
+                    Case objLocalConfig.Globals.ObjectReferenceType_Type.GUID, objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+                        If objSemItem_Complex_Base Is Nothing Then
+                            Return True
+                        Else 
+                            Return False
+                        End If
+                        
+
+                End Select
+            Else 
+                Return False
+            End If
+            
+        Else 
+            Return False
+        End If
+    End Function
+
+    Private Sub ToolStripButton_Replace_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_Replace.Click
+        
+        objFrm_Replace = new FrmReplace(DataGridView_Items,objLocalConfig)
+        objFrm_Replace.ShowDialog(Me)
+        get_Data()
     End Sub
 End Class
