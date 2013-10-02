@@ -124,9 +124,15 @@
                                             objFilter.GUID_Token_Left = objDRV_Selected.Item("GUID_Token")
                                         End If
                                     Else
+                                       boolType = False
+                                        objDRV_Selected = objFrmSemManager.SelectedRows_Items(0).DataBoundItem
                                         If objSemItem_Selected.GUID_Type = objGlobals.ObjectReferenceType_Token.GUID Then
-                                        Else
 
+
+                                            objFilter.GUID_Token_Left = objDRV_Selected.Item("GUID_Token")
+
+                                        Else
+                                            objFilter.GUID_Token_Right = objDRV_Selected.Item("GUID_Token")
                                         End If
                                     End If
                                 Else
@@ -179,7 +185,7 @@
                 If objDRC_Item.Count > 0 Then
                     TextBox_Token.Text = objDRC_Item(0).Item("Name_Token")
                     objDRC_Item = semtblA_Type.GetData_By_GUID(objDRC_Item(0).Item("GUID_type")).Rows
-                    TextBox_Token.Text = TextBox_Token.Text & "\" & objDRC_Item(0).Item("Name_Token")
+                    TextBox_Token.Text = TextBox_Token.Text & "\" & objDRC_Item(0).Item("Name_Type")
                 End If
             End If
 
@@ -201,8 +207,10 @@
                 objDRC_Item = semtblA_Token.GetData_Token_By_GUID(objFilter.GUID_Token_Left).Rows
                 If objDRC_Item.Count > 0 Then
                     TextBox_Token.Text = objDRC_Item(0).Item("Name_Token")
-                    objDRC_Item = semtblA_Type.GetData_By_GUID(objDRC_Item(0).Item("GUID_type")).Rows
                     TextBox_Token.Text = TextBox_Token.Text & "\" & objDRC_Item(0).Item("Name_Token")
+                    objDRC_Item = semtblA_Type.GetData_By_GUID(objDRC_Item(0).Item("GUID_type")).Rows
+                    TextBox_Token.Text = TextBox_Token.Text & "\" & objDRC_Item(0).Item("Name_Type")
+                    
                 End If
             End If
 
