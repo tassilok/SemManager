@@ -2225,6 +2225,7 @@ Public Class clsDBWork
         procA_SemItems_Of_DatabaseSchema.Connection = objLocalConfig.Connection_Plugin
         funcA_SemDatabasesOnServers.Connection = objLocalConfig.Connection_Plugin
         procA_Creationscript_Of_DBSchema_Work.Connection = objLocalConfig.Connection_Plugin
+        procA_CreationScript_And_DBItems_Of_DBSchema_BY_GUIDDBSchema.Connection = objLocalConfig.Connection_Plugin
 
         typefuncA_Types_With_Attributes_And_Types.Connection = objLocalConfig.Connection_DB
         typefuncA_Types_Rel.Connection = objLocalConfig.Connection_DB

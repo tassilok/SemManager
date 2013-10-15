@@ -57,11 +57,11 @@ Namespace My
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=localhost\sqlexpress;Initial Catalog=sem_db_work_reportsviewer_module"& _ 
-            ";Integrated Security=True")>  _
-        Public ReadOnly Property sem_db_home_reportsviewer_moduleConnectionString() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=localhost\SQLEXPRESS;Initial Catalog=sem_db_work_timemanagement_modul"& _ 
+            "e;Integrated Security=True")>  _
+        Public ReadOnly Property sem_db_work_timemanagement_moduleConnectionString() As String
             Get
-                Return CType(Me("sem_db_home_reportsviewer_moduleConnectionString"),String)
+                Return CType(Me("sem_db_work_timemanagement_moduleConnectionString"),String)
             End Get
         End Property
     End Class
@@ -75,9 +75,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.ReportsTest.My.MySettings
+        Friend ReadOnly Property Settings() As Global.TimeManagement_Module.My.MySettings
             Get
-                Return Global.ReportsTest.My.MySettings.Default
+                Return Global.TimeManagement_Module.My.MySettings.Default
             End Get
         End Property
     End Module

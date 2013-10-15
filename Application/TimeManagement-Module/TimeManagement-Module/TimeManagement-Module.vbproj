@@ -1,43 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>
-    </ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7424395D-6851-4C48-841B-D51C3B2EC9AC}</ProjectGuid>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{974D10B7-CC2E-4B71-BFE3-E14D141A1595}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>Security_Module.My.MyApplication</StartupObject>
-    <RootNamespace>Security_Module</RootNamespace>
-    <AssemblyName>Security-Module</AssemblyName>
+    <StartupObject>TimeManagement_Module.My.MyApplication</StartupObject>
+    <RootNamespace>TimeManagement_Module</RootNamespace>
+    <AssemblyName>TimeManagement-Module</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>Security-Module.xml</DocumentationFile>
+    <DocumentationFile>TimeManagement-Module.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>Security-Module.xml</DocumentationFile>
+    <DocumentationFile>TimeManagement-Module.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -52,7 +46,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>lock_-_open_afief_halumi_01.ico</ApplicationIcon>
+    <ApplicationIcon>appointment-new.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -77,50 +71,27 @@
     <Import Include="System.Windows.Forms" />
     <Import Include="System.Linq" />
     <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsLocalConfig.vb" />
-    <Compile Include="clsModule.vb" />
-    <Compile Include="clsSecurity.vb" />
-    <Compile Include="clsSecurityModuleWork.vb" />
-    <Compile Include="clsTransaction_Passwords.vb" />
-    <Compile Include="dlg_RelatedTypes.Designer.vb">
-      <DependentUpon>dlg_RelatedTypes.vb</DependentUpon>
-    </Compile>
-    <Compile Include="dlg_RelatedTypes.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ds_SecurityModule.Designer.vb">
+    <Compile Include="clsTransaction_TimeManagement.vb" />
+    <Compile Include="DataSet_TimeManagement.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ds_SecurityModule.xsd</DependentUpon>
+      <DependentUpon>DataSet_TimeManagement.xsd</DependentUpon>
     </Compile>
-    <Compile Include="ds_SecurityModule.vb">
-      <DependentUpon>ds_SecurityModule.xsd</DependentUpon>
+    <Compile Include="frmTimeManagementEdit.Designer.vb">
+      <DependentUpon>frmTimeManagementEdit.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmAuthenticate.Designer.vb">
-      <DependentUpon>frmAuthenticate.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmAuthenticate.vb">
+    <Compile Include="frmTimeManagementEdit.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmDecode.Designer.vb">
-      <DependentUpon>frmDecode.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmDecode.vb">
+    <Compile Include="frmTimeManagementModule.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMenu.Designer.vb">
-      <DependentUpon>frmMenu.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmMenu.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmSecurityModule.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmSecurityModule.Designer.vb">
-      <DependentUpon>frmSecurityModule.vb</DependentUpon>
+    <Compile Include="frmTimeManagementModule.Designer.vb">
+      <DependentUpon>frmTimeManagementModule.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -138,25 +109,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="UserControl_Authenticate.Designer.vb">
-      <DependentUpon>UserControl_Authenticate.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControl_Authenticate.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="dlg_RelatedTypes.resx">
-      <DependentUpon>dlg_RelatedTypes.vb</DependentUpon>
+    <EmbeddedResource Include="frmTimeManagementEdit.resx">
+      <DependentUpon>frmTimeManagementEdit.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAuthenticate.resx">
-      <DependentUpon>frmAuthenticate.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmDecode.resx">
-      <DependentUpon>frmDecode.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmSecurityModule.resx">
-      <DependentUpon>frmSecurityModule.vb</DependentUpon>
+    <EmbeddedResource Include="frmTimeManagementModule.resx">
+      <DependentUpon>frmTimeManagementModule.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -164,22 +123,18 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_Authenticate.resx">
-      <DependentUpon>UserControl_Authenticate.vb</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="ds_SecurityModule.xsc">
-      <DependentUpon>ds_SecurityModule.xsd</DependentUpon>
+    <None Include="DataSet_TimeManagement.xsc">
+      <DependentUpon>DataSet_TimeManagement.xsd</DependentUpon>
     </None>
-    <None Include="ds_SecurityModule.xsd">
+    <None Include="DataSet_TimeManagement.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>ds_SecurityModule.Designer.vb</LastGenOutput>
+      <LastGenOutput>DataSet_TimeManagement.Designer.vb</LastGenOutput>
     </None>
-    <None Include="ds_SecurityModule.xss">
-      <DependentUpon>ds_SecurityModule.xsd</DependentUpon>
+    <None Include="DataSet_TimeManagement.xss">
+      <DependentUpon>DataSet_TimeManagement.xsd</DependentUpon>
     </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
@@ -190,19 +145,29 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config_sem.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lock_-_open_afief_halumi_01.ico" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\..\Log-Manager\Log-Manager\Log-Manager.vbproj">
+      <Project>{34d97f22-cc48-42c6-a868-2e0e84d2a1ae}</Project>
+      <Name>Log-Manager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Security-Module\Security-Module\Security-Module.vbproj">
+      <Project>{7424395d-6851-4c48-841b-d51c3b2ec9ac}</Project>
+      <Name>Security-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Sem-Manager\Sem-Manager\Sem-Manager.vbproj">
       <Project>{9de51bf6-938a-45a1-be86-ae82ce79cb7b}</Project>
       <Name>Sem-Manager</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="appointment-new.ico" />
+    <Content Include="Config_sem.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\tasto_8_architetto_franc_01.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
