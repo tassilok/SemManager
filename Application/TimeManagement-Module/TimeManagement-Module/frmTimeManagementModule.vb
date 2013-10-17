@@ -222,11 +222,11 @@ Public Class frmTimeManagementModule
     End Sub
 
     Private Sub EditToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles EditToolStripMenuItem.Click
-        Dim objDGVR_Selected = DataGridView_LogManagement.SelectedRows(0)
-        Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+        
         If DataGridView_LogManagement.SelectedRows.Count = 1 Then
            
-
+            Dim objDGVR_Selected = DataGridView_LogManagement.SelectedRows(0)
+            Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
             objFrm_TimeManagement_Edit = new frmTimeManagementEdit(objDRV_Selected,objLocalConfig)
             objFrm_TimeManagement_Edit.ShowDialog(me)
             If objFrm_TimeManagement_Edit.DialogResult = DialogResult.OK Then
@@ -235,8 +235,8 @@ Public Class frmTimeManagementModule
         End If
 
         If DataGridView_LogManagement.SelectedCells.Count=1 Then
-            objDGVR_Selected = DataGridView_LogManagement.Rows(DataGridView_LogManagement.SelectedCells(0).RowIndex)
-            objDRV_Selected = objDGVR_Selected.DataBoundItem
+            Dim objDGVR_Selected = DataGridView_LogManagement.Rows(DataGridView_LogManagement.SelectedCells(0).RowIndex)
+            Dim objDRV_Selected  As DataRowView = objDGVR_Selected.DataBoundItem
             Dim objSemItem_TimeManagement = New clsSemItem With {.GUID = objDRV_Selected.Item("GUID_Log_Management"), _
                                                                                              .Name = objDRV_Selected.Item("Name_Log_Management"), _
                                                                                              .GUID_Parent = objLocalConfig.SemItem_Type_Timemanagement.GUID, _

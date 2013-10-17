@@ -45,16 +45,16 @@ Partial Class frmTimeManagementModule
         Me.DataGridView_LogManagement = New System.Windows.Forms.DataGridView()
         Me.ContextMenuStrip_TimeManagement = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripDropDownButton_Range = New System.Windows.Forms.ToolStripDropDownButton()
         Me.TodayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.YesterdayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.XThisWeekToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.XThisMonthToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BindingSource_LogManagement = New System.Windows.Forms.BindingSource(Me.components)
-        Me.AllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.LastTwoWeeksToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.XThisMonthToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BindingSource_LogManagement = New System.Windows.Forms.BindingSource(Me.components)
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout
         Me.ToolStripContainer1.ContentPanel.SuspendLayout
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout
@@ -192,19 +192,19 @@ Partial Class frmTimeManagementModule
         'ToolStripMenuItem_AVG
         '
         Me.ToolStripMenuItem_AVG.Name = "ToolStripMenuItem_AVG"
-        Me.ToolStripMenuItem_AVG.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItem_AVG.Size = New System.Drawing.Size(97, 22)
         Me.ToolStripMenuItem_AVG.Text = "AVG"
         '
         'ToolStripMenuItem_Calc_Mult
         '
         Me.ToolStripMenuItem_Calc_Mult.Name = "ToolStripMenuItem_Calc_Mult"
-        Me.ToolStripMenuItem_Calc_Mult.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItem_Calc_Mult.Size = New System.Drawing.Size(97, 22)
         Me.ToolStripMenuItem_Calc_Mult.Text = "*"
         '
         'ToolStripMenuItem_CalcAdd
         '
         Me.ToolStripMenuItem_CalcAdd.Name = "ToolStripMenuItem_CalcAdd"
-        Me.ToolStripMenuItem_CalcAdd.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItem_CalcAdd.Size = New System.Drawing.Size(97, 22)
         Me.ToolStripMenuItem_CalcAdd.Text = "+"
         '
         'DataGridView_LogManagement
@@ -224,13 +224,19 @@ Partial Class frmTimeManagementModule
         '
         Me.ContextMenuStrip_TimeManagement.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.EditToolStripMenuItem})
         Me.ContextMenuStrip_TimeManagement.Name = "ContextMenuStrip_TimeManagement"
-        Me.ContextMenuStrip_TimeManagement.Size = New System.Drawing.Size(109, 48)
+        Me.ContextMenuStrip_TimeManagement.Size = New System.Drawing.Size(153, 70)
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.NewToolStripMenuItem.Text = "x_New"
+        '
+        'EditToolStripMenuItem
+        '
+        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EditToolStripMenuItem.Text = "x_Edit"
         '
         'ToolStrip1
         '
@@ -269,6 +275,12 @@ Partial Class frmTimeManagementModule
         Me.XThisWeekToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
         Me.XThisWeekToolStripMenuItem.Text = "x_This Week"
         '
+        'LastTwoWeeksToolStripMenuItem
+        '
+        Me.LastTwoWeeksToolStripMenuItem.Name = "LastTwoWeeksToolStripMenuItem"
+        Me.LastTwoWeeksToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.LastTwoWeeksToolStripMenuItem.Text = "x_Last two weeks"
+        '
         'XThisMonthToolStripMenuItem
         '
         Me.XThisMonthToolStripMenuItem.Name = "XThisMonthToolStripMenuItem"
@@ -280,18 +292,6 @@ Partial Class frmTimeManagementModule
         Me.AllToolStripMenuItem.Name = "AllToolStripMenuItem"
         Me.AllToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
         Me.AllToolStripMenuItem.Text = "x_All"
-        '
-        'LastTwoWeeksToolStripMenuItem
-        '
-        Me.LastTwoWeeksToolStripMenuItem.Name = "LastTwoWeeksToolStripMenuItem"
-        Me.LastTwoWeeksToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
-        Me.LastTwoWeeksToolStripMenuItem.Text = "x_Last two weeks"
-        '
-        'EditToolStripMenuItem
-        '
-        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
-        Me.EditToolStripMenuItem.Text = "x_Edit"
         '
         'frmTimeManagementModule
         '
