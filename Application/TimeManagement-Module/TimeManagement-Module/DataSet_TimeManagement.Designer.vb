@@ -682,6 +682,8 @@ Partial Public Class DataSet_TimeManagement
         
         Private columnToDo_Minutes_Day As Global.System.Data.DataColumn
         
+        Private columnToDo_End As Global.System.Data.DataColumn
+        
         Private columnYear_Start As Global.System.Data.DataColumn
         
         Private columnMonth_Start As Global.System.Data.DataColumn
@@ -909,6 +911,14 @@ Partial Public Class DataSet_TimeManagement
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property ToDo_EndColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnToDo_End
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public ReadOnly Property Year_StartColumn() As Global.System.Data.DataColumn
             Get
                 Return Me.columnYear_Start
@@ -1085,6 +1095,7 @@ Partial Public Class DataSet_TimeManagement
                     ByVal Duration_Minutes_Day As Integer,  _
                     ByVal ToDo_Hours_Day As Double,  _
                     ByVal ToDo_Minutes_Day As Double,  _
+                    ByVal ToDo_End As Date,  _
                     ByVal Year_Start As Integer,  _
                     ByVal Month_Start As Integer,  _
                     ByVal Day_Start As Integer,  _
@@ -1101,7 +1112,7 @@ Partial Public Class DataSet_TimeManagement
                     ByVal GUID_User As System.Guid,  _
                     ByVal Name_User As String) As orgproc_TimeManagementRow
             Dim roworgproc_TimeManagementRow As orgproc_TimeManagementRow = CType(Me.NewRow,orgproc_TimeManagementRow)
-            Dim columnValuesArray() As Object = New Object() {GUID_Log_Management, Name_Log_Management, GUID_LogEntry_Start, Name_LogEntry_Start, GUID_LogState_TimeManagement, Name_LogState_TimeManagement, GUID_TokenAttribute_Start, WeekDay, Start, Ende, Duration_Hours, Duration_Minutes, Duration_Hours_Week, Duration_Minutes_Week, ToDo_Hours_Week, ToDo_Minutes_Week, Duration_Hours_Day, Duration_Minutes_Day, ToDo_Hours_Day, ToDo_Minutes_Day, Year_Start, Month_Start, Day_Start, Week_Start, DayOfYear_Start, DateTimeStamp_Start_Seq, GUID_TokenAttribute_Ende, Year_End, Month_End, Day_End, Week_End, DayOfYear_End, DateTimeStamp_End_Seq, GUID_User, Name_User}
+            Dim columnValuesArray() As Object = New Object() {GUID_Log_Management, Name_Log_Management, GUID_LogEntry_Start, Name_LogEntry_Start, GUID_LogState_TimeManagement, Name_LogState_TimeManagement, GUID_TokenAttribute_Start, WeekDay, Start, Ende, Duration_Hours, Duration_Minutes, Duration_Hours_Week, Duration_Minutes_Week, ToDo_Hours_Week, ToDo_Minutes_Week, Duration_Hours_Day, Duration_Minutes_Day, ToDo_Hours_Day, ToDo_Minutes_Day, ToDo_End, Year_Start, Month_Start, Day_Start, Week_Start, DayOfYear_Start, DateTimeStamp_Start_Seq, GUID_TokenAttribute_Ende, Year_End, Month_End, Day_End, Week_End, DayOfYear_End, DateTimeStamp_End_Seq, GUID_User, Name_User}
             roworgproc_TimeManagementRow.ItemArray = columnValuesArray
             Me.Rows.Add(roworgproc_TimeManagementRow)
             Return roworgproc_TimeManagementRow
@@ -1144,6 +1155,7 @@ Partial Public Class DataSet_TimeManagement
             Me.columnDuration_Minutes_Day = MyBase.Columns("Duration_Minutes_Day")
             Me.columnToDo_Hours_Day = MyBase.Columns("ToDo_Hours_Day")
             Me.columnToDo_Minutes_Day = MyBase.Columns("ToDo_Minutes_Day")
+            Me.columnToDo_End = MyBase.Columns("ToDo_End")
             Me.columnYear_Start = MyBase.Columns("Year_Start")
             Me.columnMonth_Start = MyBase.Columns("Month_Start")
             Me.columnDay_Start = MyBase.Columns("Day_Start")
@@ -1204,6 +1216,8 @@ Partial Public Class DataSet_TimeManagement
             MyBase.Columns.Add(Me.columnToDo_Hours_Day)
             Me.columnToDo_Minutes_Day = New Global.System.Data.DataColumn("ToDo_Minutes_Day", GetType(Double), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnToDo_Minutes_Day)
+            Me.columnToDo_End = New Global.System.Data.DataColumn("ToDo_End", GetType(Date), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnToDo_End)
             Me.columnYear_Start = New Global.System.Data.DataColumn("Year_Start", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnYear_Start)
             Me.columnMonth_Start = New Global.System.Data.DataColumn("Month_Start", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
@@ -1784,6 +1798,21 @@ Partial Public Class DataSet_TimeManagement
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property ToDo_End() As Date
+            Get
+                Try 
+                    Return CType(Me(Me.tableorgproc_TimeManagement.ToDo_EndColumn),Date)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'ToDo_End' in table 'orgproc_TimeManagement' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableorgproc_TimeManagement.ToDo_EndColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Property Year_Start() As Integer
             Get
                 Try 
@@ -2250,6 +2279,18 @@ Partial Public Class DataSet_TimeManagement
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub SetToDo_Minutes_DayNull()
             Me(Me.tableorgproc_TimeManagement.ToDo_Minutes_DayColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsToDo_EndNull() As Boolean
+            Return Me.IsNull(Me.tableorgproc_TimeManagement.ToDo_EndColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetToDo_EndNull()
+            Me(Me.tableorgproc_TimeManagement.ToDo_EndColumn) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -2878,6 +2919,7 @@ Namespace DataSet_TimeManagementTableAdapters
             tableMapping.ColumnMappings.Add("Duration_Minutes_Day", "Duration_Minutes_Day")
             tableMapping.ColumnMappings.Add("ToDo_Hours_Day", "ToDo_Hours_Day")
             tableMapping.ColumnMappings.Add("ToDo_Minutes_Day", "ToDo_Minutes_Day")
+            tableMapping.ColumnMappings.Add("ToDo_End", "ToDo_End")
             tableMapping.ColumnMappings.Add("Year_Start", "Year_Start")
             tableMapping.ColumnMappings.Add("Month_Start", "Month_Start")
             tableMapping.ColumnMappings.Add("Day_Start", "Day_Start")
